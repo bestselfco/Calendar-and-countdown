@@ -6,14 +6,14 @@
  * @return int
  */
 Date.prototype.getWeek = function (dowOffset) {
-/*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
+	/*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
 
 	dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
 	var newYear = new Date(this.getFullYear(),0,1);
 	var day = newYear.getDay() - dowOffset; //the day of week the year begins on
 	day = (day >= 0 ? day : day + 7);
 	var daynum = Math.floor((this.getTime() - newYear.getTime() - 
-	(this.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
+			(this.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
 	var weeknum;
 	//if the year starts before the middle of a week
 	if(day < 4) {
@@ -30,16 +30,16 @@ Date.prototype.getWeek = function (dowOffset) {
 	else {
 		weeknum = Math.floor((daynum+day-1)/7);
 	}
-	
+
 	if(weeknum == 0) weeknum = 52;
-	
+
 	return weeknum;
 };
 
 //Return number of days in year
 Date.prototype.getDaysInYear = function (){
 	var year = this.getFullYear();
-	
+
 	if((year % 100 != 0 && year % 4 == 0)  || year%400 == 0)
 	{
 		return 366;
@@ -60,7 +60,7 @@ Date.prototype.getDaysLeftInYear = function()
 Date.prototype.getDaysInMonth = function()
 {
 	var month = this.getMonth();
-	
+
 	if(month == 1 && this.getDaysInYear() == 366)
 	{
 		return 29;
@@ -79,8 +79,8 @@ Date.prototype.getDaysInMonth = function()
 	else {
 		return false;
 	}
-	
-	
+
+
 };
 
 //Get day of the year
@@ -94,6 +94,6 @@ Date.prototype.getDaysFromToday = function () {
 	//this.setTime(this.getTime+86400000);
 	var today = new Date();
 	var diff = Math.floor((this.getTime() - today.getTime()) / 86400000);
-		
+
 	return diff;
 };

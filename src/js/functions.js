@@ -14,7 +14,7 @@ var extVersion = getVersion(); //Get extension version - for logging
  */
 function init()
 {	
-	
+
 	//Display the calendar
 	showCal(currentYear);
 
@@ -23,14 +23,14 @@ function init()
 
 	//Update the selected date
 	highLightSelectedDate();
-		
+
 	//Start update loop
 	updateOnTime();
-	
+
 	$(".cal_td_day").bind('mouseenter mouseleave', function() {
- 		 removeAllToolTips();
+		removeAllToolTips();
 	});
-	
+
 	//Kill all popups. This is a stupid hack.
 	var t=setTimeout("removeAllToolTips()",5);
 
@@ -87,7 +87,7 @@ function populateYearLinks()
 	$("#yp4").html(currentYear+4);
 	$("#yp5").html(currentYear+5);
 	$("#yp6").html(currentYear+6);
-	
+
 }
 
 /**
@@ -96,7 +96,7 @@ function populateYearLinks()
  * @param offset Delta between clicked year and current view
  */
 function yearClicked(offset){
-	
+
 	log("User event", "Year link clicked"); //Log
 	currentYear = currentYear + offset; //Add offset to current year
 	showCal(currentYear); //Show the new calendar
@@ -190,7 +190,7 @@ function setIcon(color)
 function setToolTip(text)
 {
 	text = text.toString();
-	
+
 	chrome.browserAction.setTitle({title:text});
 
 }
@@ -203,9 +203,9 @@ function setToolTip(text)
 function setPopup(p)
 {
 	var page = "popup_12.html";
-	
+
 	if(p == "3") page = "popup_3.html";
-		
+
 	chrome.browserAction.setPopup({popup:page});
 }
 
@@ -213,10 +213,10 @@ function setPopup(p)
 function dayClicked(timestamp, force)
 {
 	oldId = getItem("countto");
-		
+
 	var idDate = new Date(timestamp+86400000);
 	var diff = Math.abs(idDate.getDaysFromToday());
-	
+
 	if(oldId == timestamp)
 	{
 		//Unselect all
@@ -232,14 +232,14 @@ function dayClicked(timestamp, force)
 		setBadge(diff.toString());
 		highlightDay(timestamp);
 	}
-	
+
 	oldId = getItem("countto"); //Set the memory item as well
-	
+
 	googleTrack("Calendar event", "Day clicked");
-	
+
 	//Redo tooltips
 	init();	
-	
+
 }
 
 
@@ -250,7 +250,7 @@ function highlightDay(timestamp)
 	//Unselect all
 	removeHighLights();
 	$(selectorNew).removeClass(normalClass).addClass(selectorClass);
-	
+
 }
 
 //Remove all highlights
@@ -267,26 +267,26 @@ function removeAllToolTips() {
 
 //Get version of extension
 function getVersion() {
-    var version = 'NaN';
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', chrome.extension.getURL('manifest.json'), false);
-    xhr.send(null);
-    var manifest = JSON.parse(xhr.responseText);
-    var currVersion = manifest.version;
-    
-    // Check if the version has changed.
-  	var prevVersion = getItem("version");
-  	if (currVersion != prevVersion) {
-    	// Check if we just installed this extension.
-    	if (typeof prevVersion == 'undefined') {
-      		googleTrack("New install", currVersion);
-    	} else {
-      		googleTrack("Update", currVersion);
-   		}
-   		setItem("version", currVersion);
-  	}
-    log("Version", currVersion);
-    return currVersion;
+	var version = 'NaN';
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', chrome.extension.getURL('manifest.json'), false);
+	xhr.send(null);
+	var manifest = JSON.parse(xhr.responseText);
+	var currVersion = manifest.version;
+
+	// Check if the version has changed.
+	var prevVersion = getItem("version");
+	if (currVersion != prevVersion) {
+		// Check if we just installed this extension.
+		if (typeof prevVersion == 'undefined') {
+			googleTrack("New install", currVersion);
+		} else {
+			googleTrack("Update", currVersion);
+		}
+		setItem("version", currVersion);
+	}
+	log("Version", currVersion);
+	return currVersion;
 }
 
 
