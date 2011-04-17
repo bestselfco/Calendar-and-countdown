@@ -1,0 +1,43 @@
+.body {
+	color: #101010;
+}
+
+#calendar {
+	background-color: #fafafa;
+	border-color: #cbd0ce;
+}
+
+#topbar {
+	border-color: #cbd0ce;
+}
+
+.cal_td_header {
+	background-color: #dfe3e0;
+	border-color: #cbd0ce;
+}
+
+.cal_td_day {
+	background-color: #f2f2f2;
+	border-color: #dddddd;
+}
+
+.cal_day_today {
+	background-color: rgba(160,57,26,1);
+	color: white;
+	border-color: #dddddd;
+}
+
+.cal_day_chosen {
+	background-color: #f2f2f2;
+	border: 1px solid rgba(160,57,26,1);
+}
+
+
+.tooltip {
+	background-color: rgba(250,250,250,0.97);
+	border: 2px solid;
+	border-color: rgba(160,57,26,1);
+	color: rgba(0,0,0,0.98);
+	-webkit-box-shadow: 4px 4px 9px rgba(150,150,150,0.5);	
+}
+

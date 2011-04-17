@@ -1,0 +1,116 @@
+<html>
+<head>
+
+<title>Calendar and Countdown Options</title>
+
+<link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
+<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
+
+<link href='css/tabs.css' rel='stylesheet' type='text/css'>
+<link href='css/options.css' rel='stylesheet' type='text/css'>
+
+<script src="js/libraries/jquery-1.5.2.min.js"></script>
+<script src="js/libraries/jquery.tools.min.js"></script>
+
+<script src="js/external_common.js"></script>
+<script src="js/functions.js"></script>
+<script src="js/options.js"></script>
+
+<script src="js/jscolor/jscolor.js"></script>
+
+</head>
+
+<body onLoad="init()">
+
+<h1>Calendar and Countdown Options</h1>
+
+<!-- the tabs -->
+<ul class="tabs">
+	<li><a href="#" onClick="googleTrack('options_tab_clicked', 'calendar');">Calendar</a></li>
+	<li><a href="#" onClick="googleTrack('options_tab_clicked', 'cosmetics');">Cosmetics</a></li>
+	<li><a href="#" onClick="googleTrack('options_tab_clicked', 'about');">About</a></li>
+</ul>
+
+<!-- Start tab "panes" -->
+<div class="options">
+
+<!-- Start calendar options tab -->	
+<div class="pane">
+
+<h2>Show</h2>
+<input type="radio" name="show312" id="show31203" value="0" onClick="setPopupFile(3)">&nbsp;&nbsp;3 month calendar<br>
+<input type="radio" name="show312" id="show31212" value="1" onClick="setPopupFile(12)">&nbsp;&nbsp;12 month calendar
+
+<h2>Week starts on</h2>
+<input type="radio" name="firstday" id="firstday0" value="0" onClick="setFirstDay(0)">&nbsp;&nbsp;Sunday<br>
+<input type="radio" name="firstday" id="firstday1" value="1" onClick="setFirstDay(1)">&nbsp;&nbsp;Monday
+
+<h2>Show week numbers</h2>
+<input type="radio" name="showweek" id="showweek0" value="0" onClick="setWeek('0')">&nbsp;&nbsp;No<br>
+<input type="radio" name="showweek" id="showweek1" value="1" onClick="setWeek('1')">&nbsp;&nbsp;Yes
+
+</div>
+<!-- End calendar options tab -->
+
+<!-- Start cosmetics tab -->	
+<div class="pane">
+
+<!-- default 18CD32 -->
+
+<h2>Badge color</h2>
+
+<input id="badgeColorSelect" style="padding: 0px; margin: 0px;" class="colorSelect" value="18CD32" onchange="setColor('badge',this.value);" readonly="readonly">
+
+<h2>Icon</h2>
+<table style="background-color: #d6d6d6; padding: 5px;">
+<tr>
+<td style="padding: 0 6 0 6;"><img onclick="setIconColor('red');" src="pics/icon_19_red.png"></td>
+<td style="padding: 0 6 0 6;"><img onclick="setIconColor('blue');" src="pics/icon_19_blue.png"></td>
+<td style="padding: 0 6 0 6;"><img onclick="setIconColor('green');" src="pics/icon_19_green.png"></td>
+<td style="padding: 0 6 0 6;"><img onclick="setIconColor('grey');" src="pics/icon_19_grey.png"></td>
+<td style="padding: 0 6 0 6;"><img onclick="setIconColor('turquise');" src="pics/icon_19_turquise.png"></td>
+<td style="padding: 0 6 0 6;"><img onclick="setIconColor('yellow');" src="pics/icon_19_yellow.png"></td>
+<td style="padding: 0 6 0 6;"><img onclick="setIconColor('old');" src="pics/icon_19_old.png"></td>
+</table>
+
+</div> 
+<!-- End cosmetics tab -->
+
+
+<!-- Start about tab -->	
+<div class="pane">
+
+<h2>
+Chrome Calendar is &copy; 2011 <a href="http://www.facebook.com/kvasbo" target="_blank">Audun Kvasb&oslash;</a>.
+</h2>
+
+</div> 
+<!-- End about tab -->
+
+</div> <!-- End tab panes -->
+
+<hr />
+<p>
+<a href="https://chrome.google.com/webstore/detail/caplfhpahpkhhckglldpmdmjclabckhc" rel="#overlay" style="text-decoration:none" target="_blank">
+Please review this extension.</a>
+</p>
+<p>
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="https://chrome.google.com/webstore/detail/caplfhpahpkhhckglldpmdmjclabckhc" show_faces="true" width="450" font="lucida grande"></fb:like>
+</p>
+
+<script>
+     var _gaq = _gaq || [];
+     _gaq.push(['_setAccount', 'UA-21196533-2']);
+     _gaq.push(['_trackPageview']);
+   
+
+     (function() {
+       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+       ga.src = 'https://ssl.google-analytics.com/ga.js';
+       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+     })();
+ 
+</script>
+
+</body>
+</html>

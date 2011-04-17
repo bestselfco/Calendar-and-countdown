@@ -1,0 +1,13 @@
+body {
+	width: 755px;
+	min-height: 600px;
+}
+
+#calendar {
+	width: 750px;
+	height: 555px;
+}
+
+#topbar {
+	width: 748px;
+}

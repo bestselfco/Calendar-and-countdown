@@ -1,0 +1,20 @@
+{
+  "name": "__MSG_extName__",
+  "default_locale": "en",
+  "version": "2011.4.17.3",
+  "minimum_chrome_version": "8",
+  "description": "__MSG_extDesc__",
+  "options_page": "options.html",
+  "background_page": "background.html",
+  "browser_action": 
+  {
+    "default_icon": "pics/icon_19_grey.png",
+    "default_popup": "popup_12.html"
+  },
+  "icons": 
+  { 	
+  	"16": "pics/icon_16.png",
+    "48": "pics/new-icon-128.png",
+    "128": "pics/new-icon-128.png" 
+  }
+}

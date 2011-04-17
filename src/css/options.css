@@ -1,0 +1,61 @@
+body {
+	padding: 40px;
+	font-family: 'Droid Sans', arial, serif;
+}
+
+.colorSelect {
+	font-size: 0pt;
+	height: 25px;
+	width: 50px;
+	margin: 5px 0px 0px 30px;
+}
+
+h1 {
+
+	font-size: 30pt;
+	margin: 0px 0px 40px 0px;
+}
+
+h2 {
+	font-size: 12pt;
+	margin: 20px 0px 20px 0px;
+}
+
+.tab {
+	margin: 60px 0px 40px 10px;
+}
+
+p {
+	margin: 20px 0px 10px 10px;
+}
+
+ul {
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+	margin: 40px 0px 40px 0px;
+}
+
+li {
+	padding-top: 4px;
+	padding-botton: 4px;
+}
+
+hr {
+	border: 0px solid black;
+	height: 1px;
+	background-color: black;
+}
+
+.deleteButton {
+	padding-left: 10px;
+	color: red;
+}	
+
+input {
+	font-family: 'Nobile', arial, serif;
+	border: 1px solid black;
+
+	font-size: 14pt;
+	background-color: white;
+}

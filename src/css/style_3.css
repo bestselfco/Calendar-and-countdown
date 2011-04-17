@@ -1,0 +1,33 @@
+body {
+	width: 560px;
+	min-height: 255px;
+}
+
+#calendar {
+	width: 555px;
+	height: 225px;
+	overflow: hidden;
+	min-height: 225px;
+	display: block;
+}
+
+#topbar {
+	width: 553px;
+}
+
+.cluster {
+	display: none;
+}
+
+.clusterselectwrapper {
+	position: absolute;
+	top: 219px;
+	width: 553px;
+	text-align: center;	
+	color: #AAAAAA;
+}
+
+.clusterselect {
+	cursor: pointer;
+	font-size: 30pt;
+}

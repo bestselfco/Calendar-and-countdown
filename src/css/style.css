@@ -1,0 +1,171 @@
+body {
+	display: block;
+	overflow: hidden;
+	font-family: 'Droid Sans', arial, serif;
+}
+
+#calendar {
+	position: absolute;
+	top: 35px;
+	left: 10px;
+	padding: 3px;
+	-webkit-border-radius: 10px;
+	font-size: 15px;
+
+	overflow: hidden;
+	border: 1px solid;
+}
+
+#topbar {
+	position: absolute;
+	font-family: 'Droid Sans', arial, serif;
+	top: 10px;
+	left: 10px;
+	
+	padding-top: 0px;
+	padding-bottom: 5px;
+	height: 30px;
+	
+	border: 0px solid;
+	-webkit-border-radius: 10px;
+
+	margin-bottom: -1px;
+	
+	text-align: center;
+	font-weight: 600;
+	
+	z-index: 1;
+}
+
+.cal_month {
+	display: block;
+	vertical-align: top;
+	height: 150px;
+	overflow: hidden;
+}
+
+.cal_td_header {
+	
+	font-size: 12px;
+	padding: 3px;
+	-webkit-border-radius: 0px;
+	text-align: center;
+	border: 1px solid;
+	font-weight: 400;
+	overflow: hidden;
+	position: inherit;
+}
+
+.cal_td_dayname, .cal_td_weeknames, .cal_td_day, .cal_td_weeknumber, .cal_day_chosen {
+	width: 22px;
+	height: 16px;
+	font-size: 8pt;
+	text-align: right;
+	margin: 10px;
+	padding: 2px;
+	padding-top: 1px;
+	padding-bottom: 1px;
+	font-family: 'Droid Sans Mono', arial, serif;
+}
+
+.cal_td_dayname, .cal_td_weeknames {
+	text-align: right;
+}
+
+.cal_td_weeknumber{
+	text-align: right;
+}
+
+.cal_td_day {
+	border: 1px solid;
+	width: 18px;
+	overflow-x: hidden;
+	-webkit-border-radius: 0px;
+}
+
+.cal_day_chosen {
+	overflow-x: hidden;
+	-webkit-border-radius: 0px;
+}
+
+.cal_day_chosen:hover  {
+	cursor: default;
+}
+
+.cal_td_day:hover {
+	cursor: default;
+	border: 1px solid rgb(134,108,124);
+}
+
+.cal_weekblock {
+	display: block;
+}
+
+.tooltip {
+	display:none;
+	
+	font-size:12px;
+	min-height:59px;
+	width:174px;
+	padding:8px;
+
+	font-family: "Helvetica", "Arial", sans-serif;
+	-webkit-border-radius: 7px;
+	z-index: 2
+}
+
+.moonicon {
+	position: absolute;
+	bottom: -15px;
+	right: -15px;
+}
+
+.last, .next{
+position: absolute;
+top: 6px;
+cursor: pointer;
+z-index: 1;
+
+}
+
+.last {
+	
+	left: 25px;
+
+}
+
+.next{
+	
+	right: 25px;
+
+}
+
+.dayinfo, .dayinyear, .countdown {
+	display: block;
+	clear: left;
+}
+
+.dayinfo {
+	margin-bottom: 10px;
+	font-weight: 600;
+}
+
+.dayinyear, .countdown {
+	margin-bottom: 5px;
+}
+
+.yearlink {
+	cursor: pointer;
+	color: rgb(200,200,200);
+	margin-left: 5px;
+	margin-right: 5px;
+}
+
+.yearlink:hover {
+	text-decoration: underline;
+}
+
+.thisyear {
+	color: rgb(0,0,0);
+		
+}
