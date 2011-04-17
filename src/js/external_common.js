@@ -1,3 +1,5 @@
+//Various snippets found around the internets
+
 //Hex to rgb
 function HexToRGB(hex)
 {

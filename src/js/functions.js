@@ -9,6 +9,9 @@ var selectedClass = "."+"cal_day_chosen"; //God knows
 var googleID = "caplfhpahpkhhckglldpmdmjclabckhc"; //For turning on/off logging
 var extVersion = getVersion(); //Get extension version - for logging
 
+/**
+ * Initialize popup
+ */
 function init()
 {	
 	
@@ -34,25 +37,31 @@ function init()
 }
 
 
-//Show a year.
+/**
+ * Show a year
+ * 
+ * @param year Which year to show
+ */
 function showCal(year)
 {
 	var showWeek = window.localStorage.getItem("showWeek");
 	populateYear(year,"month"); //this year
 	populateYearLinks(); //Populate year links
-	
-	
+
+
 	$("#yearLabel").html(year);
-	
+
 	if(showWeek != "1" && showWeek != "0"){
 		showWeek = 1;
 		window.localStorage.setItem("showWeek", 1);
 	}
-	
+
 	if(showWeek == "0") $(".cal_weekblock").hide();
 }
 
-//The update loop
+/**
+ * The update loop
+ */
 function updateOnTime()
 {
 	//In a second, run myself. 
@@ -60,8 +69,9 @@ function updateOnTime()
 }
 
 
-
-//Add the links to the link bar
+/**
+ * Add the links to the link bar
+ */
 function populateYearLinks()
 {
 	$("#yearLabel").html(currentYear);
@@ -80,36 +90,56 @@ function populateYearLinks()
 	
 }
 
-//The user has clicked a year link
+/**
+ * The user has clicked a year link and we need to go to another year
+ * 
+ * @param offset Delta between clicked year and current view
+ */
 function yearClicked(offset){
+	
 	log("User event", "Year link clicked"); //Log
 	currentYear = currentYear + offset; //Add offset to current year
 	showCal(currentYear); //Show the new calendar
 	highLightSelectedDate(); //Highlight selected date
-	
+
 	addToolTipsToAllDays(); //Add all tooltips. 
-	
+
 }
 
-//Keyboard controls
+/**
+ * Keyboard controls
+ * 
+ * @param key ID of the pressed key
+ */
 function keyPressed(key) {
-	
-	   	if(key == 37 || key == 40) { // down or right
-            yearClicked(-1);
-        }
-        else if(key == 39 || key == 38) { // up or left
-            yearClicked(1);
-        }
+
+	if(key == 37 || key == 40) { // down or right
+		yearClicked(-1);
+	}
+	else if(key == 39 || key == 38) { // up or left
+		yearClicked(1);
+	}
 }
 
-//Send event to Google Analytics
-function googleTrack(event, description)
+/**
+ * Send event to Google Analytics
+ * 
+ * @param event Main event description
+ * @param details Any details
+ */
+function googleTrack(event, details)
 {	
-	log("Googletrack", event+": "+description);
-	chrome.extension.sendRequest({action: "trackEvent", event_type:event, event_details:description});
+	log("Googletrack", event+": "+details);
+	chrome.extension.sendRequest({action: "trackEvent", event_type:event, event_details:details});
 }
 
-//Output to log if "debug" is true
+
+/**
+ * Output to log if "debug" is true
+ * 
+ * @param cat Logging category
+ * @param text Text to log
+ */
 function log(cat, text)
 {
 	if(location.hostname != googleID) //Only if local, not if proper
@@ -119,12 +149,18 @@ function log(cat, text)
 	}
 }
 
-//Highlights the chosen date, from loaded value
+/**
+ * Highlights the chosen date, from loaded value
+ */
 function highLightSelectedDate(){
 	highlightDay(oldId);
 }
 
-//Set the badge to a countdown value
+/**
+ * Set the badge to a countdown value. Also updates the color
+ * 
+ * @param text The new badge text
+ */
 function setBadge(text)
 {
 	text = text.toString();
@@ -135,14 +171,22 @@ function setBadge(text)
 
 }
 
-//Set the icon in the browser bar
+/**
+ * Set the icon in the browser bar
+ * 
+ * @param color The color of the icon. Must be matched by file in pics directory
+ */
 function setIcon(color)
 {
 	var path = "pics/icon_19_"+color+".png";
 	chrome.browserAction.setIcon({path:path});
 }
 
-//Set the tooltip.
+/**
+ * Set the tooltip.
+ * 
+ * @param text Tooltip text
+ */
 function setToolTip(text)
 {
 	text = text.toString();
@@ -151,7 +195,11 @@ function setToolTip(text)
 
 }
 
-//Switch the popup file
+/**
+ * Switch the popup file
+ * 
+ * @param p The ID of the popup file
+ */
 function setPopup(p)
 {
 	var page = "popup_12.html";

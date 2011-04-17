@@ -1,3 +1,4 @@
+//Return the correct image file based on the moon phase
 function getLunarImage(percent){
 
 if(percent < 12)
@@ -53,13 +54,11 @@ function getLunarPhase(date)
 
   var moonPhaseTime = (currentDate.getTime() - 
                     blueMoonDate.getTime()) % lunarPeriod;
-  // alert("Moon phase in days = "+moonPhaseTime/(24*3600*1000))
 
   // Compute various percentages of lunar cycle
   var percentRaw = (moonPhaseTime / lunarPeriod);
 	// alert("% = "+percentRaw)
   var percent  = Math.round(100*percentRaw);
 
-  
   return percent;
 }
