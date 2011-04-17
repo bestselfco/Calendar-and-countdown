@@ -289,5 +289,3 @@ function getVersion() {
 	return currVersion;
 }
 
-
-

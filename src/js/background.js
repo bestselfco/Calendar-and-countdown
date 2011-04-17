@@ -1,9 +1,3 @@
-//Bootstrap
-$(document).ready(function() {
-	bginit();
-});
-
-
 function bginit()
 {
 	log("Event", "BGInit");
@@ -124,20 +118,4 @@ chrome.extension.onRequest.addListener(
 				sendResponse({}); // snub them.
 		});
 
-function setIconToCanvasForTesting()
-{
 
-	var iconCanvas = document.getElementById('iconCanvas');
-	iconCanvas.height = 19;
-	iconCanvas.width = 19;
-
-	var iconContext = iconCanvas.getContext('2d');
-
-	iconContext.fillStyle = '#000000';  
-	iconContext.fillRect(0, 0, 10, 10);
-
-	var iconImageData = iconContext.createImageData(19,19);
-
-	chrome.browserAction.setIcon({imageData:iconImageData});
-
-}
