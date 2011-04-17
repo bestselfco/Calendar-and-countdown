@@ -105,7 +105,7 @@ function keyPressed(key) {
 //Send event to Google Analytics
 function googleTrack(event, description)
 {	
-	log("Googletrack", event+": "+description)
+	log("Googletrack", event+": "+description);
 	chrome.extension.sendRequest({action: "trackEvent", event_type:event, event_details:description});
 }
 

@@ -9,25 +9,25 @@ function HexToRGB(hex)
 	return ret;
 }
 
-function HexToR(h) {return parseInt((cutHex(h)).substring(0,2),16)}
-function HexToG(h) {return parseInt((cutHex(h)).substring(2,4),16)}
-function HexToB(h) {return parseInt((cutHex(h)).substring(4,6),16)}
-function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h}
+function HexToR(h) {return parseInt((cutHex(h)).substring(0,2),16);};
+function HexToG(h) {return parseInt((cutHex(h)).substring(2,4),16);};
+function HexToB(h) {return parseInt((cutHex(h)).substring(4,6),16);};
+function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h;};
 
 function days_between(date1, date2) {
 
     // The number of milliseconds in one day
-    var ONE_DAY = 1000 * 60 * 60 * 24
+    var ONE_DAY = 1000 * 60 * 60 * 24;
 
     // Convert both dates to milliseconds
-    var date1_ms = date1.getTime()
-    var date2_ms = date2.getTime()
+    var date1_ms = date1.getTime();
+    var date2_ms = date2.getTime();
 
     // Calculate the difference in milliseconds
-    var difference_ms = Math.abs(date1_ms - date2_ms)
+    var difference_ms = Math.abs(date1_ms - date2_ms);
     
     // Convert back to days and return
-    return Math.round(difference_ms/ONE_DAY)
+    return Math.round(difference_ms/ONE_DAY);
 
 }
 

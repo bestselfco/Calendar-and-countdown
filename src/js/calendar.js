@@ -108,7 +108,7 @@ function getToolTip(id)
 	var month = ndate.getMonth();
 	var mDay = ndate.getDate();
 	
-	var dayDiffCountShow = false
+	var dayDiffCountShow = false;
 	
 	//Should we count up/down to date in popup?
 	if(oldId != false){

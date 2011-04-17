@@ -48,13 +48,13 @@ Date.prototype.getDaysInYear = function (){
 	{
 		return 365;
 	}	
-}
+};
 
 //Get days left in year
 Date.prototype.getDaysLeftInYear = function()
 {
 	return this.getDaysInYear() - this.getDayOfYear();
-}
+};
 
 //Get days in month. No point in generalizing this. 
 Date.prototype.getDaysInMonth = function()
@@ -81,13 +81,13 @@ Date.prototype.getDaysInMonth = function()
 	}
 	
 	
-}
+};
 
 //Get day of the year
 Date.prototype.getDayOfYear = function() {
 	var onejan = new Date(this.getFullYear(),0,1);
 	return Math.ceil((this - onejan) / 86400000);
-}
+};
 
 //Get day distance from today
 Date.prototype.getDaysFromToday = function () {
@@ -96,4 +96,4 @@ Date.prototype.getDaysFromToday = function () {
 	var diff = Math.floor((this.getTime() - today.getTime()) / 86400000);
 		
 	return diff;
-}
+};
