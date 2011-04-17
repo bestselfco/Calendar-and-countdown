@@ -1,30 +1,30 @@
 <html>
 <head>
-<link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
 
-<link type="text/css" href="css/style.css" rel="stylesheet" />
+<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Droid+Sans+Mono" />
+<link type="text/css" rel="stylesheet" href="css/style.css"  />
+<link type="text/css" rel="stylesheet" href="css/style_12.css" />
+<link type="text/css" rel="stylesheet" href="css/colors.css" />
 
-<link type="text/css" href="css/style_12.css" rel="stylesheet" />
+<script type="text/javascript" src="js/libraries/jquery-1.5.2.min.js"></script>
+<script type="text/javascript" src="js/libraries/jquery.tools.min.js"></script>
+<script type="text/javascript" src="js/date.extend.js"></script>
+<script type="text/javascript" src="js/external_common.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/calendar.js"></script>
+<script type="text/javascript" src="js/calendar_12.js"></script>
+<script type="text/javascript" src="js/lunar.js"></script>
 
-<link type="text/css" href="css/colors.css" rel="stylesheet" />
-
-<script src="js/libraries/jquery-1.5.2.min.js"></script>
-<script src="js/libraries/jquery.tools.min.js"></script>
-<script src="js/date.extend.js"></script>
-
-<script src="js/external_common.js"></script>
-<script src="js/functions.js"></script>
-
-<script src="js/calendar.js"></script>
-<script src="js/calendar_12.js"></script>
-
-<script src="js/lunar.js"></script>
+<script type="text/javascript">
+//Bootstrap
+$(document).ready(function() {
+	init();
+});
+</script>
 
 </head>
 
-<body onload="init()" onkeydown="keyPressed(window.event.keyCode);">
-
-
+<body onkeydown="keyPressed(window.event.keyCode);">
 
 <div id="topbar">
 
@@ -44,56 +44,33 @@
 
 </div>
 
-
-
 <span class="last"><img src="pics/left.png" onclick="yearClicked(-1)"/></span>
 <span class="next"><img src="pics/right.png" onclick="yearClicked(1)"/></span>
 
 <table id="calendar">
+
 <tr>
-<td class="cal_month" id="month01">
-
-</td>
-<td class="cal_month" id="month02">
-
-</td>
-<td class="cal_month" id="month03">
-
-</td>
-<td class="cal_month" id="month04">
-
-</td>
+<td class="cal_month" id="month01"></td>
+<td class="cal_month" id="month02"></td>
+<td class="cal_month" id="month03"></td>
+<td class="cal_month" id="month04"></td>
 </tr>
+
 <tr>
-<td class="cal_month" id="month05">
-
-</td>
-<td class="cal_month" id="month06">
-
-</td>
-<td class="cal_month" id="month07">
-
-</td>
-<td class="cal_month" id="month08">
-
-</td>
+<td class="cal_month" id="month05"></td>
+<td class="cal_month" id="month06"></td>
+<td class="cal_month" id="month07"></td>
+<td class="cal_month" id="month08"></td>
 </tr>
+
 <tr>
-<td class="cal_month" id="month09">
-
-</td>
-<td class="cal_month" id="month10">
-
-</td>
-<td class="cal_month" id="month11">
-
-</td>
-<td class="cal_month" id="month12">
-
-</td>
+<td class="cal_month" id="month09"></td>
+<td class="cal_month" id="month10"></td>
+<td class="cal_month" id="month11"></td>
+<td class="cal_month" id="month12"></td>
 </tr>
+
 </table>
-
 
 </body>
 </html>
