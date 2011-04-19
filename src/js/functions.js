@@ -265,27 +265,45 @@ function removeAllToolTips() {
 	//$(".tooltip").remove(); //remove tool tips
 }
 
-//Get version of extension
-function getVersion() {
-	var version = 'NaN';
-	var xhr = new XMLHttpRequest();
-	xhr.open('GET', chrome.extension.getURL('manifest.json'), false);
-	xhr.send(null);
-	var manifest = JSON.parse(xhr.responseText);
-	var currVersion = manifest.version;
 
-	// Check if the version has changed.
-	var prevVersion = getItem("version");
-	if (currVersion != prevVersion) {
-		// Check if we just installed this extension.
-		if (typeof prevVersion == 'undefined') {
-			googleTrack("New install", currVersion);
-		} else {
-			googleTrack("Update", currVersion);
-		}
-		setItem("version", currVersion);
+
+//Create a calendar
+function showCal(year)
+{	
+	//Init and default for week start day
+	var firstDay = getItem("firstDay");
+	if(firstDay != "1" && firstDay != "0")
+	{
+		firstDay = "1";
+		setItem("firstDay", firstDay);
 	}
-	log("Version", currVersion);
-	return currVersion;
+
+	firstDayOfWeek = firstDay;
+
+	populateYear(year,"month"); //this year
+
+	populateYearLinks();
+
+	//Init and default for showing week number
+	var showWeek = getItem("showWeek");
+	if(showWeek != "1" && showWeek != "0"){
+		showWeek = 1;
+		setItem("showWeek", 1);
+	}
+	if(showWeek == "0") $(".cal_weekblock").hide();
 }
 
+//Create 12 separate montthly calendars
+function populateYear(year, selectstring)
+{
+
+	//Populate
+	for(var i = 1; i < 13; i++)
+	{
+		var selectString = "#"+selectstring;
+		if(i<10) selectString += "0";
+		selectString += i;
+		$(selectString).html(new Calendar(year,i).getCal());
+	}
+
+}
