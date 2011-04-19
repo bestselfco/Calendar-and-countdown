@@ -1,3 +1,4 @@
+
 //Calendar constructor
 function Calendar(year, month)
 {
@@ -54,9 +55,14 @@ function calGetCal()
 
 	var tmpWeek = startWeek;
 
+	var out = "";
+	
 	//Start table output code
-	var out = "<table class='cal'>";
+	out = "<table class='cal'>";
+	
+	//Add header row
 	out += getHeaderRow(this.workMonth+1); //Add header row
+	
 	out += "<tr class='cal_tr_dates'>";
 
 //	Screw rules, hard code instead. This is Monday first.
@@ -74,7 +80,6 @@ function calGetCal()
 
 		case 1:
 			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			//out += "<td colspan=6>&nbsp;</td>";
 			days = 0;
 			break;
 
@@ -118,7 +123,7 @@ function calGetCal()
 			tmpWeek = tmpWeek - 1;
 			if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
 			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			//out += "<td colspan=6>&nbsp;</td>";
+			
 			days = 0;
 			break;
 
@@ -201,26 +206,43 @@ function calGetCal()
 function getHeaderRow(month)
 {
 
-	var monthName = ucFirst(chrome.i18n.getMessage("mon"+month)); 
+	//New version
+	if(firstDayOfWeek == 0) {
+		var headerTemplateVars =  [
+		                           {   monthName: ucFirst(chrome.i18n.getMessage("mon"+month)),
+		                        	   weekShortName: chrome.i18n.getMessage("weekHeader"), 
+		                        	   day0_ShortName: chrome.i18n.getMessage("sday0"),
+		                        	   day1_ShortName: chrome.i18n.getMessage("sday1"),
+		                        	   day2_ShortName: chrome.i18n.getMessage("sday2"),
+		                        	   day3_ShortName: chrome.i18n.getMessage("sday3"),
+		                        	   day4_ShortName: chrome.i18n.getMessage("sday4"),
+		                        	   day5_ShortName: chrome.i18n.getMessage("sday5"),
+		                        	   day6_ShortName: chrome.i18n.getMessage("sday6")}
+		                           ];
+	}
+	else
+	{
+		var headerTemplateVars =  [
+		                           {   monthName: ucFirst(chrome.i18n.getMessage("mon"+month)),
+		                        	   weekShortName: chrome.i18n.getMessage("weekHeader"), 
+		                        	   day0_ShortName: chrome.i18n.getMessage("sday1"),
+		                        	   day1_ShortName: chrome.i18n.getMessage("sday2"),
+		                        	   day2_ShortName: chrome.i18n.getMessage("sday3"),
+		                        	   day3_ShortName: chrome.i18n.getMessage("sday4"),
+		                        	   day4_ShortName: chrome.i18n.getMessage("sday5"),
+		                        	   day5_ShortName: chrome.i18n.getMessage("sday6"),
+		                        	   day6_ShortName: chrome.i18n.getMessage("sday0")}
+		                           ];
 
-	var out = "<tr class='cal_tr_header'><td class='cal_td_header' colspan = '8'>"+monthName+"</td></tr>"; //Month header
-
-	//Day names
-	out += "<tr class='cal_tr_titles'>";
-	out += "<td class='cal_td_weeknames cal_weekblock'>"+chrome.i18n.getMessage("weekHeader")+"</td>"; 
-
-	if(firstDayOfWeek == 0) out += "<td class='cal_td_dayname'>"+chrome.i18n.getMessage("sday0")+"</td>";
-
-	out += "<td class='cal_td_dayname'>"+chrome.i18n.getMessage("sday1")+"</td>"; //Day names
-	out += "<td class='cal_td_dayname'>"+chrome.i18n.getMessage("sday2")+"</td>"; //Day names
-	out += "<td class='cal_td_dayname'>"+chrome.i18n.getMessage("sday3")+"</td>"; //Day names
-	out += "<td class='cal_td_dayname'>"+chrome.i18n.getMessage("sday4")+"</td>"; //Day names
-	out += "<td class='cal_td_dayname'>"+chrome.i18n.getMessage("sday5")+"</td>"; //Day name
-	out += "<td class='cal_td_dayname'>"+chrome.i18n.getMessage("sday6")+"</td>"; //Day names
-
-	if(firstDayOfWeek == 1) out += "<td class='cal_td_dayname'>"+chrome.i18n.getMessage("sday0")+"</td>";
-
-	out += "</tr>"; //Day names
-
-	return out;
+	}
+	
+	//Parse html
+	var monthRow = $.tmpl( "monthNameTempate", headerTemplateVars ) ;
+	var headerRow = $.tmpl( "headerRowTemplate", headerTemplateVars ) ;
+	
+	//Put it together
+	var headerRowOut = $(monthRow).clone()[0].outerHTML + "" + $(headerRow).clone()[0].outerHTML;
+	
+	//...and return
+	return headerRowOut;
 }

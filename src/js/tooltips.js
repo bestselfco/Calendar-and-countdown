@@ -107,12 +107,11 @@ function getToolTip(id)
 	var moonPhase = getLunarImage(moonphase);
 	
 	//Set template variables
-	var testTemplate = [ 
+	var toolTipTemplate = [ 
 	                    { dayInfo: dayInfo, dayInYear: dayInYear , countDown: countDown, countDownDelta: countDownDelta, moonPhase: moonPhase}
 	                ];
 	//fill template
-	var tooltipTemplate = $("#popupTemplate").tmpl(testTemplate);
-
+	var tooltipTemplate = $.tmpl( "popupTemplate", toolTipTemplate ) ;
 	//return output;
 	return tooltipTemplate;
 	
