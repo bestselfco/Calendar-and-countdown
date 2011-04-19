@@ -1,7 +1,6 @@
 /**
- *  Handle tooltip related stuff
+ *  Handle tooltip related stuff. Requires template to be set up beforehand.
  */
-
 
 //Add tooltip to a field
 function addToolTip(id, elementid)
@@ -73,31 +72,26 @@ function getToolTip(id)
 
 	var dateString = chrome.i18n.getMessage("fullDate", [ucFirst(chrome.i18n.getMessage("lday"+day)), monthName, mDay, sFix]);
 
-	var out =  "<div>";
-	out += "<span class='dayinfo'>"+dateString+"</span>";
-
+	//NEW 
+	var dayInfo = dateString;
+	
 	//Day of the year
-	out += "<span class='dayinyear'>"+chrome.i18n.getMessage("dayCapital")+" "+(ndate.getDayOfYear()+1)+" / "+(ndate.getDaysLeftInYear()-1)+" "+chrome.i18n.getMessage("left")+".</span>";
-
+	var dayInYear = chrome.i18n.getMessage("dayCapital")+" "+(ndate.getDayOfYear()+1)+" / "+(ndate.getDaysLeftInYear()-1)+" "+chrome.i18n.getMessage("left")+".";
+	
 	var fromToday = ndate.getDaysFromToday()+1;
-
-	//Days from today
-	out += "<span class='countdown'>";
 
 	var suffix  = "";
 	if(Math.abs(fromToday) != 1) suffix = chrome.i18n.getMessage("several_suffix"); //"s" if one
 
 	if(fromToday < 0)
 	{
-		out += Math.abs(fromToday)+" "+chrome.i18n.getMessage("day", "test")+suffix+" "+chrome.i18n.getMessage("ago")+".";
+		var countDown = Math.abs(fromToday)+" "+chrome.i18n.getMessage("day", "test")+suffix+" "+chrome.i18n.getMessage("ago")+".";	
 	}
 	else if(fromToday > 0)
 	{
-		out += fromToday+" "+chrome.i18n.getMessage("day")+suffix+" "+chrome.i18n.getMessage("leftuntil")+".";
+		var countDown = fromToday+" "+chrome.i18n.getMessage("day")+suffix+" "+chrome.i18n.getMessage("leftuntil")+".";
 	}
-
-	out += "</span>";
-
+	
 	//"Days from countdown date"
 	if( isNaN(dayDiffCountDate) == false && dayDiffCountDate != 0 && dayDiffCountDate < 5000) {
 
@@ -105,13 +99,21 @@ function getToolTip(id)
 
 		if(Math.abs(dayDiffCountDate) != 1) suffix = chrome.i18n.getMessage("several_suffix"); //"s" if > one
 
-		out += "<span class='countdown'>"+dayDiffCountDate+" "+chrome.i18n.getMessage("day")+suffix+" "+chrome.i18n.getMessage("frommarkeddate")+"</span>";
-
+		var countDownDelta = dayDiffCountDate+" "+chrome.i18n.getMessage("day")+suffix+" "+chrome.i18n.getMessage("frommarkeddate");
+		
 	}
 
 	//Add moon image
-	out += "<img class='moonicon' src='pics/phases/"+getLunarImage(moonphase)+"'>";
-	out += "</div>";
+	var moonPhase = getLunarImage(moonphase);
+	
+	//Set template variables
+	var testTemplate = [ 
+	                    { dayInfo: dayInfo, dayInYear: dayInYear , countDown: countDown, countDownDelta: countDownDelta, moonPhase: moonPhase}
+	                ];
+	//fill template
+	var tooltipTemplate = $("#popupTemplate").tmpl(testTemplate);
 
-	return out;
+	//return output;
+	return tooltipTemplate;
+	
 }
