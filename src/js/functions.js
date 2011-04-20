@@ -157,7 +157,7 @@ function log(cat, text)
  * Highlights the chosen date, from loaded value
  */
 function highLightSelectedDate(){
-	highlightDay(oldId);
+	highLightDay(oldId);
 }
 
 /**
