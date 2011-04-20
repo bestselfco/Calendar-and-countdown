@@ -1,4 +1,3 @@
-
 //Calendar constructor
 function Calendar(year, month)
 {
@@ -24,7 +23,6 @@ function Calendar(year, month)
 
 }
 
-
 function addToolTipsToAllDays()
 {
 	//Add tool tips
@@ -36,9 +34,6 @@ function addToolTipsToAllDays()
 		addToolTip(days[i],id);
 	}
 }
-
-
-
 
 //Return the actual calendar html
 function calGetCal()
@@ -174,7 +169,7 @@ function calGetCal()
 
 		var tmpDate = new Date(this.stamps[i]);
 		var stamp = this.stamps[i];
-
+		
 		if(days==7)
 		{	
 			//log("week change", tmpDate.getWeek());
@@ -185,13 +180,7 @@ function calGetCal()
 			days = 0;
 		}
 
-		var today = "";
-		if(new Date().toDateString() == tmpDate.toDateString())
-		{
-			today = " cal_day_today";
-		}
-
-		out += "<td class='cal_td_day"+today+"' onclick='dayClicked("+stamp+", false)' id='cal_day_"+stamp+"' title=' '>"+(i+1)+"</td>";
+		out += "<td class='cal_td_day' onclick='dayClicked("+stamp+", false)' dateTimestamp='"+stamp+"' id='cal_day_"+stamp+"' title=' '>"+(i+1)+"</td>";
 		days++;
 	}
 

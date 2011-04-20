@@ -23,6 +23,8 @@ function init()
 
 	//Update the selected date
 	highLightSelectedDate();
+	
+	highLightToday();
 
 	//Start update loop
 	updateOnTime();
@@ -242,6 +244,15 @@ function dayClicked(timestamp, force)
 
 }
 
+function highLightToday()
+{
+	var today = new Date();
+	today.setSeconds(0, 0).setMinutes(0);
+	today.setMinutes(0);
+	today.setHours(0);
+	var selectorString = '[dateTimestamp="'+today.getTime()+'"]';
+	$(selectorString).addClass("cal_day_today");
+}
 
 //Highlight a specific day, remove other hightlights
 function highlightDay(timestamp)
@@ -262,10 +273,7 @@ function removeHighLights()
 //Hides/removes all tool tips from the DOM
 function removeAllToolTips() {
 	$(".tooltip").fadeOut("fast");
-	//$(".tooltip").remove(); //remove tool tips
 }
-
-
 
 //Create a calendar
 function showCal(year)
