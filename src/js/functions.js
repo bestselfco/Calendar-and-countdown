@@ -234,7 +234,7 @@ function dayClicked(timestamp, force)
 		log("New day", timestamp);
 		setItem("countto", timestamp);	
 		setBadge(diff.toString());
-		highlightDay(timestamp);
+		highLightDay(timestamp);
 	}
 
 	oldId = getItem("countto"); //Set the memory item as well
