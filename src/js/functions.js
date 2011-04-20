@@ -21,9 +21,6 @@ function init()
 
 	//Add all the tooltips
 	addToolTipsToAllDays();
-
-	//Show separate color for today
-	highLightToday();
 	
 	//Update the selected date
 	highLightSelectedDate();
@@ -161,7 +158,7 @@ function highLightSelectedDate(){
 }
 
 /**
- * Set the badge to a countdown value. Also updates the color
+ * Set the badge to a countdown value. Also updates the color from memory.
  * 
  * @param text The new badge text
  */
@@ -172,7 +169,6 @@ function setBadge(text)
 	color = HexToRGB(color);
 	chrome.browserAction.setBadgeBackgroundColor({color:color});
 	chrome.browserAction.setBadgeText({text:text});
-
 }
 
 /**
@@ -302,6 +298,9 @@ function showCal(year)
 		setItem("showWeek", 1);
 	}
 	if(showWeek == "0") $(".cal_weekblock").hide();
+	
+	//Highlight the current day
+	highLightToday();
 }
 
 //Create 12 separate monthly calendars

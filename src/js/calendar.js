@@ -161,18 +161,21 @@ function calGetCal()
 		}
 	}
 
-	var tmpDate = new Date(this.stamps[0]);
+	var stampStatic = this.stamps[0]; //read first day in month
+	var tmpDate = new Date(stampStatic);
+	
+	//var stamp = this.stams[0];
 
 //	The actual day adder code
 	for(var i = 0; i < tmpDate.getDaysInMonth(); i++)
 	{
 
-		var tmpDate = new Date(this.stamps[i]);
-		var stamp = this.stamps[i];
+		var dayStamp = stampStatic + (i * 86400000);
+		var tmpDate = new Date(dayStamp);
 		
 		if(days==7)
 		{	
-			//log("week change", tmpDate.getWeek());
+			
 			tmpWeek = tmpDate.getWeek(1) ;
 
 			//new row
@@ -180,7 +183,7 @@ function calGetCal()
 			days = 0;
 		}
 
-		out += "<td class='cal_td_day' onclick='dayClicked("+stamp+", false)' dateTimestamp='"+stamp+"' id='cal_day_"+stamp+"' title=' '>"+(i+1)+"</td>";
+		out += "<td class='cal_td_day' onclick='dayClicked("+dayStamp+", false)' dateTimestamp='"+dayStamp+"' id='cal_day_"+dayStamp+"' title=' '>"+(i+1)+"</td>";
 		days++;
 	}
 

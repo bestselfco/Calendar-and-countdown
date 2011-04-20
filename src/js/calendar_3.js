@@ -47,5 +47,4 @@ function initCluster() {
 
 $(document).ready(function() {
 	initCluster();
-	googleTrack("page_viewed", "cal_03");
 });
