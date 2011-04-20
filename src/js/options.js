@@ -71,7 +71,12 @@ function setPopupFile(value)
 function setFirstDay(value)
 {
 	setItem("firstDay", value);
-	chrome.extension.sendRequest({action: "refresh"});
+	
+	//Refresh the cache - changed calendars
+	log("hy");
+	chrome.extension.sendRequest({action: "killcache"});
+	log("b2");
+	
 	googleTrack("setting_change", "calendar_first_day_"+value);
 }
 

@@ -6,7 +6,7 @@ function bginit()
 	
 	//Refresh the cache
 	killCachedCalendars();
-	generate2NYearsOfData(3);
+	generate2NYearsOfData(7);
 	
 	googleTrack("Initialized", extVersion);
 	
@@ -144,6 +144,15 @@ chrome.extension.onRequest.addListener(
 				_gaq.push(['_trackEvent', request.event_type, request.event_details]);
 
 			}
+			else if (request.action == "killcache") {
+
+				sendResponse({response: "ok"});
+
+				killCachedCalendars();
+				
+				log("Options event", "Killing cache");
+
+			}			
 			else if (request.action == "refresh") {
 
 				sendResponse({response: "ok"});
