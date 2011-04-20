@@ -1,6 +1,3 @@
-var startStamp = "";
-var workDate = false;
-
 //Calendar constructor
 function Calendar(year, month)
 {
@@ -10,17 +7,15 @@ function Calendar(year, month)
 	this.getCal = calGetCal;
 
 	//working variables
+	this.year = year;
 	this.month = month;
 	this.workMonth = month-1;
-	this.year = year;
 
 	this.workDate = new Date(year,this.workMonth,1);
 	this.startStamp = this.workDate.getTime();
 
 }	
 	
-
-
 function addToolTipsToAllDays()
 {
 	//Add tool tips
