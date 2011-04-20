@@ -1,8 +1,7 @@
 var now = new Date(); //Today
 var currentYear = now.getFullYear(); //This year
 var firstDayOfWeek = 1; //Default value
-var daysInYear = 365; //Default value 
-var oldId = getItem("countto"); //Get the preselected date
+var oldId = 0; //Get countdown value
 var selectorClass = "cal_day_chosen"; //The class for the selected day
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "."+"cal_day_chosen"; //God knows
@@ -14,21 +13,25 @@ var extVersion = getVersion(); //Get extension version - for logging
  */
 function init()
 {	
-
+	
+	oldId = getItem("countto"); //Get the preselected date
+	
 	//Display the calendar
 	showCal(currentYear);
 
 	//Add all the tooltips
 	addToolTipsToAllDays();
 
+	//Show separate color for today
+	highLightToday();
+	
 	//Update the selected date
 	highLightSelectedDate();
 	
-	highLightToday();
-
 	//Start update loop
 	updateOnTime();
 
+	//Have forgotten what this does. 
 	$(".cal_td_day").bind('mouseenter mouseleave', function() {
 		removeAllToolTips();
 	});
@@ -49,7 +52,6 @@ function showCal(year)
 	var showWeek = window.localStorage.getItem("showWeek");
 	populateYear(year,"month"); //this year
 	populateYearLinks(); //Populate year links
-
 
 	$("#yearLabel").html(year);
 
@@ -255,12 +257,13 @@ function highLightToday()
 }
 
 //Highlight a specific day, remove other hightlights
-function highlightDay(timestamp)
+function highLightDay(timestamp)
 {	
-	var selectorNew = "#cal_day_"+timestamp;
+
+	var selectorString = '[dateTimestamp="'+timestamp+'"]';
 	//Unselect all
 	removeHighLights();
-	$(selectorNew).removeClass(normalClass).addClass(selectorClass);
+	$(selectorString).removeClass(normalClass).addClass(selectorClass);
 
 }
 
@@ -292,7 +295,7 @@ function showCal(year)
 
 	populateYearLinks();
 
-	//Init and default for showing week number
+	//Initialize and default for showing week number
 	var showWeek = getItem("showWeek");
 	if(showWeek != "1" && showWeek != "0"){
 		showWeek = 1;
@@ -301,10 +304,9 @@ function showCal(year)
 	if(showWeek == "0") $(".cal_weekblock").hide();
 }
 
-//Create 12 separate montthly calendars
+//Create 12 separate monthly calendars
 function populateYear(year, selectstring)
 {
-
 	//Populate
 	for(var i = 1; i < 13; i++)
 	{
@@ -313,5 +315,4 @@ function populateYear(year, selectstring)
 		selectString += i;
 		$(selectString).html(new Calendar(year,i).getCal());
 	}
-
 }
