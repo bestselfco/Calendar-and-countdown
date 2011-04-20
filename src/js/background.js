@@ -3,9 +3,14 @@ function bginit()
 	log("Event", "BGInit");
 	resetSettings();
 	maintainLoop();
+	
+	//Refresh the cache
+	killCachedCalendars();
+	generate2NYearsOfData(3);
+	
 	googleTrack("Initialized", extVersion);
+	
 }
-
 
 //Run maintenance script every minute
 function maintainLoop()
@@ -14,12 +19,10 @@ function maintainLoop()
 	var t = setTimeout("maintainLoop()", 60000);
 }
 
-
 //Maintain data
 function maintain()
 {
 	log("Event", "maintain()");
-
 
 	updateBadgeFromStored();
 	updatePopupFromStored();
@@ -27,6 +30,42 @@ function maintain()
 
 	setToolTip(new Date().toLocaleDateString());
 
+}
+
+//Fill the cache
+function generate2NYearsOfData(years)
+{
+	var thisYear = new Date().getFullYear();;
+	
+	for(var i = (thisYear - years); i< (thisYear + years); i++) {
+		
+		for(var j = 1; j < 13; j++)
+		{
+			log("Generating",i+"_"+j);
+			new Calendar(i,j).getCal();
+		}
+	}
+	
+}
+
+//Kill the cache
+function killCachedCalendars()
+{
+	var storage = window.localStorage;
+	
+	log("Storage length",storage.length);
+	
+	for(var prop in storage){ 
+		
+		if(prop.substring(0,4) == "cal_")
+		{
+			log("Storage delete",prop);
+			removeItem(prop);
+		}
+	}
+	
+	log("Storage length",storage.length);
+	
 }
 
 function resetSettings()

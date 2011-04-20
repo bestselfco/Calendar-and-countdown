@@ -2,20 +2,41 @@
 function Calendar(year, month)
 {
 	log("Creating calendar", year+"-"+month);
-
+	
 	//Functions
-	this.getCal = calGetCal;
+	this.getCal = returnCalendar;
+	this.genCal = calGetCal;
 
 	//working variables
 	this.year = year;
 	this.month = month;
 	this.workMonth = month-1;
-
+	
 	this.workDate = new Date(year,this.workMonth,1);
 	this.startStamp = this.workDate.getTime();
-
-}	
 	
+	this.cacheKey = "cal_"+this.workDate.getFullYear() + "_" + this.workDate.getMonth();
+
+	//Object to pass to template for output
+	this.outVars = new Object();
+	
+}	
+
+//Return cached if it exists, otherwise return calendar
+function returnCalendar()
+{
+	var cached = getItem(this.cacheKey);
+	if(cached != null){
+		log("Cache", "Returning cached month");
+		return cached;
+	}
+	else
+	{
+		log("Cache", "Returning generated month");
+		return this.genCal();
+	}
+}
+
 function addToolTipsToAllDays()
 {
 	//Add tool tips
@@ -31,6 +52,33 @@ function addToolTipsToAllDays()
 //Return the actual calendar html
 function calGetCal()
 {
+	
+	
+	//Set month name
+	this.outVars.monthName = ucFirst(chrome.i18n.getMessage("mon"+this.month));
+
+	//Set week header value
+	this.outVars.weekShortName = chrome.i18n.getMessage("weekHeader");
+
+	//Set day names
+	if(firstDayOfWeek == 0) {
+		this.outVars.day0_ShortName = chrome.i18n.getMessage("sday0");
+		this.outVars.day1_ShortName = chrome.i18n.getMessage("sday1");
+		this.outVars.day2_ShortName = chrome.i18n.getMessage("sday2");
+		this.outVars.day3_ShortName = chrome.i18n.getMessage("sday3");
+		this.outVars.day4_ShortName = chrome.i18n.getMessage("sday4");
+		this.outVars.day5_ShortName = chrome.i18n.getMessage("sday5");
+		this.outVars.day6_ShortName = chrome.i18n.getMessage("sday6");
+	}
+	else {
+		this.outVars.day0_ShortName = chrome.i18n.getMessage("sday1");
+		this.outVars.day1_ShortName = chrome.i18n.getMessage("sday2");
+		this.outVars.day2_ShortName = chrome.i18n.getMessage("sday3");
+		this.outVars.day3_ShortName = chrome.i18n.getMessage("sday4");
+		this.outVars.day4_ShortName = chrome.i18n.getMessage("sday5");
+		this.outVars.day5_ShortName = chrome.i18n.getMessage("sday6");
+		this.outVars.day6_ShortName = chrome.i18n.getMessage("sday0");
+	}
 
 	var startWeek = this.workDate.getWeek(1);
 	var startWeekDay = this.workDate.getDay();
@@ -40,18 +88,9 @@ function calGetCal()
 	if(!this.showWeekNumber) tabWidth = 7;
 
 	var tmpWeek = startWeek;
+	var currentWeek = 0;
 
-	var out = "";
-
-	//Start table output code
-	out = "<table class='cal'>";
-
-	//Add header row
-	out += getHeaderRow(this.workMonth+1); //Add header row
-
-	out += "<tr class='cal_tr_dates'>";
-
-//	Screw rules, hard code instead. This is Monday first.
+	//	Screw rules, hard code instead. This is Monday first.
 	if(firstDayOfWeek == 1)
 	{
 		switch(startWeekDay)
@@ -59,43 +98,30 @@ function calGetCal()
 		case 0:
 			tmpWeek = tmpWeek - 1;
 			if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=6>&nbsp;</td>";
 			days = 6;
 			break;
 
 		case 1:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
 			days = 0;
 			break;
 
 		case 2:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=1>&nbsp;</td>";
 			days = 1;
 			break;
 
 		case 3:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=2>&nbsp;</td>";
 			days = 2;
 			break;
 
 		case 4:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=3>&nbsp;</td>";
 			days = 3;
 			break;
 
 		case 5:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=4>&nbsp;</td>";
 			days = 4;
 			break;
 
 		case 6:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=5>&nbsp;</td>";
 			days = 5;
 			break;
 
@@ -108,118 +134,67 @@ function calGetCal()
 		case 0:
 			tmpWeek = tmpWeek - 1;
 			if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-
 			days = 0;
 			break;
 
 		case 1:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=1>&nbsp;</td>";
 			days = 1;
 			break;
 
 		case 2:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=2>&nbsp;</td>";
 			days = 2;
 			break;
 
 		case 3:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=3>&nbsp;</td>";
 			days = 3;
 			break;
 
 		case 4:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=4>&nbsp;</td>";
 			days = 4;
 			break;
 
 		case 5:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=5>&nbsp;</td>";
 			days = 5;
 			break;
 
 		case 6:
-			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			out += "<td colspan=6>&nbsp;</td>";
 			days = 6;
 			break;
 
 		}
 	}
 
+	//First week shown for month
+	this.outVars.w_0 = tmpWeek;
+
 	//	The actual day adder code
 	for(var i = 0; i < this.workDate.getDaysInMonth(); i++)
 	{
-
 		var dayStamp = this.startStamp + (i * 86400000);
 		var tmpDate = new Date(dayStamp);
 
 		if(days==7)
 		{	
-
-			tmpWeek = this.workDate.getWeek(1) ;
-
-			//new row
-			out += "</tr><tr class='cal_tr_dates'><td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
+			currentWeek++;
+			this.outVars["w_"+currentWeek] = tmpDate.getWeek(1);
 			days = 0;
 		}
 
-		out += "<td class='cal_td_day' onclick='dayClicked("+dayStamp+", false)' dateTimestamp='"+dayStamp+"' id='cal_day_"+dayStamp+"' title=' '>"+(i+1)+"</td>";
+		this.outVars["d_stamp_"+currentWeek+"_"+days] = dayStamp;
+		this.outVars["d_content_"+currentWeek+"_"+days] = i+1;
+		this.outVars["d_class_"+currentWeek+"_"+days] = "cal_td_day";
+
 		days++;
 	}
 
-	out += "</tr>";
-	out += "</table>";
+	//console.log(this.outVars);
 
-	return ""+out;
-}
+	var thisCalOut = $.tmpl( "monthTemplate", this.outVars ) ;
 
-//Get the header row for a given month
-function getHeaderRow(month)
-{
+	var thisCalOutHtml = $(thisCalOut).clone()[0].outerHTML;
 
-	//New version
-	if(firstDayOfWeek == 0) {
-		var headerTemplateVars =  [
-		                           {   monthName: ucFirst(chrome.i18n.getMessage("mon"+month)),
-		                        	   weekShortName: chrome.i18n.getMessage("weekHeader"), 
-		                        	   day0_ShortName: chrome.i18n.getMessage("sday0"),
-		                        	   day1_ShortName: chrome.i18n.getMessage("sday1"),
-		                        	   day2_ShortName: chrome.i18n.getMessage("sday2"),
-		                        	   day3_ShortName: chrome.i18n.getMessage("sday3"),
-		                        	   day4_ShortName: chrome.i18n.getMessage("sday4"),
-		                        	   day5_ShortName: chrome.i18n.getMessage("sday5"),
-		                        	   day6_ShortName: chrome.i18n.getMessage("sday6")}
-		                           ];
-	}
-	else
-	{
-		var headerTemplateVars =  [
-		                           {   monthName: ucFirst(chrome.i18n.getMessage("mon"+month)),
-		                        	   weekShortName: chrome.i18n.getMessage("weekHeader"), 
-		                        	   day0_ShortName: chrome.i18n.getMessage("sday1"),
-		                        	   day1_ShortName: chrome.i18n.getMessage("sday2"),
-		                        	   day2_ShortName: chrome.i18n.getMessage("sday3"),
-		                        	   day3_ShortName: chrome.i18n.getMessage("sday4"),
-		                        	   day4_ShortName: chrome.i18n.getMessage("sday5"),
-		                        	   day5_ShortName: chrome.i18n.getMessage("sday6"),
-		                        	   day6_ShortName: chrome.i18n.getMessage("sday0")}
-		                           ];
-
-	}
-
-	//Parse html
-	var monthRow = $.tmpl( "monthNameTempate", headerTemplateVars ) ;
-	var headerRow = $.tmpl( "headerRowTemplate", headerTemplateVars ) ;
-
-	//Put it together
-	var headerRowOut = $(monthRow).clone()[0].outerHTML + "" + $(headerRow).clone()[0].outerHTML;
-
-	//...and return
-	return headerRowOut;
+	//Store in cache
+	setItem(this.cacheKey, thisCalOutHtml);
+	
+	return thisCalOutHtml;
 }
