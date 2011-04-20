@@ -149,6 +149,7 @@ chrome.extension.onRequest.addListener(
 				sendResponse({response: "ok"});
 
 				killCachedCalendars();
+				generate2NYearsOfData(2);
 				
 				log("Options event", "Killing cache");
 
