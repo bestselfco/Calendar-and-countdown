@@ -1,3 +1,6 @@
+var startStamp = "";
+var workDate = false;
+
 //Calendar constructor
 function Calendar(year, month)
 {
@@ -6,22 +9,17 @@ function Calendar(year, month)
 	//Functions
 	this.getCal = calGetCal;
 
-	//working vars
-	this.stamps = [];
+	//working variables
 	this.month = month;
 	this.workMonth = month-1;
 	this.year = year;
 
-	var workDate = new Date(year,this.workMonth,1);
-	var workStamp = workDate.getTime();
+	this.workDate = new Date(year,this.workMonth,1);
+	this.startStamp = this.workDate.getTime();
 
-	//Make all date stamps for a month
-	for(var i = 0; i < workDate.getDaysInMonth(); i++)
-	{	
-		this.stamps[i] = workStamp + (i * 86400000); //new way of making stamps, no date object creation	
-	}
+}	
+	
 
-}
 
 function addToolTipsToAllDays()
 {
@@ -39,10 +37,8 @@ function addToolTipsToAllDays()
 function calGetCal()
 {
 
-	var firstDate = new Date(this.stamps[0]);
-
-	var startWeek = firstDate.getWeek(1);
-	var startWeekDay = firstDate.getDay();
+	var startWeek = this.workDate.getWeek(1);
+	var startWeekDay = this.workDate.getDay();
 
 	var tabWidth = 8;
 
@@ -51,13 +47,13 @@ function calGetCal()
 	var tmpWeek = startWeek;
 
 	var out = "";
-	
+
 	//Start table output code
 	out = "<table class='cal'>";
-	
+
 	//Add header row
 	out += getHeaderRow(this.workMonth+1); //Add header row
-	
+
 	out += "<tr class='cal_tr_dates'>";
 
 //	Screw rules, hard code instead. This is Monday first.
@@ -118,7 +114,7 @@ function calGetCal()
 			tmpWeek = tmpWeek - 1;
 			if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
 			out += "<td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
-			
+
 			days = 0;
 			break;
 
@@ -161,22 +157,17 @@ function calGetCal()
 		}
 	}
 
-	var stampStatic = this.stamps[0]; //read first day in month
-	var tmpDate = new Date(stampStatic);
-	
-	//var stamp = this.stams[0];
-
-//	The actual day adder code
-	for(var i = 0; i < tmpDate.getDaysInMonth(); i++)
+	//	The actual day adder code
+	for(var i = 0; i < this.workDate.getDaysInMonth(); i++)
 	{
 
-		var dayStamp = stampStatic + (i * 86400000);
+		var dayStamp = this.startStamp + (i * 86400000);
 		var tmpDate = new Date(dayStamp);
-		
+
 		if(days==7)
 		{	
-			
-			tmpWeek = tmpDate.getWeek(1) ;
+
+			tmpWeek = this.workDate.getWeek(1) ;
 
 			//new row
 			out += "</tr><tr class='cal_tr_dates'><td class='cal_td_weeknumber cal_weekblock'>"+tmpWeek+"</td>";
@@ -188,7 +179,6 @@ function calGetCal()
 	}
 
 	out += "</tr>";
-
 	out += "</table>";
 
 	return ""+out;
@@ -227,14 +217,14 @@ function getHeaderRow(month)
 		                           ];
 
 	}
-	
+
 	//Parse html
 	var monthRow = $.tmpl( "monthNameTempate", headerTemplateVars ) ;
 	var headerRow = $.tmpl( "headerRowTemplate", headerTemplateVars ) ;
-	
+
 	//Put it together
 	var headerRowOut = $(monthRow).clone()[0].outerHTML + "" + $(headerRow).clone()[0].outerHTML;
-	
+
 	//...and return
 	return headerRowOut;
 }
