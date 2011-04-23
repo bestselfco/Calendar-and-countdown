@@ -1,12 +1,15 @@
 function bginit()
 {
 	log("Event", "BGInit");
+	
+	extVersion = getVersion();
+	
 	resetSettings();
 	maintainLoop();
 	
 	//Refresh the cache
-	killCachedCalendars();
-	generate2NYearsOfData(7);
+	//killCachedCalendars();
+	//generate2NYearsOfData(7);
 	
 	googleTrack("Initialized", extVersion);
 	

@@ -6,7 +6,7 @@ var selectorClass = "cal_day_chosen"; //The class for the selected day
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "."+"cal_day_chosen"; //God knows
 var googleID = "caplfhpahpkhhckglldpmdmjclabckhc"; //For turning on/off logging
-var extVersion = getVersion(); //Get extension version - for logging
+var extVersion = 0; //Get extension version - for logging
 
 /**
  * Initialize popup
@@ -150,12 +150,15 @@ function log(cat, text)
 	}
 }
 
+
+
 /**
  * Highlights the chosen date, from loaded value
  */
 function highLightSelectedDate(){
 	highLightDay(oldId);
 }
+
 
 /**
  * Set the badge to a countdown value. Also updates the color from memory.
@@ -231,6 +234,7 @@ function dayClicked(timestamp, force)
 		setItem("countto", timestamp);	
 		setBadge(diff.toString());
 		highLightDay(timestamp);
+		
 	}
 
 	oldId = getItem("countto"); //Set the memory item as well
