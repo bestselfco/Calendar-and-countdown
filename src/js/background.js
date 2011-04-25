@@ -11,7 +11,7 @@ function bginit()
 	//killCachedCalendars();
 	//generate2NYearsOfData(7);
 	
-	googleTrack("Initialized", extVersion);
+	googleTrack("Extension", "Initialized", extVersion);
 	
 }
 
@@ -138,13 +138,14 @@ function updatePopupFromStored()
 }
 
 //Listen for external stuff
+//chrome.extension.sendRequest({action: "trackEvent", event_type:category, event_action:action, event_details:details});
 chrome.extension.onRequest.addListener(
 		function(request, sender, sendResponse) {
 			if (request.action == "trackEvent") {
 
 				sendResponse({response: "ok"});
 				log("Google Analytics", request.event_type + ": "+request.event_details);
-				_gaq.push(['_trackEvent', request.event_type, request.event_details]);
+				_gaq.push(['_trackEvent', request.event_type, request.event_action, request.event_details]);
 
 			}
 			else if (request.action == "killcache") {

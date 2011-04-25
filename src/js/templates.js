@@ -1,5 +1,5 @@
 $.template( "popupTemplate", 
-		"<div>" +
+		"<div class='tooltip'>" +
 		"<span class='dayinfo'  >${dayInfo}</span>" +
 		"<span class='dayinyear'>${dayInYear}</span>" +
 		"<span class='countdown'>${countDown}</span>" +

@@ -132,9 +132,9 @@ function getVersion() {
 	if (currVersion != prevVersion) {
 		// Check if we just installed this extension.
 		if (typeof prevVersion == 'undefined') {
-			googleTrack("New install", currVersion);
+			googleTrack("Extension", "New install", currVersion);
 		} else {
-			googleTrack("Update", currVersion);
+			googleTrack("Extension", "Update", currVersion);
 		}
 		setItem("version", currVersion);
 	}

@@ -21,6 +21,8 @@ function init()
 
 	//Add all the tooltips
 	addToolTipsToAllDays();
+
+	initCssChanges();
 	
 	//Update the selected date
 	highLightSelectedDate();
@@ -127,11 +129,12 @@ function keyPressed(key) {
  * 
  * @param event Main event description
  * @param details Any details
+ * category, action, opt_label
  */
-function googleTrack(event, details)
+function googleTrack(category, action, details)
 {	
-	log("Googletrack", event+": "+details);
-	chrome.extension.sendRequest({action: "trackEvent", event_type:event, event_details:details});
+	log("Googletrack", category+": "+action+": "+details);
+	chrome.extension.sendRequest({action: "trackEvent", event_type:category, event_action:action, event_details:details});
 }
 
 
@@ -239,7 +242,7 @@ function dayClicked(timestamp, force)
 
 	oldId = getItem("countto"); //Set the memory item as well
 
-	googleTrack("Calendar event", "Day clicked");
+	googleTrack("Extension", "Calendar", "Day clicked");
 
 	//Redo tooltips
 	init();	

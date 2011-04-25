@@ -49,7 +49,7 @@ function setColor(where, hex)
 	
 	setItem("badgeColor",hex);
 	chrome.extension.sendRequest({action: "refresh"});
-	googleTrack("setting_change", "badge_color");
+	googleTrack("Options", "Setting change", "Badge color");
 
 }
 
@@ -57,14 +57,16 @@ function setIconColor(color)
 {
 	setItem("iconColor", color);
 	chrome.extension.sendRequest({action: "refresh"});
-	googleTrack("setting_change", "icon_color_"+color);
+	googleTrack("Options", "Setting change", "Icon color");
+	googleTrack("Options", "Icon color", color);
 }
 
 function setPopupFile(value)
 {
 	setItem("popup", value);
 	chrome.extension.sendRequest({action: "refresh"});
-	googleTrack("setting_change", "calendar_type_"+value);
+	googleTrack("Options", "Setting change", "Calendar type");
+	googleTrack("Options", "Calendar type", value);
 
 }
 
@@ -76,13 +78,21 @@ function setFirstDay(value)
 	
 	chrome.extension.sendRequest({action: "killcache"});
 	
-	googleTrack("setting_change", "calendar_first_day_"+value);
+	googleTrack("Options", "Setting change", "First day of week");
+	googleTrack("Options", "First day", value);
 }
 
 function setWeek(value)
 {
 	setItem("showWeek", value);
 	chrome.extension.sendRequest({action: "refresh"});
-	googleTrack("setting_change", "calendar_show_week_"+value);
+	
+	googleTrack("Options", "Setting change", "Show week number");
+	googleTrack("Options", "Week number", value);
+	
 }
 
+function resetCache()
+{
+	
+}
