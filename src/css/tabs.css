@@ -52,6 +52,6 @@
 /* initially all panes are hidden */ 
 .options .pane {
 	display:none;		
-	height: 300px;
-	padding: 20px;
+	height: 350px;
+	padding: 10px;
 }

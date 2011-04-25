@@ -5,11 +5,8 @@ function bginit()
 	extVersion = getVersion();
 	
 	resetSettings();
-	maintainLoop();
 	
-	//Refresh the cache
-	//killCachedCalendars();
-	//generate2NYearsOfData(7);
+	maintainLoop();
 	
 	googleTrack("Extension", "Initialized", extVersion);
 	
@@ -75,8 +72,40 @@ function resetSettings()
 {
 	log("Event", "resetSettings()");
 
-	var badgeColor = getItem("badgeColor");
+	var icon_topColor = getItem("icon_topColor");
+	if(icon_topColor == null)
+	{
+		var icon_topColor = "rgba(27,140,160,1)";
+		setItem("icon_topColor", icon_topColor);
+		log("setting up default icon top color");
+	}
+	
+	var showBadge = getItem("showBadge");
+	if(showBadge == null)
+	{
+		var showBadge = "1";
+		setItem("showBadge", showBadge);
+		log("setting up badge display");
+	}
+	
+	
+	var icon_textColor = getItem("icon_textColor");
+	if(icon_textColor == null)
+	{
+		var icon_textColor = "rgba(0,0,0,0.65)";
+		setItem("icon_textColor", icon_textColor);
+		log("setting up default icon text color");
+	}
 
+	var icon_showtext = getItem("icon_showtext");
+	if(icon_showtext == null)
+	{
+		var icon_showtext = "0";
+		setItem("icon_showtext", icon_showtext);
+		log("setting up icon text");
+	}
+	
+	var badgeColor = getItem("badgeColor");
 	if(badgeColor == null) {
 		var color = "#18CD32";
 		setItem("badgeColor", color);
@@ -99,42 +128,82 @@ function resetSettings()
 
 }
 
+
+//Update the icon from the stored values
 function updateIconFromStored()
 {
-	var iconColor = getItem("iconColor");
-	setIcon(iconColor);
+	
+	var textColor = getItem("icon_textColor");
+	var topColor = getItem("icon_topColor");
+	var showText = getItem("icon_showtext");
+	
+	log("Loading icon from storage", textColor + " " + topColor + " " + showText);
+	
+	if(showText == "1") var date = new Date().getDate(); //Today
+	else if (showText == "2") var date = getDistanceInDays(); //Countdown
+	else var date = 0; //Nothing, so why bother
+	
+	createIcon(showText, date, topColor, textColor, "iconCanvas");	
+	setIcon();
+	
 }
 
-
-
+//Update the badge from the stored countdown date
 function updateBadgeFromStored()
 {
-	var countto = getItem("countto");
-
-	if(countto != null)
-	{
-		try {
-			var badgeDate = new Date((countto*1)+86400000); //Stupid casting
-
-			var diff = Math.abs(badgeDate.getDaysFromToday());
-
-			if(badgeDate.getFullYear() > 1980 && badgeDate.getFullYear() < 2050)
-			{
-				setBadge(diff);
-			}
-		}
-		catch(err)
+	var count = getDistanceInDays();
+	
+	if(count != null)
 		{
-
+			setBadge(count);
 		}
-
-	}
 }
 
 function updatePopupFromStored()
 {
 	var popup = getItem("popup");
 	setPopup(popup);
+}
+
+
+
+
+/**
+ * Set the icon in the browser bar
+ * 
+ * @param color The color of the icon. Must be matched by file in pics directory
+ */
+function setIcon()
+{
+	var canvas = document.getElementById("iconCanvas");	
+	var ctx = canvas.getContext("2d");
+	var iconPixelData = ctx.getImageData(0, 0, 19, 19);
+	chrome.browserAction.setIcon({imageData:iconPixelData});
+}
+
+/**
+ * Set the tooltip.
+ * 
+ * @param text Tooltip text
+ */
+function setToolTip(text)
+{
+	text = text.toString();
+	chrome.browserAction.setTitle({title:text});
+}
+
+/**
+ * Switch the popup file
+ * 
+ * @param p The ID of the popup file
+ */
+function setPopup(p)
+{
+	var page = "popup_12.html";
+
+	if(p == "3") page = "popup_3.html";
+
+	chrome.browserAction.setPopup({popup:page});
 }
 
 //Listen for external stuff
@@ -157,7 +226,20 @@ chrome.extension.onRequest.addListener(
 				
 				log("Options event", "Killing cache");
 
-			}			
+			}
+			else if (request.action == "killeverything") {
+
+				//Reset everything
+				clearStrg();
+				resetSettings();
+				maintain();
+				generate2NYearsOfData(5);
+				
+				sendResponse({response: "ok"});
+				
+				log("Options event", "Killing everything");
+
+			}		
 			else if (request.action == "refresh") {
 
 				sendResponse({response: "ok"});

@@ -56,6 +56,24 @@ input {
 	font-family: 'Nobile', arial, serif;
 	border: 1px solid black;
 
-	font-size: 14pt;
+	font-size: 10pt;
 	background-color: white;
 }
+
+.iconSelectTableTd {
+		padding: 3 6 3 6;
+		background-color: white;
+		background-color: rgba(230,230,230,1); 
+		margin: 0px;
+		border: none;
+	}
+	
+	
+
+.iconSelectTableHelpTd
+{
+		padding: 3 6 3 6;
+		background-color: white;
+		margin: 0px;
+		border: none;
+	}

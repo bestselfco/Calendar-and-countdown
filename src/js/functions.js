@@ -163,6 +163,7 @@ function highLightSelectedDate(){
 }
 
 
+
 /**
  * Set the badge to a countdown value. Also updates the color from memory.
  * 
@@ -173,112 +174,58 @@ function setBadge(text)
 	text = text.toString();
 	var color = getItem("badgeColor");
 	color = HexToRGB(color);
-	chrome.browserAction.setBadgeBackgroundColor({color:color});
-	chrome.browserAction.setBadgeText({text:text});
-}
 
-/**
- * Set the icon in the browser bar
- * 
- * @param color The color of the icon. Must be matched by file in pics directory
- */
-function setIcon(color)
-{
-	var path = "pics/icon_19_"+color+".png";
-	chrome.browserAction.setIcon({path:path});
-}
+	var showBadge = getItem("showBadge");
 
-/**
- * Set the tooltip.
- * 
- * @param text Tooltip text
- */
-function setToolTip(text)
-{
-	text = text.toString();
-
-	chrome.browserAction.setTitle({title:text});
-
-}
-
-/**
- * Switch the popup file
- * 
- * @param p The ID of the popup file
- */
-function setPopup(p)
-{
-	var page = "popup_12.html";
-
-	if(p == "3") page = "popup_3.html";
-
-	chrome.browserAction.setPopup({popup:page});
-}
-
-//Somebody has clicked a date
-function dayClicked(timestamp, force)
-{
-	oldId = getItem("countto");
-
-	var idDate = new Date(timestamp+86400000);
-	var diff = Math.abs(idDate.getDaysFromToday());
-
-	if(oldId == timestamp)
+	//console.log("Show badge", showBadge);
+	
+	if(showBadge == 1)
 	{
-		//Unselect all
-		removeHighLights();
-		log("Same day", timestamp);
-		setBadge("");
-		setItem("countto", "null");
+		console.log("Show badge", showBadge);
+		chrome.browserAction.setBadgeBackgroundColor({color:color});
+		chrome.browserAction.setBadgeText({text:text});
 	}
 	else
 	{
-		log("New day", timestamp);
-		setItem("countto", timestamp);	
-		setBadge(diff.toString());
-		highLightDay(timestamp);
-		
+		//remove badge
+		console.log("Remove badge", showBadge);
+		chrome.browserAction.setBadgeText({text:""});
 	}
-
-	oldId = getItem("countto"); //Set the memory item as well
-
-	googleTrack("Extension", "Calendar", "Day clicked");
-
-	//Redo tooltips
-	init();	
-
-}
-
-function highLightToday()
-{
-	var today = new Date();
-	today.setSeconds(0, 0);
-	today.setMinutes(0);
-	today.setHours(0);
-	var selectorString = '[dateTimestamp="'+today.getTime()+'"]';
-	$(selectorString).addClass("cal_day_today");
-}
-
-//Highlight a specific day, remove other hightlights
-function highLightDay(timestamp)
-{	
-
-	var selectorString = '[dateTimestamp="'+timestamp+'"]';
-	//Unselect all
-	removeHighLights();
-	$(selectorString).removeClass(normalClass).addClass(selectorClass);
-
-}
-
-//Remove all highlights
-function removeHighLights()
-{
-	$(selectedClass).addClass(normalClass).removeClass(selectorClass);
 }
 
 //Hides/removes all tool tips from the DOM
 function removeAllToolTips() {
 	$(".tooltip").fadeOut("fast");
+}
+
+//Get countdown days
+function getDistanceInDays()
+{
+	var countto = getItem("countto");
+	if(countto != null)
+	{
+		try {
+			var badgeDate = new Date((countto*1)+86400000); //Stupid casting
+			var diff = Math.abs(badgeDate.getDaysFromToday());
+
+			if(badgeDate.getFullYear() > 1980 && badgeDate.getFullYear() < 2050)
+			{
+				return diff; //All is well;
+			}
+			else
+			{
+				return null; //Too large
+			}
+		}
+		catch(err)
+		{
+			log(err);
+			return null;
+		}
+	}
+	else{
+		return "";
+	}
 }
 
 //Create a calendar

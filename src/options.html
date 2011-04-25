@@ -12,9 +12,13 @@
 <script src="js/libraries/jquery-1.5.2.min.js"></script>
 <script src="js/libraries/jquery.tools.min.js"></script>
 
+<script type="text/javascript" src="js/date.extend.js"></script>
 <script src="js/external_common.js"></script>
+
 <script src="js/functions.js"></script>
 <script src="js/options.js"></script>
+
+<script src="js/icons.js"></script>
 
 <script src="js/jscolor/jscolor.js"></script>
 
@@ -26,9 +30,9 @@
 
 <!-- the tabs -->
 <ul class="tabs">
-	<li><a href="#" onClick="googleTrack('options_tab_clicked', 'calendar');">Calendar</a></li>
-	<li><a href="#" onClick="googleTrack('options_tab_clicked', 'cosmetics');">Cosmetics</a></li>
-	<li><a href="#" onClick="googleTrack('options_tab_clicked', 'about');">Other</a></li>
+	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Calendar');">Calendar</a></li>
+	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Cosmetics');">Cosmetics</a></li>
+	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Other');">Other</a></li>
 </ul>
 
 <!-- Start tab "panes" -->
@@ -55,24 +59,54 @@
 <!-- Start cosmetics tab -->	
 <div class="pane">
 
+<h2>Icon</h2>
+
+<table style="border-style: none;">
+<tr>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_1" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_2" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_3" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_4" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_5" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_6" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_7" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_8" height="19" width="19"></canvas></td>
+<td class="iconSelectTableHelpTd">Today's date</td>
+</tr>
+<tr>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_17" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_18" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_19" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_20" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_21" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_22" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_23" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_24" height="19" width="19"></canvas></td>
+<td class="iconSelectTableHelpTd">Days left in countdown</td>
+</tr>
+<tr>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_9" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_10" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_11" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_12" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_13" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_14" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_15" height="19" width="19"></canvas></td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_16" height="19" width="19"></canvas></td>
+<td class="iconSelectTableHelpTd">No number</td>
+</tr>
+</table>
+
+<h2>Show countdown badge</h2>
+<input type="radio" name="showBadge" id="showBadge1" value="1" onClick="setShowBadge(1)"> Yes<br/>
+<input type="radio" name="showBadge" id="showBadge0" value="0" onClick="setShowBadge(0)"> No
+
+
 <!-- default 18CD32 -->
 
 <h2>Badge color</h2>
 
 <input id="badgeColorSelect" style="padding: 0px; margin: 0px;" class="colorSelect" value="18CD32" onchange="setColor('badge',this.value);" readonly="readonly">
-
-<h2>Icon</h2>
-<table style="background-color: #d6d6d6; padding: 5px;">
-<tr>
-<td style="padding: 0 6 0 6;"><img onclick="setIconColor('red');" src="pics/icon_19_red.png"></td>
-<td style="padding: 0 6 0 6;"><img onclick="setIconColor('blue');" src="pics/icon_19_blue.png"></td>
-<td style="padding: 0 6 0 6;"><img onclick="setIconColor('green');" src="pics/icon_19_green.png"></td>
-<td style="padding: 0 6 0 6;"><img onclick="setIconColor('grey');" src="pics/icon_19_grey.png"></td>
-<td style="padding: 0 6 0 6;"><img onclick="setIconColor('turquise');" src="pics/icon_19_turquise.png"></td>
-<td style="padding: 0 6 0 6;"><img onclick="setIconColor('yellow');" src="pics/icon_19_yellow.png"></td>
-<td style="padding: 0 6 0 6;"><img onclick="setIconColor('old');" src="pics/icon_19_old.png"></td>
-<td style="padding: 0 6 0 6;"><img onclick="setIconColor('grey_type2');" src="pics/icon_19_grey_type2.png"></td>
-</table>
 
 </div> 
 <!-- End cosmetics tab -->
@@ -83,11 +117,14 @@
 
 
 <h2>Reset cache</h2>
-Click to reset the cached calendar data. All your settings will be kept. <br/><br/>
+Click to reset the cached calendar data. None of your settings will be lost. <br/><br/>
 <span id="resettext"><a href="#" onClick="resetCache()">Reset cache</a>&nbsp;</span>
-<br><br>
+<br>
+<h2>Reset everyting</h2>
+Click to reset the extension. All your settings will be lost. <br/><br/>
+<span id="reseteverything"><a href="#" onClick="resetEverything()">Reset everything</a>&nbsp;</span>
+<br>
 <h2>
-Chrome Calendar is &copy; 2011 <a href="http://www.facebook.com/kvasbo" target="_blank">Audun Kvasb&oslash;</a>.
 </h2>
 
 </div> 
@@ -96,13 +133,21 @@ Chrome Calendar is &copy; 2011 <a href="http://www.facebook.com/kvasbo" target="
 </div> <!-- End tab panes -->
 
 <hr />
-<p>
+
+<table style="width: 100%">
+<tr>
+<td>
+<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="https://chrome.google.com/webstore/detail/caplfhpahpkhhckglldpmdmjclabckhc" show_faces="false" width="300" font="lucida grande"></fb:like>
+</td>
+<td style="text-align: center">
 <a href="https://chrome.google.com/webstore/detail/caplfhpahpkhhckglldpmdmjclabckhc" rel="#overlay" style="text-decoration:none" target="_blank">
 Please review this extension.</a>
-</p>
-<p>
-<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script><fb:like href="https://chrome.google.com/webstore/detail/caplfhpahpkhhckglldpmdmjclabckhc" show_faces="true" width="450" font="lucida grande"></fb:like>
-</p>
+</td>
+<td style="text-align: right">
+Chrome Calendar is &copy; 2011 <a href="http://www.kvasbo.no" target="_blank">Audun Kvasb&oslash;</a>.
+</td>
+</tr>
+</table>
 
 <script>
      var _gaq = _gaq || [];
