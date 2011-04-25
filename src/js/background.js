@@ -150,10 +150,10 @@ chrome.extension.onRequest.addListener(
 			}
 			else if (request.action == "killcache") {
 
-				sendResponse({response: "ok"});
-
 				killCachedCalendars();
-				generate2NYearsOfData(2);
+				generate2NYearsOfData(5);
+				
+				sendResponse({response: "ok"});
 				
 				log("Options event", "Killing cache");
 

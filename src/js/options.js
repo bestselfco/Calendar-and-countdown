@@ -94,5 +94,13 @@ function setWeek(value)
 
 function resetCache()
 {
+	$("#resettext").css("color", "blue");
+	$("#resettext").html("Resetting cache");
 	
+	googleTrack("Options", "Setting change", "Cache reset");
+	
+	chrome.extension.sendRequest({action: "killcache"}, function(response) {
+		$("#resettext").css("color", "green");
+		$("#resettext").html("Cache has been reset.");
+	});
 }

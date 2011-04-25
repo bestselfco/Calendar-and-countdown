@@ -10,10 +10,10 @@ function addToolTip(id, elementid)
 		offset:	[0, 0],
 		predelay: 500,
 		opacity: 1,
-		layout: getToolTip(elementid)
+		layout: getToolTip(elementid),
+		tipClass: 'tooltip'
 	}).dynamic({ bottom: { direction: 'down', bounce: true } }); 
 }
-
 
 function getToolTip(id)
 {
