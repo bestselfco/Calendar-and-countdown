@@ -132,18 +132,19 @@ function resetSettings()
 //Update the icon from the stored values
 function updateIconFromStored()
 {
+	//Setup object
+	var iconSetup = new Object();
+	iconSetup.textColor = getItem("icon_textColor");
+	iconSetup.topColor = getItem("icon_topColor");
+	iconSetup.showNumbers = getItem("icon_showtext");
 	
-	var textColor = getItem("icon_textColor");
-	var topColor = getItem("icon_topColor");
-	var showText = getItem("icon_showtext");
+	if(iconSetup.showNumbers == "1") iconSetup.fillText = new Date().getDate(); //Today
+	else if (iconSetup.showNumbers == "2") iconSetup.fillText = getDistanceInDays(); //Countdown
+	else  iconSetup.fillText = 0; //Nothing, so why bother
 	
-	log("Loading icon from storage", textColor + " " + topColor + " " + showText);
+	document.getElementById("iconCanvas").getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
 	
-	if(showText == "1") var date = new Date().getDate(); //Today
-	else if (showText == "2") var date = getDistanceInDays(); //Countdown
-	else var date = 0; //Nothing, so why bother
-	
-	createIcon(showText, date, topColor, textColor, "iconCanvas");	
+	//createIcon("iconCanvas", iconSetup);	
 	setIcon();
 	
 }

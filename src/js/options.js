@@ -87,6 +87,13 @@ function init()
 //Create an icon preview and bind it to the icon setup function
 function createIconPreview(textType, textValue, topColor, textColor, targetCanvas)
 {
+	//Setup object
+	var iconSetup = new Object();
+	iconSetup.showNumbers = textType;
+	iconSetup.fillText = textValue;
+	iconSetup.topColor = topColor;
+	iconSetup.textColor = textColor;
+	
 	//Bind event
 	var selectString = "#"+targetCanvas;
 	$(selectString).bind('click', function() {
@@ -94,7 +101,12 @@ function createIconPreview(textType, textValue, topColor, textColor, targetCanva
 	});
 	
 	//Create preview
-	createIcon(textType, textValue, topColor, textColor, targetCanvas);
+	//createIcon(textType, textValue, topColor, textColor, targetCanvas);
+	//createIcon(targetCanvas, iconSetup);
+	
+	document.getElementById(targetCanvas).getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
+
+	
 }
 
 function setColor(where, hex)

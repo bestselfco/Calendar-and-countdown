@@ -176,19 +176,15 @@ function setBadge(text)
 	color = HexToRGB(color);
 
 	var showBadge = getItem("showBadge");
-
-	//console.log("Show badge", showBadge);
 	
 	if(showBadge == 1)
 	{
-		console.log("Show badge", showBadge);
 		chrome.browserAction.setBadgeBackgroundColor({color:color});
 		chrome.browserAction.setBadgeText({text:text});
 	}
 	else
 	{
 		//remove badge
-		console.log("Remove badge", showBadge);
 		chrome.browserAction.setBadgeText({text:""});
 	}
 }
