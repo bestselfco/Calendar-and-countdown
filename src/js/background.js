@@ -80,6 +80,11 @@ function resetSettings()
 		log("setting up default icon top color");
 	}
 	
+	//Load default icon, autocreates new if not already set
+	var icon = new Icon(new Object());
+	icon.getDefaultValues(true);
+	
+	
 	var showBadge = getItem("showBadge");
 	if(showBadge == null)
 	{
