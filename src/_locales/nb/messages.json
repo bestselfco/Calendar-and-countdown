@@ -4,7 +4,7 @@
     "description": "Extension name"
   },
   "extDesc": {
-  	"message": "Årskalender og nedtelling. Hold musen over en dato for å vise hvor lenge det er siden/til dagen, klikk for å lage nedtelling.",
+  	"message": "Årskalender og nedtelling. Vis kalender for et helt år eller tre måneder, og tell ned til datoer.",
   	"description": "Extension description"
   },
   "dayCapital": {

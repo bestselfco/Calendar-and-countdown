@@ -4,7 +4,7 @@
     "description": "Extension name"
   },
   "extDesc": {
-  	"message": "Yearly calendar and countdown. Hover the mouse over any day to display the distance from today, click to show a countdown to any date.",
+  	"message": "Yearly calendar and countdown. Show a full year calendar in one window, and count down to any date.",
   	"description": "Extension description"
   },
   "dayCapital": {
