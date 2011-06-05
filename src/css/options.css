@@ -3,6 +3,10 @@ body {
 	font-family: 'Droid Sans', arial, serif;
 }
 
+.bottomTable td {
+	vertical-align: top;	
+}
+
 .colorSelect {
 	font-size: 0pt;
 	height: 25px;
