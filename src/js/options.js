@@ -6,7 +6,6 @@ function init()
 		$("ul.tabs").tabs("div.options > div");
 	});
 
-
 	var firstDay = getItem("firstDay");
 	if(firstDay == "0")
 	{

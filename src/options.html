@@ -9,13 +9,17 @@
 <link href='css/tabs.css' rel='stylesheet' type='text/css'>
 <link href='css/options.css' rel='stylesheet' type='text/css'>
 
-<!-- Goole Plus one -->
+<link href='js/libraries/farbtastic/farbtastic.css' rel='stylesheet' type='text/css'>
+
+<!-- Google Plus one -->
 <script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script>
 
 <script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
 
 <script src="js/libraries/jquery-1.6.1.min.js"></script>
 <script src="js/libraries/jquery.tools.min.js"></script>
+
+<script src="js/libraries/farbtastic/farbtastic.js"></script>
 
 <script type="text/javascript" src="js/date.extend.js"></script>
 <script src="js/external_common.js"></script>
@@ -36,8 +40,10 @@
 <!-- the tabs -->
 <ul class="tabs">
 	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Calendar');">Calendar</a></li>
-	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Cosmetics');">Cosmetics</a></li>
-	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Other');">Other</a></li>
+	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Badge');">Icon</a></li>
+	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Badge');">Badge</a></li>
+	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Reset');">Reset</a></li>
+	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'About');">About</a></li>
 </ul>
 
 <!-- Start tab "panes" -->
@@ -61,10 +67,9 @@
 </div>
 <!-- End calendar options tab -->
 
-<!-- Start cosmetics tab -->	
 <div class="pane">
 
-<h2>Icon</h2>
+<h2>Presets</h2>
 
 <table style="border-style: none;">
 <tr>
@@ -102,6 +107,11 @@
 </tr>
 </table>
 
+</div>
+
+<!-- Start cosmetics tab -->	
+<div class="pane">
+
 <h2>Show countdown badge</h2>
 <input type="radio" name="showBadge" id="showBadge1" value="1" onClick="setShowBadge(1)"> Yes<br/>
 <input type="radio" name="showBadge" id="showBadge0" value="0" onClick="setShowBadge(0)"> No
@@ -131,6 +141,22 @@ Click to reset the extension. All your settings will be lost. <br/><br/>
 <br>
 <h2>
 </h2>
+
+</div> 
+<!-- End about tab -->
+
+<!-- Start about tab -->	
+<div class="pane">
+
+<h2>Calendar and Countdown</h2>
+Calendar and Countdown is &copy; 2010-2011 <a href="http://www.kvasbo.no" target="_blank">Audun Kvasb&oslash;</a><br/>
+
+<h2>Source code</h2>
+<a href="https://github.com/kvasbo/Calendar-and-countdown" target="_blank">The full source code is available at Github</a>
+
+<h2>Libraries</h2>
+
+This extension uses <a href="http://jquery.com/">jQuery</a>, <a href="http://flowplayer.org/tools/index.html">jQuery Tools</a>, <a href="http://api.jquery.com/category/plugins/templates/">jQuery Templates</a> and <a href="http://jscolor.com/">JSColor</a>
 
 </div> 
 <!-- End about tab -->
