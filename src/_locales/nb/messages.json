@@ -23,7 +23,15 @@
     "message": "siden",
     "description": "Days ago, for countdown in popup"
   },
+    "since": {
+    "message": "siden",
+    "description": "Days ago, for countdown in popup"
+  },
   "leftuntil": {
+    "message": "til",
+    "description": "Days until this date, for countdown in popup"
+  },
+   "until": {
     "message": "til",
     "description": "Days until this date, for countdown in popup"
   },
@@ -159,6 +167,14 @@
   	"message": "",
   	"description": "th as in 4th, may be empty"
   },
+  "daysfrom": {
+  	"message": "til",
+  	"description": "fra"
+  },
+  "daysto": {
+  	"message": "fra",
+  	"description": "to"
+  },
   "fullDate": {
   	"message": "$weekday$ $daynr$. $month$",
   	"description": "Full date formatted in a local way",
@@ -176,6 +192,21 @@
     		"content": "$4"
     		}
   		}
+  },
+  "shortDate": {
+  	"message": "$day$.$month$.$year$",
+  	"description": "Short date formatted in a local way",
+  	"placeholders" : {
+  		"month": {
+  			"content": "$1"
+  		},
+  		"day": {
+  			"content": "$2"
+  		},
+  		"year": {
+  			"content": "$3"
+  		}
+  	}
   }
   
 }

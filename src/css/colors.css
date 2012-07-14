@@ -4,7 +4,7 @@
 
 #calendar {
 	background-color: #fafafa;
-	border-color: #cbd0ce;
+	border-color: #fafafa;
 }
 
 #topbar {
@@ -13,31 +13,31 @@
 
 .cal_td_header {
 	background-color: #dfe3e0;
-	border-color: #cbd0ce;
+	border-color: #dfe3e0;
 }
 
 .cal_td_day {
-	background-color: #f2f2f2;
-	border-color: #dddddd;
+	background-color: #eeeeee;
+	border-color: #eeeeee;
 }
 
 .cal_day_today {
-	background-color: rgba(160,57,26,1);
-	color: white;
-	border-color: #dddddd;
-}
-
-.cal_day_chosen {
-	background-color: #f2f2f2;
+	background-color: #eeeeee;
 	border: 1px solid rgba(160,57,26,1);
 }
 
-
-.tooltip {
-	background-color: rgba(250,250,250,0.97);
-	border: 2px solid;
+.cal_day_chosen {
+	background-color: rgba(160,57,26,1);
+	color: white;
 	border-color: rgba(160,57,26,1);
-	
-	color: rgba(0,0,0,0.98);
-	-webkit-box-shadow: 4px 4px 9px rgba(150,150,150,0.5);	
+}
+
+.cal_subday_chosen {
+	color: rgba(160,57,26,1);
+	background-color: #dddddd;
+}
+
+.cal_subday_chosen:hover  {
+	cursor: default;
+	background-color: rgb(200,200,200);
 }

@@ -6,54 +6,33 @@
 <link type="text/css" rel="stylesheet" href="css/style_12.css" />
 <link type="text/css" rel="stylesheet" href="css/colors.css" />
 
-<script type="text/javascript" src="js/libraries/jquery-1.6.1.min.js"></script>
-<script type="text/javascript" src="js/libraries/jquery.tools.min.js"></script>
-<script type="text/javascript" src="js/libraries/jquery.tmpl.min.js"></script>
-
-<!-- setup templates -->
-<script type="text/javascript" src="js/templates.js"></script>
-
-<script type="text/javascript" src="js/date.extend.js"></script>
-<script type="text/javascript" src="js/external_common.js"></script>
-<script type="text/javascript" src="js/functions.js"></script>
-<script type="text/javascript" src="js/calendar.js"></script>
-<script type="text/javascript" src="js/calendar_12.js"></script>
-<script type="text/javascript" src="js/popup.js"></script>
-<script type="text/javascript" src="js/tooltips.js"></script>
-<script type="text/javascript" src="js/lunar.js"></script>
-
-<script type="text/javascript">
-//Bootstrap
-$(document).ready(function() {
-	init();
-});
-
-</script>
+<link type="text/css" rel="stylesheet" href="js/libraries/tipped/css/tipped.css" />
+<link type="text/css" rel="stylesheet" href="css/tipped_custom.css" />
 
 </head>
 
-<body onkeydown="keyPressed(window.event.keyCode);">
+<body>
 
 <div id="topbar">
 
-<span id="ym6" class="yearlink" onclick="yearClicked(-6)"></span>
-<span id="ym5" class="yearlink" onclick="yearClicked(-5)"></span>
-<span id="ym4" class="yearlink" onclick="yearClicked(-4)"></span>
-<span id="ym3" class="yearlink" onclick="yearClicked(-3)"></span>
-<span id="ym2" class="yearlink" onclick="yearClicked(-2)"></span>
-<span id="ym1" class="yearlink" onclick="yearClicked(-1)"></span>
+<span id="ym6" class="yearlink"></span>
+<span id="ym5" class="yearlink"></span>
+<span id="ym4" class="yearlink"></span>
+<span id="ym3" class="yearlink"></span>
+<span id="ym2" class="yearlink"></span>
+<span id="ym1" class="yearlink"></span>
 <span id="yearLabel" class="yearlink thisyear"></span>
-<span id="yp1" class="yearlink" onclick="yearClicked(1)"></span>
-<span id="yp2" class="yearlink" onclick="yearClicked(2)"></span>
-<span id="yp3" class="yearlink" onclick="yearClicked(3)"></span>
-<span id="yp4" class="yearlink" onclick="yearClicked(4)"></span>
-<span id="yp5" class="yearlink" onclick="yearClicked(5)"></span>
-<span id="yp6" class="yearlink" onclick="yearClicked(6)"></span>
+<span id="yp1" class="yearlink"></span>
+<span id="yp2" class="yearlink"></span>
+<span id="yp3" class="yearlink"></span>
+<span id="yp4" class="yearlink"></span>
+<span id="yp5" class="yearlink"></span>
+<span id="yp6" class="yearlink"></span>
 
 </div>
 
-<span class="last"><img src="pics/left.png" onclick="yearClicked(-1)"/></span>
-<span class="next"><img src="pics/right.png" onclick="yearClicked(1)"/></span>
+<span class="last"><img id="buttonPicLast" src="pics/left.png" /></span>
+<span class="next"><img id="buttonPicNext" src="pics/right.png" /></span>
 
 <table id="calendar">
 
@@ -80,18 +59,18 @@ $(document).ready(function() {
 
 </table>
 
-<script>
-     var _gaq = _gaq || [];
-     _gaq.push(['_setAccount', 'UA-21196533-2']);
-     _gaq.push(['_trackPageview']);
-   
-     (function() {
-       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-       ga.src = 'https://ssl.google-analytics.com/ga.js';
-       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-     })();
- 
-</script>
+<script src="js/libraries/jquery-1.7.2.min.js"></script>
+<!-- <script type="text/javascript" src="js/libraries/jquery.tmpl.min.js"></script> -->
+
+<script type="text/javascript" src="js/libraries/tipped/js/tipped/tipped.unpacked.js"></script>
+<!-- setup templates and language strings -->
+<script type="text/javascript" src="js/templates.js"></script>
+<script type="text/javascript" src="js/date.extend.js"></script>
+<script type="text/javascript" src="js/external_common.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/calendar.js"></script>
+<script type="text/javascript" src="js/tooltips_tipped.js"></script>
+<script type="text/javascript" src="js/googletrack.js"></script>
 
 </body>
 </html>

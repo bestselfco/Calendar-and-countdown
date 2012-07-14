@@ -1,6 +1,6 @@
 body {
-	padding: 40px;
-	font-family: 'Droid Sans', arial, serif;
+	padding: 10px;
+	font-family: 'Helvetica', 'Arial', sans-serif;
 }
 
 .bottomTable td {
@@ -21,20 +21,26 @@ body {
 	color: rgba(0,0,0,0);
 }
 
-.farbtasticPicker {
-	float: left;
+.pane {
+	background-color: rgb(255,255,255);
+	padding: 10px 20px 20px 20px;
+	width: 600px;
+	margin: 10px 10px 10px 0px;
+	-webkit-border-radius: 10px;
+	border: 2px solid rgb(230,230,230);
 }
 
 h1 {
 
 	font-size: 30pt;
-	margin: 0px 0px 40px 0px;
+	margin: 0px 0px 20px 0px;
+	
+
 }
 
 h2 {
 	font-size: 12pt;
-	margin: 20px 0px 20px 0px;
-}
+	}
 
 .tab {
 	margin: 60px 0px 40px 10px;
@@ -72,7 +78,7 @@ input {
 	border: 1px solid black;
 
 	font-size: 10pt;
-	background-color: white;
+	
 }
 
 .iconSelectTableTd {
@@ -88,7 +94,19 @@ input {
 .iconSelectTableHelpTd
 {
 		padding: 3 6 3 6;
-		background-color: white;
+		
 		margin: 0px;
 		border: none;
-	}
+}
+
+.optionButtons .ui-button-text {
+	font-size: 10pt;
+}
+
+#badgeColorSelect {
+	padding-left: 0px;
+	margin-top: 0px;
+    margin-left: 0px;
+    border-color: rgb(150,150,150); 
+    border-radius: 5px;
+}

@@ -1,5 +1,16 @@
 //Various snippets found around the internets
 
+//Clean up array
+Array.prototype.clean = function(deleteValue) {
+  for (var i = 0; i < this.length; i++) {
+    if (this[i] == deleteValue) {         
+      this.splice(i, 1);
+      i--;
+    }
+  }
+  return this;
+};
+
 //Hex to rgb
 function HexToRGB(hex)
 {
@@ -16,20 +27,26 @@ function HexToG(h) {return parseInt((cutHex(h)).substring(2,4),16);};
 function HexToB(h) {return parseInt((cutHex(h)).substring(4,6),16);};
 function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h;};
 
-function days_between(date1, date2) {
-
+function days_between_timestamps(ts1, ts2)
+{
 	// The number of milliseconds in one day
-	var ONE_DAY = 1000 * 60 * 60 * 24;
+	var ONE_DAY = 86400000;
+	
+	// Calculate the difference in milliseconds
+	var difference_ms = Math.abs(ts1 - ts2);
+	
+	// Convert back to days and return
+	return Math.round(difference_ms/ONE_DAY);
+}
+
+function days_between(date1, date2) {
 
 	// Convert both dates to milliseconds
 	var date1_ms = date1.getTime();
 	var date2_ms = date2.getTime();
 
-	// Calculate the difference in milliseconds
-	var difference_ms = Math.abs(date1_ms - date2_ms);
+	return days_between_timestamps(date1_ms, date2_ms);
 
-	// Convert back to days and return
-	return Math.round(difference_ms/ONE_DAY);
 
 }
 
@@ -96,7 +113,7 @@ function getItem(key) {
 
 	try {
 		value = window.localStorage.getItem(key);
-		log('Get Item', key);
+		//log('Get Item', key + ": "+value);
 	}catch(e) {
 		log("Error inside getItem() for key:" + key);
 		log(e);
@@ -132,9 +149,9 @@ function getVersion() {
 	if (currVersion != prevVersion) {
 		// Check if we just installed this extension.
 		if (typeof prevVersion == 'undefined') {
-			googleTrack("Extension", "New install", currVersion);
+			//googleTrack("Extension", "New install", currVersion);
 		} else {
-			googleTrack("Extension", "Update", currVersion);
+			//googleTrack("Extension", "Update", currVersion);
 		}
 		setItem("version", currVersion);
 	}

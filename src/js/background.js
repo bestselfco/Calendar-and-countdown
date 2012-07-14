@@ -1,22 +1,25 @@
+var dateArray; //Holds the dates we count down to
+var subDateArray;
+
+
 function bginit()
 {
 	log("Event", "BGInit");
 	
 	extVersion = getVersion();
 	
+	document.title = "C&C "+extVersion;
+	
 	resetSettings();
 	
 	maintainLoop();
-	
-	googleTrack("Extension", "Initialized", extVersion);
-	
 }
 
 //Run maintenance script every minute
 function maintainLoop()
 {
 	maintain();
-	var t = setTimeout("maintainLoop()", 60000);
+	var t = setTimeout(maintainLoop, 60000);
 }
 
 //Maintain data
@@ -32,52 +35,119 @@ function maintain()
 
 }
 
-//Fill the cache
-function generate2NYearsOfData(years)
+//Retrieve the dates in a JSON format
+function getDatesJSON(){
+	return JSON.stringify(getDates());
+}
+
+//Retrieve the dates as an array
+function getDates()
 {
-	var thisYear = new Date().getFullYear();;
+	dateArray = JSON.parse(getItem("dateArray"));
+	return dateArray;
+}
+
+function getSubDatesJSON(){
+	return JSON.stringify(getSubDates());
+}
+
+function getSubDates()
+{
+	subDateArray = JSON.parse(getItem("noCountDateArray"));
+	return subDateArray;
+}
+
+//Toggle dates. "nocount" means secondary dates if true.
+function toggleDate(timestamp, noCount)
+{
+
+	if(noCount)
+	{
+		//Secondary dates. Store many hooray
+		var idx = noCountDateArray.indexOf(timestamp);
 	
-	for(var i = (thisYear - years); i< (thisYear + years); i++) {
-		
-		for(var j = 1; j < 13; j++)
+		if(idx != -1)
 		{
-			log("Generating",i+"_"+j);
-			new Calendar(i,j).getCal();
+			noCountDateArray.splice(idx, 1); //Remove if found
 		}
+		else
+		{
+			//...add if not found.
+			noCountDateArray.push(timestamp);
+		}
+		
+		noCountDateArray.sort();
+		setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+		log("Sub date array changed", noCountDateArray);
+			
+		
 	}
+	else //The main one. Store just that.
+	{
+		var idx = dateArray.indexOf(timestamp);
+		
+		if(idx != -1)
+		{
+			dateArray = []; // Clear out
+		}
+		else
+		{
+			dateArray = [timestamp]; //Set
+		}
+	
+		setItem("dateArray", JSON.stringify(dateArray)); //Store it
+		log("Date array changed", dateArray); //Log it	
+	}
+	
+	maintain();
 	
 }
 
-//Kill the cache
-function killCachedCalendars()
-{
-	var storage = window.localStorage;
-	
-	log("Storage length",storage.length);
-	
-	for(var prop in storage){ 
-		
-		if(prop.substring(0,4) == "cal_")
-		{
-			log("Storage delete",prop);
-			removeItem(prop);
-		}
-	}
-	
-	log("Storage length",storage.length);
-	
-}
 
+//Reset everything to scratch
 function resetSettings()
 {
 	log("Event", "resetSettings()");
+	
+	dateArray = getItem("dateArray");
+	if(dateArray == null && getItem("countto") != null )
+	{
+		//Transition to new solution for storing date.
+		dateArray = new Array();
+		var countTo = getItem("countto");
+		toggleDate(countTo);
+		log("Migrating date solution", countTo);
+	}
+	else if(dateArray == null)
+	{
+		dateArray = new Array();
+		setItem("dateArray", JSON.stringify(dateArray));
+		log("Setting default (empty) date array", dateArray);
+	}
+	else
+	{
+		dateArray = JSON.parse(dateArray);
+	}
+	
+	//Secondary dates
+	noCountDateArray = getItem("noCountDateArray");
+	if(noCountDateArray == null)
+	{
+		noCountDateArray = new Array();
+		setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+	}
+	else
+	{
+		noCountDateArray = JSON.parse(noCountDateArray);
+	}
+	
 
 	var icon_topColor = getItem("icon_topColor");
 	if(icon_topColor == null)
 	{
 		var icon_topColor = "rgba(27,140,160,1)";
 		setItem("icon_topColor", icon_topColor);
-		log("setting up default icon top color");
+		log("Setting up default icon top color", icon_topColor);
 	}
 	
 	//Load default icon, autocreates new if not already set
@@ -85,12 +155,21 @@ function resetSettings()
 	icon.getDefaultValues(true);
 	
 	
+	
 	var showBadge = getItem("showBadge");
 	if(showBadge == null)
 	{
 		var showBadge = "1";
 		setItem("showBadge", showBadge);
-		log("setting up badge display");
+		log("Setting up default badge display", showBadge);
+	}
+	
+	var showMoon = getItem("showMoon");
+	if(showMoon == null)
+	{
+		var showMoon = "1";
+		setItem("showMoon", showMoon);
+		log("Setting up default moon display", showMoon);
 	}
 	
 	
@@ -99,7 +178,7 @@ function resetSettings()
 	{
 		var icon_textColor = "rgba(0,0,0,0.65)";
 		setItem("icon_textColor", icon_textColor);
-		log("setting up default icon text color");
+		log("Setting up default icon text color", icon_textColor);
 	}
 
 	var icon_showtext = getItem("icon_showtext");
@@ -154,22 +233,14 @@ function updateIconFromStored()
 	
 }
 
-//Update the badge from the stored countdown date
-function updateBadgeFromStored()
-{
-	var count = getDistanceInDays();
-	
-	if(count != null)
-		{
-			setBadge(count);
-		}
-}
+
 
 function updatePopupFromStored()
 {
 	var popup = getItem("popup");
 	setPopup(popup);
 }
+
 
 
 
@@ -223,15 +294,27 @@ chrome.extension.onRequest.addListener(
 				_gaq.push(['_trackEvent', request.event_type, request.event_action, request.event_details]);
 
 			}
-			else if (request.action == "killcache") {
-
-				killCachedCalendars();
-				generate2NYearsOfData(5);
+			else if (request.action == "toggleDate") {
+				//New code to toggle dates. Much more resilient to fail, MVC based
+				toggleDate(request.event_details, false);
+				sendResponse({datesJSON:getDatesJSON()})
 				
-				sendResponse({response: "ok"});
-				
-				log("Options event", "Killing cache");
+			}
+			else if (request.action == "toggleDateRightClick") {
+				//New code to toggle dates. Right click.
+				toggleDate(request.event_details, true);
+				sendResponse({datesJSON:getSubDatesJSON()})
+			}
+			else if (request.action == "getDates") {
 
+				log("Dates requested by view.");
+				sendResponse({datesJSON:getDatesJSON()});
+			
+			}
+			else if (request.action == "getSubDates") {
+			
+				log("Sub dates requested by view");
+				sendResponse({datesJSON:getSubDatesJSON()});
 			}
 			else if (request.action == "killeverything") {
 
@@ -239,7 +322,6 @@ chrome.extension.onRequest.addListener(
 				clearStrg();
 				resetSettings();
 				maintain();
-				generate2NYearsOfData(5);
 				
 				sendResponse({response: "ok"});
 				
@@ -259,4 +341,90 @@ chrome.extension.onRequest.addListener(
 				sendResponse({}); // snub them.
 		});
 
+//Update the badge from the stored countdown date
+function updateBadgeFromStored()
+{
 
+	if(dateArray.length > 0)
+	{
+		var count = getDistanceInDays();
+	
+		if(count != null)
+		{
+			setBadge(count);
+		}
+		else
+		{
+			chrome.browserAction.setBadgeText({text:""});
+		}
+		
+	}
+	else //We are not counting to anything, so we delete this shit.
+	{
+		chrome.browserAction.setBadgeText({text:""});
+	}
+}
+
+/**
+ * Set the badge to a countdown value. Also updates the color from memory.
+ * 
+ * @param text The new badge text
+ */
+function setBadge(text)
+{
+	text = text.toString();
+	var color = getItem("badgeColor");
+	color = HexToRGB(color);
+
+	var showBadge = getItem("showBadge");
+	
+	if(showBadge == 1)
+	{
+		chrome.browserAction.setBadgeBackgroundColor({color:color});
+		chrome.browserAction.setBadgeText({text:text});
+	}
+	else
+	{
+		//remove badge
+		chrome.browserAction.setBadgeText({text:""});
+	}
+}
+
+//Get countdown days for the badge
+function getDistanceInDays()
+{
+	//var tmpArray = JSON.parse(getItem("dateArray"));
+	var countto = dateArray[0];
+	
+	log("Checking distance for badge", countto);
+	
+	if(countto !== null && countto !== undefined)
+	{
+		try {
+			var badgeDate = new Date((countto*1)+86400000); //Stupid casting
+			var diff = Math.abs(badgeDate.getDaysFromToday());
+
+			if(badgeDate.getFullYear() > 1980 && badgeDate.getFullYear() < 2050)
+			{
+				return diff; //All is well;
+			}
+			else
+			{
+				return null; //Too large
+			}
+		}
+		catch(err)
+		{
+			log(err);
+			return null;
+		}
+	}
+	else{
+		return null;
+	}
+}
+
+//Bootstrap
+$(document).ready(function() {	
+	bginit();	
+});

@@ -1,7 +1,12 @@
+html {
+	overflow: hidden;
+}
+
 body {
 	display: block;
 	overflow: hidden;
 	font-family: 'Droid Sans', arial, serif;
+	margin: 0px 8px 0px 8px;
 }
 
 #calendar {
@@ -9,9 +14,8 @@ body {
 	top: 35px;
 	left: 10px;
 	padding: 3px;
-	-webkit-border-radius: 10px;
+	-webkit-border-radius: 0px;
 	font-size: 15px;
-
 	overflow: hidden;
 	border: 1px solid;
 }
@@ -56,7 +60,7 @@ body {
 	position: inherit;
 }
 
-.cal_td_dayname, .cal_td_weeknames, .cal_td_day, .cal_td_weeknumber, .cal_day_chosen {
+.cal_td_dayname, .cal_td_weeknames, .cal_td_day, .cal_td_weeknumber, .cal_day_chosen, .cal_subday_chosen {
 	width: 22px;
 	height: 16px;
 	font-size: 8pt;
@@ -76,16 +80,16 @@ body {
 	text-align: right;
 }
 
-.cal_td_day {
-	border: 1px solid;
+.cal_td_day, .cal_subday_chosen, .cal_day_chosen {
+	border-width: 1px;
 	width: 18px;
 	overflow-x: hidden;
 	-webkit-border-radius: 0px;
 }
 
 .cal_day_chosen {
-	overflow-x: hidden;
-	-webkit-border-radius: 0px;
+	/*overflow-x: hidden; */
+	/*-webkit-border-radius: 0px;*/
 }
 
 .cal_day_chosen:hover  {
@@ -94,30 +98,12 @@ body {
 
 .cal_td_day:hover {
 	cursor: default;
-	border: 1px solid rgb(134,108,124);
+	background-color: rgb(200,200,200);
+	/*border: 1px solid rgb(134,108,124);*/
 }
 
 .cal_weekblock {
 	display: block;
-}
-
-.tooltip {
-	display:none;
-	
-	font-size:12px;
-	min-height:59px;
-	width:174px;
-	padding:8px;
-
-	font-family: "Helvetica", "Arial", sans-serif;
-	-webkit-border-radius: 7px;
-	z-index: 2
-}
-
-.moonicon {
-	position: absolute;
-	bottom: -15px;
-	right: -15px;
 }
 
 .last, .next{
@@ -138,20 +124,6 @@ z-index: 1;
 	
 	right: 25px;
 
-}
-
-.dayinfo, .dayinyear, .countdown {
-	display: block;
-	clear: left;
-}
-
-.dayinfo {
-	margin-bottom: 10px;
-	font-weight: 600;
-}
-
-.dayinyear, .countdown {
-	margin-bottom: 5px;
 }
 
 .yearlink {

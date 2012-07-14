@@ -1,11 +1,15 @@
 {
-  "name": "__MSG_extName__",
-  "default_locale": "en",
-  "version": "2011.6.5.1",
-  "minimum_chrome_version": "8",
+  "name": "Calendar and Countdown",
+  "default_locale": "en_US",
+  "version": "2012.7.11.1",
   "description": "__MSG_extDesc__",
   "options_page": "options.html",
-  "background_page": "background.html",
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://apis.google.com; object-src 'self'",
+  "background":
+  {
+    "page": "background.html"
+  },
   "browser_action": 
   {
     "default_icon": "pics/icon_19_grey.png",
@@ -13,7 +17,7 @@
   },
   "icons": 
   { 	
-  	"16": "pics/icon_16.png",
+    "16": "pics/icon_16.png",
     "48": "pics/new-icon-128.png",
     "128": "pics/new-icon-128.png" 
   }

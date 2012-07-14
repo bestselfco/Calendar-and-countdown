@@ -1,10 +1,9 @@
 function init()
 {
 
-	//Setup tabs
-	$(function() {
-		$("ul.tabs").tabs("div.options > div");
-	});
+	//Copyright year
+	var dd = new Date();
+	$(".copyyear").html(dd.getFullYear());
 
 	var firstDay = getItem("firstDay");
 	if(firstDay == "0")
@@ -45,12 +44,15 @@ function init()
 	{
 		document.getElementById("showweek1").checked = true;
 	}
+	
+	var colorSelected = getItem("badgeColor");
 
-	$("#badgeColorSelect").val(getItem("badgeColor"));//;
-	document.getElementById('badgeColorSelect').color.fromString(getItem("badgeColor"));
+	$("#badgeColorSelect").val(colorSelected);
+	
+	//document.getElementById('badgeColorSelect').color.fromString(colorSelected);
 	
 	todayDate = new Date().getDate();
-	cDownDate = getDistanceInDays();
+	cDownDate = 9;
 	
 	//Setup Icon selector Colors
 	createIconPreview("1", todayDate, 'rgba(160,57,27,1)', 'rgba(0,0,0,0.65)', "canvas_icon_1");
@@ -81,6 +83,29 @@ function init()
 	createIconPreview("2", cDownDate, 'rgba(0,0,255,1)', 'rgba(0,0,0,0.65)', "canvas_icon_24");
 
 	
+	$("#div_show312").buttonset();
+	$("#divOptionWeek").buttonset();
+	$("#divOptionWeekNumbers").buttonset();
+	$("#divOptionMoonPhase").buttonset();
+	$("#optionsShowBadge").buttonset();
+	$("#reseteverything a").button();
+	$("#resettext a").button();
+	
+	//Bind events
+	$("#show31203").on("click", function() { setPopupFile(3); });
+	$("#show31212").on("click", function() { setPopupFile(12); });
+	$("#firstday0").on("click", function() { setFirstDay(0); });
+	$("#firstday1").on("click", function() { setFirstDay(1); });
+	$("#showweek0").on("click", function() { setWeek('0'); });
+	$("#showweek1").on("click", function() { setWeek('1'); });
+	$("#showBadge0").on("click", function() { setShowBadge(0); });
+	$("#showBadge1").on("click", function() { setShowBadge(1); });
+	
+	$("#reseteverything").on("click", function() { resetEverything(); });
+	
+	$("#badgeColorSelect").on("change", function() { setColor('badge',this.value); });
+	
+	
 }
 
 //Create an icon preview and bind it to the icon setup function
@@ -105,18 +130,14 @@ function createIconPreview(textType, textValue, topColor, textColor, targetCanva
 	
 	document.getElementById(targetCanvas).getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
 
-	
 }
 
 function setColor(where, hex)
 {
 	//Set color for selector element
 	$("#badgeColorSelect").css("color", hex);
-	
 	setItem("badgeColor",hex);
 	chrome.extension.sendRequest({action: "refresh"});
-	googleTrack("Options", "Setting change", "Badge color");
-
 }
 
 /**
@@ -132,60 +153,30 @@ function setIconProperties(topColor, textColor, showText)
 	setItem("icon_topColor", topColor);
 	setItem("icon_showtext", showText);
 	chrome.extension.sendRequest({action: "refresh"});
-	googleTrack("Options", "Setting change", "Icon colors");
 }
 
 function setPopupFile(value)
 {
 	setItem("popup", value);
 	chrome.extension.sendRequest({action: "refresh"});
-	googleTrack("Options", "Setting change", "Calendar type");
-	googleTrack("Options", "Calendar type", value);
-
 }
 
 function setFirstDay(value)
 {
-	setItem("firstDay", value);
-	
-	//Refresh the cache - changed calendars
-	
+	setItem("firstDay", value);	
 	chrome.extension.sendRequest({action: "killcache"});
-	
-	googleTrack("Options", "Setting change", "First day of week");
-	googleTrack("Options", "First day", value);
 }
 
 function setShowBadge(value)
 {
 	setItem("showBadge", value);
 	chrome.extension.sendRequest({action: "refresh"});
-	
-	googleTrack("Options", "Setting change", "Show badge");
-	googleTrack("Options", "Show badge", value);
 }
 
 function setWeek(value)
 {
 	setItem("showWeek", value);
-	chrome.extension.sendRequest({action: "refresh"});
-	
-	googleTrack("Options", "Setting change", "Show week number");
-	googleTrack("Options", "Week number", value);
-	
-}
-
-function resetCache()
-{
-	$("#resettext").css("color", "blue");
-	$("#resettext").html("Resetting cache");
-	
-	googleTrack("Options", "Setting change", "Cache reset");
-	
-	chrome.extension.sendRequest({action: "killcache"}, function(response) {
-		$("#resettext").css("color", "green");
-		$("#resettext").html("Cache has been reset.");
-	});
+	chrome.extension.sendRequest({action: "refresh"});	
 }
 
 function resetEverything()
@@ -193,7 +184,6 @@ function resetEverything()
 	$("#reseteverything").css("color", "blue");
 	$("#reseteverything").html("Resetting extension");
 	
-	googleTrack("Options", "Setting change", "Full reset");
 	
 	chrome.extension.sendRequest({action: "killeverything"}, function(response) {
 		$("#reseteverything").css("color", "green");
@@ -201,3 +191,8 @@ function resetEverything()
 		window.location.reload();
 	});
 }
+
+$(document).ready(function() {
+  init()
+});
+

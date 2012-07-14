@@ -3,73 +3,62 @@
 
 <title>Calendar and Countdown Options</title>
 
-<link href='http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Droid+Sans+Mono' rel='stylesheet' type='text/css'>
-<link href='http://fonts.googleapis.com/css?family=Droid+Sans' rel='stylesheet' type='text/css'>
-
 <link href='css/tabs.css' rel='stylesheet' type='text/css'>
 <link href='css/options.css' rel='stylesheet' type='text/css'>
-
-<link href='js/libraries/farbtastic/farbtastic.css' rel='stylesheet' type='text/css'>
-
-<!-- Google Plus one -->
-<script type="text/javascript" src="http://apis.google.com/js/plusone.js"></script>
-
-<script src="http://connect.facebook.net/en_US/all.js#xfbml=1"></script>
-
-<script src="js/libraries/jquery-1.6.1.min.js"></script>
-<script src="js/libraries/jquery.tools.min.js"></script>
-
-<script src="js/libraries/farbtastic/farbtastic.js"></script>
-
-<script type="text/javascript" src="js/date.extend.js"></script>
-<script src="js/external_common.js"></script>
-
-<script src="js/functions.js"></script>
-<script src="js/options.js"></script>
-
-<script src="js/icons.js"></script>
-
-<script src="js/jscolor/jscolor.js"></script>
+<link href='jquery-ui-1.8.20.custom/css/blitzer/jquery-ui-1.8.20.custom.css' rel='stylesheet' type='text/css'>
 
 </head>
 
-<body onLoad="init()">
+<body>
 
 <h1>Calendar and Countdown Options</h1>
 
-<!-- the tabs -->
-<ul class="tabs">
-	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Calendar');">Calendar</a></li>
-	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Badge');">Icon</a></li>
-	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Badge');">Badge</a></li>
-	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'Reset');">Reset</a></li>
-	<li><a href="#" onClick="googleTrack('Options', 'Tab clicked', 'About');">About</a></li>
-</ul>
+<!-- Start tabs -->
+<div id="tabs">
 
-<!-- Start tab "panes" -->
-<div class="options">
+<div class="pane" id="tab2">
+<h2>
+How to use
+</h2>
+<p>Calendar and Countdown is quite easy to use. You left-click a date to countdown to it and display a badge in the extension row. If you want to count down to additional dates, you right click them.</p>
+<p>To see information on a specific date, hover over it with your cursor, and an information box will pop up.</p>
+<p>That's all there is to it!</p>
+</div>
 
 <!-- Start calendar options tab -->	
-<div class="pane">
+<div class="pane" id="tab1">
 
-<h2>Show</h2>
-<input type="radio" name="show312" id="show31203" value="0" onClick="setPopupFile(3)">&nbsp;&nbsp;3 month calendar (useful for small screens)<br>
-<input type="radio" name="show312" id="show31212" value="1" onClick="setPopupFile(12)">&nbsp;&nbsp;12 month calendar
-
-<h2>Week starts on</h2>
-<input type="radio" name="firstday" id="firstday0" value="0" onClick="setFirstDay(0)">&nbsp;&nbsp;Sunday<br>
-<input type="radio" name="firstday" id="firstday1" value="1" onClick="setFirstDay(1)">&nbsp;&nbsp;Monday
-
-<h2>Show week numbers</h2>
-<input type="radio" name="showweek" id="showweek0" value="0" onClick="setWeek('0')">&nbsp;&nbsp;No<br>
-<input type="radio" name="showweek" id="showweek1" value="1" onClick="setWeek('1')">&nbsp;&nbsp;Yes
-
+<h2>Calendar type</h2>
+<div id="div_show312" class="optionButtons">
+<input type="radio" name="show312" id="show31203" value="0"><label for="show31203">3 month</label>
+<input type="radio" name="show312" id="show31212" value="1"><label for="show31212">12 month</label>
 </div>
-<!-- End calendar options tab -->
 
-<div class="pane">
+<div id="divOptionWeek" class="optionButtons">
+<h2>Week start day</h2>
+<input type="radio" name="firstday" id="firstday0" value="0"><label for="firstday0">Sunday</label>
+<input type="radio" name="firstday" id="firstday1" value="1"><label for="firstday1">Monday</label>
+</div>
 
-<h2>Presets</h2>
+<div id="divOptionWeekNumbers" class="optionButtons">
+<h2>Display week numbers</h2>
+<input type="radio" name="showweek" id="showweek0" value="0"><label for="showweek0">No</label>
+<input type="radio" name="showweek" id="showweek1" value="1"><label for="showweek1">Yes</label>
+</div>
+
+<h2>Show countdown badge</h2>
+<div id="optionsShowBadge" class="optionButtons">
+<input type="radio" name="showBadge" id="showBadge0" value="0"><label for="showBadge0">No</label>
+<input type="radio" name="showBadge" id="showBadge1" value="1"><label for="showBadge1">Yes</label>
+</div>
+
+<!-- default 18CD32 -->
+
+<h2>Badge color</h2>
+
+<input id="badgeColorSelect" class="colorSelect" value="18CD32" readonly="readonly">
+
+<h2>Icon style</h2>
 
 <table style="border-style: none;">
 <tr>
@@ -107,56 +96,30 @@
 </tr>
 </table>
 
-</div>
-
-<!-- Start cosmetics tab -->	
-<div class="pane">
-
-<h2>Show countdown badge</h2>
-<input type="radio" name="showBadge" id="showBadge1" value="1" onClick="setShowBadge(1)"> Yes<br/>
-<input type="radio" name="showBadge" id="showBadge0" value="0" onClick="setShowBadge(0)"> No
-
-
-<!-- default 18CD32 -->
-
-<h2>Badge color</h2>
-
-<input id="badgeColorSelect" style="padding: 0px; margin: 0px;" class="colorSelect" value="18CD32" onchange="setColor('badge',this.value);" readonly="readonly">
-
-</div> 
-<!-- End cosmetics tab -->
-
-
-<!-- Start about tab -->	
-<div class="pane">
-
-
-<h2>Reset cache</h2>
-Click to reset the cached calendar data. None of your settings will be lost. <br/><br/>
-<span id="resettext"><a href="#" onClick="resetCache()">Reset cache</a>&nbsp;</span>
-<br>
 <h2>Reset everyting</h2>
 Click to reset the extension. All your settings will be lost. <br/><br/>
-<span id="reseteverything"><a href="#" onClick="resetEverything()">Reset everything</a>&nbsp;</span>
-<br>
-<h2>
-</h2>
+<span id="reseteverything" class="optionButtons"><a href="#">Reset everything</a>&nbsp;</span>
 
-</div> 
-<!-- End about tab -->
+</div>
+<!-- End calendar options tab -->
+
+<div class="pane" id="tab6">
+<h2>Pay it forward</h2>
+Please consider becoming a Kiva lender. It's free and you really help people! <br><br>
+<a href="http://www.kiva.org/invitedby/kvasbo" target="_blank">
+	<img src="http://www.kiva.org/images/bannerlong.png" width="460" height="60" alt="Kiva - loans that change lives" border="0" align="bottom" />
+</a>
+
+</div>
 
 <!-- Start about tab -->	
-<div class="pane">
+<div class="pane" id="tab5">
 
-<h2>Calendar and Countdown</h2>
-Calendar and Countdown is &copy; 2010-2011 <a href="http://www.kvasbo.no" target="_blank">Audun Kvasb&oslash;</a><br/>
-
-<h2>Source code</h2>
-<a href="https://github.com/kvasbo/Calendar-and-countdown" target="_blank">The full source code is available at Github</a>
-
-<h2>Libraries</h2>
-
-This extension uses <a href="http://jquery.com/">jQuery</a>, <a href="http://flowplayer.org/tools/index.html">jQuery Tools</a>, <a href="http://api.jquery.com/category/plugins/templates/">jQuery Templates</a> and <a href="http://jscolor.com/">JSColor</a>
+<h2>Achnowledgements</h2>
+<p>Banner photo for the Chrome store by <a href="http://www.flickr.com/photos/joelanman/">Joe Lanman</a></p>
+<p>
+This extension uses <a href="http://jquery.com/">jQuery</a>, <a href="http://http://projects.nickstakenburg.com/tipped/">Tipped</a> and <a href="http://jscolor.com/">JSColor</a>.
+</p>
 
 </div> 
 <!-- End about tab -->
@@ -172,31 +135,32 @@ This extension uses <a href="http://jquery.com/">jQuery</a>, <a href="http://flo
 Please review this extension.</a>
 </td>
 <td>
-<fb:like href="https://chrome.google.com/webstore/detail/caplfhpahpkhhckglldpmdmjclabckhc" show_faces="false" width="300" font="lucida grande"></fb:like>
-</td>
+<iframe src="http://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fchrome.google.com%2Fwebstore%2Fdetail%2Fcaplfhpahpkhhckglldpmdmjclabckhc&amp;send=false&amp;layout=standard&amp;width=350&amp;show_faces=false&amp;action=recommend&amp;colorscheme=light&amp;font&amp;height=35&amp;appId=268879239809306" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:350px; height:35px;" allowTransparency="true"></iframe></td>
 <td>
 <g:plusone size="medium" href="https://chrome.google.com/webstore/detail/caplfhpahpkhhckglldpmdmjclabckhc"></g:plusone>
 </td>
 
 <td style="text-align: right">
-Chrome Calendar is &copy; 2011 <a href="http://www.kvasbo.no" target="_blank">Audun Kvasb&oslash;</a>.
+&copy; 2010-<span class="copyyear"></span> <a href="http://www.kvasbo.no" target="_blank">Audun Kvasb&oslash;</a>
 </td>
 </tr>
 </table>
 
-<script>
-     var _gaq = _gaq || [];
-     _gaq.push(['_setAccount', 'UA-21196533-2']);
-     _gaq.push(['_trackPageview']);
-   
+<script type="text/javascript" src="js/libraries/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="jquery-ui-1.8.20.custom/js/jquery-ui-1.8.20.custom.min.js"></script>
+<script type="text/javascript" src="js/jscolor/jscolor.js"></script>
 
-     (function() {
-       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-       ga.src = 'https://ssl.google-analytics.com/ga.js';
-       var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-     })();
- 
-</script>
+<script type="text/javascript" src="js/date.extend.js"></script>
+<script type="text/javascript" src="js/external_common.js"></script>
+<script type="text/javascript" src="js/functions.js"></script>
+<script type="text/javascript" src="js/options.js"></script>
+<script type="text/javascript" src="js/icons.js"></script>
+
+
+<script type="text/javascript" src="js/googletrack.js"></script>
+
+<!-- Google Plus one -->
+<script type="text/javascript" src="https://apis.google.com/js/plusone.js"></script>
 
 </body>
 </html>

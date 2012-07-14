@@ -41,6 +41,11 @@ function initCluster() {
 	if(d == 3 || d == 4 || d == 5 ) $("#cluster2").css("display", "block");
 	if(d == 6 || d == 7 || d == 8 ) $("#cluster3").css("display", "block");
 	if(d == 9 || d == 10|| d == 11) $("#cluster4").css("display", "block");
+	
+	$("#clusterselect1").on("click", function() {switchCluster(1);});
+	$("#clusterselect2").on("click", function() {switchCluster(2);});
+	$("#clusterselect3").on("click", function() {switchCluster(3);});
+	$("#clusterselect4").on("click", function() {switchCluster(4);});
 
 }
 
