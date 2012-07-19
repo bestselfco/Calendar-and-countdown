@@ -2,19 +2,6 @@ var dateArray; //Holds the dates we count down to
 var subDateArray;
 
 
-function bginit()
-{
-	log("Event", "BGInit");
-	
-	extVersion = getVersion();
-	
-	document.title = "C&C "+extVersion;
-	
-	resetSettings();
-	
-	maintainLoop();
-}
-
 //Run maintenance script every minute
 function maintainLoop()
 {
@@ -209,6 +196,83 @@ function resetSettings()
 		setItem("iconColor", popup);
 		log("setting default icon color");
 	}
+
+}
+
+//For converson testing. 
+function createConversionTestCase()
+{
+	var mainUtc = ["1341871200000"];
+	var subdateutc = ["1338847200000","1342648800000","1336168800000"];
+	
+	setItem("noCountDateArray", JSON.stringify(subdateutc));
+	setItem("dateArray", JSON.stringify(mainUtc))
+	removeItem("shouldIUpdateDates");
+	
+}
+
+//Convert stored dates to use UTC. One time conversion, but does not screw up on multiple loads. 
+function updateDatesToUtc()
+{
+	var tmpDateMain = getDates()[0];
+	var tmpDateSub = getSubDates();
+	
+	var offsetMSec = new Date().getTimezoneOffset() * 60000;
+	
+	//console.log("Offset: "+offsetMSec);
+	
+	var subdateutc = new Array();
+	
+//	console.log("TMP main read: " + tmpDateMain);
+//	console.log("TMP sub read: " + tmpDateSub);
+	
+	var tDatetmpDateMain = new Date(tmpDateMain*1 + offsetMSec);
+	
+	//console.log("Main + Offset: " + tDatetmpDateMain + " - " - tDatetmpDateMain.getTimezoneOffset());
+	
+	
+	//var DatetmpDateMain = new Date(tmpDateMain);
+	
+	var mainUtc = [Date.UTC(tDatetmpDateMain.getUTCFullYear(), tDatetmpDateMain.getUTCMonth(), tDatetmpDateMain.getUTCDate()).toString()];
+	
+	for (i = 0; i < tmpDateSub.length; i++)
+	{
+		
+		var key = tmpDateSub[i];
+		
+		var DatetmpDateSub = new Date(key*1 + offsetMSec);
+		
+		var tmpDate = Date.UTC(DatetmpDateSub.getUTCFullYear(), DatetmpDateSub.getUTCMonth(), DatetmpDateSub.getUTCDate()).toString();
+		
+		subdateutc.push(tmpDate);
+					
+	}
+	
+	
+	
+
+	log("Date conversion", "From: "+new Date(tmpDateMain*1).toLocaleString());
+	log("Date conversion", "To  : "+new Date(mainUtc*1).toUTCString());
+
+	for(i = 0; i < subdateutc.length; i++)
+	{
+		log("Date conversion", "From: "+new Date(tmpDateSub[i]*1).toLocaleString());
+		log("Date conversion", "To  : "+new Date(subdateutc[i]*1).toUTCString());
+	}
+	
+	var shouldIUpdateDates = getItem("shouldIUpdateDates");
+	
+	if(shouldIUpdateDates == null)
+	{
+		setItem("noCountDateArray", JSON.stringify(subdateutc));
+		setItem("dateArray", JSON.stringify(mainUtc));
+		log("Update of dates being written");
+		setItem("shouldIUpdateDates", "nope");
+	}
+	else
+	{
+		log("Update of dates already done");
+	}	
 
 }
 
@@ -422,6 +486,28 @@ function getDistanceInDays()
 	else{
 		return null;
 	}
+}
+
+function bginit()
+{
+    log("Event", "BGInit");
+	
+	log("Event", "Updating all dates to UTC");
+	
+	var tDates = getDates();
+	
+	if(tDates !== null)
+	{
+		updateDatesToUtc();
+	}
+	
+	extVersion = getVersion();
+	
+	document.title = "C&C "+extVersion;
+	
+	resetSettings();
+	
+	maintainLoop();
 }
 
 //Bootstrap

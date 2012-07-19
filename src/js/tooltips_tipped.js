@@ -8,8 +8,33 @@ function addTippedTooltips(){
 	Tipped.create('.cal_td_day, .cal_day_chosen, .cal_subday_chosen', function(element) {
 		var timestamp = $(element).attr("datetimestamp");
 		return getToolTip(timestamp);
-	}, { skin: 'kvasbo', showDelay: '450' });
+	}, { skin: 'kvasbo', showDelay: '450', onShow: function(content, element) { bindClickToEditButton(content,element); }});
 
+}
+
+function bindClickToEditButton(content, element)
+{
+	var timestamp = $(element).attr("datetimestamp");
+	
+	//console.log(timestamp);
+	
+	$(content).on("click", function(element){
+		//showEditDialog($(element).attr("datetimestamp"));
+	});
+	
+}
+
+function showEditDialog(timestamp)
+{	
+	var dateIn = new Date(timestamp);
+	
+	Tipped.hideAll(); //Hide all tool tips
+	$("#inputDialog").attr("datetimestamp", timestamp).dialog({
+		modal: true,
+		draggable: false,
+		resizable: false,
+		title: dateIn.getDate()
+	});
 }
 
 //Return actual tool tip
@@ -26,15 +51,17 @@ function getToolTip(timestamp){
 	var gmtOffset = date.getTimezoneOffset() * 60000;
 	var ndate = new Date(date.getTime() - gmtOffset);
 	
-	var day = ndate.getDay();
-	var month = ndate.getMonth();
-	var mDay = ndate.getDate();
+	var day = date.getUTCDay();
+	var month = date.getUTCMonth();
+	var mDay = date.getUTCDate();
 	
 	var showDate = true;
 	var showDayInYear = true;
 	var showFromToday = true;
 	var showFromMarkedDate = true;
 	var showSubDates = true;
+	
+	//outArray.push("<div id='editButton' style='position: absolute; top: 0px; right: 4px'>e</div>");
 	
 	if(showDate)
 	{
@@ -88,6 +115,8 @@ function getToolTip(timestamp){
 	}
 	
 	outArray = outArray.clean("null");
+	
+	
 	
 	return outArray.join("");
 		

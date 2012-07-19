@@ -38,7 +38,7 @@ Date.prototype.getWeek = function (dowOffset) {
 
 //Return number of days in year
 Date.prototype.getDaysInYear = function (){
-	var year = this.getFullYear();
+	var year = this.getUTCFullYear();
 
 	if((year % 100 != 0 && year % 4 == 0)  || year%400 == 0)
 	{
@@ -59,7 +59,7 @@ Date.prototype.getDaysLeftInYear = function()
 //Get days in month. No point in generalizing this. 
 Date.prototype.getDaysInMonth = function()
 {
-	var month = this.getMonth();
+	var month = this.getUTCMonth();
 
 	if(month == 1 && this.getDaysInYear() == 366)
 	{
@@ -85,8 +85,10 @@ Date.prototype.getDaysInMonth = function()
 
 //Get day of the year
 Date.prototype.getDayOfYear = function() {
-	var onejan = new Date(this.getFullYear(),0,1);
-	return Math.ceil((this - onejan) / 86400000);
+	
+	var oneJanStamp = Date.UTC(this.getUTCFullYear(), 0, 1);
+	return Math.floor((this - oneJanStamp) / 86400000);
+
 };
 
 //Get day distance from today

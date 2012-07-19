@@ -191,9 +191,12 @@ function yearClicked(offset){
 function highLightToday()
 {
 	var today = new Date();
-	today.setSeconds(0, 0);
-	today.setMinutes(0);
-	today.setHours(0);
+	today.setUTCSeconds(0, 0);
+	today.setUTCMinutes(0);
+	today.setUTCHours(0);
+	
+	//var todayUtc = CCDateToday();
+	
 	var selectorString = '[dateTimestamp="'+today.getTime()+'"]';
 	$(selectorString).addClass("cal_day_today");
 }
@@ -258,10 +261,23 @@ function Calendar(year, month)
 	this.month = month;
 	this.workMonth = month-1;
 	
-	this.workDate = new Date(year,this.workMonth,1);
-	this.startStamp = this.workDate.getTime();
+	this.workDate = new Date(Date.UTC(year,this.workMonth,1));
 	
-	this.cacheKey = "cal_"+this.workDate.getFullYear() + "_" + this.workDate.getMonth();
+	this.startStamp = Date.UTC(year,this.workMonth,1);
+	
+	this.offSet = this.workDate.getTimezoneOffset();
+	
+	
+	
+//	this.startStamp = this.workDate.getTime();
+	
+//	this.startStampUTC = Date.UTC(year,this.workMonth,1);
+	
+//	this.CCDate = new CCDate(this.startStampUTC);
+	
+	//log("Start points", new Date(this.startStamp).toISOString() + " " + new Date(this.startStampUTC).toISOString() + " " + new Date(this.CCDate.timestamp).toISOString());
+	
+	//this.cacheKey = "cal_"+this.workDate.getFullYear() + "_" + this.workDate.getMonth();
 
 	//Object to pass to template for output
 	this.outVars = new Object();
@@ -305,8 +321,10 @@ function calGetCal()
 	}
 
 	var startWeek = this.workDate.getWeek(1);
-	var startWeekDay = this.workDate.getDay();
+	var startWeekDay = this.workDate.getUTCDay();
 
+	log("Workdate: ", this.workDate)
+	
 	var tabWidth = 8;
 
 	if(!this.showWeekNumber) tabWidth = 7;
