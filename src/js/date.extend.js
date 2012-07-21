@@ -9,8 +9,9 @@ Date.prototype.getWeek = function (dowOffset) {
 	/*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
 
 	dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
-	var newYear = new Date(this.getFullYear(),0,1);
-	var day = newYear.getDay() - dowOffset; //the day of week the year begins on
+	var newYearStamp = Date.UTC(this.getUTCFullYear(),0,1);
+	var newYear = new Date(newYearStamp);
+	var day = newYear.getUTCDay() - dowOffset; //the day of week the year begins on
 	day = (day >= 0 ? day : day + 7);
 	var daynum = Math.floor((this.getTime() - newYear.getTime() - 
 			(this.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
@@ -19,7 +20,7 @@ Date.prototype.getWeek = function (dowOffset) {
 	if(day < 4) {
 		weeknum = Math.floor((daynum+day-1)/7) + 1;
 		if(weeknum > 52) {
-			nYear = new Date(this.getFullYear() + 1,0,1);
+			nYear = new Date(this.getUTCFullYear() + 1,0,1);
 			nday = nYear.getDay() - dowOffset;
 			nday = nday >= 0 ? nday : nday + 7;
 			/*if the next year starts before the middle of
@@ -94,8 +95,36 @@ Date.prototype.getDayOfYear = function() {
 //Get day distance from today
 Date.prototype.getDaysFromToday = function () {
 	//this.setTime(this.getTime+86400000);
-	var today = new Date();
+	
+	var tmptoday = new Date();
+	var today = new Date(tmptoday.getTime() + tmptoday.getTimezoneOffset());
+	
 	var diff = Math.floor((this.getTime() - today.getTime()) / 86400000);
+
+	//var diff = DaysBetweenDateAndNow(this.getUTCFullYear(), this.getUTCMonth(), this.getUTCDay());
 
 	return diff;
 };
+
+function DaysBetweenDateAndNow(yr, mo, dy)
+{
+   // Determine the milliseconds per day.
+   var MinMilli = 1000 * 60
+   var HrMilli = MinMilli * 60
+   var DyMilli = HrMilli * 24
+
+   // Determine today's UTC year, month, and day.
+   var d = new Date();
+   var yeartoday = d.getUTCFullYear();
+   var monthtoday = d.getUTCMonth();
+   var dayofmonthtoday = d.getUTCDate();
+   
+   // Get the milliseconds since 1/1/1970 UTC.
+   var t1 = Date.UTC(yr, mo - 1, dy)
+   var t2 = Date.UTC(yeartoday, monthtoday, dayofmonthtoday);
+   
+   // Determine the difference in days.
+   var days = (t1 - t2) / DyMilli;
+   
+   return(days);
+}

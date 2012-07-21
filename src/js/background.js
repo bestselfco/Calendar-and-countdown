@@ -496,6 +496,7 @@ function bginit()
 	
 	var tDates = getDates();
 	
+	//If we are updating, update scores
 	if(tDates !== null)
 	{
 		updateDatesToUtc();
@@ -510,7 +511,9 @@ function bginit()
 	maintainLoop();
 }
 
-//Bootstrap
+/**
+* Bootstrap background
+*/
 $(document).ready(function() {	
 	bginit();	
 });
