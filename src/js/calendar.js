@@ -91,7 +91,7 @@ function updateDatesStuffDo()
 	//Bind right and left click function to dates. Removes old stuff first.
 	var selectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 	
-	$(selectString).off().on("click", dayClicked).on("contextmenu", dayRightClicked);
+	$(selectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog);
 
 	//Add all the tooltips
 	addTippedTooltips();
@@ -153,6 +153,24 @@ function dayClicked(event)
 	
 }
 
+function dayRightClickedDialog(event)
+{	
+	event.preventDefault();
+	var timestamp = event.target.attributes["datetimestamp"].value;
+	var dialogDate = new Date(timestamp*1);
+	var title = dialogDate.toUTCString();
+	
+	Tipped.hideAll(); //Hide all tool tips
+	$("#inputDialog").attr("datetimestamp", timestamp).dialog({
+		modal: true,
+		draggable: false,
+		resizable: false,
+		title: title
+	});
+	
+	return false; //Kill propagation
+}
+
 //Future handler for custom right click menu
 function dayRightClicked(event)
 {
@@ -163,7 +181,7 @@ function dayRightClicked(event)
 	
 	log("Day clicked (right)", timestamp);
 	
-		chrome.extension.sendRequest({action: "toggleDateRightClick", event_details:timestamp}, function(response) {
+	chrome.extension.sendRequest({action: "toggleDateRightClick", event_details:timestamp}, function(response) {
  		 log("Sub dates set");
 	});
 	

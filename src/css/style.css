@@ -1,5 +1,9 @@
 html {
 	overflow: hidden;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-khtml-user-select: none;
+	user-select: none;
 }
 
 body {
@@ -107,23 +111,18 @@ body {
 }
 
 .last, .next{
-position: absolute;
-top: 6px;
-cursor: pointer;
-z-index: 1;
-
+	position: absolute;
+	top: 6px;
+	cursor: pointer;
+	z-index: 1;
 }
 
 .last {
-	
 	left: 25px;
-
 }
 
 .next{
-	
 	right: 25px;
-
 }
 
 .yearlink {
@@ -139,5 +138,18 @@ z-index: 1;
 
 .thisyear {
 	color: rgb(0,0,0);
-		
+}
+
+#inputDialog {
+	font-size: 15px;
+}
+
+#inputDialog div {
+	padding:  5px;
+}
+
+#inputDialog td {
+	width:  20px;
+	height:  15px;
+	border:  1px solid black;
 }

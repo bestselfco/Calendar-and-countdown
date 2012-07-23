@@ -8,33 +8,8 @@ function addTippedTooltips(){
 	Tipped.create('.cal_td_day, .cal_day_chosen, .cal_subday_chosen', function(element) {
 		var timestamp = $(element).attr("datetimestamp");
 		return getToolTip(timestamp);
-	}, { skin: 'kvasbo', showDelay: '450', onShow: function(content, element) { bindClickToEditButton(content,element); }});
+	}, { skin: 'kvasbo', showDelay: '450', });
 
-}
-
-function bindClickToEditButton(content, element)
-{
-	var timestamp = $(element).attr("datetimestamp");
-	
-	//console.log(timestamp);
-	
-	$(content).on("click", function(element){
-		//showEditDialog($(element).attr("datetimestamp"));
-	});
-	
-}
-
-function showEditDialog(timestamp)
-{	
-	var dateIn = new Date(timestamp);
-	
-	Tipped.hideAll(); //Hide all tool tips
-	$("#inputDialog").attr("datetimestamp", timestamp).dialog({
-		modal: true,
-		draggable: false,
-		resizable: false,
-		title: dateIn.getDate()
-	});
 }
 
 //Return actual tool tip
