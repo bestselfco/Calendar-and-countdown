@@ -3,21 +3,23 @@
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "cal_day_chosen"; //God knows
 var selectedSubClass = "cal_subday_chosen";
+var dynamicClass = "cal_day_dynamic";
 var datesFrontEnd = new Array();
 var subDatesFrontEnd = [];
 var dynamicStartStamp = false;
 var dynamicDiff = false;
 var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 
-//Bind init to ready funcion
+/**
+Bootstrap page on load
+*/
 $(document).ready(function() {
 	initPopupPage();
 	bindEvents();
 });
 
-
 /**
- * Initialize popup
+Initialize popup
  */
 function initPopupPage()
 {	
@@ -28,6 +30,9 @@ function initPopupPage()
 	updateDatesStuff();
 }
 
+/**
+Bind all relevant events to their dom elements
+*/
 function bindEvents()
 {
 	$("body").on("keydown", function() { keyPressed(window.event.keyCode);});
@@ -132,18 +137,20 @@ function showCal(year)
 }
 
 /**
-* Start the dynamic counter
+Start the dynamic counter
 */
 function startDynamic(event)
 {
-	$(daysSelectString).on("mouseenter", updateDynamic);
-	$("*").on("mouseup", endDynamic);
+	Tipped.hideAll(); //Hide all tool tips
+	
+	$(daysSelectString).on("mouseenter", updateDynamic); //Add mouseenter event for days
+	$("*").on("mouseup", endDynamic); //Add mouseup event for all (to end on end of click, also outside specific days)
 	
 	dynamicStartStamp = event.target.attributes["datetimestamp"].value * 1;
 }
 
 /**
-* Update the dynamic counter
+Update the dynamic counter
 */
 function updateDynamic(event){
 	
@@ -159,7 +166,7 @@ function updateDynamic(event){
 		var increment = (dynamicDiff > 0) ? 86400000 : -86400000;
 		
 		//Remove dynamic class from all days
-		$(daysSelectString).removeClass("cal_day_dynamic");
+		$(daysSelectString).removeClass(dynamicClass);
 		
 		//Go through all points between current and start, add class
 		var iterations = 0;
@@ -171,7 +178,7 @@ function updateDynamic(event){
 			
 			//Add class
 			var selectorString = '[dateTimestamp="'+i+'"]';
-			$(selectorString).addClass("cal_day_dynamic");
+			$(selectorString).addClass(dynamicClass);
 		}
 		
 	}
@@ -179,9 +186,11 @@ function updateDynamic(event){
 }
 
 /**
-* End and unset the dynamic counter
+End and unset the dynamic counter
 */
 function endDynamic(event){
+	
+	Tipped.hideAll(); //Hide all tool tips
 	
 	//Unbind events from all events
 	$("*").off("mouseup", endDynamic).off("mouseenter", updateDynamic);
@@ -196,7 +205,9 @@ function endDynamic(event){
 }
 
 
-//New version when somebody has clicked a date. Uses attribute instead of passing value by function.
+/**
+New version when somebody has clicked a date. Uses attribute instead of passing value by function.
+*/
 function dayClicked(event)
 {
 	var timestamp = event.target.attributes["datetimestamp"].value;
@@ -259,7 +270,7 @@ function dayRightClicked(event)
 }
 
 /**
- * The user has clicked a year link and we need to go to another year
+The user has clicked a year link and we need to go to another year
  * 
  * @param offset Delta between clicked year and current view
  */
@@ -292,15 +303,15 @@ function highLightDay(timestamp, highlightClass)
 
 	var selectorString = '[dateTimestamp="'+timestamp+'"]';
 	
-	$(selectorString).addClass(highlightClass).removeClass(normalClass);
+	$(selectorString).addClass(highlightClass); //.removeClass(normalClass);
 
-	log("Highlighting", highlightClass + " " +selectorString);
+	log("Css change", highlightClass + " " +selectorString);
 
 }
 
 /**
- * Highlights the chosen dates, from loaded value
- */
+Highlights the chosen dates, from loaded value 
+*/
 function highLightSelectedDates(){
 	
 	//Remove all highlighted days
@@ -320,16 +331,20 @@ function highLightSelectedDates(){
 		
 }
 
-//Remove all highlights
+/*
+Remove all highlights
+*/
 function removeHighLights()
 {
-	log("Removing highlights");
-	var selectorStringSub = "."+selectedSubClass;
-	var selectorStringMain = "."+selectedClass;
+//	var selectorStringSub = "."+selectedSubClass;
+//	var selectorStringMain = "."+selectedClass;
 	
-	$(selectorStringSub).addClass(normalClass).removeClass(selectedSubClass);
-	$(selectorStringMain).addClass(normalClass).removeClass(selectedClass);
-	log("Removed highlights");
+//	$(selectorStringSub).removeClass(selectedSubClass);
+//	$(selectorStringMain).removeClass(selectedClass);
+
+	$(daysSelectString).removeClass(selectedSubClass).removeClass(selectedClass);
+
+	log("Css change", "Removed highlights");
 }
 
 //Calendar constructor
@@ -338,7 +353,7 @@ function Calendar(year, month)
 	log("Creating calendar", year+"-"+month);
 	
 	//Functions
-	this.getCal = returnCalendar;
+	this.getCal = calGetCal;
 	this.genCal = calGetCal;
 
 	//working variables
@@ -369,13 +384,17 @@ function Calendar(year, month)
 	
 }	
 
-//Return cached if it exists, otherwise return calendar
+/**
+Return cached if it exists, otherwise return calendar
+*/
 function returnCalendar()
 {
 	return this.genCal();
 }
 
-//Return the actual calendar html
+/**
+Return the actual calendar html
+*/
 function calGetCal()
 {
 	
@@ -408,7 +427,7 @@ function calGetCal()
 	var startWeek = this.workDate.getWeek(1);
 	var startWeekDay = this.workDate.getUTCDay();
 
-	log("Workdate: ", this.workDate)
+	//log("Workdate: ", this.workDate)
 	
 	var tabWidth = 8;
 
@@ -594,7 +613,7 @@ function populateYear(year, selectstring)
 
 
 /**
- * Add the links to the link bar
+Add the links to the link bar
  */
 function populateYearLinks()
 {
@@ -615,7 +634,7 @@ function populateYearLinks()
 }
 
 /**
- * Keyboard controls
+Keyboard controls
  * 
  * @param key ID of the pressed key
  */

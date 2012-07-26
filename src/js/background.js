@@ -1,15 +1,19 @@
 var dateArray; //Holds the dates we count down to
 var subDateArray;
+var dateNotes; //Notes for dates
 
-
-//Run maintenance script every minute
+/**
+Run maintenance script every minute
+*/
 function maintainLoop()
 {
 	maintain();
 	var t = setTimeout(maintainLoop, 60000);
 }
 
-//Maintain data
+/**
+Maintain data
+*/
 function maintain()
 {
 	log("Event", "maintain()");
@@ -22,29 +26,41 @@ function maintain()
 
 }
 
-//Retrieve the dates in a JSON format
+/**
+Retrieve the dates in a JSON format
+*/
 function getDatesJSON(){
 	return JSON.stringify(getDates());
 }
 
-//Retrieve the dates as an array
+/**
+Get date array
+*/
 function getDates()
 {
 	dateArray = JSON.parse(getItem("dateArray"));
 	return dateArray;
 }
 
+/**
+Get sub dates as JSON
+*/
 function getSubDatesJSON(){
 	return JSON.stringify(getSubDates());
 }
 
+/**
+Get sub dates
+*/
 function getSubDates()
 {
 	subDateArray = JSON.parse(getItem("noCountDateArray"));
 	return subDateArray;
 }
 
-//Toggle dates. "nocount" means secondary dates if true.
+/**
+Toggle dates. "nocount" means secondary dates if true.
+*/
 function toggleDate(timestamp, noCount)
 {
 
@@ -91,7 +107,9 @@ function toggleDate(timestamp, noCount)
 }
 
 
-//Reset everything to scratch
+/**
+Initialise settings and/or reset everything to scratch
+*/ 
 function resetSettings()
 {
 	log("Event", "resetSettings()");
@@ -199,19 +217,9 @@ function resetSettings()
 
 }
 
-//For converson testing. 
-function createConversionTestCase()
-{
-	var mainUtc = ["1341871200000"];
-	var subdateutc = ["1338847200000","1342648800000","1336168800000"];
-	
-	setItem("noCountDateArray", JSON.stringify(subdateutc));
-	setItem("dateArray", JSON.stringify(mainUtc))
-	removeItem("shouldIUpdateDates");
-	
-}
-
-//Convert stored dates to use UTC. One time conversion, but does not screw up on multiple loads. 
+/**
+Convert stored dates to use UTC. One time conversion, but does not screw up on multiple loads. 
+*/
 function updateDatesToUtc()
 {
 	var tmpDateMain = getDates()[0];
@@ -219,19 +227,9 @@ function updateDatesToUtc()
 	
 	var offsetMSec = new Date().getTimezoneOffset() * 60000;
 	
-	//console.log("Offset: "+offsetMSec);
-	
 	var subdateutc = new Array();
 	
-//	console.log("TMP main read: " + tmpDateMain);
-//	console.log("TMP sub read: " + tmpDateSub);
-	
 	var tDatetmpDateMain = new Date(tmpDateMain*1 + offsetMSec);
-	
-	//console.log("Main + Offset: " + tDatetmpDateMain + " - " - tDatetmpDateMain.getTimezoneOffset());
-	
-	
-	//var DatetmpDateMain = new Date(tmpDateMain);
 	
 	var mainUtc = [Date.UTC(tDatetmpDateMain.getUTCFullYear(), tDatetmpDateMain.getUTCMonth(), tDatetmpDateMain.getUTCDate()).toString()];
 	
@@ -247,37 +245,35 @@ function updateDatesToUtc()
 		subdateutc.push(tmpDate);
 					
 	}
-	
-	
-	
 
-	log("Date conversion", "From: "+new Date(tmpDateMain*1).toLocaleString());
-	log("Date conversion", "To  : "+new Date(mainUtc*1).toUTCString());
+/*	log("Date conversion", "From: "+new Date(tmpDateMain*1).toLocaleString());
+//	log("Date conversion", "To  : "+new Date(mainUtc*1).toUTCString());
 
 	for(i = 0; i < subdateutc.length; i++)
 	{
 		log("Date conversion", "From: "+new Date(tmpDateSub[i]*1).toLocaleString());
 		log("Date conversion", "To  : "+new Date(subdateutc[i]*1).toUTCString());
 	}
-	
+*/	
 	var shouldIUpdateDates = getItem("shouldIUpdateDates");
 	
 	if(shouldIUpdateDates == null)
 	{
 		setItem("noCountDateArray", JSON.stringify(subdateutc));
 		setItem("dateArray", JSON.stringify(mainUtc));
-		log("Update of dates being written");
+		log("Date update", "Update of dates being written");
 		setItem("shouldIUpdateDates", "nope");
 	}
 	else
 	{
-		log("Update of dates already done");
+		log("Date update", "Update of dates already done");
 	}	
 
 }
 
-
-//Update the icon from the stored values
+/**
+Update the icon from the stored values
+*/
 function updateIconFromStored()
 {
 	//Setup object
@@ -298,45 +294,19 @@ function updateIconFromStored()
 }
 
 
-
+/**
+Set the popup page
+*/
 function updatePopupFromStored()
 {
 	var popup = getItem("popup");
 	setPopup(popup);
 }
 
-
-
-
-
 /**
- * Set the icon in the browser bar
- * 
- * @param color The color of the icon. Must be matched by file in pics directory
- */
-function setIcon()
-{
-	var canvas = document.getElementById("iconCanvas");	
-	var ctx = canvas.getContext("2d");
-	var iconPixelData = ctx.getImageData(0, 0, 19, 19);
-	chrome.browserAction.setIcon({imageData:iconPixelData});
-}
+ Switch the popup file
 
-/**
- * Set the tooltip.
- * 
- * @param text Tooltip text
- */
-function setToolTip(text)
-{
-	text = text.toString();
-	chrome.browserAction.setTitle({title:text});
-}
-
-/**
- * Switch the popup file
- * 
- * @param p The ID of the popup file
+ @param p The ID of the popup file
  */
 function setPopup(p)
 {
@@ -347,8 +317,34 @@ function setPopup(p)
 	chrome.browserAction.setPopup({popup:page});
 }
 
-//Listen for external stuff
-//chrome.extension.sendRequest({action: "trackEvent", event_type:category, event_action:action, event_details:details});
+
+/**
+Set the icon in the browser bar
+ 
+@param color The color of the icon. Must be matched by file in pics directory
+ */
+function setIcon()
+{
+	var canvas = document.getElementById("iconCanvas");	
+	var ctx = canvas.getContext("2d");
+	var iconPixelData = ctx.getImageData(0, 0, 19, 19);
+	chrome.browserAction.setIcon({imageData:iconPixelData});
+}
+
+/**
+Set the tooltip.
+@param text Tooltip text
+ */
+function setToolTip(text)
+{
+	text = text.toString();
+	chrome.browserAction.setTitle({title:text});
+}
+
+
+/**
+Event listener for communication with the popup page
+*/
 chrome.extension.onRequest.addListener(
 		function(request, sender, sendResponse) {
 			if (request.action == "trackEvent") {
@@ -405,7 +401,9 @@ chrome.extension.onRequest.addListener(
 				sendResponse({}); // snub them.
 		});
 
-//Update the badge from the stored countdown date
+/**
+*Update the badge from the stored countdown date
+*/
 function updateBadgeFromStored()
 {
 
@@ -430,9 +428,8 @@ function updateBadgeFromStored()
 }
 
 /**
- * Set the badge to a countdown value. Also updates the color from memory.
- * 
- * @param text The new badge text
+Set the badge to a countdown value. Also updates the color from memory.
+@param text The new badge text
  */
 function setBadge(text)
 {
@@ -454,7 +451,9 @@ function setBadge(text)
 	}
 }
 
-//Get countdown days for the badge
+/**
+Get countdown days for the badge
+*/
 function getDistanceInDays()
 {
 	//var tmpArray = JSON.parse(getItem("dateArray"));
@@ -488,6 +487,9 @@ function getDistanceInDays()
 	}
 }
 
+/**
+Initialise background page and start the extension
+*/
 function bginit()
 {
     log("Event", "BGInit");
@@ -512,7 +514,7 @@ function bginit()
 }
 
 /**
-* Bootstrap background
+Bootstrap background on page load finished
 */
 $(document).ready(function() {	
 	bginit();	

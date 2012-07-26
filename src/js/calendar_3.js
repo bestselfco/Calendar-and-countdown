@@ -1,4 +1,6 @@
-//Change active clusterthingy
+/**
+Change active clusterthingy
+*/
 function switchCluster(cnum) {
 
 	$(".cluster").hide();
@@ -27,7 +29,9 @@ function switchCluster(cnum) {
 
 }
 
-//Initialise clusterthingy
+/**
+Initialise clusterthingy
+*/
 function initCluster() {
 
 	var d = new Date().getMonth();
@@ -49,7 +53,9 @@ function initCluster() {
 
 }
 
-
+/**
+Bootstrap 3 month page
+*/
 $(document).ready(function() {
 	initCluster();
 });
