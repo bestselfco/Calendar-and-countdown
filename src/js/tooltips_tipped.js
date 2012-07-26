@@ -28,7 +28,12 @@ function getToolTipDynamic()
 
 	var days = Math.abs(dynamicDiff / 86400000);  
 
-	output += days;
+	//(Day/day_s_)
+	var suffix = "";
+	if(days == 0 || days > 1) suffix = chrome.i18n.getMessage("several_suffix");
+	var daysword = chrome.i18n.getMessage("day");
+
+	output += days + " " + daysword + suffix;
 
 	return output;
 }
