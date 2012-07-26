@@ -11,6 +11,7 @@ body {
 	overflow: hidden;
 	font-family: 'Droid Sans', arial, serif;
 	margin: 0px 8px 0px 8px;
+	cursor: default;
 }
 
 #calendar {

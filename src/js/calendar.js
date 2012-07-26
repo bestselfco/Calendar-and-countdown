@@ -93,10 +93,7 @@ function updateDatesStuff()
 function updateDatesStuffDo()
 {	
 	//Bind clicks
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog);
-
-	//Bind drag and drop
-	$(daysSelectString).on("mousedown", startDynamic);
+	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog)..on("mousedown", startDynamic);
 
 	//Add all the tooltips
 	addTippedTooltips();
@@ -142,8 +139,6 @@ function startDynamic(event)
 	$(daysSelectString).on("mouseenter", updateDynamic);
 	$("*").on("mouseup", endDynamic);
 	
-	log("Dynamic", "StartDynamic");
-	
 	dynamicStartStamp = event.target.attributes["datetimestamp"].value * 1;
 }
 
@@ -163,7 +158,7 @@ function updateDynamic(event){
 		//Find increment: minus or plus
 		var increment = (dynamicDiff > 0) ? 86400000 : -86400000;
 		
-		//Remove dynamic class from all
+		//Remove dynamic class from all days
 		$(daysSelectString).removeClass("cal_day_dynamic");
 		
 		//Go through all points between current and start, add class
@@ -173,11 +168,12 @@ function updateDynamic(event){
 			iterations++;
 			
 			if(iterations>366) break; //Safeguard against misses
+			
+			//Add class
 			var selectorString = '[dateTimestamp="'+i+'"]';
 			$(selectorString).addClass("cal_day_dynamic");
 		}
 		
-		//log("Dynamic", "UpdateDynamic: "+diff+ " " + increment);
 	}
 	
 }
@@ -187,17 +183,15 @@ function updateDynamic(event){
 */
 function endDynamic(event){
 	
-	//Unbind events
+	//Unbind events from all events
 	$("*").off("mouseup", endDynamic).off("mouseenter", updateDynamic);
 	
-	//Remove any marks
+	//Remove dynamic class from all days
 	$(daysSelectString).removeClass("cal_day_dynamic");
 	
 	//Unset start point for dynamic counter
 	dynamicStartStamp = false;
 	dynamicDiff = false;
-	
-	log("Dynamic", "EndDynamic");
 	
 }
 
