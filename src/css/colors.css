@@ -41,3 +41,11 @@
 	cursor: default;
 	background-color: rgb(200,200,200);
 }
+
+.cal_day_dynamic {
+	background-color: rgb(200,200,200);
+}
+
+.cal_td_day:hover {
+	background-color: rgb(200,200,200);
+}

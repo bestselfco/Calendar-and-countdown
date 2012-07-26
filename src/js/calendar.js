@@ -5,6 +5,9 @@ var selectedClass = "cal_day_chosen"; //God knows
 var selectedSubClass = "cal_subday_chosen";
 var datesFrontEnd = new Array();
 var subDatesFrontEnd = [];
+var dynamicStartStamp = false;
+var dynamicDiff = false;
+var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 
 //Bind init to ready funcion
 $(document).ready(function() {
@@ -45,6 +48,7 @@ function bindEvents()
 	$("#yp3").on("click", function() { yearClicked(3); });
 	$("#yp2").on("click", function() { yearClicked(2); });
 	$("#yp1").on("click", function() { yearClicked(1); });
+	
 }
 
 //Return the main date (the one we count down to)
@@ -88,10 +92,11 @@ function updateDatesStuff()
 //Does all the init stuff that needs the date to be set correctly
 function updateDatesStuffDo()
 {	
-	//Bind right and left click function to dates. Removes old stuff first.
-	var selectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
-	
-	$(selectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog);
+	//Bind clicks
+	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog);
+
+	//Bind drag and drop
+	$(daysSelectString).on("mousedown", startDynamic);
 
 	//Add all the tooltips
 	addTippedTooltips();
@@ -104,6 +109,7 @@ function updateDatesStuffDo()
 
 	chrome.extension.sendRequest({action:"refresh"});
 }
+
 
 /**
  * Show a year
@@ -126,6 +132,73 @@ function showCal(year)
 
 	if(showWeek == "0") $(".cal_weekblock").hide();
 
+}
+
+/**
+* Start the dynamic counter
+*/
+function startDynamic(event)
+{
+	$(daysSelectString).on("mouseenter", updateDynamic);
+	$("*").on("mouseup", endDynamic);
+	
+	log("Dynamic", "StartDynamic");
+	
+	dynamicStartStamp = event.target.attributes["datetimestamp"].value * 1;
+}
+
+/**
+* Update the dynamic counter
+*/
+function updateDynamic(event){
+	
+	//Only run if start point is set. Should not be available, but you never know!
+	if(dynamicStartStamp !== false)
+	{
+		var currentStamp = event.target.attributes["datetimestamp"].value * 1;
+	
+		//Get diff
+		dynamicDiff = currentStamp - dynamicStartStamp;
+		
+		//Find increment: minus or plus
+		var increment = (dynamicDiff > 0) ? 86400000 : -86400000;
+		
+		//Remove dynamic class from all
+		$(daysSelectString).removeClass("cal_day_dynamic");
+		
+		//Go through all points between current and start, add class
+		var iterations = 0;
+		for(i=dynamicStartStamp; i != (currentStamp + increment); i = i + increment)
+		{
+			iterations++;
+			
+			if(iterations>366) break; //Safeguard against misses
+			var selectorString = '[dateTimestamp="'+i+'"]';
+			$(selectorString).addClass("cal_day_dynamic");
+		}
+		
+		//log("Dynamic", "UpdateDynamic: "+diff+ " " + increment);
+	}
+	
+}
+
+/**
+* End and unset the dynamic counter
+*/
+function endDynamic(event){
+	
+	//Unbind events
+	$("*").off("mouseup", endDynamic).off("mouseenter", updateDynamic);
+	
+	//Remove any marks
+	$(daysSelectString).removeClass("cal_day_dynamic");
+	
+	//Unset start point for dynamic counter
+	dynamicStartStamp = false;
+	dynamicDiff = false;
+	
+	log("Dynamic", "EndDynamic");
+	
 }
 
 

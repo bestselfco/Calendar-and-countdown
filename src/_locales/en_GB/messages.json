@@ -23,15 +23,15 @@
     "message": "ago",
     "description": "Days ago, for countdown in popup"
   },
+  "since": {
+    "message": "since",
+    "description": "Days ago, for countdown in popup"
+  },
   "leftuntil": {
     "message": "until this date",
     "description": "Days until this date, for countdown in popup"
   },
-   "since": {
-    "message": "since",
-    "description": "Days ago, for countdown in popup"
-  },
-  "until": {
+    "until": {
     "message": "until",
     "description": "Days until this date, for countdown in popup"
   },
@@ -176,7 +176,7 @@
   	"description": "to"
   },
   "fullDate": {
-  	"message": "$weekday$ $daynr$$numSuffix$ of $month$",
+  	"message": "$weekday$ $month$ $daynr$$numSuffix$",
   	"description": "Full date formatted in a local way",
  	"placeholders": {
     	"weekday": {

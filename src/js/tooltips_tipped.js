@@ -12,8 +12,29 @@ function addTippedTooltips(){
 
 }
 
+function getToolTip(timestamp)
+{
+	if(dynamicStartStamp === false && dynamicDiff === false){
+		return getToolTipNormal(timestamp);
+	}
+	else {
+		return getToolTipDynamic();
+	}
+}
+
+function getToolTipDynamic()
+{
+	var output = "";
+
+	var days = Math.abs(dynamicDiff / 86400000);  
+
+	output += days;
+
+	return output;
+}
+
 //Return actual tool tip
-function getToolTip(timestamp){
+function getToolTipNormal(timestamp){
 	
 	var output = "";
 	var outArray = [];
