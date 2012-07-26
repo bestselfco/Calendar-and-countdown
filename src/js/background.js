@@ -506,7 +506,12 @@ function bginit()
 	
 	extVersion = getVersion();
 	
-	document.title = "C&C "+extVersion;
+	if(location.hostname != googleID){
+		document.title = "C&C "+extVersion + " (dev)";
+	}
+	else {
+		document.title = "C&C "+extVersion;
+	}
 	
 	resetSettings();
 	
