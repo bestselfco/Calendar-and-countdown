@@ -4,7 +4,7 @@
     "description": "Extension name"
   },
   "extDesc": {
-  	"message": "Yearly calendar and countdown. Show a full year calendar in a single window and count down to any date.",
+  	"message": "Show a full year calendar in a single window and count down to any date. Check distances between any number of dates.",
   	"description": "Extension description"
   },
   "dayCapital": {
