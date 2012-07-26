@@ -84,17 +84,18 @@ Date.prototype.getDaysInMonth = function()
 
 };
 
-Date.prototype.getOffsetInMS = function () {
-	return (this.getTimezoneOffset() * 60000);
+Date.prototype.getUTCMidnight = function() 
+{
+	var utcMidnight = Date.UTC(this.getUTCFullYear(),this.getUTCMonth(), this.getUTCDate());
+	
+	return utcMidnight;
 }
 
 //Get day of the year
 Date.prototype.getDayOfYear = function() {
 	
-	var todayUTC = this.getTime();// + this.getOffsetInMS() * 1;
-	
-	
-	
+	var todayUTC = this.getTime();
+		
 	var oneJanStamp = Date.UTC(this.getUTCFullYear(), 0, 1, 0 ,0 ,0);
 	return Math.round((todayUTC - oneJanStamp) / 86400000) + 1;
 
@@ -103,10 +104,13 @@ Date.prototype.getDayOfYear = function() {
 //Get day distance from today
 Date.prototype.getDaysFromToday = function () {
 
-	var tmptoday = new Date();
-	var today = new Date(tmptoday.getTime() + tmptoday.getTimezoneOffset());
+	var today = new Date();
+	var todayUtc = today.getUTCMidnight(); //Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+	var thisUtc = this.getUTCMidnight();
 	
-	var diff = Math.floor((this.getTime() - today.getTime()) / 86400000) + 1;
+	log("getDaysFromToday today: ", new Date(todayUtc).toUTCString());
+	
+	var diff = Math.floor((thisUtc - todayUtc) / 86400000);
 
 	return diff;
 };
