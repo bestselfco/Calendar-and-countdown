@@ -1,8 +1,13 @@
+/**
 
-
+*/
 var gmtOffset = 0;
 
 //Bind tooltips to all dates
+
+/**
+
+*/
 function addTippedTooltips(){
 
 	Tipped.create('.cal_td_day, .cal_day_chosen, .cal_subday_chosen', function(element) {
@@ -12,6 +17,9 @@ function addTippedTooltips(){
 
 }
 
+/**
+
+*/
 function getToolTip(timestamp)
 {
 	if(dynamicStartStamp === false && dynamicDiff === false){
@@ -22,23 +30,30 @@ function getToolTip(timestamp)
 	}
 }
 
+/**
+
+*/
 function getToolTipDynamic()
 {
 	var output = "";
 
-	var days = Math.abs(dynamicDiff / 86400000);  
+	var days = Math.abs(dynamicDiff / 86400000) + 1;  
 
 	//(Day/day_s_)
 	var suffix = "";
 	if(days == 0 || days > 1) suffix = chrome.i18n.getMessage("several_suffix");
 	var daysword = chrome.i18n.getMessage("day");
 
-	output += days + " " + daysword + suffix;
+	output += days + " " + daysword + suffix + " " + chrome.i18n.getMessage("selected");
 
 	return output;
 }
 
 //Return actual tool tip
+
+/**
+
+*/
 function getToolTipNormal(timestamp){
 	
 	var output = "";
@@ -123,6 +138,9 @@ function getToolTipNormal(timestamp){
 		
 }
 
+/**
+Return date as a string
+*/
 function getDateString(mDay, month, day)
 {
 	//Get correct suffix
@@ -153,6 +171,9 @@ function getDateString(mDay, month, day)
 
 }
 
+/**
+
+*/
 function getCountDownDiffString(ndate)
 {
 	var outputString = "";
@@ -185,6 +206,9 @@ function getCountDownDiffString(ndate)
 	
 }
 
+/**
+
+*/
 //Count down to all the small silly dates (subdates)
 function getSubDateCountdownString(timestampSub, timestampPop)
 {

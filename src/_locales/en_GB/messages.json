@@ -19,6 +19,10 @@
     "message": "left",
     "description": "left, for countdown in popup"
   },
+  "selected": {
+    "message": "selected",
+    "description": "selected, for dynamic countdown"
+  },
   "ago": {
     "message": "ago",
     "description": "Days ago, for countdown in popup"

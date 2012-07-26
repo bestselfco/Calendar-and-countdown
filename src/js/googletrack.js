@@ -1,4 +1,6 @@
-//Google tracking for all pages that include functions.js
+/**
+Google tracking for all pages that include functions.js
+*/
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-21196533-2']);
 _gaq.push(['_trackPageview']);

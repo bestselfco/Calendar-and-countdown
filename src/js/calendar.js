@@ -1,5 +1,6 @@
-//Front end only variables
-//var selectorClass = "cal_day_chosen"; //The class for the selected day
+/**
+Front end variables
+*/
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "cal_day_chosen"; //God knows
 var selectedSubClass = "cal_subday_chosen";
@@ -56,25 +57,33 @@ function bindEvents()
 	
 }
 
-//Return the main date (the one we count down to)
+/**
+Return the main date (the one we count down to)
+*/
 function getMainDate()
 {
 	return datesFrontEnd[0];
 }
 
-//Set local main date.
+/**
+Set local main date.
+*/
 function setMainDate(timestamp)
 {
 	datesFrontEnd[0] = timestamp;
 }
 
-//Return the subsidiary dates (the ones we just show)
+/**
+Return the subsidiary dates (the ones we just show)
+*/
 function getSubDates()
 {
 	return subDatesFrontEnd;
 }
 
-//Update date set from back end and start update of content when done
+/**
+Update date set from back end and start update of content when done
+*/
 function updateDatesStuff()
 {
 	var dates;
@@ -94,11 +103,18 @@ function updateDatesStuff()
 	
 }
 
-//Does all the init stuff that needs the date to be set correctly
+/**
+Does all the init stuff that needs the date to be set correctly
+*/
 function updateDatesStuffDo()
 {	
-	//Bind clicks
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
+	//Bind clicks - direct setting of sub dates!
+	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClicked).on("mousedown", startDynamic);
+
+	//Bind clicks - dialog on right click!
+
+	//$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
+
 
 	//Add all the tooltips
 	addTippedTooltips();
@@ -231,6 +247,9 @@ function dayClicked(event)
 	
 }
 
+/**
+Open dialog on right click
+*/
 function dayRightClickedDialog(event)
 {	
 	event.preventDefault();
@@ -249,7 +268,9 @@ function dayRightClickedDialog(event)
 	return false; //Kill propagation
 }
 
-//Future handler for custom right click menu
+/**
+TEMP! Set sub dates on right click.
+*/
 function dayRightClicked(event)
 {
 	
@@ -271,8 +292,8 @@ function dayRightClicked(event)
 
 /**
 The user has clicked a year link and we need to go to another year
- * 
- * @param offset Delta between clicked year and current view
+
+@param offset Delta between clicked year and current view
  */
 function yearClicked(offset){
 
@@ -283,7 +304,9 @@ function yearClicked(offset){
 	
 }
 
-
+/**
+Highlight today
+*/
 function highLightToday()
 {
 	var today = new Date();
@@ -297,7 +320,9 @@ function highLightToday()
 	$(selectorString).addClass("cal_day_today");
 }
 
-//Highlight a specific day, remove other hightlights
+/**
+Highlight a specific day, remove other hightlights
+*/
 function highLightDay(timestamp, highlightClass)
 {	
 
@@ -331,7 +356,7 @@ function highLightSelectedDates(){
 		
 }
 
-/*
+/**
 Remove all highlights
 */
 function removeHighLights()
@@ -347,7 +372,9 @@ function removeHighLights()
 	log("Css change", "Removed highlights");
 }
 
-//Calendar constructor
+/**
+Highlights the chosen dates, from loaded value 
+*/
 function Calendar(year, month)
 {
 	log("Creating calendar", year+"-"+month);
@@ -367,19 +394,6 @@ function Calendar(year, month)
 	
 	this.offSet = this.workDate.getTimezoneOffset();
 	
-	
-	
-//	this.startStamp = this.workDate.getTime();
-	
-//	this.startStampUTC = Date.UTC(year,this.workMonth,1);
-	
-//	this.CCDate = new CCDate(this.startStampUTC);
-	
-	//log("Start points", new Date(this.startStamp).toISOString() + " " + new Date(this.startStampUTC).toISOString() + " " + new Date(this.CCDate.timestamp).toISOString());
-	
-	//this.cacheKey = "cal_"+this.workDate.getFullYear() + "_" + this.workDate.getMonth();
-
-	//Object to pass to template for output
 	this.outVars = new Object();
 	
 }	
@@ -568,7 +582,9 @@ function calGetCal()
 	return thisCalOutHtml;
 }
 
-//Create a calendar
+/**
+Create a calendar
+*/
 function showCal(year)
 {	
 	//Init and default for week start day
@@ -597,7 +613,9 @@ function showCal(year)
 	highLightToday();
 }
 
-//Create 12 separate monthly calendars
+/**
+Create 12 separate monthly calendars
+*/
 function populateYear(year, selectstring)
 {
 	//Populate
@@ -635,9 +653,9 @@ function populateYearLinks()
 
 /**
 Keyboard controls
- * 
- * @param key ID of the pressed key
- */
+
+@param key ID of the pressed key
+*/
 function keyPressed(key) {
 
 	if(key == 37 || key == 40) { // down or right
