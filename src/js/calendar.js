@@ -93,7 +93,7 @@ function updateDatesStuff()
 function updateDatesStuffDo()
 {	
 	//Bind clicks
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog)..on("mousedown", startDynamic);
+	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
 
 	//Add all the tooltips
 	addTippedTooltips();
