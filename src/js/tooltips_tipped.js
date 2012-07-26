@@ -64,8 +64,8 @@ function getToolTipNormal(timestamp){
 	var date = new Date(timestamp);
 
 	//Get the base variables in order	
-	var gmtOffset = date.getTimezoneOffset() * 60000;
-	var ndate = new Date(date.getTime() - gmtOffset);
+	//var gmtOffset = date.getTimezoneOffset() * 60000;
+	//var ndate = new Date(date.getTime() + gmtOffset);
 	
 	var day = date.getUTCDay();
 	var month = date.getUTCMonth();
@@ -88,13 +88,13 @@ function getToolTipNormal(timestamp){
 	if(showDayInYear)
 	{
 			//Day of the year
-		str_showDayInYear = chrome.i18n.getMessage("dayCapital")+" "+(ndate.getDayOfYear()+1)+" / "+(ndate.getDaysLeftInYear()-1)+" "+chrome.i18n.getMessage("left")+".";
+		str_showDayInYear = chrome.i18n.getMessage("dayCapital")+" "+(date.getDayOfYear())+" / "+(date.getDaysLeftInYear())+" "+chrome.i18n.getMessage("left")+".";
 		outArray.push("<div class='popup'>"+str_showDayInYear+"</div>");
 	}
 	
 	if(showFromToday)
 	{
-		fromToday = ndate.getDaysFromToday()+1;
+		fromToday = date.getDaysFromToday();
 		var suffix  = "";
 		if(Math.abs(fromToday) != 1) suffix = chrome.i18n.getMessage("several_suffix"); //"s" if one
 
@@ -113,7 +113,7 @@ function getToolTipNormal(timestamp){
 			
 	if(showFromMarkedDate)
 	{
-		outArray.push(getCountDownDiffString(ndate));
+		outArray.push(getCountDownDiffString(date));
 	}
 	
 	if(showSubDates)
@@ -207,16 +207,15 @@ function getCountDownDiffString(ndate)
 }
 
 /**
-
+Count down to all the small silly dates (subdates)
 */
-//Count down to all the small silly dates (subdates)
 function getSubDateCountdownString(timestampSub, timestampPop)
 {
 	var output;
 	
-	var ndate = new Date((timestampPop*1) - gmtOffset);
+	var ndate = new Date((timestampPop*1));// + gmtOffset);
 	
-	var dateString = chrome.i18n.getMessage("shortDate", [ndate.getMonth()+1,ndate.getDate(),ndate.getFullYear()]);
+	var dateString = chrome.i18n.getMessage("shortDate", [ndate.getUTCMonth()+1,ndate.getUTCDate(),ndate.getUTCFullYear()]);
 	
 	var diff = days_between_timestamps(timestampSub,timestampPop);
 	

@@ -464,7 +464,7 @@ function getDistanceInDays()
 	if(countto !== null && countto !== undefined)
 	{
 		try {
-			var badgeDate = new Date((countto*1)+86400000); //Stupid casting
+			var badgeDate = new Date((countto*1)); //Stupid casting
 			var diff = Math.abs(badgeDate.getDaysFromToday());
 
 			if(badgeDate.getFullYear() > 1980 && badgeDate.getFullYear() < 2050)
