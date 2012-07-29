@@ -170,15 +170,6 @@ function resetSettings()
 		log("Setting up default badge display", showBadge);
 	}
 	
-	var showMoon = getItem("showMoon");
-	if(showMoon == null)
-	{
-		var showMoon = "1";
-		setItem("showMoon", showMoon);
-		log("Setting up default moon display", showMoon);
-	}
-	
-	
 	var icon_textColor = getItem("icon_textColor");
 	if(icon_textColor == null)
 	{
@@ -247,15 +238,6 @@ function updateDatesToUtc()
 					
 	}
 
-/*	log("Date conversion", "From: "+new Date(tmpDateMain*1).toLocaleString());
-//	log("Date conversion", "To  : "+new Date(mainUtc*1).toUTCString());
-
-	for(i = 0; i < subdateutc.length; i++)
-	{
-		log("Date conversion", "From: "+new Date(tmpDateSub[i]*1).toLocaleString());
-		log("Date conversion", "To  : "+new Date(subdateutc[i]*1).toUTCString());
-	}
-*/	
 	var shouldIUpdateDates = getItem("shouldIUpdateDates");
 	
 	if(shouldIUpdateDates == null)
@@ -489,6 +471,32 @@ function getDistanceInDays()
 }
 
 /**
+Get version of extension
+*/
+function getVersion() {
+	var version = 'NaN';
+	var xhr = new XMLHttpRequest();
+	xhr.open('GET', chrome.extension.getURL('manifest.json'), false);
+	xhr.send(null);
+	var manifest = JSON.parse(xhr.responseText);
+	var currVersion = manifest.version;
+
+	// Check if the version has changed.
+	var prevVersion = getItem("version");
+	if (currVersion != prevVersion) {
+		// Check if we just installed this extension.
+		if (prevVersion === null) {
+			//googleTrack("Extension", "New install", currVersion);
+		} else {
+			//googleTrack("Extension", "Update", currVersion);
+		}
+		setItem("version", currVersion);
+	}
+	log("Version", currVersion);
+	return currVersion;
+}
+
+/**
 Initialise background page and start the extension
 */
 function bginit()
@@ -496,12 +504,26 @@ function bginit()
 	//Look for new install
 	newInstall = (getItem("dateArray") === null) ? true : false;
 	
+	//Stupid checking code to see if we have already updated to UTC. 
 	var tDates = getDates();
 	
 	//If we are updating, update scores
 	if(tDates !== null)
-	{
-		updateDatesToUtc();
+	{ 
+		log("Update to UTC", "Checking times to see if update done");
+		
+		//Check if stored date has UTC time of "0", update if not. 
+		var checkUpdateDate = new Date(tDates[0] * 1);
+		var updateTime = checkUpdateDate.getUTCHours() * 1;
+
+		if(updateTime != 0)
+		{
+			updateDatesToUtc();
+		}
+		else {
+			log("Update to UTC", "Already UTC");
+		}
+		
 	}
 	
 	extVersion = getVersion();
@@ -525,6 +547,7 @@ function bginit()
 	
 	maintainLoop();
 }
+
 
 /**
 Bootstrap background on page load finished
