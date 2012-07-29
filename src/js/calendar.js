@@ -11,6 +11,7 @@ var dynamicStartStamp = false;
 var dynamicDiff = false;
 var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 
+
 /**
 Bootstrap page on load
 */

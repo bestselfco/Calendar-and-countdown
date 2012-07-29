@@ -7,7 +7,7 @@ function addTippedTooltips(){
 	Tipped.create('.cal_td_day, .cal_day_chosen, .cal_subday_chosen', function(element) {
 		var timestamp = $(element).attr("datetimestamp");
 		return getToolTip(timestamp);
-	}, { skin: 'kvasbo', showDelay: '450' });
+	}, { skin: 'kvasbo', showDelay: '450'});
 
 }
 
@@ -61,8 +61,9 @@ function getToolTipRightClick(event)
 	//toolTipTemp.show();
 
 	console.log(event);
+	
+	return false;
 
-	Tipped.create(event.target, document.getElementById("dateRightInputDialog"), {skin: 'kvasbo', showDelay: '0', onHide: addTippedTooltips});//, { onHide: function(content, element){  }).show();
 }
 
 
