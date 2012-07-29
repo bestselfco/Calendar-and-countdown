@@ -531,12 +531,12 @@ function bginit()
 	
 	if(location.hostname != googleID){
 		document.title = "C&C "+extVersion + " (dev)";
-		log("Dev version, new install", newInstall)
+		log("Startup", "Dev version, new install", newInstall)
 	}
-	else if(newInstall == null) {
+	else if(newInstall == true) {
 		//New install
-		document.title = "C&C "+extVersion + " (new)";
-		log("New install");
+		document.title = "C&C "+extVersion + " (new install)";
+		log("Startup", "New install");
 	}
 	else {
 		//Normal startup

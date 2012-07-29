@@ -57,6 +57,12 @@ function bindEvents()
 	
 }
 
+function setMainDateFromPopup(event)
+{
+	
+	console.log(event);
+}
+
 /**
 Return the main date (the one we count down to)
 */
@@ -65,12 +71,27 @@ function getMainDate()
 	return datesFrontEnd[0];
 }
 
+
 /**
-Set local main date.
+Set main date from time stamp and update all views
 */
 function setMainDate(timestamp)
 {
+	
 	datesFrontEnd[0] = timestamp;
+	
+	chrome.extension.sendRequest({action: "toggleDate", event_details:timestamp}, function(response) {
+		 
+		 var dates = JSON.parse(response.datesJSON);
+		 
+		 log("Date set: ", dates);
+		 
+		 datesFrontEnd[0] = timestamp;
+		 		 
+		 updateDatesStuff();	
+	
+		 highLightSelectedDates();
+	});
 }
 
 /**
@@ -97,7 +118,7 @@ function updateDatesStuff()
 
 	chrome.extension.sendRequest({action: "getDates"}, function(response) {
  		 dates = JSON.parse(response.datesJSON);
- 		 setMainDate(dates[0]);
+ 		 datesFrontEnd[0] = dates[0];
 	 	 updateDatesStuffDo();
 	});
 	
@@ -110,10 +131,10 @@ function updateDatesStuffDo()
 {	
 
 	//Bind clicks - dialog on right click!
-	//$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
+	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
 
 	//Bind clicks - direct setting on right click!
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClicked).on("mousedown", startDynamic);
+	//$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClicked).on("mousedown", startDynamic);
 
 	//Add all the tooltips
 	addTippedTooltips();
@@ -227,8 +248,12 @@ function dayClicked(event)
 {
 	var timestamp = event.target.attributes["datetimestamp"].value;
 	
+	
 	log("Day clicked", timestamp);
 	
+	setMainDate(timestamp);
+	
+	/*
 		chrome.extension.sendRequest({action: "toggleDate", event_details:timestamp},	function(response) {
  		 
  		 var dates = JSON.parse(response.datesJSON);
@@ -241,6 +266,7 @@ function dayClicked(event)
 	
 		 highLightSelectedDates();
 	});
+	*/
 		
 	return false; //Kill propagation
 	
@@ -255,14 +281,9 @@ function dayRightClickedDialog(event)
 	var timestamp = event.target.attributes["datetimestamp"].value;
 	var dialogDate = new Date(timestamp*1);
 	var title = dialogDate.toUTCString();
-	
-	Tipped.hideAll(); //Hide all tool tips
-	$("#inputDialog").attr("datetimestamp", timestamp).dialog({
-		modal: true,
-		draggable: false,
-		resizable: false,
-		title: title
-	});
+			
+//	Tipped.hideAll(); //Hide all tool tips
+	getToolTipRightClick(event);
 	
 	return false; //Kill propagation
 }
@@ -542,6 +563,7 @@ function calGetCal()
 		this.outVars["d_stamp_"+currentWeek+"_"+days] = dayStamp;
 		this.outVars["d_content_"+currentWeek+"_"+days] = i+1;
 		this.outVars["d_class_"+currentWeek+"_"+days] = "cal_td_day";
+		this.outVars["d_id_"+currentWeek+"_"+days] = dayStamp;
 
 		days++;
 	}

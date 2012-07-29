@@ -1,24 +1,18 @@
 /**
-
-*/
-var gmtOffset = 0;
-
-//Bind tooltips to all dates
-
-/**
-
+Bind tooltips to all dates
 */
 function addTippedTooltips(){
 
+	//Tipped.remove('.cal_td_day, .cal_day_chosen, .cal_subday_chosen');
 	Tipped.create('.cal_td_day, .cal_day_chosen, .cal_subday_chosen', function(element) {
 		var timestamp = $(element).attr("datetimestamp");
 		return getToolTip(timestamp);
-	}, { skin: 'kvasbo', showDelay: '450', });
+	}, { skin: 'kvasbo', showDelay: '450' });
 
 }
 
 /**
-
+Decide whether to use "normal" or "Dynamic" tool tip.
 */
 function getToolTip(timestamp)
 {
@@ -49,10 +43,31 @@ function getToolTipDynamic()
 	return output;
 }
 
-//Return actual tool tip
+/**
+Return form tool tip
+*/
+function getToolTipRightClick(event)
+{
+	var timestamp = event.target.attributes["datetimestamp"].value;
+	var dialogDate = new Date(timestamp*1);
+	var title = dialogDate.toUTCString();
+
+	var selectString = "#cal_day_"+timestamp;
+
+	log("Right click", title);
+
+	//var toolTipTemp = Tipped.get(selectString);
+	
+	//toolTipTemp.show();
+
+	console.log(event);
+
+	Tipped.create(event.target, document.getElementById("dateRightInputDialog"), {skin: 'kvasbo', showDelay: '0', onHide: addTippedTooltips});//, { onHide: function(content, element){  }).show();
+}
+
 
 /**
-
+Return normal tool tip
 */
 function getToolTipNormal(timestamp){
 	
@@ -213,7 +228,7 @@ function getSubDateCountdownString(timestampSub, timestampPop)
 {
 	var output;
 	
-	var ndate = new Date((timestampPop*1));// + gmtOffset);
+	var ndate = new Date((timestampPop*1));
 	
 	var dateString = chrome.i18n.getMessage("shortDate", [ndate.getUTCMonth()+1,ndate.getUTCDate(),ndate.getUTCFullYear()]);
 	
