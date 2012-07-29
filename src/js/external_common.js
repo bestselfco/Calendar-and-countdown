@@ -135,26 +135,3 @@ function removeItem(itemName)
 	localStorage.removeItem(itemName);
 }
 
-//Get version of extension
-function getVersion() {
-	var version = 'NaN';
-	var xhr = new XMLHttpRequest();
-	xhr.open('GET', chrome.extension.getURL('manifest.json'), false);
-	xhr.send(null);
-	var manifest = JSON.parse(xhr.responseText);
-	var currVersion = manifest.version;
-
-	// Check if the version has changed.
-	var prevVersion = getItem("version");
-	if (currVersion != prevVersion) {
-		// Check if we just installed this extension.
-		if (typeof prevVersion == 'undefined') {
-			//googleTrack("Extension", "New install", currVersion);
-		} else {
-			//googleTrack("Extension", "Update", currVersion);
-		}
-		setItem("version", currVersion);
-	}
-	log("Version", currVersion);
-	return currVersion;
-}

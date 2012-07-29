@@ -110,8 +110,10 @@ function updateDatesStuffDo()
 {	
 
 	//Bind clicks - dialog on right click!
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
+	//$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
 
+	//Bind clicks - direct setting on right click!
+	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClicked).on("mousedown", startDynamic);
 
 	//Add all the tooltips
 	addTippedTooltips();
