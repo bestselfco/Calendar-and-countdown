@@ -505,11 +505,17 @@ function bginit()
 	}
 	
 	extVersion = getVersion();
+	checkDateArray = getItem("dateArray"); //Is this a new install?
 	
 	if(location.hostname != googleID){
 		document.title = "C&C "+extVersion + " (dev)";
 	}
+	else if(checkDateArray == null) {
+		//New install
+		document.title = "C&C "+extVersion + " (new)";
+	}
 	else {
+		//Normal startup
 		document.title = "C&C "+extVersion;
 	}
 	
