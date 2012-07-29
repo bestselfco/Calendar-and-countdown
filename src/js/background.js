@@ -494,7 +494,7 @@ Initialise background page and start the extension
 function bginit()
 {	
 	//Look for new install
-	newInstall = (getItem("dateArray") === null) false : true;
+	newInstall = (getItem("dateArray") === null) ? true : false;
 	
 	var tDates = getDates();
 	
@@ -509,10 +509,12 @@ function bginit()
 	
 	if(location.hostname != googleID){
 		document.title = "C&C "+extVersion + " (dev)";
+		log("Dev version, new install", newInstall)
 	}
 	else if(newInstall == null) {
 		//New install
 		document.title = "C&C "+extVersion + " (new)";
+		log("New install");
 	}
 	else {
 		//Normal startup
