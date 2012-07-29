@@ -1,6 +1,7 @@
 var dateArray; //Holds the dates we count down to
 var subDateArray;
 var dateNotes; //Notes for dates
+var newInstall; //Is this a first time install (ie: is the date array set?)
 
 /**
 Run maintenance script every minute
@@ -491,10 +492,9 @@ function getDistanceInDays()
 Initialise background page and start the extension
 */
 function bginit()
-{
-    log("Event", "BGInit");
-	
-	log("Event", "Updating all dates to UTC");
+{	
+	//Look for new install
+	newInstall = (getItem("dateArray") === null) false : true;
 	
 	var tDates = getDates();
 	
@@ -510,7 +510,7 @@ function bginit()
 	if(location.hostname != googleID){
 		document.title = "C&C "+extVersion + " (dev)";
 	}
-	else if(checkDateArray == null) {
+	else if(newInstall == null) {
 		//New install
 		document.title = "C&C "+extVersion + " (new)";
 	}
