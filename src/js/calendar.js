@@ -108,12 +108,9 @@ Does all the init stuff that needs the date to be set correctly
 */
 function updateDatesStuffDo()
 {	
-	//Bind clicks - direct setting of sub dates!
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClicked).on("mousedown", startDynamic);
 
 	//Bind clicks - dialog on right click!
-
-	//$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
+	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
 
 
 	//Add all the tooltips
