@@ -286,7 +286,7 @@ function dayRightClickedDialog(event)
 	
 	var p = $(event.target).offset();
 	
-	$("#popupProxy").css("top", p.top ).css("left", p.left);
+	$("#popupProxy").css("display", "block").css("top", p.top).css("left", p.left);
 	
 	var tempTip = Tipped.get('#popupProxy');
 	

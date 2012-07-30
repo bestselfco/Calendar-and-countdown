@@ -9,7 +9,7 @@ function addTippedTooltips(){
 		return getToolTip(timestamp);
 	}, { skin: 'kvasbo', showDelay: '450'});
 	
-	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasbo', showDelay: '450'});
+	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: false, showOn: false, onHide: function(content,element){ $("#popupProxy").css("display", "none") }});
 
 }
 
@@ -27,7 +27,7 @@ function getToolTip(timestamp)
 }
 
 /**
-
+Get the dynamic tool tip
 */
 function getToolTipDynamic()
 {
