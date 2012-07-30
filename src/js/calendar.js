@@ -60,7 +60,6 @@ function bindEvents()
 
 function setMainDateFromPopup(event)
 {
-	
 	console.log(event);
 }
 
@@ -178,7 +177,7 @@ Start the dynamic counter
 */
 function startDynamic(event)
 {
-	Tipped.hideAll(); //Hide all tool tips
+	Tipped.hide(daysSelectString); //Hide all tool tips
 	
 	$(daysSelectString).on("mouseenter", updateDynamic); //Add mouseenter event for days
 	$("*").on("mouseup", endDynamic); //Add mouseup event for all (to end on end of click, also outside specific days)
@@ -227,7 +226,7 @@ End and unset the dynamic counter
 */
 function endDynamic(event){
 	
-	Tipped.hideAll(); //Hide all tool tips
+	Tipped.hide(daysSelectString); //Hide all tool tips
 	
 	//Unbind events from all events
 	$("*").off("mouseup", endDynamic).off("mouseenter", updateDynamic);
@@ -283,8 +282,20 @@ function dayRightClickedDialog(event)
 	var dialogDate = new Date(timestamp*1);
 	var title = dialogDate.toUTCString();
 			
-//	Tipped.hideAll(); //Hide all tool tips
-	getToolTipRightClick(event);
+	//Tipped.hideAll(); //Hide all tool tips
+	
+	var p = $(event.target).offset();
+	
+	$("#popupProxy").css("top", p.top ).css("left", p.left);
+	
+	var tempTip = Tipped.get('#popupProxy');
+	
+	
+	console.log(tempTip);
+	
+	tempTip.show();
+		
+	//getToolTipRightClick(event);
 	
 	return false; //Kill propagation
 }

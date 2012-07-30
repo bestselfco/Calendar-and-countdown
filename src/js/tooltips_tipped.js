@@ -8,6 +8,8 @@ function addTippedTooltips(){
 		var timestamp = $(element).attr("datetimestamp");
 		return getToolTip(timestamp);
 	}, { skin: 'kvasbo', showDelay: '450'});
+	
+	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasbo', showDelay: '450'});
 
 }
 
