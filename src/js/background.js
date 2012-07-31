@@ -414,7 +414,7 @@ function getDistanceInDays()
 	//var tmpArray = JSON.parse(getItem("dateArray"));
 	var countto = dateArray[0];
 	
-	log("Checking distance for badge", countto);
+	//log("Checking distance for badge", countto);
 	
 	if(countto !== null && countto !== undefined)
 	{
@@ -503,7 +503,7 @@ function bginit()
 	
 	if(location.hostname != googleID){
 		document.title = "C&C "+extVersion + " (dev)";
-		log("Startup", "Dev version, new install", newInstall)
+		log("Startup", "Dev version, new install: " + newInstall.toString());
 	}
 	else if(newInstall == true) {
 		//New install
