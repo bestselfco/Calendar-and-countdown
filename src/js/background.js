@@ -4,6 +4,7 @@ var dateNotes; //Notes for dates
 var newInstall; //Is this a first time install (ie: is the date array set?)
 var dateNoteArray; //Notes for dates
 var dateColorArray; //Colors for dates
+var maintainCycles = 0;
 
 /**
 Run maintenance script every minute
@@ -19,7 +20,9 @@ Maintain data
 */
 function maintain()
 {
-	log("Event", "maintain()");
+	maintainCycles++;
+	
+	log("Maintenance", "Cycle #"+maintainCycles);
 
 	updateBadgeFromStored();
 	updatePopupFromStored();
