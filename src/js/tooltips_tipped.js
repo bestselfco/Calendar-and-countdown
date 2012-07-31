@@ -3,11 +3,13 @@ Bind tooltips to all dates
 */
 function addTippedTooltips(){
 
-	//Tipped.remove('.cal_td_day, .cal_day_chosen, .cal_subday_chosen');
-	Tipped.create('.cal_td_day, .cal_day_chosen, .cal_subday_chosen', function(element) {
+	Tipped.remove(daysSelectString);
+	
+	Tipped.create(daysSelectString, function(element) {
 		var timestamp = $(element).attr("datetimestamp");
 		return getToolTip(timestamp);
 	}, { skin: 'kvasbo', showDelay: '450'});
+	
 	
 	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: false, showOn: false, onHide: function(content,element){ $("#popupProxy").css("display", "none") }});
 
