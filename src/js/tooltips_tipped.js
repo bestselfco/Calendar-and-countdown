@@ -11,7 +11,7 @@ function addTippedTooltips(){
 	}, { skin: 'kvasbo', showDelay: '450'});
 	
 	
-	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: false, showOn: false, onHide: function(content,element){ $("#popupProxy").css("display", "none") }});
+	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: false, showOn: false, onHide: resetRightClickToolTipMenu, onShow: updateRightClickToolTipMenu});
 
 }
 
@@ -26,6 +26,53 @@ function getToolTip(timestamp)
 	else {
 		return getToolTipDynamic();
 	}
+}
+
+/**
+Bindings and stuff for right click menu once it is available
+*/
+function updateRightClickToolTipMenu(content, event)
+{
+	var timestamp = $("#dateRightInputDialog").attr("dialogdatetimestamp");
+	var currNote = getNoteForDate(timestamp);
+	
+//	console.log(currNote);
+
+	$("#dayNoteInput").val(currNote);
+
+	$("#dayNoteInput").on("change", function(event){
+		addNoteToDate(timestamp, event.target.value);
+	});
+	
+	$("#resetNoteButton").on("click", function(event){
+		$("#dayNoteInput").val("");
+		clearNoteFromDate(timestamp);	
+	});
+	
+	$(".colorButton").on("click", function(event){
+		var col = $(event.target).css("background-color");
+		bg.setColorForDate(timestamp, col, false);
+		highLightSelectedDates();
+	});
+	
+	$("#resetColorButton").on("click", function(event){
+		bg.setColorForDate(timestamp, "", true);
+		highLightSelectedDates();
+	});
+	
+}
+
+/** 
+Reset tooltip menu
+*/
+function resetRightClickToolTipMenu()
+{
+	$("#popupProxy").css("display", "none"); 
+	$("#dateRightInputDialog").attr("datetimestamp", "");
+	$("#dayNoteInput").off("change");
+	$(".colorButton").off("click");
+	$("#resetNoteButton").off("click");
+	$("#resetColorButton").off("click");
 }
 
 /**

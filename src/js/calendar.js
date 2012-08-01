@@ -2,15 +2,16 @@
 Front end variables
 */
 var bg = chrome.extension.getBackgroundPage();
+
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "cal_day_chosen"; //God knows
 var selectedSubClass = "cal_subday_chosen";
 var dynamicClass = "cal_day_dynamic";
+var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 //var datesFrontEnd = new Array();
 //var subDatesFrontEnd = [];
 var dynamicStartStamp = false;
 var dynamicDiff = false;
-var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 
 /**
 Bootstrap page on load
@@ -174,7 +175,7 @@ function updateDatesStuff()
 /**
 Retrieve note for a given date from backend
 */
-function getNoteArray(timestamp)
+function getNoteArray()
 {
 	var tmpNoteArray = bg.dateNoteArray;
 	var outObj = new Object;
@@ -190,11 +191,29 @@ function getNoteArray(timestamp)
 	return outObj;
 }
 
+/**
+Get note for a specific date
+*/
+function getNoteForDate(timestamp)
+{
+	var tmpNotes = getNoteArray();
+	
+	//console.log(tmpNotes);
+	//console.log(timestamp);
+	
+	if(tmpNotes[timestamp] !== undefined)
+	{
+		return tmpNotes[timestamp];
+	}
+	else {
+		return null;
+	}
+}
 
 /**
- * Show a year
- * 
- * @param year Which year to show
+ Show a year
+  
+ @param year Which year to show
  */
 function showCal(year)
 {
@@ -282,6 +301,21 @@ function endDynamic(event){
 	
 }
 
+/**
+Add a note to a date via the BG page and reload stuff as usual.
+*/
+function addNoteToDate(timestamp, note)
+{
+	bg.setNoteForDate(timestamp, note, false);
+}
+
+/**
+Clear a note from a date
+*/
+function clearNoteFromDate(timestamp)
+{
+	bg.setNoteForDate(timestamp, "", true);
+}
 
 /**
 New version when somebody has clicked a date. Uses attribute instead of passing value by function.
@@ -321,24 +355,24 @@ function dayRightClickedDialog(event)
 {	
 	event.preventDefault();
 	var timestamp = event.target.attributes["datetimestamp"].value;
-	var dialogDate = new Date(timestamp*1);
-	var title = dialogDate.toUTCString();
+//	var dialogDate = new Date(timestamp*1);
+//	var title = dialogDate.toUTCString();
+	
+	//Set attribute for tooltip div in html page
+	$("#dateRightInputDialog").attr("dialogdatetimestamp", timestamp);
 			
 	//Tipped.hideAll(); //Hide all tool tips
 	
-	var p = $(event.target).offset();
-	
+	//Move proxy div to right position
+	var p = $(event.target).offset();	
 	$("#popupProxy").css("display", "block").css("top", p.top).css("left", p.left);
 	
+	//Get tip for proxy
 	var tempTip = Tipped.get('#popupProxy');
 	
-	
-	console.log(tempTip);
-	
+	//Show tip for proxy
 	tempTip.show();
 		
-	//getToolTipRightClick(event);
-	
 	return false; //Kill propagation
 }
 
@@ -428,10 +462,21 @@ function highLightSelectedDates(){
 	//Sub days
 	$.each(subdates, function(key, value){
 		
-		log("Labelling sub day", value);
+		//log("Labelling sub day", value);
 		highLightDay(value, selectedSubClass);
 		
 	});
+	
+	//Set custom colors
+	customColors = bg.dateColorArray;
+	for(i=0;i<customColors.length;i++)
+	{
+		var timestamp = customColors[i].timestamp;
+		var color = customColors[i].color;
+		log(timestamp,color);
+		var selectorString = '[dateTimestamp="'+timestamp+'"]';
+		$(selectorString).css("background-color", color);
+	}
 		
 }
 
@@ -446,7 +491,7 @@ function removeHighLights()
 //	$(selectorStringSub).removeClass(selectedSubClass);
 //	$(selectorStringMain).removeClass(selectedClass);
 
-	$(daysSelectString).removeClass(selectedSubClass).removeClass(selectedClass);
+	$(daysSelectString).removeClass(selectedSubClass).removeClass(selectedClass).css("background-color", "");
 
 	log("Css change", "Removed highlights");
 }

@@ -442,9 +442,11 @@ function getDistanceInDays()
 	}
 }
 
+
 /**
 Return note for a timestamp, if any, as a string (or null)
 */
+/*
 function getNoteForDate(timestamp)
 {
 	for(i=0; i<dateNoteArray.length; i++)
@@ -459,15 +461,17 @@ function getNoteForDate(timestamp)
 	
 	return null;
 	
-}
+}*/
 
 /**
 Return color array
 */
+/*
 function getColorsJSON()
 {
 	return JSON.stringify(dateColorArray);
 }
+*/
 
 /**
 Get version of extension

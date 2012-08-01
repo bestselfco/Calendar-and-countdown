@@ -23,3 +23,8 @@
 	color: white;
 	font-family: "Helvetica", "Arial", sans-serif;
 }
+
+.t_Content_kvasboRight div {
+	padding: 2px;
+	margin: none;
+}
