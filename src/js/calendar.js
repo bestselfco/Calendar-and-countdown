@@ -2,13 +2,12 @@
 Front end variables
 */
 var bg = chrome.extension.getBackgroundPage();
-
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "cal_day_chosen"; //God knows
 var selectedSubClass = "cal_subday_chosen";
 var dynamicClass = "cal_day_dynamic";
-var datesFrontEnd = new Array();
-var subDatesFrontEnd = [];
+//var datesFrontEnd = new Array();
+//var subDatesFrontEnd = [];
 var dynamicStartStamp = false;
 var dynamicDiff = false;
 var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
@@ -30,9 +29,7 @@ function initPopupPage()
 	showCal(currentYear);
 		
 	//Date specific update trigging.
-	updateDatesStuff();
-
-	getNoteArray();
+	updateDatesStuff();	
 }
 
 /**
@@ -71,9 +68,17 @@ Return the main date (the one we count down to)
 */
 function getMainDate()
 {
-	return datesFrontEnd[0];
+	var tmp = bg.getDates();
+	return tmp[0];
 }
 
+/**
+Return the subsidiary dates (the ones we just show)
+*/
+function getSubDates()
+{
+	return bg.getSubDates(); // AttributereaksubDatesFrontEnd;
+}
 
 /**
 Set main date from time stamp and update all views
@@ -107,13 +112,7 @@ function setMainDate(timestamp)
 	*/
 }
 
-/**
-Return the subsidiary dates (the ones we just show)
-*/
-function getSubDates()
-{
-	return subDatesFrontEnd;
-}
+
 
 /**
 Update date set from back end and start update of content when done
@@ -123,7 +122,14 @@ function updateDatesStuff()
 	var dates;
 	var subdates;
 	
-	subdates = bg.getSubDates
+	//Refresh backgroudn page
+	bg.maintain();
+	
+	//Update link to background page
+	bg = chrome.extension.getBackgroundPage();
+	
+	//Set subdates
+	subdates = bg.getSubDates();
 	
 	/*
 	chrome.extension.sendRequest({action: "getSubDates"}, function(response) {
@@ -133,8 +139,8 @@ function updateDatesStuff()
 	});
 	*/
 	
-	dates = bg.getDates();
-	datesFrontEnd[0] = dates[0];
+//	dates = bg.getDates();
+//	datesFrontEnd[0] = dates[0];
 
 	/*
 	chrome.extension.sendRequest({action: "getDates"}, function(response) {
@@ -417,8 +423,10 @@ function highLightSelectedDates(){
 	
 	highLightDay(mainDate, selectedClass);
 	
+	var subdates = getSubDates()
+	
 	//Sub days
-	$.each(subDatesFrontEnd, function(key, value){
+	$.each(subdates, function(key, value){
 		
 		log("Labelling sub day", value);
 		highLightDay(value, selectedSubClass);
