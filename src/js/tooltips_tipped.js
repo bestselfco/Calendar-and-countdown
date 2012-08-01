@@ -60,6 +60,16 @@ function updateRightClickToolTipMenu(content, event)
 		highLightSelectedDates();
 	});
 	
+	$("#popupButtonSetMain").on("click", function(event){
+		bg.toggleDate(timestamp, false);
+		highLightSelectedDates();
+	});
+	
+	$("#popupButtonSetSecondary").on("click", function(event){
+		bg.toggleDate(timestamp, true);
+		highLightSelectedDates();
+	});
+	
 }
 
 /** 
@@ -73,6 +83,8 @@ function resetRightClickToolTipMenu()
 	$(".colorButton").off("click");
 	$("#resetNoteButton").off("click");
 	$("#resetColorButton").off("click");
+	$("#popupButtonSetMain").off("click");
+	$("#popupButtonSetSecondary").off("click");
 }
 
 /**
