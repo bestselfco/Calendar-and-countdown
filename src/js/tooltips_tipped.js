@@ -78,20 +78,19 @@ function getToolTipNormal(timestamp){
 	
 	var output = "";
 	var outArray = [];
+	var notes = getNoteArray();
 	
+	//Stupid casting
 	timestamp = timestamp * 1;
 	
 	var date = new Date(timestamp);
-
-	//Get the base variables in order	
-	//var gmtOffset = date.getTimezoneOffset() * 60000;
-	//var ndate = new Date(date.getTime() + gmtOffset);
 	
 	var day = date.getUTCDay();
 	var month = date.getUTCMonth();
 	var mDay = date.getUTCDate();
 	
 	var showDate = true;
+	var showNote = true;
 	var showDayInYear = true;
 	var showFromToday = true;
 	var showFromMarkedDate = true;
@@ -103,6 +102,11 @@ function getToolTipNormal(timestamp){
 	{
 		str_showDate = showDateString = getDateString(mDay, month, day);
 		outArray.push(str_showDate);
+	}
+	
+	if(showNote && notes[timestamp] !== undefined)
+	{
+		outArray.push("<div class='popup note'>"+notes[timestamp]+"</div>");
 	}
 	
 	if(showDayInYear)

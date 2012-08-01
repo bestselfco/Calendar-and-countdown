@@ -1,6 +1,8 @@
 /**
 Front end variables
 */
+var bg = chrome.extension.getBackgroundPage();
+
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "cal_day_chosen"; //God knows
 var selectedSubClass = "cal_subday_chosen";
@@ -10,7 +12,6 @@ var subDatesFrontEnd = [];
 var dynamicStartStamp = false;
 var dynamicDiff = false;
 var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
-
 
 /**
 Bootstrap page on load
@@ -30,6 +31,8 @@ function initPopupPage()
 		
 	//Date specific update trigging.
 	updateDatesStuff();
+
+	getNoteArray();
 }
 
 /**
@@ -78,8 +81,17 @@ Set main date from time stamp and update all views
 function setMainDate(timestamp)
 {
 	
-	datesFrontEnd[0] = timestamp;
+	//datesFrontEnd[0] = timestamp;
 	
+	//Set date in background page
+	bg.toggleDate(timestamp, false);
+	
+	//Refresh front end with new data
+	updateDatesStuff();	
+	
+	//highLightSelectedDates();
+	
+	/*
 	chrome.extension.sendRequest({action: "toggleDate", event_details:timestamp}, function(response) {
 		 
 		 var dates = JSON.parse(response.datesJSON);
@@ -92,6 +104,7 @@ function setMainDate(timestamp)
 	
 		 highLightSelectedDates();
 	});
+	*/
 }
 
 /**
@@ -110,42 +123,65 @@ function updateDatesStuff()
 	var dates;
 	var subdates;
 	
+	subdates = bg.getSubDates
+	
+	/*
 	chrome.extension.sendRequest({action: "getSubDates"}, function(response) {
  		 subdates = JSON.parse(response.datesJSON);
  		 log("Sub dates receieved", subdates);
  		 subDatesFrontEnd = subdates;
 	});
+	*/
+	
+	dates = bg.getDates();
+	datesFrontEnd[0] = dates[0];
 
+	/*
 	chrome.extension.sendRequest({action: "getDates"}, function(response) {
  		 dates = JSON.parse(response.datesJSON);
  		 datesFrontEnd[0] = dates[0];
 	 	 updateDatesStuffDo();
 	});
+	*/
+	
+		//Bind clicks - dialog on right click!
+		$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
+	
+		//Add all the tooltips
+		addTippedTooltips();
+	
+		//Highlight today
+		highLightToday();
+		
+		//Update the selected date
+		highLightSelectedDates();
+	
+		bg.maintain();
+	
+		//chrome.extension.sendRequest({action:"refresh"});
+	
+		//updateDatesStuffDo();
 	
 }
 
+
 /**
-Does all the init stuff that needs the date to be set correctly
+Retrieve note for a given date from backend
 */
-function updateDatesStuffDo()
-{	
-
-	//Bind clicks - dialog on right click!
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
-
-	//Bind clicks - direct setting on right click!
-	//$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClicked).on("mousedown", startDynamic);
-
-	//Add all the tooltips
-	addTippedTooltips();
-
-	//Highlight today
-	highLightToday();
+function getNoteArray(timestamp)
+{
+	var tmpNoteArray = bg.dateNoteArray;
+	var outObj = new Object;
 	
-	//Update the selected date
-	highLightSelectedDates();
-
-	chrome.extension.sendRequest({action:"refresh"});
+	for(i = 0; i < tmpNoteArray.length; i++)
+	{
+		var thekey = tmpNoteArray[i].timestamp.toString();
+		var note = tmpNoteArray[i].note;
+		//console.log(key);
+		outObj[thekey] = note;
+	}
+	
+	return outObj;
 }
 
 
@@ -303,6 +339,7 @@ function dayRightClickedDialog(event)
 /**
 TEMP! Set sub dates on right click.
 */
+/*
 function dayRightClicked(event)
 {
 	
@@ -321,6 +358,8 @@ function dayRightClicked(event)
 		
 	return false; //Kill propagation
 }
+
+*/
 
 /**
 The user has clicked a year link and we need to go to another year

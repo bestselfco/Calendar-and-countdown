@@ -1,6 +1,5 @@
 var dateArray; //Holds the dates we count down to
 var subDateArray;
-var dateNotes; //Notes for dates
 var newInstall; //Is this a first time install (ie: is the date array set?)
 var dateNoteArray; //Notes for dates
 var dateColorArray; //Colors for dates
@@ -30,7 +29,6 @@ function maintain()
 	updateIconFromStored();
 
 	setToolTip(new Date().toLocaleDateString());
-
 }
 
 /**
@@ -306,14 +304,7 @@ Event listener for communication with the popup page
 */
 chrome.extension.onRequest.addListener(
 		function(request, sender, sendResponse) {
-			if (request.action == "trackEvent") {
-
-				sendResponse({response: "ok"});
-				log("Google Analytics", request.event_type + ": "+request.event_details);
-				_gaq.push(['_trackEvent', request.event_type, request.event_action, request.event_details]);
-
-			}
-			else if (request.action == "toggleDate") {
+			if (request.action == "toggleDate") {
 				//New code to toggle dates. Much more resilient to fail, MVC based
 				toggleDate(request.event_details, false);
 				sendResponse({datesJSON:getDatesJSON()})
@@ -334,6 +325,11 @@ chrome.extension.onRequest.addListener(
 			
 				log("Sub dates requested by view");
 				sendResponse({datesJSON:getSubDatesJSON()});
+			}
+			else if (request.action == "getNoteForDate"){
+				var note = null;
+				note = getNoteForDate(request.event_details);
+				sendResponse({note:note});
 			}
 			else if (request.action == "killeverything") {
 
@@ -444,6 +440,33 @@ function getDistanceInDays()
 	else{
 		return null;
 	}
+}
+
+/**
+Return note for a timestamp, if any, as a string (or null)
+*/
+function getNoteForDate(timestamp)
+{
+	for(i=0; i<dateNoteArray.length; i++)
+	{
+		var tempR = dateNoteArray[i];
+		
+		if(tempR.timestamp.toString() === timestamp.toString())
+		{
+			return tempR.note;
+		}	
+	}
+	
+	return null;
+	
+}
+
+/**
+Return color array
+*/
+function getColorsJSON()
+{
+	return JSON.stringify(dateColorArray);
 }
 
 /**
