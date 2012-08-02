@@ -340,9 +340,7 @@ function dayClicked(event)
 {
 	var timestamp = event.target.attributes["datetimestamp"].value;
 	
-	
-		
-	//setMainDate(timestamp);
+	setMainDate(timestamp);
 		
 	return false; //Kill propagation	
 }

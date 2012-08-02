@@ -9,7 +9,7 @@ html {
 body {
 	display: block;
 	overflow: hidden;
-	font-family: Helvetica, arial, serif;
+	font-family: “helvetica neue”, helvetica, arial, sans-serif;
 	margin: 0px 8px 0px 8px;
 	cursor: default;
 }
@@ -27,7 +27,7 @@ body {
 
 #topbar {
 	position: absolute;
-	font-family: Helvetica, arial, serif;
+	/*font-family: Helvetica, arial, serif;*/
 	top: 10px;
 	left: 10px;
 	
@@ -128,8 +128,8 @@ body {
 .yearlink {
 	cursor: pointer;
 	color: rgb(200,200,200);
-	margin-left: 5px;
-	margin-right: 5px;
+	margin-left: 4px;
+	margin-right: 4px;
 }
 
 .yearlink:hover {
