@@ -18,13 +18,8 @@
 
 .t_Content_kvasboRight {
 	font-size: 12px;
-	line-height: 16px;
+	
 	padding: 7px 8px;
 	color: white;
 	font-family: "Helvetica", "Arial", sans-serif;
-}
-
-.t_Content_kvasboRight div {
-	padding: 2px;
-	margin: none;
 }

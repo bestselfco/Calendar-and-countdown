@@ -26,6 +26,9 @@ Initialize popup
  */
 function initPopupPage()
 {	
+	//Add the right click popup from templates.js first. Placed here to avoid code duplication.
+	$("#popupHolder").html(rightClickPopupTemplate);
+
 	//Display the calendar
 	showCal(currentYear);
 		
@@ -452,10 +455,7 @@ function highLightSelectedDates(){
 	
 	//Remove all highlighted days
 	removeHighLights();
-	
-	var mainDate = getMainDate();
-	
-	highLightDay(mainDate, selectedClass);
+
 	
 	var subdates = getSubDates()
 	
@@ -467,7 +467,7 @@ function highLightSelectedDates(){
 		
 	});
 	
-	//Set custom colors
+	// custom colors
 	customColors = bg.dateColorArray;
 	for(i=0;i<customColors.length;i++)
 	{
@@ -477,6 +477,10 @@ function highLightSelectedDates(){
 		var selectorString = '[dateTimestamp="'+timestamp+'"]';
 		$(selectorString).css("background-color", color);
 	}
+	
+	//Main date (last, to be the most important!
+	var mainDate = getMainDate();
+	highLightDay(mainDate, selectedClass);
 		
 }
 

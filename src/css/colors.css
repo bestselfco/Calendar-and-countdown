@@ -26,11 +26,7 @@
 	border: 1px solid rgba(160,57,26,1);
 }
 
-.cal_day_chosen {
-	background-color: rgba(160,57,26,1);
-	color:  white;
-	/*border: 1px solid rgba(255,57,26,1);*/
-}
+
 
 .cal_subday_chosen {
 	color: rgba(160,57,26,1);
@@ -48,4 +44,10 @@
 
 .cal_td_day:hover {
 	background-color: rgb(200,200,200);
+}
+
+.cal_day_chosen {
+	background-color: rgba(160,57,26,1);
+	color:  white;
+	/*border: 1px solid rgba(255,57,26,1);*/
 }
