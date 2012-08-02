@@ -85,10 +85,21 @@ Set main date from time stamp and update all views
 */
 function setMainDate(timestamp)
 {	
-	//Set date in background page
+	//Set date in background page	
 	bg.toggleDate(timestamp, false);
-	
-	updateDatesStuff();		
+	bg.maintain();
+	highLightSelectedDates();		
+}
+
+/**
+Set sub date from time stamp and update all views
+*/
+function setSubDate(timestamp)
+{
+	//Set date in background page	
+	bg.toggleDate(timestamp, true);
+	bg.maintain();
+	highLightSelectedDates();
 }
 
 /**
@@ -96,8 +107,8 @@ Update date set from back end and start update of content when done
 */
 function updateDatesStuff()
 {
-	var dates;
-	var subdates;
+	//var dates;
+	//var subdates;
 	
 	//Refresh backgroudn page
 	bg.maintain();
@@ -106,7 +117,7 @@ function updateDatesStuff()
 	bg = chrome.extension.getBackgroundPage();
 	
 	//Set subdates
-	subdates = bg.getSubDates();
+	//subdates = bg.getSubDates();
 	
 	notesArray = getNoteArray();
 	
@@ -328,8 +339,10 @@ New version when somebody has clicked a date. Uses attribute instead of passing 
 function dayClicked(event)
 {
 	var timestamp = event.target.attributes["datetimestamp"].value;
+	
+	
 		
-	setMainDate(timestamp);
+	//setMainDate(timestamp);
 		
 	return false; //Kill propagation	
 }

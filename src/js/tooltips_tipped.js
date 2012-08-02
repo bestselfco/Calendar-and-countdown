@@ -65,18 +65,13 @@ function updateRightClickToolTipMenu(content, event)
 	});
 	
 	$("#popupButtonSetMain").on("click", function(event){
-		bg.toggleDate(timestamp, false);
-		bg.maintain();
+		setMainDate(timestamp);
 		$("#popupButtonSetMain").toggleClass("popupButtonSelected");
-		highLightSelectedDates();
 	});
 	
 	$("#popupButtonSetSecondary").on("click", function(event){
-		bg.toggleDate(timestamp, true);
-		bg.maintain();
+		setSubDate(timestamp);
 		$("#popupButtonSetSecondary").toggleClass("popupButtonSelected");
-		highLightSelectedDates();
-		
 	});
 
 	//Is selected day main date?	
