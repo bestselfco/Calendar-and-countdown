@@ -222,7 +222,6 @@ body {
 	display: block;
 }
 
-
-.rightPopupDiv {
-	
+.popupButtonSelected {
+	border:  1px solid white;
 }

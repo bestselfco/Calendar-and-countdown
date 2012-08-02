@@ -11,6 +11,7 @@ function addTippedTooltips(){
 	}, { skin: 'kvasbo', showDelay: '450'});
 	
 	
+	Tipped.remove("#popupProxy");
 	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: false, showOn: false, onHide: resetRightClickToolTipMenu, onShow: updateRightClickToolTipMenu});
 
 }
@@ -62,13 +63,35 @@ function updateRightClickToolTipMenu(content, event)
 	
 	$("#popupButtonSetMain").on("click", function(event){
 		bg.toggleDate(timestamp, false);
+		$("#popupButtonSetMain").toggleClass("popupButtonSelected");
 		highLightSelectedDates();
 	});
 	
 	$("#popupButtonSetSecondary").on("click", function(event){
 		bg.toggleDate(timestamp, true);
+		$("#popupButtonSetSecondary").toggleClass("popupButtonSelected");
 		highLightSelectedDates();
+		
 	});
+
+	//Is selected day main date?	
+	var isMainDate = false; 
+	if(getMainDate() == timestamp) isMainDate = true;
+		
+	//Is selected day sub date?
+	var isSubDate = false;
+	var subDates = getSubDates();
+	
+	for(i=0; i<subDates.length; i++)
+	{
+		if(timestamp == subDates[i])
+		{
+			isSubDate = true;
+		}
+	} 
+	
+	if(isMainDate) $("#popupButtonSetMain").addClass("popupButtonSelected");
+	if(isSubDate) $("#popupButtonSetSecondary").addClass("popupButtonSelected");
 	
 }
 
@@ -85,6 +108,8 @@ function resetRightClickToolTipMenu()
 	$("#resetColorButton").off("click");
 	$("#popupButtonSetMain").off("click");
 	$("#popupButtonSetSecondary").off("click");
+	$("#popupButtonSetMain").removeClass("popupButtonSelected");
+	$("#popupButtonSetSecondary").removeClass("popupButtonSelected");
 }
 
 /**
