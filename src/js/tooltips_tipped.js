@@ -10,6 +10,13 @@ function addTippedTooltips(){
 		return getToolTip(timestamp);
 	}, { skin: 'kvasbo', showDelay: '450'});
 	
+	addRightClickPopup();
+
+}
+
+function addRightClickPopup()
+{
+
 	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: false, showOn: false, onHide: resetRightClickToolTipMenu, onShow: updateRightClickToolTipMenu});
 
 }
@@ -32,7 +39,7 @@ Bindings and stuff for right click menu once it is available
 */
 function updateRightClickToolTipMenu(content, event)
 {
-	var timestamp = $("#dateRightInputDialog").attr("dialogdatetimestamp");
+	var timestamp = lastEventDate; //$("#dateRightInputDialog").attr("dialogdatetimestamp");
 	var currNote = getNoteForDate(timestamp);
 
 	$("#dayNoteInput").val(currNote);

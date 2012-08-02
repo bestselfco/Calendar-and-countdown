@@ -10,6 +10,7 @@ var dynamicClass = "cal_day_dynamic";
 var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 var dynamicStartStamp = false;
 var dynamicDiff = false;
+var lastEventDate = "";
 
 var notesArray = getNoteArray();
 
@@ -120,8 +121,6 @@ function updateDatesStuff()
 	
 	//Update the selected date
 	highLightSelectedDates();
-
-	bg.maintain();
 	
 }
 
@@ -341,7 +340,12 @@ Open dialog on right click
 function dayRightClickedDialog(event)
 {	
 	event.preventDefault();
+	
+	//addRightClickPopup();
+	
 	var timestamp = event.target.attributes["datetimestamp"].value;
+	
+	lastEventDate = timestamp;
 	
 	//Set attribute for tooltip div in html page
 	$("#dateRightInputDialog").attr("dialogdatetimestamp", timestamp);
