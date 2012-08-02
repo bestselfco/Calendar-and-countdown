@@ -302,13 +302,13 @@ function setToolTip(text)
 /**
 Event listener for communication with the popup page
 */
+/*
 chrome.extension.onRequest.addListener(
 		function(request, sender, sendResponse) {
 			if (request.action == "toggleDate") {
 				//New code to toggle dates. Much more resilient to fail, MVC based
 				toggleDate(request.event_details, false);
 				sendResponse({datesJSON:getDatesJSON()})
-				
 			}
 			else if (request.action == "toggleDateRightClick") {
 				//New code to toggle dates. Right click.
@@ -316,13 +316,11 @@ chrome.extension.onRequest.addListener(
 				sendResponse({datesJSON:getSubDatesJSON()})
 			}
 			else if (request.action == "getDates") {
-
 				log("Dates requested by view.");
 				sendResponse({datesJSON:getDatesJSON()});
 			
 			}
 			else if (request.action == "getSubDates") {
-			
 				log("Sub dates requested by view");
 				sendResponse({datesJSON:getSubDatesJSON()});
 			}
@@ -330,31 +328,28 @@ chrome.extension.onRequest.addListener(
 				var note = null;
 				note = getNoteForDate(request.event_details);
 				sendResponse({note:note});
-			}
-			else if (request.action == "killeverything") {
-
-				//Reset everything
-				clearStrg();
-				resetSettings();
-				maintain();
-				
-				sendResponse({response: "ok"});
-				
-				log("Options event", "Killing everything");
-
-			}		
+			}	
 			else if (request.action == "refresh") {
-
 				sendResponse({response: "ok"});
-
 				log("Options event", "Refreshing settings");
-
 				maintain();
-
 			}
 			else
 				sendResponse({}); // snub them.
 		});
+*/
+
+/**
+Reset extension
+*/
+function killEmAll()
+{
+	clearStrg();
+	resetSettings();
+	maintain();
+	
+	return true;
+}
 
 /**
 *Update the badge from the stored countdown date
@@ -441,37 +436,6 @@ function getDistanceInDays()
 		return null;
 	}
 }
-
-
-/**
-Return note for a timestamp, if any, as a string (or null)
-*/
-/*
-function getNoteForDate(timestamp)
-{
-	for(i=0; i<dateNoteArray.length; i++)
-	{
-		var tempR = dateNoteArray[i];
-		
-		if(tempR.timestamp.toString() === timestamp.toString())
-		{
-			return tempR.note;
-		}	
-	}
-	
-	return null;
-	
-}*/
-
-/**
-Return color array
-*/
-/*
-function getColorsJSON()
-{
-	return JSON.stringify(dateColorArray);
-}
-*/
 
 /**
 Get version of extension

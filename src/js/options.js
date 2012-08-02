@@ -1,3 +1,6 @@
+//Get background page
+var bg = chrome.extension.getBackgroundPage();
+
 function init()
 {
 
@@ -184,12 +187,9 @@ function resetEverything()
 	$("#reseteverything").css("color", "blue");
 	$("#reseteverything").html("Resetting extension");
 	
+	bg.killEmAll();
 	
-	chrome.extension.sendRequest({action: "killeverything"}, function(response) {
-		$("#reseteverything").css("color", "green");
-		$("#reseteverything").html("Everything has been reset.");
-		window.location.reload();
-	});
+	window.location.reload();
 }
 
 $(document).ready(function() {
