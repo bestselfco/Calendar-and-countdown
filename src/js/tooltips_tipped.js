@@ -108,7 +108,11 @@ function resetRightClickToolTipMenu()
 	$("#popupButtonSetSecondary").off("click");
 	$("#popupButtonSetMain").removeClass("popupButtonSelected");
 	$("#popupButtonSetSecondary").removeClass("popupButtonSelected");
+	
+	updateDatesStuff();
+
 }
+
 
 /**
 Get the dynamic tool tip
@@ -168,13 +172,11 @@ function getToolTipNormal(timestamp){
 	var showFromToday = true;
 	var showFromMarkedDate = true;
 	var showSubDates = true;
-	
-	//outArray.push("<div id='editButton' style='position: absolute; top: 0px; right: 4px'>e</div>");
-	
+		
 	if(showDate)
 	{
-		str_showDate = showDateString = getDateString(mDay, month, day);
-		outArray.push(str_showDate);
+		str_showDate =  getDateString(timestamp, true);
+		outArray.push("<div class='popup popup_date'>"+str_showDate+"</div>");
 	}
 	
 	if(showNote && notes[timestamp] !== undefined)
@@ -184,8 +186,8 @@ function getToolTipNormal(timestamp){
 	
 	if(showDayInYear)
 	{
-			//Day of the year
-		str_showDayInYear = chrome.i18n.getMessage("dayCapital")+" "+(date.getDayOfYear())+" / "+(date.getDaysLeftInYear())+" "+chrome.i18n.getMessage("left")+".";
+		//Day of the year
+		str_showDayInYear = chrome.i18n.getMessage("dayCapital")+" "+(date.getDayOfYear())+" / "+(date.getDaysLeftInYear())+" "+chrome.i18n.getMessage("left");
 		outArray.push("<div class='popup'>"+str_showDayInYear+"</div>");
 	}
 	
@@ -193,11 +195,14 @@ function getToolTipNormal(timestamp){
 	{
 		fromToday = date.getDaysFromToday();
 		var suffix  = "";
-		if(Math.abs(fromToday) != 1) suffix = chrome.i18n.getMessage("several_suffix"); //"s" if one
+		if(Math.abs(fromToday) != 1)
+		{
+		 suffix = chrome.i18n.getMessage("several_suffix"); //"s" if one
+		}
 
 		if(fromToday < 0)
 			{
-				var countDown = Math.abs(fromToday)+" "+chrome.i18n.getMessage("day", "test")+suffix+" "+chrome.i18n.getMessage("ago")+".";	
+				var countDown = Math.abs(fromToday)+" "+chrome.i18n.getMessage("day", "test")+suffix+" "+chrome.i18n.getMessage("ago");	
 				outArray.push("<div class='popup'>"+countDown+"</div>");
 			}
 			else if(fromToday > 0)
@@ -206,84 +211,74 @@ function getToolTipNormal(timestamp){
 				outArray.push("<div class='popup'>"+countDown+"</div>");
 			}
 							
-		}
-			
-	if(showFromMarkedDate)
-	{
-		outArray.push(getCountDownDiffString(date));
 	}
-	
-	if(showSubDates)
-	{
-		var subDates = getSubDates();
 		
-		for(i=0; i<subDates.length; i++)
-		{
-			if(timestamp != subDates[i])
-			{
-			outArray.push("<div class='popup'>"+getSubDateCountdownString(timestamp, subDates[i])+"</div>");
-			}
+	
 			
+	if(showFromMarkedDate && timestamp != getMainDate())
+	{
+		outArray.push(getCountDownDiffString(date, getMainDate()));
+	}
+	
+	var subDates = getSubDates();
+	if(showSubDates)
+	{	
+		for(i = 0; i < subDates.length; i++)
+		{
+			console.log("Running "+i+" timestamp "+subDates[i]);
+			
+			if(timestamp.toString() !== subDates[i].toString())
+			{
+				var outString = "";
+				outString = getCountDownDiffString(new Date(timestamp*1), subDates[i]);
+				console.log("Return: "+outString);
+				outArray.push(outString);
+			}
 		}
 	}
 	
-	outArray = outArray.clean("null");
-	
-	
-	
+	//Clean out "null" and return result
+	outArray = outArray.clean("null");	
 	return outArray.join("");
 		
 }
 
-/**
-Return date as a string
-*/
-function getDateString(mDay, month, day)
-{
-	//Get correct suffix
-	lDay = (mDay%10);
-	switch(lDay)
-	{
-	case 1:
-		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberSt");
-		else sFix = chrome.i18n.getMessage("numberTh");
-		break;
-	case 2:
-		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberNd");
-		else sFix = chrome.i18n.getMessage("numberTh");
-		break;
-	case 3:
-		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberRd");
-		else sFix = chrome.i18n.getMessage("numberTh");
-		break;
-	default:
-		sFix = chrome.i18n.getMessage("numberTh");
-	}
 
-	var monthName = chrome.i18n.getMessage("mon"+(month+1)); 
-
-	var dateString = chrome.i18n.getMessage("fullDate", [ucFirst(chrome.i18n.getMessage("lday"+day)), monthName, mDay, sFix]);
-
-	return "<div class='popup popup_date'>"+dateString+"</div>";
-
-}
 
 /**
-
+Show countdown for date
 */
-function getCountDownDiffString(ndate)
+function getCountDownDiffString(ndate, countToDate)
 {
 	var outputString = "";
 	
-	var countDownDate = getMainDate();
-
+	var countDownDate = countToDate;
+	
+	var customNote = null;
+	
+	if(notesArray[countToDate] !== undefined)
+	{
+		customNote = notesArray[countToDate];
+	}
+	
 	//Should we count up/down to date in popup?
 	if(countDownDate != false){
 
 		var countDate = new Date(countDownDate*1); 	//Stupid casting again
 
 		var dayDiffCountDate = days_between(ndate, countDate); 	//Finding diff between oldid and now
-		
+	}
+			
+	var agountil = chrome.i18n.getMessage("until");
+	
+	if(ndate > countDownDate) agountil = chrome.i18n.getMessage("since");
+	
+	if(customNote != null)
+	{ 
+		localNote = agountil + " "  + customNote; 
+	}
+	else {
+		localNote = agountil + " " + getDateString(countToDate, false);
 	}
 	
 	//"Days from countdown date"
@@ -293,7 +288,7 @@ function getCountDownDiffString(ndate)
 
 		if(Math.abs(dayDiffCountDate) != 1) suffix = chrome.i18n.getMessage("several_suffix"); //"s" if > one
 
-		outputString = dayDiffCountDate+" "+chrome.i18n.getMessage("day")+suffix+" "+chrome.i18n.getMessage("frommarkeddate");
+		outputString = dayDiffCountDate+" "+chrome.i18n.getMessage("day")+suffix+" "+localNote;
 		return "<div class='popup'>"+outputString+"</div>";
 	}
 	else
@@ -301,37 +296,4 @@ function getCountDownDiffString(ndate)
 		return "null";
 	}
 	
-}
-
-/**
-Count down to all the small silly dates (subdates)
-*/
-function getSubDateCountdownString(timestampSub, timestampPop)
-{
-	var output;
-	
-	var ndate = new Date((timestampPop*1));
-	
-	var dateString = chrome.i18n.getMessage("shortDate", [ndate.getUTCMonth()+1,ndate.getUTCDate(),ndate.getUTCFullYear()]);
-	
-	var diff = days_between_timestamps(timestampSub,timestampPop);
-	
-	var severalsuffix = "";
-	if(diff > 1) severalsuffix = chrome.i18n.getMessage("several_suffix");
-	
-	if(timestampSub > timestampPop)
-	{
-		var fromto = chrome.i18n.getMessage("day") + severalsuffix + " " + chrome.i18n.getMessage("since");
-		
-		return diff + " " + fromto + " " + dateString;
-	}
-	else if(timestampSub < timestampPop)
-	{
-		var fromto = chrome.i18n.getMessage("day") + severalsuffix + " " + chrome.i18n.getMessage("until");
-		return diff + " " + fromto + " " + dateString;
-	}
-	else
-	{
-		return "null";
-	}
 }

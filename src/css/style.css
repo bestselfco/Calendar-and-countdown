@@ -9,7 +9,7 @@ html {
 body {
 	display: block;
 	overflow: hidden;
-	font-family: 'Droid Sans', arial, serif;
+	font-family: Helvetica, arial, serif;
 	margin: 0px 8px 0px 8px;
 	cursor: default;
 }
@@ -27,7 +27,7 @@ body {
 
 #topbar {
 	position: absolute;
-	font-family: 'Droid Sans', arial, serif;
+	font-family: Helvetica, arial, serif;
 	top: 10px;
 	left: 10px;
 	

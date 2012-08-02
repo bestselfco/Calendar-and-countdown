@@ -11,6 +11,8 @@ var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 var dynamicStartStamp = false;
 var dynamicDiff = false;
 
+var notesArray = getNoteArray();
+
 /**
 Bootstrap page on load
 */
@@ -105,6 +107,8 @@ function updateDatesStuff()
 	//Set subdates
 	subdates = bg.getSubDates();
 	
+	notesArray = getNoteArray();
+	
 	//Bind clicks - dialog on right click!
 	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
 
@@ -133,28 +137,83 @@ function getNoteArray()
 	for(i = 0; i < tmpNoteArray.length; i++)
 	{
 		var thekey = tmpNoteArray[i].timestamp.toString();
-		var note = tmpNoteArray[i].note;
+		var nota = tmpNoteArray[i].note;
 
-		outObj[thekey] = note;
+		outObj[thekey] = nota;
 	}
-	
+
 	return outObj;
 }
 
 /**
 Get note for a specific date
 */
-function getNoteForDate(timestamp)
+function getNoteForDate(timestampNote)
 {
 	var tmpNotes = getNoteArray();
+	var output = "";
 	
-	if(tmpNotes[timestamp] !== undefined)
+	console.log("checking note for "+timestampNote);
+	
+	if(tmpNotes[timestampNote] != undefined)
 	{
-		return tmpNotes[timestamp];
+		console.log("Note found "+timestampNote);
+		output = tmpNotes[timestampNote];
 	}
 	else {
-		return null;
+		console.log("Note not found" + timestampNote);
+		output = "";
 	}
+	
+	return output;
+	
+}
+
+/**
+Return date as a localised string
+*/
+function getDateString(timestamp, long)
+{
+
+	date = new Date(timestamp*1);
+	
+	var day = date.getUTCDay();
+	var month = date.getUTCMonth();
+	var mDay = date.getUTCDate();
+	var year = date.getUTCFullYear();
+
+	//Get correct suffix
+	lDay = (mDay%10);
+	switch(lDay)
+	{
+	case 1:
+		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberSt");
+		else sFix = chrome.i18n.getMessage("numberTh");
+		break;
+	case 2:
+		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberNd");
+		else sFix = chrome.i18n.getMessage("numberTh");
+		break;
+	case 3:
+		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberRd");
+		else sFix = chrome.i18n.getMessage("numberTh");
+		break;
+	default:
+		sFix = chrome.i18n.getMessage("numberTh");
+	}
+
+	var monthName = chrome.i18n.getMessage("mon"+(month+1)); 
+
+	if(long)
+	{
+		var dateString = chrome.i18n.getMessage("fullDate", [ucFirst(chrome.i18n.getMessage("lday"+day)), monthName, mDay, sFix]);
+	}
+	else {
+		var dateString = chrome.i18n.getMessage("shortDate", [month+1, mDay, year]);
+	}
+
+	return dateString;
+
 }
 
 /**

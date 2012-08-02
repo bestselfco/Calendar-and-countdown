@@ -43,6 +43,10 @@
     "message": "from marked date",
     "description": "from marked date, for countdown in popup"
   },
+  "markeddate": {
+    "message": "marked date",
+    "description": "from marked date, for countdown in popup"
+  },
   "several_suffix": {
     "message": "s",
     "description": "Suffix for more than one. As in 'day_s_'"
