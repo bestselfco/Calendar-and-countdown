@@ -140,20 +140,6 @@ body {
 	color: rgb(0,0,0);
 }
 
-#inputDialog {
-	font-size: 15px;
-}
-
-#inputDialog div {
-	padding:  5px;
-}
-
-#inputDialog td {
-	width:  20px;
-	height:  15px;
-	border:  1px solid black;
-}
-
 #popupProxy {
 	position:  absolute;
 	background-color: green;
@@ -166,62 +152,122 @@ body {
 
 #dayNoteInput {
 	background-color:  rgb(100,100,100);
-	border:  none;
+	border: none;
 	color: white;
-	padding: 3px;
-	border-radius: 2px;
-	position: relative;
-	left: 5px;
+	padding: 2px 2px 2px 4px;
+	border-radius: 4px;
+	width: 168px;
 }
 
 .popupButtonDate {
-	background-color:  rgb(140,140,140);
-	padding:  3px 8px 3px 8px;
-	border:  1px solid black;
-	border-radius: 4px;
-	margin: 3px 3px 8px 0px;
-	display: inline-block;
+	color:  rgba(255,255,255,0.82);
+	margin-left:  0px 3px 0px 3px;
 }
 
 #popupButtonSetMain:hover, #popupButtonSetSecondary:hover {
 	cursor: pointer; 
-	background-color:  rgb(100,100,100);
+	color:  rgb(255,255,255);
 }
 
-.resetButton {
-	margin-right: 5px;
-}
-
-#resetNoteButton {
-	position:  relative;
-	top: 1px;
-	left: 10px;
-}
-
-#resetColorButton {
-	position:  relative;
-	top: 1px;
-	left: 7px;
-	
+.popupButtonSelected {
+	text-decoration: underline;
+	color: white;
 }
 
 .colorButton {
-	display: inline-block;
-	position:  relative;
+	display: block;
 	width: 16px;
 	height: 14px;
 	border: 1px solid black;
 	background-color: #FFFFFF;
 	border-radius: 4px;
-	top: 4px;
-	left: 3px;
+	cursor:  pointer;
 }
 
 #dateRightInputDialog {
-	padding:  5px;
+	color:  white;
+	height:  100px;
+	width:  250px;
+	display:  block;
+	overflow:  hidden;
+	margin:  none;
+	padding:  none;
+	font-size: 12px;
+}
+
+.popupDiv {
+	margin: none;
+	display:  block;
+	overflow:  hidden;
+	float:  left;
+	height: 22px;
+	padding:  3px 0px 0px 0px;
+	vertical-align:  middle;
+	font-size: 12px;
+	background-color:  rgba(255,0,0,0);
+}
+
+.popupDivHeader {
+	font-size: 14px;
+	font-weight:  bold;
+}
+
+#dayColorLabel {
+	margin-top: 1px;
 	display: block;
 }
 
-.popupButtonSelected {
-	border:  1px solid white;
+#dayNoteLabel {
+	margin-top: 3px;
+	display: block;
+}
+
+#resetColorButton {
+	margin-top: 2px;
+	cursor: pointer;
+}
+
+#resetNoteButton {
+	margin-top: 4px;
+	cursor: pointer;
+}
+
+.popupDiv1 {
+	width: 25px;
+}
+
+.popupDiv2 {
+	width: 50px;
+}
+
+.popupDiv3 {
+	width: 75px;
+}
+
+.popupDiv4 {
+	width: 100px;
+}
+
+.popupDiv5 {
+	width:  125px;
+}
+
+.popupDiv6 {
+	width: 150px;
+}
+
+.popupDiv7 {
+	width: 175px;
+}
+
+.popupDiv8 {
+	width: 200px;
+}
+
+.popupDiv9 {
+	width: 225px;
+}
+
+.popupDiv10 {
+	width:  250px;
 }

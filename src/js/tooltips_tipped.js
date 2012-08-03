@@ -42,6 +42,8 @@ function updateRightClickToolTipMenu(content, event)
 	var timestamp = lastEventDate; //$("#dateRightInputDialog").attr("dialogdatetimestamp");
 	var currNote = getNoteForDate(timestamp);
 
+	$("#popupTableHeaderCell").html(getDateString(timestamp,true));
+
 	$("#dayNoteInput").val(currNote);
 
 	$("#dayNoteInput").on("change", function(event){
