@@ -1,4 +1,7 @@
 //Various snippets found around the internets
+function replaceAll(txt, replace, with_this) {
+  return txt.replace(new RegExp(replace, 'g'),with_this);
+}
 
 //Clean up array
 Array.prototype.clean = function(deleteValue) {

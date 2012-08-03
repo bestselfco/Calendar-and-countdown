@@ -108,7 +108,7 @@ Date.prototype.getDaysFromToday = function () {
 	var todayUtc = today.getUTCMidnight(); //Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
 	var thisUtc = this.getUTCMidnight();
 	
-	log("getDaysFromToday today: ", new Date(todayUtc).toUTCString());
+	//log("getDaysFromToday today: ", new Date(todayUtc).toUTCString());
 	
 	var diff = Math.floor((thisUtc - todayUtc) / 86400000);
 

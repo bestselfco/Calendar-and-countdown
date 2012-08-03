@@ -1,12 +1,10 @@
 <html>
 <head>
 
-<link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Sans:regular,bold|Droid+Sans+Mono" />
 <link type="text/css" rel="stylesheet" href="css/style.css"  />
 <link type="text/css" rel="stylesheet" href="css/style_3.css" />
 <link type="text/css" rel="stylesheet" href="css/colors.css" />
 
-<link href='jquery-ui-1.8.20.custom/css/blitzer/jquery-ui-1.8.20.custom.css' rel='stylesheet' type='text/css'>
 <link type="text/css" rel="stylesheet" href="js/libraries/tipped/css/tipped.css" />
 <link type="text/css" rel="stylesheet" href="css/tipped_custom.css" />
 
@@ -68,14 +66,32 @@
 
 </div>
 
-<div id="inputDialog" datetimestamp="0" style="display: none;">
+<div id="popupHolder"></div>
 
+<!--
+<div id="popupProxy">
 </div>
 
+<div id="dateRightInputDialog" dialogdatetimestamp="0" style="display: none;">
+	<div id="isMainCountdown"><span id="popupButtonSetMain" style="popupButtonMainDate">Set as main countdown</div>
+	<div id="isSecondaryCountdown"><span id="popupButtonSetSecondary" style="popupButtonSecondaryDate">Set as secondary countdown</div>
+	<div id="dayNote">Note: <input type="text" id="dayNoteInput"><img class="resetButton" src="pics/reset.png" id="resetNoteButton"></div>
+	<div id="dayColor">Color:
+	<span id="colors">
+		<span class="colorButton" id="color1" style="background-color: #FFF700"></span>
+		<span class="colorButton" id="color2" style="background-color: #FFA500"></span>
+		<span class="colorButton" id="color3" style="background-color: #FF8373"></span>
+		<span class="colorButton" id="color4" style="background-color: #60B9CE"></span>
+		<span class="colorButton" id="color5" style="background-color: #58E000"></span>
+		<span class="colorButton" id="color6" style="background-color: #B764D4"></span>
+		<img class="resetButton" src="pics/reset.png" id="resetColorButton">
+	</span>
+	</div>
+</div>
+-->
 
-<script type="text/javascript" src="js/libraries/jquery-1.7.2.min.js"></script>
 
-<script type="text/javascript" src="jquery-ui-1.8.20.custom/js/jquery-ui-1.8.20.custom.min.js"></script>
+<script type="text/javascript" src="js/libraries/jquery-1.8rc1.js"></script>
 
 <script type="text/javascript" src="js/libraries/tipped/js/tipped/tipped.unpacked.js"></script>
 
