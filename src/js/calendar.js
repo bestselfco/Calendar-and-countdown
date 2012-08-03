@@ -1,15 +1,18 @@
 /**
 Front end variables
 */
+var bg = chrome.extension.getBackgroundPage();
+
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "cal_day_chosen"; //God knows
 var selectedSubClass = "cal_subday_chosen";
 var dynamicClass = "cal_day_dynamic";
-var datesFrontEnd = new Array();
-var subDatesFrontEnd = [];
+var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 var dynamicStartStamp = false;
 var dynamicDiff = false;
-var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
+var lastEventDate = "";
+
+var notesArray = getNoteArray();
 
 /**
 Bootstrap page on load
@@ -24,11 +27,14 @@ Initialize popup
  */
 function initPopupPage()
 {	
+	//Add the right click popup from templates.js first. Placed here to avoid code duplication.
+	$("#popupHolder").html(rightClickPopupTemplate);
+
 	//Display the calendar
 	showCal(currentYear);
 		
 	//Date specific update trigging.
-	updateDatesStuff();
+	updateDatesStuff();	
 }
 
 /**
@@ -62,15 +68,8 @@ Return the main date (the one we count down to)
 */
 function getMainDate()
 {
-	return datesFrontEnd[0];
-}
-
-/**
-Set local main date.
-*/
-function setMainDate(timestamp)
-{
-	datesFrontEnd[0] = timestamp;
+	var tmp = bg.getDates();
+	return tmp[0];
 }
 
 /**
@@ -78,7 +77,29 @@ Return the subsidiary dates (the ones we just show)
 */
 function getSubDates()
 {
-	return subDatesFrontEnd;
+	return bg.getSubDates();
+}
+
+/**
+Set main date from time stamp and update all views
+*/
+function setMainDate(timestamp)
+{	
+	//Set date in background page	
+	bg.toggleDate(timestamp, false);
+	bg.maintain();
+	highLightSelectedDates();		
+}
+
+/**
+Set sub date from time stamp and update all views
+*/
+function setSubDate(timestamp)
+{
+	//Set date in background page	
+	bg.toggleDate(timestamp, true);
+	bg.maintain();
+	highLightSelectedDates();
 }
 
 /**
@@ -86,34 +107,22 @@ Update date set from back end and start update of content when done
 */
 function updateDatesStuff()
 {
-	var dates;
-	var subdates;
+	//var dates;
+	//var subdates;
 	
-	chrome.extension.sendRequest({action: "getSubDates"}, function(response) {
- 		 subdates = JSON.parse(response.datesJSON);
- 		 log("Sub dates receieved", subdates);
- 		 subDatesFrontEnd = subdates;
-	});
-
-	chrome.extension.sendRequest({action: "getDates"}, function(response) {
- 		 dates = JSON.parse(response.datesJSON);
- 		 setMainDate(dates[0]);
-	 	 updateDatesStuffDo();
-	});
+	//Refresh backgroudn page
+	bg.maintain();
 	
-}
-
-/**
-Does all the init stuff that needs the date to be set correctly
-*/
-function updateDatesStuffDo()
-{	
-
+	//Update link to background page
+	bg = chrome.extension.getBackgroundPage();
+	
+	//Set subdates
+	//subdates = bg.getSubDates();
+	
+	notesArray = getNoteArray();
+	
 	//Bind clicks - dialog on right click!
-	//$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
-
-	//Bind clicks - direct setting on right click!
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClicked).on("mousedown", startDynamic);
+	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
 
 	//Add all the tooltips
 	addTippedTooltips();
@@ -123,15 +132,104 @@ function updateDatesStuffDo()
 	
 	//Update the selected date
 	highLightSelectedDates();
-
-	chrome.extension.sendRequest({action:"refresh"});
+	
 }
 
 
 /**
- * Show a year
- * 
- * @param year Which year to show
+Retrieve note for a given date from backend
+*/
+function getNoteArray()
+{
+	var tmpNoteArray = bg.dateNoteArray;
+	var outObj = new Object;
+	
+	for(i = 0; i < tmpNoteArray.length; i++)
+	{
+		var thekey = tmpNoteArray[i].timestamp.toString();
+		var nota = tmpNoteArray[i].note;
+
+		outObj[thekey] = nota;
+	}
+
+	return outObj;
+}
+
+/**
+Get note for a specific date
+*/
+function getNoteForDate(timestampNote)
+{
+	var tmpNotes = getNoteArray();
+	var output = "";
+	
+	console.log("checking note for "+timestampNote);
+	
+	if(tmpNotes[timestampNote] != undefined)
+	{
+		console.log("Note found "+timestampNote);
+		output = tmpNotes[timestampNote];
+	}
+	else {
+		console.log("Note not found" + timestampNote);
+		output = "";
+	}
+	
+	return output;
+	
+}
+
+/**
+Return date as a localised string
+*/
+function getDateString(timestamp, long)
+{
+
+	date = new Date(timestamp*1);
+	
+	var day = date.getUTCDay();
+	var month = date.getUTCMonth();
+	var mDay = date.getUTCDate();
+	var year = date.getUTCFullYear();
+
+	//Get correct suffix
+	lDay = (mDay%10);
+	switch(lDay)
+	{
+	case 1:
+		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberSt");
+		else sFix = chrome.i18n.getMessage("numberTh");
+		break;
+	case 2:
+		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberNd");
+		else sFix = chrome.i18n.getMessage("numberTh");
+		break;
+	case 3:
+		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberRd");
+		else sFix = chrome.i18n.getMessage("numberTh");
+		break;
+	default:
+		sFix = chrome.i18n.getMessage("numberTh");
+	}
+
+	var monthName = chrome.i18n.getMessage("mon"+(month+1)); 
+
+	if(long)
+	{
+		var dateString = chrome.i18n.getMessage("fullDate", [ucFirst(chrome.i18n.getMessage("lday"+day)), monthName, mDay, sFix]);
+	}
+	else {
+		var dateString = chrome.i18n.getMessage("shortDate", [month+1, mDay, year]);
+	}
+
+	return dateString;
+
+}
+
+/**
+ Show a year
+  
+ @param year Which year to show
  */
 function showCal(year)
 {
@@ -156,7 +254,7 @@ Start the dynamic counter
 */
 function startDynamic(event)
 {
-	Tipped.hideAll(); //Hide all tool tips
+	Tipped.hide(daysSelectString); //Hide all tool tips
 	
 	$(daysSelectString).on("mouseenter", updateDynamic); //Add mouseenter event for days
 	$("*").on("mouseup", endDynamic); //Add mouseup event for all (to end on end of click, also outside specific days)
@@ -205,7 +303,7 @@ End and unset the dynamic counter
 */
 function endDynamic(event){
 	
-	Tipped.hideAll(); //Hide all tool tips
+	Tipped.hide(daysSelectString); //Hide all tool tips
 	
 	//Unbind events from all events
 	$("*").off("mouseup", endDynamic).off("mouseenter", updateDynamic);
@@ -219,6 +317,21 @@ function endDynamic(event){
 	
 }
 
+/**
+Add a note to a date via the BG page and reload stuff as usual.
+*/
+function addNoteToDate(timestamp, note)
+{
+	bg.setNoteForDate(timestamp, note, false);
+}
+
+/**
+Clear a note from a date
+*/
+function clearNoteFromDate(timestamp)
+{
+	bg.setNoteForDate(timestamp, "", true);
+}
 
 /**
 New version when somebody has clicked a date. Uses attribute instead of passing value by function.
@@ -227,23 +340,9 @@ function dayClicked(event)
 {
 	var timestamp = event.target.attributes["datetimestamp"].value;
 	
-	log("Day clicked", timestamp);
-	
-		chrome.extension.sendRequest({action: "toggleDate", event_details:timestamp},	function(response) {
- 		 
- 		 var dates = JSON.parse(response.datesJSON);
- 		 
- 		 log("Date set: ", dates);
- 		 
- 		 setMainDate(dates[0]);
- 		 
- 		 updateDatesStuff();	
-	
-		 highLightSelectedDates();
-	});
+	setMainDate(timestamp);
 		
-	return false; //Kill propagation
-	
+	return false; //Kill propagation	
 }
 
 /**
@@ -252,39 +351,25 @@ Open dialog on right click
 function dayRightClickedDialog(event)
 {	
 	event.preventDefault();
-	var timestamp = event.target.attributes["datetimestamp"].value;
-	var dialogDate = new Date(timestamp*1);
-	var title = dialogDate.toUTCString();
 	
-	Tipped.hideAll(); //Hide all tool tips
-	$("#inputDialog").attr("datetimestamp", timestamp).dialog({
-		modal: true,
-		draggable: false,
-		resizable: false,
-		title: title
-	});
+	//addRightClickPopup();
 	
-	return false; //Kill propagation
-}
-
-/**
-TEMP! Set sub dates on right click.
-*/
-function dayRightClicked(event)
-{
-	
-	event.preventDefault();
-
 	var timestamp = event.target.attributes["datetimestamp"].value;
 	
-	log("Day clicked (right)", timestamp);
+	lastEventDate = timestamp;
 	
-	chrome.extension.sendRequest({action: "toggleDateRightClick", event_details:timestamp}, function(response) {
- 		 log("Sub dates set");
-	});
+	//Set attribute for tooltip div in html page
+	$("#dateRightInputDialog").attr("dialogdatetimestamp", timestamp);
 	
-	updateDatesStuff();
-	highLightSelectedDates();
+	//Move proxy div to right position
+	var p = $(event.target).offset();	
+	$("#popupProxy").css("display", "block").css("top", p.top).css("left", p.left);
+	
+	//Get tip for proxy
+	var tempTip = Tipped.get('#popupProxy');
+	
+	//Show tip for proxy
+	tempTip.show();
 		
 	return false; //Kill propagation
 }
@@ -340,18 +425,31 @@ function highLightSelectedDates(){
 	
 	//Remove all highlighted days
 	removeHighLights();
-	
-	var mainDate = getMainDate();
-	
-	highLightDay(mainDate, selectedClass);
+
+	var subdates = getSubDates()
 	
 	//Sub days
-	$.each(subDatesFrontEnd, function(key, value){
+	$.each(subdates, function(key, value){
 		
-		log("Labelling sub day", value);
+		//log("Labelling sub day", value);
 		highLightDay(value, selectedSubClass);
 		
 	});
+	
+	// custom colors
+	customColors = bg.dateColorArray;
+	for(i=0;i<customColors.length;i++)
+	{
+		var timestamp = customColors[i].timestamp;
+		var color = customColors[i].color;
+		log(timestamp,color);
+		var selectorString = '[dateTimestamp="'+timestamp+'"]';
+		$(selectorString).css("background-color", color);
+	}
+	
+	//Main date (last, to be the most important!
+	var mainDate = getMainDate();
+	highLightDay(mainDate, selectedClass);
 		
 }
 
@@ -360,13 +458,8 @@ Remove all highlights
 */
 function removeHighLights()
 {
-//	var selectorStringSub = "."+selectedSubClass;
-//	var selectorStringMain = "."+selectedClass;
-	
-//	$(selectorStringSub).removeClass(selectedSubClass);
-//	$(selectorStringMain).removeClass(selectedClass);
-
-	$(daysSelectString).removeClass(selectedSubClass).removeClass(selectedClass);
+	//Remove all modifications made by jQuery
+	$(daysSelectString).removeClass(selectedSubClass).removeClass(selectedClass).css("background-color", "");
 
 	log("Css change", "Removed highlights");
 }
@@ -376,7 +469,7 @@ Highlights the chosen dates, from loaded value
 */
 function Calendar(year, month)
 {
-	log("Creating calendar", year+"-"+month);
+//	log("Creating calendar", year+"-"+month);
 	
 	//Functions
 	this.getCal = calGetCal;
@@ -439,8 +532,6 @@ function calGetCal()
 
 	var startWeek = this.workDate.getWeek(1);
 	var startWeekDay = this.workDate.getUTCDay();
-
-	//log("Workdate: ", this.workDate)
 	
 	var tabWidth = 8;
 
@@ -542,19 +633,14 @@ function calGetCal()
 		this.outVars["d_stamp_"+currentWeek+"_"+days] = dayStamp;
 		this.outVars["d_content_"+currentWeek+"_"+days] = i+1;
 		this.outVars["d_class_"+currentWeek+"_"+days] = "cal_td_day";
+		this.outVars["d_id_"+currentWeek+"_"+days] = dayStamp;
 
 		days++;
 	}
 
-	//console.log(this.outVars);
-
-	// Old template solution
-	//var thisCalOut = $.tmpl( "monthTemplate", this.outVars ) ;
-
 	var thisCalOutHtml = monthTemplate;
 
 	//New home made str_replace version
-	//log("OutVars", this.outVars);
 	var replaceString;
 	
 	$.each(this.outVars, function(key, value){
@@ -563,20 +649,11 @@ function calGetCal()
 		
 		thisCalOutHtml = thisCalOutHtml.replace(replaceString,value);
 		
-		//log(replaceString, value);
 	});
-	
-	//   /\${[a-zA-Z0-9_-]*}/gi
-	
+		
 	myregexp = new RegExp(/\${[a-zA-Z0-9_-]*}/gi);
 	
 	thisCalOutHtml = thisCalOutHtml.replace(myregexp, "");
-	
-	
-	
-	//var thisCalOutHtml = $(thisCalOut).clone()[0].outerHTML;
-	
-	
 	
 	return thisCalOutHtml;
 }
@@ -626,8 +703,6 @@ function populateYear(year, selectstring)
 		$(selectString).html(new Calendar(year,i).getCal());
 	}
 }
-
-
 
 /**
 Add the links to the link bar

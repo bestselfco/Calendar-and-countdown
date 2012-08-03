@@ -1,7 +1,10 @@
 var dateArray; //Holds the dates we count down to
 var subDateArray;
-var dateNotes; //Notes for dates
 var newInstall; //Is this a first time install (ie: is the date array set?)
+var dateNoteArray; //Notes for dates
+var dateColorArray; //Colors for dates
+var maintainCycles = 0;
+
 
 /**
 Run maintenance script every minute
@@ -17,14 +20,15 @@ Maintain data
 */
 function maintain()
 {
-	log("Event", "maintain()");
+	maintainCycles++;
+	
+	log("Maintenance", "Cycle #"+maintainCycles);
 
 	updateBadgeFromStored();
 	updatePopupFromStored();
 	updateIconFromStored();
 
 	setToolTip(new Date().toLocaleDateString());
-
 }
 
 /**
@@ -57,6 +61,77 @@ function getSubDates()
 {
 	subDateArray = JSON.parse(getItem("noCountDateArray"));
 	return subDateArray;
+}
+
+/**
+Add or remove a note for a date. If "remove" is true, it is deleted no matter what the note. Otherwise, it is added or replaced based on whether or not the timestamp already has a note
+*/
+function setNoteForDate(timestamp, note, remove)
+{
+	//Create new object
+	var tmp = {};
+	tmp.timestamp = timestamp;
+	tmp.note = note;
+	
+	var newArray = [];
+	
+	//First, remove any references to the date, because we are either deleting or replacing
+	for(i=0; i<dateNoteArray.length; i++)
+	{
+		var tempR = dateNoteArray[i];
+		
+		if(tempR.timestamp.toString() !== timestamp.toString())
+		{
+			newArray.push(tempR); //If not to be removed, add to next array.
+		}	
+	}
+	
+	dateNoteArray = newArray; //dateNoteArray is now cleaned
+
+	
+	//Then, if not remove, add current
+	if(!remove)
+	{
+		dateNoteArray.push(tmp);
+	}
+	
+	setItem("dateNoteArray", JSON.stringify(dateNoteArray));
+	
+}
+
+/**
+Add or remove a color mark for a date
+*/
+function setColorForDate(timestamp, color, remove)
+{
+		//Create new object
+		var tmp = {};
+		tmp.timestamp = timestamp;
+		tmp.color = color;
+		
+		var newArray = [];
+		
+		//First, remove any references to the date, because we are either deleting or replacing
+		for(i=0; i<dateColorArray.length; i++)
+		{
+			var tempR = dateColorArray[i];
+			
+			if(tempR.timestamp.toString() !== timestamp.toString())
+			{
+				newArray.push(tempR); //If not to be removed, add to next array.
+			}	
+		}
+		
+		dateColorArray = newArray; //dateNoteArray is now cleaned
+	
+		
+		//Then, if not remove, add current
+		if(!remove)
+		{
+			dateColorArray.push(tmp);
+		}
+		
+		setItem("dateColorArray", JSON.stringify(dateColorArray));
 }
 
 /**
@@ -107,107 +182,6 @@ function toggleDate(timestamp, noCount)
 	
 }
 
-
-/**
-Initialise settings and/or reset everything to scratch
-*/ 
-function resetSettings()
-{
-	log("Event", "resetSettings()");
-	
-	dateArray = getItem("dateArray");
-	if(dateArray == null && getItem("countto") != null )
-	{
-		//Transition to new solution for storing date.
-		dateArray = new Array();
-		var countTo = getItem("countto");
-		toggleDate(countTo);
-		log("Migrating date solution", countTo);
-	}
-	else if(dateArray == null)
-	{
-		dateArray = new Array();
-		setItem("dateArray", JSON.stringify(dateArray));
-		log("Setting default (empty) date array", dateArray);
-	}
-	else
-	{
-		dateArray = JSON.parse(dateArray);
-	}
-	
-	//Secondary dates
-	noCountDateArray = getItem("noCountDateArray");
-	if(noCountDateArray == null)
-	{
-		noCountDateArray = new Array();
-		setItem("noCountDateArray", JSON.stringify(noCountDateArray));
-	}
-	else
-	{
-		noCountDateArray = JSON.parse(noCountDateArray);
-	}
-	
-
-	var icon_topColor = getItem("icon_topColor");
-	if(icon_topColor == null)
-	{
-		var icon_topColor = "rgba(27,140,160,1)";
-		setItem("icon_topColor", icon_topColor);
-		log("Setting up default icon top color", icon_topColor);
-	}
-	
-	//Load default icon, autocreates new if not already set
-	var icon = new Icon(new Object());
-	icon.getDefaultValues(true);
-	
-	
-	
-	var showBadge = getItem("showBadge");
-	if(showBadge == null)
-	{
-		var showBadge = "1";
-		setItem("showBadge", showBadge);
-		log("Setting up default badge display", showBadge);
-	}
-	
-	var icon_textColor = getItem("icon_textColor");
-	if(icon_textColor == null)
-	{
-		var icon_textColor = "rgba(0,0,0,0.65)";
-		setItem("icon_textColor", icon_textColor);
-		log("Setting up default icon text color", icon_textColor);
-	}
-
-	var icon_showtext = getItem("icon_showtext");
-	if(icon_showtext == null)
-	{
-		var icon_showtext = "0";
-		setItem("icon_showtext", icon_showtext);
-		log("setting up icon text");
-	}
-	
-	var badgeColor = getItem("badgeColor");
-	if(badgeColor == null) {
-		var color = "#18CD32";
-		setItem("badgeColor", color);
-		log("setting up default badge color");
-	}
-
-	var popup = getItem("popup");
-	if(popup == null) {
-		var popup = "12";
-		setItem("popup", popup);
-		log("setting up default popup");
-	}
-
-	var iconColor = getItem("iconColor");
-	if(iconColor == null) {
-		var popup = "red";
-		setItem("iconColor", popup);
-		log("setting default icon color");
-	}
-
-}
 
 /**
 Convert stored dates to use UTC. One time conversion, but does not screw up on multiple loads. 
@@ -328,20 +302,13 @@ function setToolTip(text)
 /**
 Event listener for communication with the popup page
 */
+/*
 chrome.extension.onRequest.addListener(
 		function(request, sender, sendResponse) {
-			if (request.action == "trackEvent") {
-
-				sendResponse({response: "ok"});
-				log("Google Analytics", request.event_type + ": "+request.event_details);
-				_gaq.push(['_trackEvent', request.event_type, request.event_action, request.event_details]);
-
-			}
-			else if (request.action == "toggleDate") {
+			if (request.action == "toggleDate") {
 				//New code to toggle dates. Much more resilient to fail, MVC based
 				toggleDate(request.event_details, false);
 				sendResponse({datesJSON:getDatesJSON()})
-				
 			}
 			else if (request.action == "toggleDateRightClick") {
 				//New code to toggle dates. Right click.
@@ -349,40 +316,40 @@ chrome.extension.onRequest.addListener(
 				sendResponse({datesJSON:getSubDatesJSON()})
 			}
 			else if (request.action == "getDates") {
-
 				log("Dates requested by view.");
 				sendResponse({datesJSON:getDatesJSON()});
 			
 			}
 			else if (request.action == "getSubDates") {
-			
 				log("Sub dates requested by view");
 				sendResponse({datesJSON:getSubDatesJSON()});
 			}
-			else if (request.action == "killeverything") {
-
-				//Reset everything
-				clearStrg();
-				resetSettings();
-				maintain();
-				
-				sendResponse({response: "ok"});
-				
-				log("Options event", "Killing everything");
-
-			}		
+			else if (request.action == "getNoteForDate"){
+				var note = null;
+				note = getNoteForDate(request.event_details);
+				sendResponse({note:note});
+			}	
 			else if (request.action == "refresh") {
-
 				sendResponse({response: "ok"});
-
 				log("Options event", "Refreshing settings");
-
 				maintain();
-
 			}
 			else
 				sendResponse({}); // snub them.
 		});
+*/
+
+/**
+Reset extension
+*/
+function killEmAll()
+{
+	clearStrg();
+	resetSettings();
+	maintain();
+	
+	return true;
+}
 
 /**
 *Update the badge from the stored countdown date
@@ -442,7 +409,7 @@ function getDistanceInDays()
 	//var tmpArray = JSON.parse(getItem("dateArray"));
 	var countto = dateArray[0];
 	
-	log("Checking distance for badge", countto);
+	//log("Checking distance for badge", countto);
 	
 	if(countto !== null && countto !== undefined)
 	{
@@ -531,12 +498,12 @@ function bginit()
 	
 	if(location.hostname != googleID){
 		document.title = "C&C "+extVersion + " (dev)";
-		log("Dev version, new install", newInstall)
+		log("Startup", "Dev version, new install: " + newInstall.toString());
 	}
-	else if(newInstall == null) {
+	else if(newInstall == true) {
 		//New install
-		document.title = "C&C "+extVersion + " (new)";
-		log("New install");
+		document.title = "C&C "+extVersion + " (new install)";
+		log("Startup", "New install");
 	}
 	else {
 		//Normal startup
@@ -546,6 +513,132 @@ function bginit()
 	resetSettings();
 	
 	maintainLoop();
+}
+
+/**
+Initialise settings and/or reset everything to scratch
+*/ 
+function resetSettings()
+{
+	log("Event", "resetSettings()");
+	
+	dateArray = getItem("dateArray");
+	if(dateArray === null && getItem("countto") != null )
+	{
+		//Transition to new solution for storing date.
+		dateArray = new Array();
+		var countTo = getItem("countto");
+		toggleDate(countTo);
+		log("Migrating date solution", countTo);
+	}
+	else if(dateArray === null)
+	{
+		dateArray = new Array();
+		setItem("dateArray", JSON.stringify(dateArray));
+		log("Setting default (empty) date array", dateArray);
+	}
+	else
+	{
+		dateArray = JSON.parse(dateArray);
+	}
+	
+	
+	//Init date note array
+	dateNoteArray = getItem("dateNoteArray");
+	if(dateNoteArray == null)
+	{
+		dateNoteArray = new Array();
+		setItem("dateNoteArray", JSON.stringify(dateNoteArray));
+		//log("Debug", "Setting default (empty) note array");
+	}
+	else {
+		dateNoteArray = JSON.parse(dateNoteArray);
+	}
+	
+	
+	//Init date color array
+	dateColorArray = getItem("dateColorArray");
+	if(dateColorArray == null)
+	{
+		dateColorArray = new Array();
+		setItem("dateColorArray", JSON.stringify(dateColorArray));
+	}
+	else {
+		dateColorArray = JSON.parse(dateColorArray);
+	}
+	
+	//Secondary dates
+	noCountDateArray = getItem("noCountDateArray");
+	if(noCountDateArray === null)
+	{
+		noCountDateArray = new Array();
+		setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+	}
+	else
+	{
+		noCountDateArray = JSON.parse(noCountDateArray);
+	}
+	
+
+	var icon_topColor = getItem("icon_topColor");
+	if(icon_topColor == null)
+	{
+		var icon_topColor = "rgba(27,140,160,1)";
+		setItem("icon_topColor", icon_topColor);
+		log("Setting up default icon top color", icon_topColor);
+	}
+	
+	//Load default icon, autocreates new if not already set
+	var icon = new Icon(new Object());
+	icon.getDefaultValues(true);
+	
+	
+	
+	var showBadge = getItem("showBadge");
+	if(showBadge == null)
+	{
+		var showBadge = "1";
+		setItem("showBadge", showBadge);
+		log("Setting up default badge display", showBadge);
+	}
+	
+	var icon_textColor = getItem("icon_textColor");
+	if(icon_textColor == null)
+	{
+		var icon_textColor = "rgba(0,0,0,0.65)";
+		setItem("icon_textColor", icon_textColor);
+		log("Setting up default icon text color", icon_textColor);
+	}
+
+	var icon_showtext = getItem("icon_showtext");
+	if(icon_showtext == null)
+	{
+		var icon_showtext = "0";
+		setItem("icon_showtext", icon_showtext);
+		log("setting up icon text");
+	}
+	
+	var badgeColor = getItem("badgeColor");
+	if(badgeColor == null) {
+		var color = "#18CD32";
+		setItem("badgeColor", color);
+		log("setting up default badge color");
+	}
+
+	var popup = getItem("popup");
+	if(popup == null) {
+		var popup = "12";
+		setItem("popup", popup);
+		log("setting up default popup");
+	}
+
+	var iconColor = getItem("iconColor");
+	if(iconColor == null) {
+		var popup = "red";
+		setItem("iconColor", popup);
+		log("setting default icon color");
+	}
+
 }
 
 
