@@ -1,5 +1,4 @@
-var now = new Date(); //Today
-var currentYear = now.getFullYear(); //This year
+
 var firstDayOfWeek = 1; //Default value
 //var oldId = 0; //Get countdown value
 var googleID = "caplfhpahpkhhckglldpmdmjclabckhc"; //For turning on/off logging

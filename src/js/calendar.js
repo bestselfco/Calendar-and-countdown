@@ -3,6 +3,9 @@ Front end variables
 */
 var bg = chrome.extension.getBackgroundPage();
 
+var now = new Date(); //Today
+var currentYear = now.getUTCFullYear(); //This year, now with more UTC
+
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "cal_day_chosen"; //God knows
 var selectedSubClass = "cal_subday_chosen";
@@ -28,7 +31,7 @@ Initialize popup
 function initPopupPage()
 {	
 	//Add the right click popup from templates.js first. Placed here to avoid code duplication.
-	$("#popupHolder").html(rightClickPopupTemplate);
+	//$("#popupHolder").html(rightClickPopupTemplate);
 
 	//Display the calendar
 	showCal(currentYear);
@@ -109,6 +112,9 @@ function updateDatesStuff()
 {
 	//var dates;
 	//var subdates;
+	
+	//Set right click html
+	$("#popupHolder").html(rightClickPopupTemplate);
 	
 	//Refresh backgroudn page
 	bg.maintain();
@@ -233,6 +239,8 @@ function getDateString(timestamp, long)
  */
 function showCal(year)
 {
+
+
 	var showWeek = window.localStorage.getItem("showWeek");
 	
 	populateYear(year,"month"); //this year
