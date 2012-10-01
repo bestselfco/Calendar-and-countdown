@@ -1,29 +1,4 @@
 /**
-Bind tooltips to all dates
-*/
-function addTippedTooltips(){
-
-	Tipped.remove(daysSelectString);
-	
-	Tipped.create(daysSelectString, function(element) {
-		var timestamp = $(element).attr("datetimestamp");
-		return getToolTip(timestamp);
-	}, { skin: 'kvasbo', showDelay: '450'});
-	
-	addRightClickPopup();
-
-}
-
-function addRightClickPopup()
-{
-
-//	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: false, showOn: false, onHide: resetRightClickToolTipMenu, onShow: updateRightClickToolTipMenu});
-	
-	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: 'click-outside', showOn: false, onHide: resetRightClickToolTipMenu, onShow: updateRightClickToolTipMenu});
-
-}
-
-/**
 Decide whether to use "normal" or "Dynamic" tool tip.
 */
 function getToolTip(timestamp)
@@ -104,7 +79,7 @@ Reset tooltip menu
 */
 function resetRightClickToolTipMenu(content, event)
 {
-	$("#popupProxy").css("display", "none"); 
+
 	$("#dateRightInputDialog").attr("datetimestamp", "");
 	$("#dayNoteInput").off("change");
 	$(".colorButton").off("click");
@@ -114,6 +89,8 @@ function resetRightClickToolTipMenu(content, event)
 	$("#popupButtonSetSecondary").off("click");
 	$("#popupButtonSetMain").removeClass("popupButtonSelected");
 	$("#popupButtonSetSecondary").removeClass("popupButtonSelected");
+	
+	Tipped.remove(daysSelectString);
 	
 }
 

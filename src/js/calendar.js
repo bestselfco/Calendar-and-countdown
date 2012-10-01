@@ -31,7 +31,7 @@ Initialize popup
 function initPopupPage(year)
 {	
 	//Add the right click popup from templates.js first. Placed here to avoid code duplication.
-	$("#popupHolder").html(rightClickPopupTemplate);
+	//$("#popupHolder").html(rightClickPopupTemplate);
 
 	//Display the calendar
 	showCal(year);
@@ -112,11 +112,6 @@ Update date set from back end and start update of content when done
 */
 function updateDatesStuff()
 {
-	//var dates;
-	//var subdates;
-	
-	//Set right click html
-	$("#popupHolder").html(rightClickPopupTemplate);
 	
 	//Refresh backgroudn page
 	bg.maintain();
@@ -130,10 +125,7 @@ function updateDatesStuff()
 	notesArray = getNoteArray();
 	
 	//Bind clicks - dialog on right click!
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);	
-
-	//Add all the tooltips
-	addTippedTooltips();
+	$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);	
 
 	//Highlight today
 	highLightToday();
@@ -143,6 +135,33 @@ function updateDatesStuff()
 	
 }
 
+function normalPopupShow(event)
+{
+	
+	Tipped.create(event.originalEvent.target, function(element) {
+		var timestamp = $(element).attr("datetimestamp");
+		return getToolTip(timestamp);
+	}, { skin: 'kvasbo', showDelay: '450'});
+	
+}
+
+/**
+Open dialog on right click
+*/
+function dayRightClickedDialog(event)
+{	
+	event.preventDefault();
+		
+	var timestamp = event.originalEvent.target.attributes["datetimestamp"].value;
+	var target = event.originalEvent.target.id;
+		
+	lastEventDate = timestamp;
+	
+	var tip = Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: 'click-outside', closeButton: true, showOn: false, onShow: updateRightClickToolTipMenu, onHide: resetRightClickToolTipMenu});
+	
+	tip.show();
+
+}
 
 /**
 Retrieve note for a given date from backend
@@ -358,36 +377,6 @@ function dayClicked(event)
 	return false; //Kill propagation	
 }
 
-
-
-/**
-Open dialog on right click
-*/
-function dayRightClickedDialog(event)
-{	
-	event.preventDefault();
-	
-	//addRightClickPopup();
-	
-	var timestamp = event.target.attributes["datetimestamp"].value;
-	
-	lastEventDate = timestamp;
-	
-	//Set attribute for tooltip div in html page
-	$("#dateRightInputDialog").attr("dialogdatetimestamp", timestamp);
-	
-	//Move proxy div to right position
-	var p = $(event.target).offset();	
-	$("#popupProxy").css("display", "block").css("top", p.top).css("left", p.left);
-	
-	//Get tip for proxy
-	var tempTip = Tipped.get('#popupProxy');
-	
-	//Show tip for proxy
-	tempTip.show();
-		
-	return false; //Kill propagation
-}
 
 /**
 The user has clicked a year link and we need to go to another year

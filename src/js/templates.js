@@ -1,23 +1,3 @@
-var rightClickPopupTemplate = '<div id="popupProxy"></div>' +
-	'<div id="dateRightInputDialog" dialogdatetimestamp="0" style="display: none;">' +
-	'<div class="popupDiv popupDiv10 popupDivHeader"><span id="popupTableHeaderCell"></span></div>'+
-	'<div class="popupDiv popupDiv4">Countdown as:</div>'+
-	'<div class="popupDiv popupDiv6"><span id="popupButtonSetMain" class="popupButtonDate">Primary</span>&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;<span id="popupButtonSetSecondary" class="popupButtonDate">Secondary</div>' +
-	'<div class="popupDiv popupDiv2"><span id="dayNoteLabel">Note:</span></div>'+
-	'<div class="popupDiv popupDiv7"><input type="text" id="dayNoteInput"></div>'+
-	'<div class="popupDiv popupDiv1"><img class="resetButton" src="pics/reset.png" id="resetNoteButton"></div>' +
-	'<div class="popupDiv popupDiv2"><span id="dayColorLabel">Color:</span></div>' +
-	'<div class="popupDiv PopupDiv1 popupDivColor"><span class="colorButton" id="color1" style="background-color: #FFF700"></span></div>' +
-	'<div class="popupDiv PopupDiv1 popupDivColor"><span class="colorButton" id="color2" style="background-color: #FFA500"></span></div>' +
-	'<div class="popupDiv PopupDiv1 popupDivColor"><span class="colorButton" id="color3" style="background-color: #FF8373"></span></div>' +
-	'<div class="popupDiv PopupDiv1 popupDivColor"><span class="colorButton" id="color4" style="background-color: #60B9CE"></span></div>' +
-	'<div class="popupDiv PopupDiv1 popupDivColor"><span class="colorButton" id="color5" style="background-color: #58E000"></span></div>' +
-	'<div class="popupDiv PopupDiv1 popupDivColor"><span class="colorButton" id="color6" style="background-color: #B764D4"></span></div>' +
-	'<div class="popupDiv PopupDiv1 popupDivColor"><span class="colorButton" id="color7" style="background-color: #D4B764"></span></div>' +
-	'<div class="popupDiv PopupDiv1"><img src="pics/reset.png" id="resetColorButton"></div>' +
-	'</div>';
-	
-
 var monthTemplate = "<table>" +
 		"<tr class='cal_tr_header'><td class='cal_td_header' colspan='8'>${monthName}</td></tr>"+
 		"<tr class='cal_tr_titles'>" +
