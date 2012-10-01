@@ -1,6 +1,3 @@
-
-var firstDayOfWeek = 1; //Default value
-//var oldId = 0; //Get countdown value
 var googleID = "caplfhpahpkhhckglldpmdmjclabckhc"; //For turning on/off logging
 var extVersion = 0; //Get extension version - for logging
 

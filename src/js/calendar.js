@@ -22,7 +22,6 @@ Bootstrap page on load
 */
 $(document).ready(function() {
 	initPopupPage(currentYear);
-	//bindEvents();
 });
 
 /**
@@ -30,15 +29,13 @@ Initialize popup
  */
 function initPopupPage(year)
 {	
-	//Add the right click popup from templates.js first. Placed here to avoid code duplication.
-	//$("#popupHolder").html(rightClickPopupTemplate);
-
 	//Display the calendar
 	showCal(year);
 		
 	//Date specific update trigging.
 	updateDatesStuff();	
 	
+	//Bind all events
 	bindEvents();
 }
 
@@ -119,9 +116,6 @@ function updateDatesStuff()
 	//Update link to background page
 	bg = chrome.extension.getBackgroundPage();
 	
-	//Set subdates
-	//subdates = bg.getSubDates();
-	
 	notesArray = getNoteArray();
 	
 	//Bind clicks - dialog on right click!
@@ -150,6 +144,7 @@ Open dialog on right click
 */
 function dayRightClickedDialog(event)
 {	
+
 	event.preventDefault();
 		
 	var timestamp = event.originalEvent.target.attributes["datetimestamp"].value;

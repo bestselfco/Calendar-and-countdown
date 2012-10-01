@@ -5,7 +5,6 @@ var dateNoteArray; //Notes for dates
 var dateColorArray; //Colors for dates
 var maintainCycles = 0;
 
-
 /**
 Run maintenance script every minute
 */
