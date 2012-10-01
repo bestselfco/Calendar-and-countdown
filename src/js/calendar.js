@@ -21,23 +21,25 @@ var notesArray = getNoteArray();
 Bootstrap page on load
 */
 $(document).ready(function() {
-	initPopupPage();
-	bindEvents();
+	initPopupPage(currentYear);
+	//bindEvents();
 });
 
 /**
 Initialize popup
  */
-function initPopupPage()
+function initPopupPage(year)
 {	
 	//Add the right click popup from templates.js first. Placed here to avoid code duplication.
-	//$("#popupHolder").html(rightClickPopupTemplate);
+	$("#popupHolder").html(rightClickPopupTemplate);
 
 	//Display the calendar
-	showCal(currentYear);
+	showCal(year);
 		
 	//Date specific update trigging.
 	updateDatesStuff();	
+	
+	bindEvents();
 }
 
 /**
@@ -45,24 +47,24 @@ Bind all relevant events to their dom elements
 */
 function bindEvents()
 {
-	$("body").on("keydown", function() { keyPressed(window.event.keyCode);});
+	$("body").off().on("keydown", function() { keyPressed(window.event.keyCode);});
 	
-	$("#lastYear").on("click", function() { yearClicked(-1); });
-	$("#nextYear").on("click", function() { yearClicked(1); });
+	$("#lastYear").off().on("click", function() { yearClicked(-1); });
+	$("#nextYear").off().on("click", function() { yearClicked(1); });
 	
-	$("#ym6").on("click", function() { yearClicked(-6); });
-	$("#ym5").on("click", function() { yearClicked(-5); });
-	$("#ym4").on("click", function() { yearClicked(-4); });
-	$("#ym3").on("click", function() { yearClicked(-3); });
-	$("#ym2").on("click", function() { yearClicked(-2); });
-	$("#ym1").on("click", function() { yearClicked(-1); });
+	$("#ym6").off().on("click", function() { yearClicked(-6); });
+	$("#ym5").off().on("click", function() { yearClicked(-5); });
+	$("#ym4").off().on("click", function() { yearClicked(-4); });
+	$("#ym3").off().on("click", function() { yearClicked(-3); });
+	$("#ym2").off().on("click", function() { yearClicked(-2); });
+	$("#ym1").off().on("click", function() { yearClicked(-1); });
 	
-	$("#yp6").on("click", function() { yearClicked(6); });
-	$("#yp5").on("click", function() { yearClicked(5); });
-	$("#yp4").on("click", function() { yearClicked(4); });
-	$("#yp3").on("click", function() { yearClicked(3); });
-	$("#yp2").on("click", function() { yearClicked(2); });
-	$("#yp1").on("click", function() { yearClicked(1); });
+	$("#yp6").off().on("click", function() { yearClicked(6); });
+	$("#yp5").off().on("click", function() { yearClicked(5); });
+	$("#yp4").off().on("click", function() { yearClicked(4); });
+	$("#yp3").off().on("click", function() { yearClicked(3); });
+	$("#yp2").off().on("click", function() { yearClicked(2); });
+	$("#yp1").off().on("click", function() { yearClicked(1); });
 	
 }
 
@@ -128,7 +130,7 @@ function updateDatesStuff()
 	notesArray = getNoteArray();
 	
 	//Bind clicks - dialog on right click!
-	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);
+	$(daysSelectString).off().on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);	
 
 	//Add all the tooltips
 	addTippedTooltips();
@@ -240,11 +242,14 @@ function getDateString(timestamp, long)
 function showCal(year)
 {
 
-
+//	bindEvents();
+	
 	var showWeek = window.localStorage.getItem("showWeek");
 	
-	populateYear(year,"month"); //this year
+	populateYear(year, "month"); //this year
 	populateYearLinks(); //Populate year links
+
+//	bindEvents();
 
 	$("#yearLabel").html(year);
 
@@ -353,6 +358,8 @@ function dayClicked(event)
 	return false; //Kill propagation	
 }
 
+
+
 /**
 Open dialog on right click
 */
@@ -391,8 +398,11 @@ function yearClicked(offset){
 
 	log("User event", "Year link clicked"); //Log
 	currentYear = currentYear + offset; //Add offset to current year
-	showCal(currentYear); //Show the new calendar
+	
+	/*showCal(currentYear); //Show the new calendar
 	updateDatesStuff();
+	*/
+	initPopupPage(currentYear);
 	
 }
 

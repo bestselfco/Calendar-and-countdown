@@ -17,7 +17,9 @@ function addTippedTooltips(){
 function addRightClickPopup()
 {
 
-	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: false, showOn: false, onHide: resetRightClickToolTipMenu, onShow: updateRightClickToolTipMenu});
+//	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: false, showOn: false, onHide: resetRightClickToolTipMenu, onShow: updateRightClickToolTipMenu});
+	
+	Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', showDelay: '0', closeButton: true, hideOn: 'click-outside', showOn: false, onHide: resetRightClickToolTipMenu, onShow: updateRightClickToolTipMenu});
 
 }
 
@@ -100,7 +102,7 @@ function updateRightClickToolTipMenu(content, event)
 /** 
 Reset tooltip menu
 */
-function resetRightClickToolTipMenu()
+function resetRightClickToolTipMenu(content, event)
 {
 	$("#popupProxy").css("display", "none"); 
 	$("#dateRightInputDialog").attr("datetimestamp", "");
@@ -113,8 +115,6 @@ function resetRightClickToolTipMenu()
 	$("#popupButtonSetMain").removeClass("popupButtonSelected");
 	$("#popupButtonSetSecondary").removeClass("popupButtonSelected");
 	
-	updateDatesStuff();
-
 }
 
 
@@ -135,21 +135,6 @@ function getToolTipDynamic()
 	output += days + " " + daysword + suffix + " " + chrome.i18n.getMessage("selected");
 
 	return output;
-}
-
-/**
-Return form tool tip
-*/
-function getToolTipRightClick(event)
-{
-	var timestamp = event.target.attributes["datetimestamp"].value;
-	var dialogDate = new Date(timestamp*1);
-	var title = dialogDate.toUTCString();
-
-	var selectString = "#cal_day_"+timestamp;
-	
-	return false;
-
 }
 
 /**

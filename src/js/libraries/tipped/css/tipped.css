@@ -6,105 +6,92 @@
  *  http://projects.nickstakenburg.com/tipped/documentation/skins
  *
  *  IMPORTANT!:
- *  When modifying or adding your own skins it's recommended to do 
- *  this in a seperate file, overwriting or building on top of the 
- *  styling defined here to make updating easier.
+ *  It's recommended to add CSS for custom skins in a separate file,
+ *  that way this file can be updated without losing your own skins.
  */
  
 /* Font styling for all skins */
-.t_Content_black,
-.t_Content_cloud,
-.t_Content_dark,
-.t_Content_lavender,
-.t_Content_light,
-.t_Content_liquid,
-.t_Content_lime,
-.t_Content_blue,
-.t_Content_salmon,
-.t_Content_yellow,
-.t_Content_facebook {
+.t_ContentContainer {
   color: #333;
-  font-size: 10px;
-  line-height: 16px;
-  padding: 6px 7px;
+  font-size: 11px;
+  line-height: 17px;
+  padding: 10px;
 }
 
 /* Skins with a different font color */
 .t_Content_black,
 .t_Content_dark,
-.t_Content_lavender,
-.t_Content_liquid,
-.t_Content_facebook {
+.t_Content_gray {
   color: #fff;
 }
-.t_Content_cloud { color: #4d4d4d; }
-.t_Content_light { color: #454545; }
-.t_Content_blue { color: #f2f6f9; }
-.t_Content_salmon { color: #4f4949; }
 
-.t_Content_facebook {
-  padding: 5px 8px;
-}
-
-/* Styling links for convenience so they are visible */
-.t_Content_black a,
-.t_Content_cloud a,
-.t_Content_dark a,
-.t_Content_lavender a,
-.t_Content_light a,
-.t_Content_liquid a,
-.t_Content_lime a,
-.t_Content_blue a,
-.t_Content_salmon a,
-.t_Content_yellow a {
-  color: #008aca;
+/* Styling links so they are visible no matter is defined on the page behind */
+.t_ContentContainer a,
+.t_ContentContainer a:hover {
+  color: #8e8e8e;
   text-decoration: none;
   background: none;
   border: 0;
 }
-.t_Content_black a:hover,
-.t_Content_cloud a:hover,
-.t_Content_dark a:hover,
-.t_Content_lavender a:hover,
-.t_Content_light a:hover,
-.t_Content_liquid a:hover,
-.t_Content_lime a:hover,
-.t_Content_blue a:hover,
-.t_Content_salmon a:hover,
-.t_Content_yellow a:hover {
-  color: #008aca;
+.t_ContentContainer a:hover {
   text-decoration: underline;
+}
+
+/* Some skins need different link colors for visibility */
+.t_Content_dark a, .t_Content_dark a:hover,
+.t_Content_black a, .t_Content_black a:hover {
+  color: #ccc;
+}
+.t_Content_gray a, .t_Content_gray a:hover { color: #232323; }
+
+
+
+/* RGB */
+.t_Content_red,
+.t_Content_green,
+.t_Content_blue {
+  color: #fff;
+  font-size: 11px;
+  line-height: 17px;
+  padding: 10px;
+}
+
+.t_Content_red a,
+.t_Content_red a:hover,
+.t_Content_green a,
+.t_Content_green a:hover,
+.t_Content_blue a,
+.t_Content_blue a:hover {
+  text-decoration: none;
+  background: none;
+  border: 0;
+  color: #ccc;
+}
+.t_Content_red a:hover,
+.t_Content_green a:hover,
+.t_Content_blue a:hover {
+  text-decoration: underline;
+}
+
+
+/* tiny */
+.t_Content_tiny {
+  color: #fff;
+  font-size: 11px;
+  line-height: 16px;
+  padding: 6px 9px;
+}
+.t_Content_tiny a,
+.t_Content_tiny a:hover {
+  color: #b3b3b3;
+  text-decoration: none;
   background: none;
   border: 0;
 }
 
-/* Links with a different color */
-.t_Content_black a,
-.t_Content_black a:hover { color: #57a1d6; }
-.t_Content_dark a,
-.t_Content_dark a:hover { color: #5daae2; }
-
-.t_Content_cloud a,
-.t_Content_cloud a:hover { color: #438ec4; }
-
-.t_Content_lavender a,
-.t_Content_lavender a:hover { color: #ceddf2; }
-
-.t_Content_lime a,
-.t_Content_lime a:hover { color: #057ca8; }
-
-.t_Content_liquid a,
-.t_Content_liquid a:hover { color: #6591cd; }
-
-.t_Content_royalblue a,
-.t_Content_royalblue a:hover { color: #91d2dd; }
-
-.t_Content_salmon a,
-.t_Content_salmon a:hover { color: #5e77a2; }
-
 
 /*
- * Layout (DON'T MODIFY!)
+ * Layout (DON'T MODIFY BELOW!)
  */
 .t_Tooltip {
   margin: 0;
