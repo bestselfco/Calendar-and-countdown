@@ -297,47 +297,6 @@ function setToolTip(text)
 	chrome.browserAction.setTitle({title:text});
 }
 
-
-/**
-Event listener for communication with the popup page
-*/
-/*
-chrome.extension.onRequest.addListener(
-		function(request, sender, sendResponse) {
-			if (request.action == "toggleDate") {
-				//New code to toggle dates. Much more resilient to fail, MVC based
-				toggleDate(request.event_details, false);
-				sendResponse({datesJSON:getDatesJSON()})
-			}
-			else if (request.action == "toggleDateRightClick") {
-				//New code to toggle dates. Right click.
-				toggleDate(request.event_details, true);
-				sendResponse({datesJSON:getSubDatesJSON()})
-			}
-			else if (request.action == "getDates") {
-				log("Dates requested by view.");
-				sendResponse({datesJSON:getDatesJSON()});
-			
-			}
-			else if (request.action == "getSubDates") {
-				log("Sub dates requested by view");
-				sendResponse({datesJSON:getSubDatesJSON()});
-			}
-			else if (request.action == "getNoteForDate"){
-				var note = null;
-				note = getNoteForDate(request.event_details);
-				sendResponse({note:note});
-			}	
-			else if (request.action == "refresh") {
-				sendResponse({response: "ok"});
-				log("Options event", "Refreshing settings");
-				maintain();
-			}
-			else
-				sendResponse({}); // snub them.
-		});
-*/
-
 /**
 Reset extension
 */
