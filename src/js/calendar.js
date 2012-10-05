@@ -37,6 +37,9 @@ function initPopupPage(year)
 	
 	//Bind all events
 	bindEvents();
+
+	//TO BE: POPUP Calendar on year links
+	//addToolTipsToYearLinks();
 }
 
 /**
@@ -63,6 +66,22 @@ function bindEvents()
 	$("#yp2").off().on("click", function() { yearClicked(2); });
 	$("#yp1").off().on("click", function() { yearClicked(1); });
 	
+}
+
+/**
+Add tool tips to year links
+*/
+function addToolTipsToYearLinks()
+{
+	Tipped.create(".yearlink", function(element){
+		
+		var year = $(element).html();
+		
+		populateYear(year, "popmonth", popupMonthTemplate);
+		
+		return $("#popupcalendar").html();
+		
+	});
 }
 
 /**
@@ -118,7 +137,7 @@ function updateDatesStuff()
 	
 	notesArray = getNoteArray();
 	
-	//Bind clicks - dialog on right click!
+	//Bind clicks and mouseovers for dates - dialog on right click!
 	$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);	
 
 	//Highlight today
@@ -475,7 +494,7 @@ function Calendar(year, month)
 	
 	//Functions
 	this.getCal = calGetCal;
-	this.genCal = calGetCal;
+	//this.genCal = calGetCal;
 
 	//working variables
 	this.year = year;
@@ -495,15 +514,15 @@ function Calendar(year, month)
 /**
 Return cached if it exists, otherwise return calendar
 */
-function returnCalendar()
-{
-	return this.genCal();
-}
+//function returnCalendar()
+//{
+//	return this.genCal();
+//}
 
 /**
 Return the actual calendar html
 */
-function calGetCal()
+function calGetCal(template)
 {
 	
 	//Set month name
@@ -640,7 +659,7 @@ function calGetCal()
 		days++;
 	}
 
-	var thisCalOutHtml = monthTemplate;
+	var thisCalOutHtml = template;
 
 	//New home made str_replace version
 	var replaceString;
@@ -675,7 +694,7 @@ function showCal(year)
 
 	firstDayOfWeek = firstDay;
 
-	populateYear(year,"month"); //this year
+	populateYear(year,"month", monthTemplate); //this year
 
 	populateYearLinks();
 
@@ -692,9 +711,9 @@ function showCal(year)
 }
 
 /**
-Create 12 separate monthly calendars
+Create 12 separate monthly calendars //monthTemplate
 */
-function populateYear(year, selectstring)
+function populateYear(year, selectstring, template)
 {
 	//Populate
 	for(var i = 1; i < 13; i++)
@@ -702,7 +721,7 @@ function populateYear(year, selectstring)
 		var selectString = "#"+selectstring;
 		if(i<10) selectString += "0";
 		selectString += i;
-		$(selectString).html(new Calendar(year,i).getCal());
+		$(selectString).html(new Calendar(year,i).getCal(template));
 	}
 }
 
