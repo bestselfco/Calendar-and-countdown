@@ -1,14 +1,42 @@
+<!doctype html>
 <html>
 <head>
+<meta charset="UTF-8">
+<link type="text/css" rel="stylesheet" href="welcome.css" />
+<link type="text/css" rel="stylesheet" href="slides.css" />
+
+<script src="/js/libraries/jquery.js"></script>
+<script src="/js/libraries/slides.min.jquery.js"></script>
+
+<script src="welcome.js"></script>
+	
 <title>Calendar &amp; Countdown</title>
 </head>
+
 <body>
-<h1>Congratulations!</h1>
-<h2>You have successfully installed Calendar &amp; Countdown for Chrome</h2>
-<p>Calendar and Countdown is very easy to use. You just left-click a date to countdown to it and display a badge in the extension row.</p>
-<p>To add notes or colors to dates, and to count down to additional dates, right click to show the menu.</p>
-<p>To see all available information about a specific date, hover over it with your cursor, and an information box will pop up.</p>
-<p>To count the number of days between any to dates, simply click on the first date and drag your mouse to the second without releasing the mouse button.</p>
-<p>That's all there is to it!</p> 
+<h1>Calendar &amp; Countdown</h1>
+<h2>Congratulations! You have successfully installed Calendar &amp; Countdown for Chrome</h2>
+
+<div id="container">
+<div id="slides">
+	<div class="slides_container">
+		<div class="slide">
+			<img src="img/shot1.png" width="771" height="600" alt="Slide 1">
+			<div class="caption" style="bottom:0">
+				<p>First slide</p>
+			</div>
+		</div>
+		<div class="slide">
+			<img src="img/shot2.png" width="771" height="600" alt="Slide 1">
+			<div class="caption" style="bottom:0">
+				<p>First slide</p>
+			</div>
+		</div>
+	</div>
+	<a href="#" class="prev"><img src="img/arrow-prev.png" width="24" height="43" alt="Arrow Prev"></a>
+	<a href="#" class="next"><img src="img/arrow-next.png" width="24" height="43" alt="Arrow Next"></a>
+</div>
+</div>
+
 </body>
 </html>
