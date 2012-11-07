@@ -14,8 +14,8 @@ blockquote,q { quotes:"" ""; }
 
 body {
 	font-family: helvetica, arial, sans-serif;
-	color:  white;
-	background-color: rgb(90,90,90);
+	color:  rgb(15,15,15);
+	background-color: rgb(235,235,235);
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 
@@ -31,4 +31,27 @@ h2 {
 
 p {
 	margin:  10pt;
+}
+
+div {
+	margin:  10pt;
+}
+
+.userguideslide {
+	display: block;
+	position: relative;
+}
+
+.userguideslide img {
+	clear:  none;
+	display:  block;
+	margin: 5px;	
+	border:  1px solid rgb(100,100,100);
+}
+
+.userguideslide li {
+	display: block;
+	width:  550px;
+	margin:  5px;
+	clear:  none;	
 }
