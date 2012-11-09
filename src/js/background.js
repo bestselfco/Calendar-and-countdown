@@ -1,3 +1,7 @@
+//New date and settings objects to persist to synced storage
+var settings = new Object();
+var dates = new Object();
+
 var dateArray; //Holds the dates we count down to
 var subDateArray;
 var newInstall; //Is this a first time install (ie: is the date array set?)
@@ -282,7 +286,7 @@ function setPopup(p)
 /**
 Set the icon in the browser bar
  
-@param color The color of the icon. Must be matched by file in pics directory
+@param color The color of the icon.
  */
 function setIcon()
 {
