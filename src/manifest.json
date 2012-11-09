@@ -1,7 +1,7 @@
 {
   "name": "Calendar and Countdown",
   "default_locale": "en_GB",
-  "version": "2012.11.7.2",
+  "version": "2012.11.7.3",
   "description": "__MSG_extDesc__",
   "options_page": "options.html",
   "manifest_version": 2,

@@ -15,6 +15,9 @@ var dynamicStartStamp = false;
 var dynamicDiff = false;
 var lastEventDate = "";
 
+//Init today time stamp
+var todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
+
 var notesArray = getNoteArray();
 
 /**
@@ -274,15 +277,11 @@ function getDateString(timestamp, long)
  */
 function showCal(year)
 {
-
-//	bindEvents();
 	
 	var showWeek = window.localStorage.getItem("showWeek");
 	
 	populateYear(year, "month"); //this year
 	populateYearLinks(); //Populate year links
-
-//	bindEvents();
 
 	$("#yearLabel").html(year);
 
@@ -401,10 +400,7 @@ function yearClicked(offset){
 
 	log("User event", "Year link clicked"); //Log
 	currentYear = currentYear + offset; //Add offset to current year
-	
-	/*showCal(currentYear); //Show the new calendar
-	updateDatesStuff();
-	*/
+
 	initPopupPage(currentYear);
 	
 }
@@ -414,15 +410,7 @@ Highlight today
 */
 function highLightToday()
 {
-	var today = new Date();
-	today.setUTCSeconds(0, 0);
-	today.setUTCMinutes(0);
-	today.setUTCHours(0);
-	
-	//var todayUtc = CCDateToday();
-	
-	var selectorString = '[dateTimestamp="'+today.getTime()+'"]';
-	$(selectorString).addClass("cal_day_today");
+	highLightDay(todayStamp, 'cal_day_today');
 }
 
 /**
@@ -430,13 +418,9 @@ Highlight a specific day, remove other hightlights
 */
 function highLightDay(timestamp, highlightClass)
 {	
-
 	var selectorString = '[dateTimestamp="'+timestamp+'"]';
-	
 	$(selectorString).addClass(highlightClass); //.removeClass(normalClass);
-
-	log("Css change", highlightClass + " " +selectorString);
-
+	log("Hightlight day", highlightClass + " : " +selectorString);
 }
 
 /**

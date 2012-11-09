@@ -84,12 +84,14 @@ Date.prototype.getDaysInMonth = function()
 
 };
 
+/*
 Date.prototype.getUTCMidnight = function() 
 {
-	var utcMidnight = Date.UTC(this.getUTCFullYear(),this.getUTCMonth(), this.getUTCDate());
+	var utcMidnight = Date.UTC(this.getUTCFullYear(),this.getUTCMonth(), this.getUTCDate(),0,0,0);
 	
 	return utcMidnight;
 }
+*/
 
 //Get day of the year
 Date.prototype.getDayOfYear = function() {
@@ -101,16 +103,20 @@ Date.prototype.getDayOfYear = function() {
 
 };
 
-//Get day distance from today
+//Get diff from this date to another given date. Does not clean up non-round numbers. 
+Date.prototype.getDistanceInDays = function (timestamp) {
+	
+	var diff = (this.getTime() - timestamp) / 86400000;
+	
+	return diff;
+}
+
+//Get day distance from today.  Does not clean up non-round numbers. 
 Date.prototype.getDaysFromToday = function () {
 
-	var today = new Date();
-	var todayUtc = today.getUTCMidnight(); //Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
-	var thisUtc = this.getUTCMidnight();
+	var now = new Date();
+	nowUtc = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 	
-	//log("getDaysFromToday today: ", new Date(todayUtc).toUTCString());
-	
-	var diff = Math.floor((thisUtc - todayUtc) / 86400000);
-
+	var diff = this.getDistanceInDays(nowUtc);	
 	return diff;
 };

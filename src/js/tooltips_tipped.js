@@ -159,8 +159,12 @@ function getToolTipNormal(timestamp){
 	
 	if(showFromToday)
 	{
-		fromToday = date.getDaysFromToday();
+		var fromToday = date.getDistanceInDays(todayStamp);
+		
+		//var fromToday = date.getDaysFromToday();
+		
 		var suffix  = "";
+		
 		if(Math.abs(fromToday) != 1)
 		{
 		 suffix = chrome.i18n.getMessage("several_suffix"); //"s" if one
