@@ -161,8 +161,6 @@ function getToolTipNormal(timestamp){
 	{
 		var fromToday = date.getDistanceInDays(todayStamp);
 		
-		//var fromToday = date.getDaysFromToday();
-		
 		var suffix  = "";
 		
 		if(Math.abs(fromToday) != 1)
