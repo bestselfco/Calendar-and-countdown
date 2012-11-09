@@ -377,7 +377,7 @@ function getDistanceInDays()
 			var badgeDate = new Date((countto*1)); //Stupid casting
 			//var diff = Math.abs(badgeDate.getDaysFromToday());
 			
-			var diff = badgeDate.getDistanceInDays(todayStamp);
+			var diff = Math.abs(badgeDate.getDistanceInDays(todayStamp));
 
 			if(badgeDate.getFullYear() > 1980 && badgeDate.getFullYear() < 2050)
 			{
