@@ -2,6 +2,10 @@
 var settings = new Object();
 var dates = new Object();
 
+//Set storage area for settings and dates
+var settingsStorage = chrome.storage.local; 
+var dateStorage = chrome.storage.local;
+
 var dateArray; //Holds the dates we count down to
 var subDateArray;
 var newInstall; //Is this a first time install (ie: is the date array set?)
@@ -434,6 +438,7 @@ Initialise background page and start the extension
 */
 function bginit()
 {	
+	
 	//Look for new install
 	newInstall = (getItem("dateArray") === null) ? true : false;
 	
@@ -607,6 +612,28 @@ function resetSettings()
 
 }
 
+/*
+function getSettingsFromStorage()
+{
+	var tmpSettings = new Object();
+	settingsStorage.get("settings", function(items){
+	
+		console.log("Settings has been read");
+		settings = items;
+	
+	});
+	
+}
+
+function persistSettingsToStorage() {
+	settingsStorage.set({"settings": settings}, function(items){
+	
+		console.log("Settings has been written");
+	
+	});
+	
+}
+*/
 
 /**
 Bootstrap background on page load finished
