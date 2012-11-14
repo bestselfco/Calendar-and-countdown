@@ -108,6 +108,7 @@ function init()
 	
 	$("#badgeColorSelect").on("change", function() { setColor('badge',this.value); });
 	
+	$("#ccversion").html(bg.getVersion());
 	
 }
 
