@@ -24,6 +24,7 @@ Run maintenance script every minute
 function maintainLoop()
 {
 	maintain();
+	
 	var t = setTimeout(maintainLoop, 60000);
 }
 
@@ -35,6 +36,8 @@ function maintain()
 	maintainCycles++;
 	
 	log("Maintenance", "Cycle #"+maintainCycles);
+
+	todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 
 	updateBadgeFromStored();
 	updatePopupFromStored();
@@ -612,6 +615,52 @@ function resetSettings()
 
 }
 
+/**
+Read old settings and convert them to the new version
+*/
+function convertSettingsToObject()
+{
+	tmpSettings = new Object();
+	
+	tmpSettings.iconTopColor = getItem("icon_topColor");
+	tmpSettings.iconTextColor = getItem("icon_textColor");
+	tmpSettings.iconShowText = getItem("icon_showtext");
+	tmpSettings.iconColor = getItem("iconColor");
+	
+	tmpSettings.showBadge = getItem("showBadge");
+	tmpSettings.badgeColor = getItem("badgeColor");
+	tmpSettings.popup = getItem("popup");
+	tmpSettings.showWeek = getItem("showWeek");
+	tmpSettings.firstDay = getItem("firstDay");
+	
+	settings = tmpSettings;
+	
+	persistSettingsToStorage();
+	
+	return true;
+	
+}
+
+/**
+Return the default set of settings
+*/
+function getDefaultSettings()
+{
+	tmpSettings = new Object();
+	
+	tmpSettings.iconTopColor = "rgba(27,140,160,1)";
+	tmpSettings.iconTextColor = "rgba(0,0,0,0.65)";
+	tmpSettings.iconShowText = "0";
+	tmpSettings.iconColor = "red";
+	tmpSettings.showBadge = "1";
+	tmpSettings.badgeColor = "#18CD32";
+	tmpSettings.popup = "12";
+	tmpSettings.showWeek = "1";
+	tmpSettings.firstDay = "1";
+	
+	return tmpSettings;
+}
+
 /*
 function getSettingsFromStorage()
 {
@@ -624,16 +673,17 @@ function getSettingsFromStorage()
 	});
 	
 }
+*/
 
 function persistSettingsToStorage() {
 	settingsStorage.set({"settings": settings}, function(items){
 	
-		console.log("Settings has been written");
+		log("Conversion", "Settings has been written");
 	
 	});
 	
 }
-*/
+
 
 /**
 Bootstrap background on page load finished
