@@ -37,7 +37,8 @@ function maintain()
 	
 	log("Maintenance", "Cycle #"+maintainCycles);
 
-	todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
+	var nowNew = new Date();
+	todayStamp = Date.UTC(nowNew.getFullYear(),nowNew.getMonth(), nowNew.getDate());
 
 	updateBadgeFromStored();
 	updatePopupFromStored();

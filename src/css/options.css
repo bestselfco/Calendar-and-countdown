@@ -1,7 +1,7 @@
 body {
 	font-family: helvetica, arial, sans-serif;
-	color:  rgb(15,15,15);
-	background-color: rgb(235,235,235);
+	color:  rgb(50,50,50);
+	background-color: rgb(255,255,255);
 	-webkit-font-smoothing: subpixel-antialiased;
 }
 
@@ -28,20 +28,21 @@ body {
 	padding: 10px 20px 20px 20px;
 	width: 600px;
 	margin: 10px 10px 10px 0px;
-	-webkit-border-radius: 10px;
-	border: 2px solid rgb(230,230,230);
+	
 }
 
 h1 {
 
 	font-size: 30pt;
 	margin: 0px 0px 20px 0px;
-	
+	padding: 10px 20px 20px 20px;
 
 }
 
 h2 {
 	font-size: 12pt;
+	width:  100%;
+	border-bottom:  1px solid rgb(200,200,200);
 	}
 
 .tab {
