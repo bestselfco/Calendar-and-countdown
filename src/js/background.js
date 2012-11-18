@@ -407,10 +407,8 @@ Get version of extension.
 */
 function getVersion() {
 
-	var xhr = new XMLHttpRequest();
-	xhr.open('GET', chrome.extension.getURL('manifest.json'), false);
-	xhr.send(null);
-	var manifest = JSON.parse(xhr.responseText);
+	var manifest = chrome.runtime.getManifest();
+	var version = manifest.version;
 	
 	//Create and set up object for returning
 	var returnObject = new Object();
@@ -444,8 +442,13 @@ Initialise background page and start the extension
 function bginit()
 {	
 	
-	//Check if we need to upgrade to UTC
-	doUTCUpgrade();
+	//Do migration stuff if updated
+	chrome.runtime.onInstalled.addListener(function(details) {
+	 	if(details.reason == "update")
+	 	{
+			doUTCUpgrade();
+		}
+	});
 	
 	//Set document title
 	setTitleForTracking();
@@ -521,33 +524,7 @@ function setTitleForTracking()
  
 }
 
-/**
-Check if there is a need to upgrade dates to UTC format
-*/
-function doUTCUpgrade()
-{
-	//Stupid checking code to see if we have already updated to UTC. 
-	var tDates = getDates();
-	
-	//If we are updating, update scores
-	if(tDates !== null)
-	{ 
-		log("Update to UTC", "Checking times to see if update done");
-		
-		//Check if stored date has UTC time of "0", update if not. 
-		var checkUpdateDate = new Date(tDates[0] * 1);
-		var updateTime = checkUpdateDate.getUTCHours() * 1;
 
-		if(updateTime != 0)
-		{
-			updateDatesToUtc();
-		}
-		else {
-			log("Update to UTC", "Already UTC");
-		}
-		
-	}
-}
 
 /**
 Initialise settings and/or reset everything to scratch
