@@ -19,24 +19,12 @@ var todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 
 
 /**
-Run maintenance script every minute
-*/
-function maintainLoop()
-{
-	maintain();
-	
-	var t = setTimeout(maintainLoop, 60000);
-}
-
-/**
 Maintain data
 */
 function maintain()
 {
 	maintainCycles++;
 	
-	log("Maintenance", "Cycle #"+maintainCycles);
-
 	var nowNew = new Date();
 	todayStamp = Date.UTC(nowNew.getFullYear(),nowNew.getMonth(), nowNew.getDate());
 
@@ -45,6 +33,9 @@ function maintain()
 	updateIconFromStored();
 
 	setToolTip(new Date().toLocaleDateString());
+	
+	log("Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
+	
 }
 
 /**
@@ -412,29 +403,39 @@ function getDistanceInDays()
 }
 
 /**
-Get version of extension
+Get version of extension. 
 */
 function getVersion() {
-	var version = 'NaN';
+
 	var xhr = new XMLHttpRequest();
 	xhr.open('GET', chrome.extension.getURL('manifest.json'), false);
 	xhr.send(null);
 	var manifest = JSON.parse(xhr.responseText);
-	var currVersion = manifest.version;
-
-	// Check if the version has changed.
-	var prevVersion = getItem("version");
-	if (currVersion != prevVersion) {
+	
+	//Create and set up object for returning
+	var returnObject = new Object();
+	returnObject.newInstall = false;
+	returnObject.upgrade = false;
+	
+	returnObject.currVersion = manifest.version;
+	
+	//Backup for botched xhr
+	if(!returnObject.currVersion) returnObject.currVersion = getItem("version");
+	
+	returnObject.prevVersion = getItem("version");
+		
+	if (returnObject.currVersion != returnObject.prevVersion) {
 		// Check if we just installed this extension.
-		if (prevVersion === null) {
-			//googleTrack("Extension", "New install", currVersion);
+		if (returnObject.prevVersion === null) {
+			returnObject.newInstall = true;
 		} else {
-			//googleTrack("Extension", "Update", currVersion);
+			returnObject.upgrade = true;
 		}
-		setItem("version", currVersion);
+		//Set version
+		setItem("version", returnObject.currVersion);
 	}
-	log("Version", currVersion);
-	return currVersion;
+	log("Version", returnObject.currVersion);
+	return returnObject;
 }
 
 /**
@@ -442,10 +443,6 @@ Initialise background page and start the extension
 */
 function bginit()
 {	
-	
-	//Look for new install
-	newInstall = (getItem("dateArray") === null) ? true : false;
-	
 	//Stupid checking code to see if we have already updated to UTC. 
 	var tDates = getDates();
 	
@@ -468,26 +465,60 @@ function bginit()
 		
 	}
 	
-	extVersion = getVersion();
-	checkDateArray = getItem("dateArray"); //Is this a new install?
+	setTitleForTracking();
 	
-	if(location.hostname != googleID){
-		document.title = "C&C "+extVersion + " (dev)";
-		log("Startup", "Dev version, new install: " + newInstall.toString());
-	}
-	else if(newInstall == true) {
-		//New install
-		document.title = "C&C "+extVersion + " (new install)";
-		log("Startup", "New install");
-	}
-	else {
-		//Normal startup
-		document.title = "C&C "+extVersion;
-	}
-	
+	//Do the actual init
 	resetSettings();
 	
-	maintainLoop();
+	setupMaintainLoop();
+	
+}
+
+/**
+Setup alarms for maintenance
+*/
+function setupMaintainLoop()
+{
+	var aInfo = new Object();
+	aInfo.delayInMinutes = 0;
+	aInfo.periodInMinutes = 1;
+	
+	chrome.alarms.create("MaintainAlarm", aInfo);
+
+	chrome.alarms.onAlarm.addListener(function(alarm){
+		if(alarm.name == "MaintainAlarm")
+		{
+			maintain();
+		}
+	});
+	
+}
+
+/**
+Set up the page title for proper tracking
+*/
+function setTitleForTracking()
+{
+ //Version checking for logging
+ extVersion = getVersion();
+ 
+ if(location.hostname != googleID){
+ 	document.title = "C&C "+ extVersion.currVersion + " (dev)";
+ 	log("Startup", "Dev version");
+ }
+ else if(extVersion.newInstall == true) {
+ 	//New install
+ 	document.title = "C&C "+ extVersion.currVersion + " (new install)";
+ 	log("Startup", "New install");
+ }
+ else if(extVersion.upgrade == true)
+ {
+ 	document.title = "C&C "+ extVersion.currVersion + " (upgrade from "+extVersion.prevVersion+")";
+ }
+ else {
+ 	//Normal startup
+ 	document.title = "C&C "+extVersion.currVersion;
+ }
 }
 
 /**
