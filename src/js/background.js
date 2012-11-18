@@ -447,9 +447,10 @@ function bginit()
 	//Check if we need to upgrade to UTC
 	doUTCUpgrade();
 	
+	//Set document title
 	setTitleForTracking();
 	
-	//Do the actual init
+	//Do the actual initialisation of settings
 	resetSettings();
 	
 	//Do first maintenance and set up loop
@@ -459,7 +460,7 @@ function bginit()
 }
 
 /**
-Setup alarms for maintenance
+Setup alarm for maintenance
 */
 function setupMaintainLoop()
 {
@@ -474,7 +475,6 @@ function setupMaintainLoop()
 	chrome.alarms.create("MaintainAlarm", aInfo);
 	log("Startup", "Maintenance alarm added");
 	
-
 	chrome.alarms.onAlarm.addListener(function(alarm){
 		if(alarm.name == "MaintainAlarm")
 		{
@@ -489,26 +489,35 @@ Set up the page title for proper tracking
 */
 function setTitleForTracking()
 {
+
+
  //Version checking for logging
  extVersion = getVersion();
- 
- if(location.hostname != googleID){
- 	document.title = "C&C "+ extVersion.currVersion + " (dev)";
- 	log("Startup", "Dev version");
+ var docTitle = "C&C (uninitialised)"
+	
+ try { 
+	 if(location.hostname != googleID){
+	 	docTitle = "C&C "+ extVersion.currVersion + " (development)";
+	 }
+	 else if(extVersion.newInstall == true) {
+	 	docTitle = "C&C "+ extVersion.currVersion + " (new)";
+	 }
+	 else if(extVersion.upgrade == true)
+	 {
+	 	docTitle = "C&C "+ extVersion.currVersion + " (upgrade from "+extVersion.prevVersion+")";
+	 }
+	 else {
+	 	//Normal startup
+	 	docTitle = "C&C "+extVersion.currVersion;
+	 }
  }
- else if(extVersion.newInstall == true) {
- 	//New install
- 	document.title = "C&C "+ extVersion.currVersion + " (new install)";
- 	log("Startup", "New install");
- }
- else if(extVersion.upgrade == true)
+ catch(err)
  {
- 	document.title = "C&C "+ extVersion.currVersion + " (upgrade from "+extVersion.prevVersion+")";
+ 	docTitle = "C&C (version tracking error: "+err.message+")";
  }
- else {
- 	//Normal startup
- 	document.title = "C&C "+extVersion.currVersion;
- }
+ 
+ document.title = docTitle;
+ 
 }
 
 /**
