@@ -2,7 +2,7 @@
 var settings = new Object();
 var dates = new Object();
 
-//Set storage area for settings and dates
+//Set storage area for settings and dates. Not yet functional.
 var settingsStorage = chrome.storage.local; 
 var dateStorage = chrome.storage.local;
 
@@ -443,33 +443,17 @@ Initialise background page and start the extension
 */
 function bginit()
 {	
-	//Stupid checking code to see if we have already updated to UTC. 
-	var tDates = getDates();
 	
-	//If we are updating, update scores
-	if(tDates !== null)
-	{ 
-		log("Update to UTC", "Checking times to see if update done");
-		
-		//Check if stored date has UTC time of "0", update if not. 
-		var checkUpdateDate = new Date(tDates[0] * 1);
-		var updateTime = checkUpdateDate.getUTCHours() * 1;
-
-		if(updateTime != 0)
-		{
-			updateDatesToUtc();
-		}
-		else {
-			log("Update to UTC", "Already UTC");
-		}
-		
-	}
+	//Check if we need to upgrade to UTC
+	doUTCUpgrade();
 	
 	setTitleForTracking();
 	
 	//Do the actual init
 	resetSettings();
 	
+	//Do first maintenance and set up loop
+	maintain();
 	setupMaintainLoop();
 	
 }
@@ -480,10 +464,11 @@ Setup alarms for maintenance
 function setupMaintainLoop()
 {
 	var aInfo = new Object();
-	aInfo.delayInMinutes = 0;
+	aInfo.delayInMinutes = 1;
 	aInfo.periodInMinutes = 1;
 	
 	chrome.alarms.create("MaintainAlarm", aInfo);
+	log("Startup", "Maintenance alarm added");
 
 	chrome.alarms.onAlarm.addListener(function(alarm){
 		if(alarm.name == "MaintainAlarm")
@@ -519,6 +504,34 @@ function setTitleForTracking()
  	//Normal startup
  	document.title = "C&C "+extVersion.currVersion;
  }
+}
+
+/**
+Check if there is a need to upgrade dates to UTC format
+*/
+function doUTCUpgrade()
+{
+	//Stupid checking code to see if we have already updated to UTC. 
+	var tDates = getDates();
+	
+	//If we are updating, update scores
+	if(tDates !== null)
+	{ 
+		log("Update to UTC", "Checking times to see if update done");
+		
+		//Check if stored date has UTC time of "0", update if not. 
+		var checkUpdateDate = new Date(tDates[0] * 1);
+		var updateTime = checkUpdateDate.getUTCHours() * 1;
+
+		if(updateTime != 0)
+		{
+			updateDatesToUtc();
+		}
+		else {
+			log("Update to UTC", "Already UTC");
+		}
+		
+	}
 }
 
 /**
