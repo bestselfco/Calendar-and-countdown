@@ -463,12 +463,17 @@ Setup alarms for maintenance
 */
 function setupMaintainLoop()
 {
+	//d = Now, ad = next full hour.
+	var d = new Date();
+	var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours()+1, 0, 0);
+	
 	var aInfo = new Object();
-	aInfo.delayInMinutes = 1;
-	aInfo.periodInMinutes = 1;
+	aInfo.when = ad.getTime();
+	aInfo.periodInMinutes = 60;
 	
 	chrome.alarms.create("MaintainAlarm", aInfo);
 	log("Startup", "Maintenance alarm added");
+	
 
 	chrome.alarms.onAlarm.addListener(function(alarm){
 		if(alarm.name == "MaintainAlarm")
