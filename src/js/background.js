@@ -490,9 +490,9 @@ Set up the page title for proper tracking
 function setTitleForTracking()
 {
 
-
  //Version checking for logging
  extVersion = getVersion();
+
  var docTitle = "C&C (uninitialised)"
 	
  try { 
@@ -513,9 +513,10 @@ function setTitleForTracking()
  }
  catch(err)
  {
- 	docTitle = "C&C (version tracking error: "+err.message+")";
+ 	docTitle = "C&C ("+err.message+")";
  }
  
+ //Set title
  document.title = docTitle;
  
 }
