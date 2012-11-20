@@ -406,9 +406,9 @@ function getVersion() {
 			returnObject.upgrade = true;
 		}
 		//Set version
-		setItem("version", returnObject.currVersion);
+		setItem("version", version);
 	}
-	log("Version", returnObject.currVersion);
+	log("Version", version);
 	return returnObject;
 }
 
