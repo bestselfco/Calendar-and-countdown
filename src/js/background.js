@@ -38,7 +38,8 @@ function bginit()
 		
 		if(details.reason == "update")
 	 	{
-			_gaq.push(['_trackPageview', '/update/'+details.previousVersion+'/'+version.currVersion]);
+			trackPageView('/update/'+details.previousVersion+'/'+version.currVersion);
+			//_gaq.push(['_trackPageview', '/update/'+details.previousVersion+'/'+version.currVersion]);
 			//UTC update if update from older version than august 2012
 			var prev = details.previousVersion.split(".");
 			if(prev[0] < 2013 && prev[1] < 8)
@@ -48,7 +49,8 @@ function bginit()
 		}
 		else if(details.reason == "install")
 		{
-			_gaq.push(['_trackPageview', '/new']);
+			trackPageView('/new');
+			//_gaq.push(['_trackPageview', '/new']);
 		}
 	});
 	
@@ -463,7 +465,8 @@ function setupMaintainLoop()
 		}
 		else if(alarm.name == "TrackingAlarm" && doTrackNormalStart == true) //Track normal startup after one minute only if it is not an update or a new install. This is meaningless and only because it is fun to watch the live updates of the tracker.
 		{
-			_gaq.push(['_trackPageview', '/start/'+version.currVersion]);
+			trackPageView('/start/'+version.currVersion);
+			//_gaq.push(['_trackPageview', '/start/'+version.currVersion]);
 		}
 	});
 	
@@ -664,6 +667,14 @@ function persistSettingsToStorage() {
 	
 }
 
+/**
+Track a page view to Google
+*/
+function trackPageView(pagetitle)
+{
+	log("Googletrack - page", pagetitle);
+	_gaq.push(['_trackPageview', pagetitle]);
+}
 
 /**
 Bootstrap background on page load finished
