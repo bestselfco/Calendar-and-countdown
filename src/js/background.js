@@ -27,7 +27,12 @@ function bginit()
 	chrome.runtime.onInstalled.addListener(function(details) {
 	 	if(details.reason == "update")
 	 	{
-			doUTCUpgrade();
+			//UTC update if update from older version than august 2012
+			var prev = details.previousVersion.split(".");
+			if(prev[0] < 2013 && prev[1] < 8)
+			{
+				doUTCUpgrade();
+			}
 		}
 	});
 	
@@ -427,13 +432,22 @@ function setupMaintainLoop()
 	aInfo.when = ad.getTime();
 	aInfo.periodInMinutes = 60;
 	
+	var trackAlarmInfo = new Object();
+	trackAlarmInfo.delayInMinutes  = 1;
+	
 	chrome.alarms.create("MaintainAlarm", aInfo);
+	chrome.alarms.create("TrackingAlarm", trackAlarmInfo);
+	
 	log("Startup", "Maintenance alarm added");
 	
 	chrome.alarms.onAlarm.addListener(function(alarm){
 		if(alarm.name == "MaintainAlarm")
 		{
 			maintain();
+		}
+		else if(alarm.name == "TrackingAlarm")
+		{
+			_gaq.push(['_trackPageview', 'Delayed!']);
 		}
 	});
 	

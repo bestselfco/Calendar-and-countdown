@@ -3,6 +3,8 @@ Google tracking for all pages that include functions.js
 */
 var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-21196533-2']);
+
+//Disable tracking here, to be done somewhere else!
 _gaq.push(['_trackPageview']);
 
 (function() {
