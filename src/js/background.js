@@ -461,7 +461,7 @@ function setupMaintainLoop()
 		{
 			maintain();
 		}
-		else if(alarm.name == "TrackingAlarm" && doTrackNormalStart === true) //Track normal startup after one minute only if it is not an update or a new install. This is meaningless and only because it is fun to watch the live updates of the tracker.
+		else if(alarm.name == "TrackingAlarm" && doTrackNormalStart == true) //Track normal startup after one minute only if it is not an update or a new install. This is meaningless and only because it is fun to watch the live updates of the tracker.
 		{
 			_gaq.push(['_trackPageview', '/start/'+version.currVersion]);
 		}
