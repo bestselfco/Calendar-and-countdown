@@ -38,7 +38,7 @@ function bginit()
 		
 		if(details.reason == "update")
 	 	{
-			_gaq.push(['_trackPageview', '/update/'+details.previousVersion+'/'+details.currVersion]);
+			_gaq.push(['_trackPageview', '/update/'+details.previousVersion+'/'+version.currVersion]);
 			//UTC update if update from older version than august 2012
 			var prev = details.previousVersion.split(".");
 			if(prev[0] < 2013 && prev[1] < 8)
