@@ -38,7 +38,7 @@ function bginit()
 		
 		if(details.reason == "update")
 	 	{
-			_gaq.push(['_trackPageview', '/update/'+details.previousVersion]);
+			_gaq.push(['_trackPageview', '/update/'+details.previousVersion+'/'+details.currVersion]);
 			//UTC update if update from older version than august 2012
 			var prev = details.previousVersion.split(".");
 			if(prev[0] < 2013 && prev[1] < 8)
@@ -449,7 +449,7 @@ function setupMaintainLoop()
 	aInfo.periodInMinutes = 60;
 	
 	var trackAlarmInfo = new Object();
-	trackAlarmInfo.delayInMinutes  = 1;
+	trackAlarmInfo.delayInMinutes  = 5;
 	
 	chrome.alarms.create("MaintainAlarm", aInfo);
 	chrome.alarms.create("TrackingAlarm", trackAlarmInfo);
