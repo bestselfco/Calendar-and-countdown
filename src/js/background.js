@@ -26,6 +26,10 @@ Initialise background page and start the extension
 */
 function bginit()
 {	
+	
+	//Set title
+	document.title = "Calendar and Countdown";
+
 	//Do migration stuff if updated
 	chrome.runtime.onInstalled.addListener(function(details) {
 	 	
@@ -47,9 +51,6 @@ function bginit()
 			_gaq.push(['_trackPageview', '/new']);
 		}
 	});
-	
-	//Set document title
-	//setTitleForTracking();
 	
 	//Do the actual initialisation of settings
 	resetSettings();
@@ -467,45 +468,6 @@ function setupMaintainLoop()
 	});
 	
 }
-
-/**
-Set up the page title for proper tracking
-*/
-function setTitleForTracking()
-{
-
- //Version checking for logging
- extVersion = getVersion();
-
- var docTitle = "C&C (uninitialised)"
-	
- try { 
-	 if(location.hostname != googleID){
-	 	docTitle = "C&C "+ extVersion.currVersion + " (development)";
-	 }
-	 else if(extVersion.newInstall == true) {
-	 	docTitle = "C&C "+ extVersion.currVersion + " (new)";
-	 }
-	 else if(extVersion.upgrade == true)
-	 {
-	 	docTitle = "C&C "+ extVersion.currVersion + " (upgrade from "+extVersion.prevVersion+")";
-	 }
-	 else {
-	 	//Normal startup
-	 	docTitle = "C&C "+extVersion.currVersion;
-	 }
- }
- catch(err)
- {
- 	docTitle = "C&C ("+err.message+")";
- }
- 
- //Set title
- document.title = docTitle;
- 
-}
-
-
 
 /**
 Initialise settings and/or reset everything to scratch
