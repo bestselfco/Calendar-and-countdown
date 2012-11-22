@@ -13,6 +13,10 @@ var dateNoteArray; //Notes for dates
 var dateColorArray; //Colors for dates
 var maintainCycles = 0;
 
+var doTrackNormalStart = true;
+
+var version = getVersion();
+
 //Init today time stamp
 var now = new Date();
 var todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
@@ -22,11 +26,15 @@ Initialise background page and start the extension
 */
 function bginit()
 {	
-	
 	//Do migration stuff if updated
 	chrome.runtime.onInstalled.addListener(function(details) {
-	 	if(details.reason == "update")
+	 	
+		//Turn of normal startup tracking for new installs
+		doTrackNormalStart = false;
+		
+		if(details.reason == "update")
 	 	{
+			_gaq.push(['_trackPageview', '/update/'+details.previousVersion]);
 			//UTC update if update from older version than august 2012
 			var prev = details.previousVersion.split(".");
 			if(prev[0] < 2013 && prev[1] < 8)
@@ -34,10 +42,14 @@ function bginit()
 				doUTCUpgrade();
 			}
 		}
+		else if(details.reason == "install")
+		{
+			_gaq.push(['_trackPageview', '/new']);
+		}
 	});
 	
 	//Set document title
-	setTitleForTracking();
+	//setTitleForTracking();
 	
 	//Do the actual initialisation of settings
 	resetSettings();
@@ -428,6 +440,9 @@ function setupMaintainLoop()
 	var d = new Date();
 	var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours()+1, 0, 0);
 	
+	//Version for tracking
+	var version = getVersion();
+	
 	var aInfo = new Object();
 	aInfo.when = ad.getTime();
 	aInfo.periodInMinutes = 60;
@@ -445,9 +460,9 @@ function setupMaintainLoop()
 		{
 			maintain();
 		}
-		else if(alarm.name == "TrackingAlarm")
+		else if(alarm.name == "TrackingAlarm" && doTrackNormalStart === true) //Track normal startup after one minute only if it is not an update or a new install. This is meaningless and only because it is fun to watch the live updates of the tracker.
 		{
-			_gaq.push(['_trackPageview', 'Delayed!']);
+			_gaq.push(['_trackPageview', '/Calendar-and-countdown/'+version.currVersion]);
 		}
 	});
 	

@@ -5,7 +5,7 @@ var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-21196533-2']);
 
 //Disable tracking here, to be done somewhere else!
-_gaq.push(['_trackPageview']);
+//_gaq.push(['_trackPageview']);
 
 (function() {
   var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
