@@ -441,14 +441,14 @@ function setupMaintainLoop()
 {
 	//d = Now, ad = next full hour.
 	var d = new Date();
-	var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours()+1, 0, 0);
+	var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+1, 0);
 	
 	//Version for tracking
 	var version = getVersion();
 	
 	var aInfo = new Object();
 	aInfo.when = ad.getTime();
-	aInfo.periodInMinutes = 60;
+	aInfo.periodInMinutes = 1;
 	
 	var trackAlarmInfo = new Object();
 	trackAlarmInfo.delayInMinutes  = 5;
