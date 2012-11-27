@@ -140,6 +140,6 @@ function clearStrg() {
 //remove an item from localstorage
 function removeItem(itemName)
 {
-	localStorage.removeItem(itemName);
+	window.localStorage.removeItem(itemName);
 }
 

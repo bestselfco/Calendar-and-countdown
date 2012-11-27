@@ -42,23 +42,23 @@ function doSettingsStorageMigration()
 {
 	log("Install/Migrate", "doSettingsStorageMigration");
 	
-	tmpSettings = new Object();
+	tmpSettings = getDefaultSettings(); new Object();
 	
-	tmpSettings.iconTopColor = getItem("icon_topColor");
-	tmpSettings.iconTextColor = getItem("icon_textColor");
-	tmpSettings.iconShowText = getItem("icon_showtext");
-	tmpSettings.iconColor = getItem("iconColor");
+	if(getItem("icon_topColor") !== null) tmpSettings.iconTopColor = getItem("icon_topColor");
+	if(getItem("icon_textColor") !== null) tmpSettings.iconTextColor = getItem("icon_textColor");
+	if(getItem("icon_showtext") !== null) tmpSettings.iconShowText = getItem("icon_showtext");
+	if(getItem("iconColor") !== null) tmpSettings.iconColor = getItem("iconColor");
 	
-	tmpSettings.showBadge = getItem("showBadge");
-	tmpSettings.badgeColor = getItem("badgeColor");
-	tmpSettings.popup = getItem("popup");
-	tmpSettings.showWeek = getItem("showWeek");
-	tmpSettings.firstDay = getItem("firstDay");
+	if(getItem("showBadge") !== null) tmpSettings.showBadge = getItem("showBadge");
+	if(getItem("badgeColor") !== null) tmpSettings.badgeColor = getItem("badgeColor");
+	if(getItem("popup") !== null) tmpSettings.popup = getItem("popup");
+	if(getItem("showWeek") !== null) tmpSettings.showWeek = getItem("showWeek");
+	if(getItem("firstDay") !== null) tmpSettings.firstDay = getItem("firstDay");
 	
 	settings = tmpSettings;
 	
 	//Clean up old storage elements
-	/*removeItem("icon_topColor");
+	removeItem("icon_topColor");
 	removeItem("icon_textColor");
 	removeItem("icon_showtext");
 	removeItem("iconColor");
@@ -68,7 +68,8 @@ function doSettingsStorageMigration()
 	removeItem("showWeek");
 	removeItem("firstDay");
 	removeItem("version");
-	*/
+	removeItem("shouldIUpdateDates");
+	removeItem("showMoon");
 	
 	persistSettingsToStorage();
 	
