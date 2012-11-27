@@ -1,4 +1,4 @@
-//Get background page
+//Get background page and settings object
 var bg = chrome.extension.getBackgroundPage();
 
 function init()
@@ -8,7 +8,7 @@ function init()
 	var dd = new Date();
 	$(".copyyear").html(dd.getFullYear());
 
-	var firstDay = getItem("firstDay");
+	var firstDay = bg.settings.firstDay;
 	if(firstDay == "0")
 	{
 		document.getElementById("firstday0").checked = true;
@@ -18,7 +18,7 @@ function init()
 		document.getElementById("firstday1").checked = true;
 	}
 
-	var showBadge = getItem("showBadge");
+	var showBadge = bg.settings.showBadge;
 	if(showBadge == "0")
 	{
 		document.getElementById("showBadge0").checked = true;
@@ -28,7 +28,7 @@ function init()
 		document.getElementById("showBadge1").checked = true;
 	}
 	
-	var popup = getItem("popup");
+	var popup = bg.settings.popup;
 	if(popup == "3")
 	{
 		document.getElementById("show31203").checked = true;
@@ -38,7 +38,7 @@ function init()
 		document.getElementById("show31212").checked = true;
 	}
 
-	var showweek = getItem("showWeek");
+	var showweek = bg.settings.showWeek;
 	if(showweek == "0")
 	{
 		document.getElementById("showweek0").checked = true;
@@ -48,13 +48,11 @@ function init()
 		document.getElementById("showweek1").checked = true;
 	}
 	
-	var colorSelected = getItem("badgeColor");
+	var colorSelected = bg.settings.badgeColor;
 
 	$("#badgeColorSelect").val(colorSelected);
 	
-	//document.getElementById('badgeColorSelect').color.fromString(colorSelected);
-	
-	todayDate = new Date().getDate();
+	todayDate = new Date().getUTCDate();
 	cDownDate = 9;
 	
 	//Setup Icon selector Colors
@@ -140,8 +138,9 @@ function setColor(where, hex)
 {
 	//Set color for selector element
 	$("#badgeColorSelect").css("color", hex);
-	setItem("badgeColor",hex);
-	chrome.extension.sendRequest({action: "refresh"});
+	bg.settings.badgeColor = hex; //setItem("badgeColor",hex);
+	bg.persistSettingsToStorage();
+	bg.maintain(); 
 }
 
 /**
@@ -153,34 +152,44 @@ function setColor(where, hex)
  */
 function setIconProperties(topColor, textColor, showText)
 {
-	setItem("icon_textColor", textColor);
-	setItem("icon_topColor", topColor);
-	setItem("icon_showtext", showText);
-	chrome.extension.sendRequest({action: "refresh"});
+	//setItem("icon_textColor", textColor);
+	//setItem("icon_topColor", topColor);
+	//setItem("icon_showtext", showText);
+	
+	bg.settings.iconShowText = showText;
+	bg.settings.iconTextColor = textColor;
+	bg.settings.iconTopColor = topColor;
+	
+	bg.persistSettingsToStorage();
+	bg.maintain(); 
 }
 
 function setPopupFile(value)
 {
-	setItem("popup", value);
-	chrome.extension.sendRequest({action: "refresh"});
+	bg.settings.popup = value;
+	bg.persistSettingsToStorage();
+	bg.maintain(); 
 }
 
 function setFirstDay(value)
 {
-	setItem("firstDay", value);	
-	chrome.extension.sendRequest({action: "killcache"});
+	bg.settings.firstDay = value;
+	bg.persistSettingsToStorage(); //setItem("firstDay", value);	
+	bg.maintain(); 
 }
 
 function setShowBadge(value)
 {
-	setItem("showBadge", value);
-	chrome.extension.sendRequest({action: "refresh"});
+	bg.settings.showBadge = value; // setItem("showBadge", value);
+	bg.persistSettingsToStorage();
+	bg.maintain(); 
 }
 
 function setWeek(value)
 {
-	setItem("showWeek", value);
-	chrome.extension.sendRequest({action: "refresh"});	
+	bg.settings.showWeek = value; //setItem("showWeek", value);
+	bg.persistSettingsToStorage();
+	bg.maintain(); 
 }
 
 function resetEverything()

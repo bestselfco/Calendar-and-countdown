@@ -1,4 +1,82 @@
 /**
+Initialise default settings and store them
+*/
+function initialiseSettingsOnInstall()
+{
+	log("Install/Migrate", "initialiseSettings");
+
+	//Read default settings
+	settings = getDefaultSettings();
+	
+	//Store them
+	persistSettingsToStorage();
+	
+	//Re-do init.
+	maintain();
+}
+
+/**
+Return the default set of settings
+*/
+function getDefaultSettings()
+{
+	tmpSettings = new Object();
+	
+	tmpSettings.iconTopColor = "rgba(27,140,160,1)";
+	tmpSettings.iconTextColor = "rgba(0,0,0,0.65)";
+	tmpSettings.iconShowText = "0";
+	tmpSettings.iconColor = "red";
+	tmpSettings.showBadge = "1";
+	tmpSettings.badgeColor = "#18CD32";
+	tmpSettings.popup = "12";
+	tmpSettings.showWeek = "1";
+	tmpSettings.firstDay = "1";
+	
+	return tmpSettings;
+}
+
+/**
+Migrate storage solution
+*/
+function doSettingsStorageMigration()
+{
+	log("Install/Migrate", "doSettingsStorageMigration");
+	
+	tmpSettings = new Object();
+	
+	tmpSettings.iconTopColor = getItem("icon_topColor");
+	tmpSettings.iconTextColor = getItem("icon_textColor");
+	tmpSettings.iconShowText = getItem("icon_showtext");
+	tmpSettings.iconColor = getItem("iconColor");
+	
+	tmpSettings.showBadge = getItem("showBadge");
+	tmpSettings.badgeColor = getItem("badgeColor");
+	tmpSettings.popup = getItem("popup");
+	tmpSettings.showWeek = getItem("showWeek");
+	tmpSettings.firstDay = getItem("firstDay");
+	
+	settings = tmpSettings;
+	
+	//Clean up old storage elements
+	removeItem("icon_topColor");
+	removeItem("icon_textColor");
+	removeItem("icon_showtext");
+	removeItem("iconColor");
+	removeItem("showBadge");
+	removeItem("badgeColor");
+	removeItem("popup");
+	removeItem("showWeek");
+	removeItem("firstDay");
+	removeItem("version");
+	
+	persistSettingsToStorage();
+	
+	maintain();
+	
+	return settings;
+}
+
+/**
 Check if there is a need to upgrade dates to UTC format
 */
 function doUTCUpgrade()
@@ -20,7 +98,7 @@ function doUTCUpgrade()
 			updateDatesToUtc();
 		}
 		else {
-			log("Update to UTC", "Already UTC");
+			log("Install/Migrate", "Already UTC");
 		}
 		
 	}

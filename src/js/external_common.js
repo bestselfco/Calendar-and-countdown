@@ -99,7 +99,7 @@ function dump(arr,level) {
 //sets the item in the localstorage
 function setItem(key, value) {
 	try {
-		log("Set item", key);
+		log("Set item to old storage", key);
 		window.localStorage.removeItem(key);
 		window.localStorage.setItem(key, value);
 	}catch(e) {
@@ -111,9 +111,12 @@ function setItem(key, value) {
 
 //Gets the item from local storage with the specified
 //key
+
 function getItem(key) {
 	var value;
-
+	
+	log("Get item from old storage", key);
+	
 	try {
 		value = window.localStorage.getItem(key);
 		//log('Get Item', key + ": "+value);
@@ -125,6 +128,8 @@ function getItem(key) {
 
 	return value;
 }
+
+
 //Clears all the key value pairs in the local storage
 function clearStrg() {
 	log('about to clear local storage');

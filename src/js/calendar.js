@@ -278,7 +278,7 @@ function getDateString(timestamp, long)
 function showCal(year)
 {
 	
-	var showWeek = window.localStorage.getItem("showWeek");
+	var showWeek = bg.settings.showWeek; //window.localStorage.getItem("showWeek");
 	
 	populateYear(year, "month"); //this year
 	populateYearLinks(); //Populate year links
@@ -669,11 +669,12 @@ Create a calendar
 function showCal(year)
 {	
 	//Init and default for week start day
-	var firstDay = getItem("firstDay");
+	var firstDay = bg.settings.firstDay; //getItem("firstDay");
 	if(firstDay != "1" && firstDay != "0")
 	{
 		firstDay = "1";
-		setItem("firstDay", firstDay);
+		bg.settings.firstDay = firstDay; 
+		bg.persistSettingsToStorage();
 	}
 
 	firstDayOfWeek = firstDay;
@@ -683,10 +684,11 @@ function showCal(year)
 	populateYearLinks();
 
 	//Initialize and default for showing week number
-	var showWeek = getItem("showWeek");
+	var showWeek = bg.settings.showWeek; //getItem("showWeek");
 	if(showWeek != "1" && showWeek != "0"){
-		showWeek = 1;
-		setItem("showWeek", 1);
+		showWeek = "1";
+		bg.settings.showWeek = showWeek; //setItem("showWeek", 1);
+		bg.persistSettingsToStorage();
 	}
 	if(showWeek == "0") $(".cal_weekblock").hide();
 	

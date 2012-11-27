@@ -26,36 +26,50 @@ Initialise background page and start the extension
 */
 function bginit()
 {	
-	
 	//Set title
 	document.title = "Calendar and Countdown";
-
+	//Start with default settings
+	settings = getDefaultSettings();
+	
 	//Do migration stuff if updated
 	chrome.runtime.onInstalled.addListener(function(details) {
 	 	
 		//Turn of normal startup tracking for new installs
 		doTrackNormalStart = false;
 		
-		if(details.reason == "update")
+		if(details.reason == "update" && details.previousVersion != version.currVersion)
 	 	{
 			trackPageView('/update/'+details.previousVersion+'/'+version.currVersion);
-			//_gaq.push(['_trackPageview', '/update/'+details.previousVersion+'/'+version.currVersion]);
+			
 			//UTC update if update from older version than august 2012
 			var prev = details.previousVersion.split(".");
 			if(prev[0] < 2013 && prev[1] < 8)
 			{
 				doUTCUpgrade();
 			}
+			//Do settings storage migration if version is 2012.11.22.5 or below
+			if(prev[0] < 2013 && prev[1] < 12 && prev[2] < 23 && prev[3] < 6)
+			{
+				settings = doSettingsStorageMigration();
+			}
 		}
 		else if(details.reason == "install")
 		{
+			settings = initialiseSettingsOnInstall();
+			maintain();
 			trackPageView('/new');
-			//_gaq.push(['_trackPageview', '/new']);
 		}
+		else if(details.previousVersion === version.currVersion)
+		{
+			trackPageView('/reload/'+version.currVersion);
+		}
+		
 	});
 	
 	//Do the actual initialisation of settings
-	resetSettings();
+	getSettingsFromStorage();
+	
+	initDateArrays();
 	
 	//Do first maintenance and set up loop
 	maintain();
@@ -241,17 +255,17 @@ function updateIconFromStored()
 {
 	//Setup object
 	var iconSetup = new Object();
-	iconSetup.textColor = getItem("icon_textColor");
-	iconSetup.topColor = getItem("icon_topColor");
-	iconSetup.showNumbers = getItem("icon_showtext");
+	
+	iconSetup.textColor = settings.iconTextColor;
+	iconSetup.topColor = settings.iconTopColor;
+	iconSetup.showNumbers = settings.iconShowText;
 	
 	if(iconSetup.showNumbers == "1") iconSetup.fillText = new Date().getDate(); //Today
 	else if (iconSetup.showNumbers == "2") iconSetup.fillText = getDistanceInDays(); //Countdown
 	else  iconSetup.fillText = 0; //Nothing, so why bother
 	
 	document.getElementById("iconCanvas").getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
-	
-	//createIcon("iconCanvas", iconSetup);	
+
 	setIcon();
 	
 }
@@ -262,7 +276,7 @@ Set the popup page
 */
 function updatePopupFromStored()
 {
-	var popup = getItem("popup");
+	var popup = settings.popup;
 	setPopup(popup);
 }
 
@@ -310,7 +324,8 @@ Reset extension
 function killEmAll()
 {
 	clearStrg();
-	resetSettings();
+	initialiseSettingsOnInstall();
+	initDateArrays();
 	maintain();
 	
 	return true;
@@ -336,7 +351,7 @@ function updateBadgeFromStored()
 		}
 		
 	}
-	else //We are not counting to anything, so we delete this shit.
+	else //We are not counting to anything, so we delete this.
 	{
 		chrome.browserAction.setBadgeText({text:""});
 	}
@@ -349,10 +364,10 @@ Set the badge to a countdown value. Also updates the color from memory.
 function setBadge(text)
 {
 	text = text.toString();
-	var color = getItem("badgeColor");
+	var color = settings.badgeColor;
 	color = HexToRGB(color);
 
-	var showBadge = getItem("showBadge");
+	var showBadge = settings.showBadge;
 	
 	if(showBadge == 1)
 	{
@@ -377,8 +392,7 @@ function getDistanceInDays()
 	{
 		try {
 			var badgeDate = new Date((countto*1)); //Stupid casting
-			//var diff = Math.abs(badgeDate.getDaysFromToday());
-			
+		
 			var diff = Math.abs(badgeDate.getDistanceInDays(todayStamp));
 
 			if(badgeDate.getFullYear() > 1980 && badgeDate.getFullYear() < 2050)
@@ -411,13 +425,13 @@ function getVersion() {
 	
 	//Create and set up object for returning
 	var returnObject = new Object();
-	returnObject.newInstall = false;
-	returnObject.upgrade = false;
+	//returnObject.newInstall = false;
+	//returnObject.upgrade = false;
 	
 	returnObject.currVersion = manifest.version;
 	
-	returnObject.prevVersion = getItem("version");
-		
+	//returnObject.prevVersion = getItem("version");
+/*		
 	if (returnObject.currVersion != returnObject.prevVersion) {
 		// Check if we just installed this extension.
 		if (returnObject.prevVersion === null) {
@@ -429,6 +443,7 @@ function getVersion() {
 		setItem("version", version);
 	}
 	log("Version", version);
+	*/
 	return returnObject;
 }
 
@@ -448,7 +463,7 @@ function setupMaintainLoop()
 	
 	var aInfo = new Object();
 	aInfo.when = ad.getTime();
-	aInfo.periodInMinutes = 1;
+	aInfo.periodInMinutes = 5;
 	
 	var trackAlarmInfo = new Object();
 	trackAlarmInfo.delayInMinutes  = 5;
@@ -466,7 +481,6 @@ function setupMaintainLoop()
 		else if(alarm.name == "TrackingAlarm" && doTrackNormalStart == true) //Track normal startup after one minute only if it is not an update or a new install. This is meaningless and only because it is fun to watch the live updates of the tracker.
 		{
 			trackPageView('/start/'+version.currVersion);
-			//_gaq.push(['_trackPageview', '/start/'+version.currVersion]);
 		}
 	});
 	
@@ -475,9 +489,9 @@ function setupMaintainLoop()
 /**
 Initialise settings and/or reset everything to scratch
 */ 
-function resetSettings()
+function initDateArrays()
 {
-	log("Event", "resetSettings()");
+	log("Event", "initDateArrays()");
 	
 	dateArray = getItem("dateArray");
 	if(dateArray === null && getItem("countto") != null )
@@ -536,135 +550,39 @@ function resetSettings()
 		noCountDateArray = JSON.parse(noCountDateArray);
 	}
 	
-
-	var icon_topColor = getItem("icon_topColor");
-	if(icon_topColor == null)
-	{
-		var icon_topColor = "rgba(27,140,160,1)";
-		setItem("icon_topColor", icon_topColor);
-		log("Setting up default icon top color", icon_topColor);
-	}
-	
 	//Load default icon, autocreates new if not already set
 	var icon = new Icon(new Object());
 	icon.getDefaultValues(true);
-	
-	
-	
-	var showBadge = getItem("showBadge");
-	if(showBadge == null)
-	{
-		var showBadge = "1";
-		setItem("showBadge", showBadge);
-		log("Setting up default badge display", showBadge);
-	}
-	
-	var icon_textColor = getItem("icon_textColor");
-	if(icon_textColor == null)
-	{
-		var icon_textColor = "rgba(0,0,0,0.65)";
-		setItem("icon_textColor", icon_textColor);
-		log("Setting up default icon text color", icon_textColor);
-	}
-
-	var icon_showtext = getItem("icon_showtext");
-	if(icon_showtext == null)
-	{
-		var icon_showtext = "0";
-		setItem("icon_showtext", icon_showtext);
-		log("setting up icon text");
-	}
-	
-	var badgeColor = getItem("badgeColor");
-	if(badgeColor == null) {
-		var color = "#18CD32";
-		setItem("badgeColor", color);
-		log("setting up default badge color");
-	}
-
-	var popup = getItem("popup");
-	if(popup == null) {
-		var popup = "12";
-		setItem("popup", popup);
-		log("setting up default popup");
-	}
-
-	var iconColor = getItem("iconColor");
-	if(iconColor == null) {
-		var popup = "red";
-		setItem("iconColor", popup);
-		log("setting default icon color");
-	}
 
 }
 
 /**
-Read old settings and convert them to the new version
+Set settings object to stored settings
 */
-function convertSettingsToObject()
-{
-	tmpSettings = new Object();
-	
-	tmpSettings.iconTopColor = getItem("icon_topColor");
-	tmpSettings.iconTextColor = getItem("icon_textColor");
-	tmpSettings.iconShowText = getItem("icon_showtext");
-	tmpSettings.iconColor = getItem("iconColor");
-	
-	tmpSettings.showBadge = getItem("showBadge");
-	tmpSettings.badgeColor = getItem("badgeColor");
-	tmpSettings.popup = getItem("popup");
-	tmpSettings.showWeek = getItem("showWeek");
-	tmpSettings.firstDay = getItem("firstDay");
-	
-	settings = tmpSettings;
-	
-	persistSettingsToStorage();
-	
-	return true;
-	
-}
-
-/**
-Return the default set of settings
-*/
-function getDefaultSettings()
-{
-	tmpSettings = new Object();
-	
-	tmpSettings.iconTopColor = "rgba(27,140,160,1)";
-	tmpSettings.iconTextColor = "rgba(0,0,0,0.65)";
-	tmpSettings.iconShowText = "0";
-	tmpSettings.iconColor = "red";
-	tmpSettings.showBadge = "1";
-	tmpSettings.badgeColor = "#18CD32";
-	tmpSettings.popup = "12";
-	tmpSettings.showWeek = "1";
-	tmpSettings.firstDay = "1";
-	
-	return tmpSettings;
-}
-
-/*
 function getSettingsFromStorage()
 {
 	var tmpSettings = new Object();
 	settingsStorage.get("settings", function(items){
 	
-		console.log("Settings has been read");
-		settings = items;
-	
+		log("Settings", "Settings has been read");
+		settings = items.settings;
+		maintain();
 	});
-	
 }
-*/
 
+/**
+Persist the current settings object
+*/
 function persistSettingsToStorage() {
-	settingsStorage.set({"settings": settings}, function(items){
 	
-		log("Conversion", "Settings has been written");
+	if(settings)
+	{
+		settingsStorage.set({"settings": settings}, function(items){
+		
+			log("Settings", "Settings has been written to storage");
 	
-	});
-	
+		});
+	}
 }
 
 /**
