@@ -569,7 +569,6 @@ function getSettingsFromStorage()
 		for (var i in items.settings)
 		{
 			settings[i] = items.settings[i];
-			//console.log(i + " " + items.settings[i]);
 		}
 		
 		log("Settings", "Settings has been read");
