@@ -561,7 +561,7 @@ Set settings object to stored settings
 */
 function getSettingsFromStorage()
 {
-	var tmpSettings = new Object();
+	var tmpSettings = getDefaultSettings();
 	settingsStorage.get("settings", function(items){
 	
 		log("Settings", "Settings has been read");
