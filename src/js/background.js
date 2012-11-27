@@ -28,6 +28,7 @@ function bginit()
 {	
 	//Set title
 	document.title = "Calendar and Countdown";
+	
 	//Start with default settings
 	settings = getDefaultSettings();
 	
@@ -561,11 +562,18 @@ Set settings object to stored settings
 */
 function getSettingsFromStorage()
 {
-	var tmpSettings = getDefaultSettings();
 	settingsStorage.get("settings", function(items){
 	
+		
+		//Overwrite default settings with stored ones where applicable.
+		for (var i in items.settings)
+		{
+			settings[i] = items.settings[i];
+			//console.log(i + " " + items.settings[i]);
+		}
+		
 		log("Settings", "Settings has been read");
-		settings = items.settings;
+		
 		maintain();
 	});
 }

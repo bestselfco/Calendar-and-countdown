@@ -58,7 +58,7 @@ function doSettingsStorageMigration()
 	settings = tmpSettings;
 	
 	//Clean up old storage elements
-	removeItem("icon_topColor");
+	/*removeItem("icon_topColor");
 	removeItem("icon_textColor");
 	removeItem("icon_showtext");
 	removeItem("iconColor");
@@ -68,6 +68,7 @@ function doSettingsStorageMigration()
 	removeItem("showWeek");
 	removeItem("firstDay");
 	removeItem("version");
+	*/
 	
 	persistSettingsToStorage();
 	
