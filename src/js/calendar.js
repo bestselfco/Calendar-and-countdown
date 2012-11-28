@@ -24,6 +24,7 @@ var notesArray = getNoteArray();
 Bootstrap page on load
 */
 $(document).ready(function() {
+	bg = chrome.extension.getBackgroundPage();
 	initPopupPage(currentYear);
 });
 
@@ -263,7 +264,13 @@ function getDateString(timestamp, long)
 		var dateString = chrome.i18n.getMessage("fullDate", [ucFirst(chrome.i18n.getMessage("lday"+day)), monthName, mDay, sFix]);
 	}
 	else {
+		//var dateTemplate = bg.settings.dateFormat;
+		
+	//	var dateString = dateTemplate.replace("m",month+1);
+	//	dateString = dateString.replace("y",year);
+	//	dateString = dateString.replace("d",mDay);
 		var dateString = chrome.i18n.getMessage("shortDate", [month+1, mDay, year]);
+		//var dateString = date.toLocaleDateString()
 	}
 
 	return dateString;

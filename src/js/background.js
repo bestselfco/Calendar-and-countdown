@@ -57,8 +57,9 @@ function bginit()
 		else if(details.reason == "install")
 		{
 			settings = initialiseSettingsOnInstall();
-			maintain();
+			//maintain();
 			trackPageView('/new');
+			window.location.reload();
 		}
 		else if(details.previousVersion === version.currVersion)
 		{
@@ -582,7 +583,7 @@ Persist the current settings object
 */
 function persistSettingsToStorage() {
 	
-	if(settings)
+	if(settings.popup)
 	{
 		settingsStorage.set({"settings": settings}, function(items){
 		
