@@ -22,7 +22,7 @@
 .t_Content_black,
 .t_Content_dark,
 .t_Content_gray {
-  color: #fff;
+  color: #efefef;
 }
 
 /* Styling links so they are visible no matter is defined on the page behind */
@@ -50,7 +50,7 @@
 .t_Content_red,
 .t_Content_green,
 .t_Content_blue {
-  color: #fff;
+  color: #efefef;
   font-size: 11px;
   line-height: 17px;
   padding: 10px;
@@ -76,7 +76,7 @@
 
 /* tiny */
 .t_Content_tiny {
-  color: #fff;
+  color: #efefef;
   font-size: 11px;
   line-height: 16px;
   padding: 6px 9px;

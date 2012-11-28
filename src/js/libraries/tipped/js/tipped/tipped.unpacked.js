@@ -1,12 +1,12 @@
 /*!
- * Tipped - The jQuery Tooltip - v3.1.0.1
+ * Tipped - The jQuery Tooltip - v3.1.3
  * (c) 2010-2012 Nick Stakenburg
  *
  * http://projects.nickstakenburg.com/tipped
  *
  * License: http://projects.nickstakenburg.com/tipped/license
  */
-;var Tipped = { version: '3.1.0.1' };
+;var Tipped = { version: '3.1.3' };
 
 Tipped.Skins = {
   // base skin, don't modify! (create custom skins in a separate file)
@@ -104,8 +104,8 @@ Tipped.Skins = {
   },
   
   'tiny': {
-    background: { color: '#000', opacity: .8 },
-    border: 0,
+    background: { color: '#161616' },
+    border: { color: '#969696', opacity: .35, size: 1 },
     fadeIn: 0,
     fadeOut: 0,
     radius: 4,
@@ -241,9 +241,6 @@ Tipped.Skins.CloseButtons = {
     }
   }
 };
-
-
-
 
 
 (function (e) {
@@ -2953,33 +2950,34 @@ Tipped.Skins.CloseButtons = {
 				left: n.left + "px"
 			})
 		}
-		function f(e, t, r, i) {
-			var s = T(e, t, r, i),
-			o = r && typeof r.type == "string" ? r.type: "",
-			u = /move$/.test(o),
-			a = [];
-			if (s.contained.overlap === 1) return c(e, s),
-			s;
-			var f = t,
-			h = i,
-			p = {
-				horizontal: !s.contained.horizontal,
-				vertical: !s.contained.vertical
-			},
+		function f(e, t, r, i, s) {
+			var o = T(e, t, r, i),
+			u = r && typeof r.type == "string" ? r.type: "",
+			a = /move$/.test(u),
+			f = [];
+			if (o.contained.overlap === 1) return c(e, o),
+			o;
+			var h = t,
+			p = i,
 			d = {
+				horizontal: !o.contained.horizontal,
+				vertical: !o.contained.vertical
+			},
+			v = {
 				horizontal: !1,
 				vertical: !1
-			};
-			if ((d.vertical = m.getOrientation(t) == "horizontal" && p.vertical) || (d.horizontal = m.getOrientation(t) == "vertical" && p.horizontal)) {
-				f = n(t, d),
-				h = n(i, d),
-				s = T(e, f, r, h);
-				if (s.contained.overlap === 1) return c(e, s),
-				s
+			},
+			g = m.getOrientation(t);
+			if ((v.vertical = g == "horizontal" && d.vertical) || (v.horizontal = g == "vertical" && d.horizontal)) {
+				h = n(t, v),
+				p = n(i, v),
+				o = T(e, h, r, p);
+				if (o.contained.overlap === 1) return c(e, o),
+				o
 			}
-			return s = l(s, e),
-			c(e, s),
-			s
+			return o = l(o, e),
+			c(e, o),
+			o
 		}
 		function l(e, t) {
 			var n = N(t),

@@ -15,6 +15,8 @@ var dynamicStartStamp = false;
 var dynamicDiff = false;
 var lastEventDate = "";
 
+var currentTodayTip;
+
 //Init today time stamp
 var todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 
@@ -24,9 +26,12 @@ var notesArray = getNoteArray();
 Bootstrap page on load
 */
 $(document).ready(function() {
-	bg = chrome.extension.getBackgroundPage();
+	
 	initPopupPage(currentYear);
+	
 });
+
+
 
 /**
 Initialize popup
@@ -41,6 +46,8 @@ function initPopupPage(year)
 	
 	//Bind all events
 	bindEvents();
+
+	showBubbleForToday();
 
 	//TO BE: POPUP Calendar on year links
 	//addToolTipsToYearLinks();
@@ -86,6 +93,34 @@ function addToolTipsToYearLinks()
 		return $("#popupcalendar").html();
 		
 	});
+}
+
+/**
+Briefly show info box for today
+*/
+function showBubbleForToday()
+{
+	//todayStamp;
+	
+	var selectorString = '[dateTimestamp="'+todayStamp+'"]';
+	
+	var options = new Object();
+	options.showDelay = 500;
+	options.fadeOut = 1000;
+	
+	currentTodayTip = Tipped.create(selectorString, function(element) {
+		return getToolTip(todayStamp);
+	}, options);
+	
+	currentTodayTip.show();
+	
+	setTimeout(hideBubbleForToday, 3000);
+	
+}
+
+function hideBubbleForToday(tip)
+{
+	currentTodayTip.hide();
 }
 
 /**
