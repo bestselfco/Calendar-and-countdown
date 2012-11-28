@@ -47,8 +47,10 @@ function initPopupPage(year)
 	//Bind all events
 	bindEvents();
 
-	showBubbleForToday();
-
+	if(bg.settings.showBubbleOnStart)
+	{
+		showBubbleForToday();
+	}
 	//TO BE: POPUP Calendar on year links
 	//addToolTipsToYearLinks();
 }

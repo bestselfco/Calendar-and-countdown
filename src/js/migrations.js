@@ -33,6 +33,7 @@ function getDefaultSettings()
 	tmpSettings.showWeek = "1";
 	tmpSettings.firstDay = "1";
 	tmpSettings.dateFormat = "d/m/y";
+	tmpSettings.showBubbleOnStart = false;
 	
 	return tmpSettings;
 }
