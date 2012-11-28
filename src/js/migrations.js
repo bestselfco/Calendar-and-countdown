@@ -31,6 +31,7 @@ function getDefaultSettings()
 	tmpSettings.popup = "12";
 	tmpSettings.showWeek = "1";
 	tmpSettings.firstDay = "1";
+	tmpSettings.dateFormat = "dd/mm/yy";
 	
 	return tmpSettings;
 }
