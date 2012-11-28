@@ -13,6 +13,7 @@ function initialiseSettingsOnInstall()
 	
 	//Re-do init.
 	maintain();
+	
 }
 
 /**

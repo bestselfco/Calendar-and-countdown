@@ -56,10 +56,9 @@ function bginit()
 		}
 		else if(details.reason == "install")
 		{
-			settings = initialiseSettingsOnInstall();
-			//maintain();
 			trackPageView('/new');
-			window.location.reload();
+			initialiseSettingsOnInstall();			
+			//window.location.reload();
 		}
 		else if(details.previousVersion === version.currVersion)
 		{
@@ -565,7 +564,6 @@ function getSettingsFromStorage()
 {
 	settingsStorage.get("settings", function(items){
 	
-		
 		//Overwrite default settings with stored ones where applicable.
 		for (var i in items.settings)
 		{
@@ -574,7 +572,7 @@ function getSettingsFromStorage()
 		
 		log("Settings", "Settings has been read");
 		
-		maintain();
+		//maintain();
 	});
 }
 
