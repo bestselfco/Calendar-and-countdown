@@ -48,6 +48,16 @@ function init()
 		document.getElementById("showweek1").checked = true;
 	}
 	
+	var showStartBubble = bg.settings.showBubbleOnStart;
+	if(showStartBubble === true)
+	{	
+		document.getElementById("showBubbleOnStart1").checked = true;
+	}
+	else
+	{
+		document.getElementById("showBubbleOnStart0").checked = true;
+	}
+	
 	var colorSelected = bg.settings.badgeColor;
 
 	$("#badgeColorSelect").val(colorSelected);
@@ -89,18 +99,21 @@ function init()
 	$("#divOptionWeekNumbers").buttonset();
 	$("#divOptionMoonPhase").buttonset();
 	$("#optionsShowBadge").buttonset();
+	$("#divShowBubbleOnStart").buttonset();
 	$("#reseteverything a").button();
 	$("#resettext a").button();
 	
 	//Bind events
-	$("#show31203").on("click", function() { setPopupFile(3); });
-	$("#show31212").on("click", function() { setPopupFile(12); });
-	$("#firstday0").on("click", function() { setFirstDay(0); });
-	$("#firstday1").on("click", function() { setFirstDay(1); });
-	$("#showweek0").on("click", function() { setWeek('0'); });
-	$("#showweek1").on("click", function() { setWeek('1'); });
-	$("#showBadge0").on("click", function() { setShowBadge(0); });
-	$("#showBadge1").on("click", function() { setShowBadge(1); });
+	$("#show31203").on("click", function() { changeSetting("popup", 3, true); });
+	$("#show31212").on("click", function() { changeSetting("popup", 12, true); });
+	$("#firstday0").on("click", function() { changeSetting("firstDay", 0, true); });
+	$("#firstday1").on("click", function() { changeSetting("firstDay", 1, true); });
+	$("#showweek0").on("click", function() { changeSetting("showWeek", '0', true); });
+	$("#showweek1").on("click", function() { changeSetting("showWeek", '1', true); });
+	$("#showBadge0").on("click", function() { changeSetting("showBadge", 0, true); });
+	$("#showBadge1").on("click", function() { changeSetting("showBadge", 1, true); });
+	$("#showBubbleOnStart0").on("click", function() { changeSetting("showBubbleOnStart", false, true); });
+	$("#showBubbleOnStart1").on("click", function() { changeSetting("showBubbleOnStart", true, true); });
 	
 	$("#reseteverything").on("click", function() { resetEverything(); });
 	
@@ -126,10 +139,6 @@ function createIconPreview(textType, textValue, topColor, textColor, targetCanva
 		setIconProperties(topColor, textColor, textType);
 	});
 	
-	//Create preview
-	//createIcon(textType, textValue, topColor, textColor, targetCanvas);
-	//createIcon(targetCanvas, iconSetup);
-	
 	document.getElementById(targetCanvas).getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
 
 }
@@ -138,9 +147,9 @@ function setColor(where, hex)
 {
 	//Set color for selector element
 	$("#badgeColorSelect").css("color", hex);
-	bg.settings.badgeColor = hex; //setItem("badgeColor",hex);
-	bg.persistSettingsToStorage();
-	bg.maintain(); 
+	
+	changeSetting("badgeColor", hex, true);
+
 }
 
 /**
@@ -152,44 +161,26 @@ function setColor(where, hex)
  */
 function setIconProperties(topColor, textColor, showText)
 {
-	//setItem("icon_textColor", textColor);
-	//setItem("icon_topColor", topColor);
-	//setItem("icon_showtext", showText);
+	changeSetting("iconShowText", showText, false);
+	changeSetting("iconTextColor", textColor, false);
+	changeSetting("iconTopColor", topColor, true);
+}
+
+/**
+Write a setting to storage and persist it if persist is true, before maintaining all views
+*/
+function changeSetting(key, value, persist)
+{
+	bg.settings[key] = value;
 	
-	bg.settings.iconShowText = showText;
-	bg.settings.iconTextColor = textColor;
-	bg.settings.iconTopColor = topColor;
+	if(persist)
+	{
+		bg.persistSettingsToStorage();
+		bg.maintain();
+	}
 	
-	bg.persistSettingsToStorage();
-	bg.maintain(); 
-}
-
-function setPopupFile(value)
-{
-	bg.settings.popup = value;
-	bg.persistSettingsToStorage();
-	bg.maintain(); 
-}
-
-function setFirstDay(value)
-{
-	bg.settings.firstDay = value;
-	bg.persistSettingsToStorage(); //setItem("firstDay", value);	
-	bg.maintain(); 
-}
-
-function setShowBadge(value)
-{
-	bg.settings.showBadge = value; // setItem("showBadge", value);
-	bg.persistSettingsToStorage();
-	bg.maintain(); 
-}
-
-function setWeek(value)
-{
-	bg.settings.showWeek = value; //setItem("showWeek", value);
-	bg.persistSettingsToStorage();
-	bg.maintain(); 
+	log("Setting changed", key+": "+value+ " - persist: " + persist);	
+	
 }
 
 function resetEverything()
@@ -203,6 +194,9 @@ function resetEverything()
 }
 
 $(document).ready(function() {
-  init()
+  init();
+  
+  
+  
 });
 

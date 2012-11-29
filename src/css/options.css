@@ -92,8 +92,6 @@ input {
 		border: none;
 	}
 	
-	
-
 .iconSelectTableHelpTd
 {
 		padding: 3 6 3 6;
@@ -104,6 +102,7 @@ input {
 
 .optionButtons .ui-button-text {
 	font-size: 10pt;
+	font-weight: normal;
 }
 
 #badgeColorSelect {
