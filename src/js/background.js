@@ -29,16 +29,19 @@ function bginit()
 	//Set title
 	document.title = "Calendar and Countdown";
 	
-	//Start with default settings
-	settings = getDefaultSettings();
-	
 	//Do install stuff if installed, migration stuff if updated
 	chrome.runtime.onInstalled.addListener(function(details) {
 		doMigrationOrInstall(details);		
 	});
 	
+	//Start with default settings
+	settings = getDefaultSettings();
 	//Do the actual initialisation of settings
 	getSettingsFromStorage();
+	
+
+	
+	
 	
 	initDateArrays();
 	

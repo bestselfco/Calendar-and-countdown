@@ -4,7 +4,6 @@ FUNCTIONS RELATED TO INSTALLATION AND SETTINGS MIGRATION
 
 function doMigrationOrInstall(details)
 {
-	
 	//Turn of normal startup tracking for new installs
 		doTrackNormalStart = false;
 		
