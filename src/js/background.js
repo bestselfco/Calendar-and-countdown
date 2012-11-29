@@ -32,39 +32,9 @@ function bginit()
 	//Start with default settings
 	settings = getDefaultSettings();
 	
-	//Do migration stuff if updated
+	//Do install stuff if installed, migration stuff if updated
 	chrome.runtime.onInstalled.addListener(function(details) {
-	 	
-		//Turn of normal startup tracking for new installs
-		doTrackNormalStart = false;
-		
-		if(details.reason == "update" && details.previousVersion != version.currVersion)
-	 	{
-			trackPageView('/update/'+details.previousVersion+'/'+version.currVersion);
-			
-			//UTC update if update from older version than august 2012
-			var prev = details.previousVersion.split(".");
-			if(prev[0] < 2013 && prev[1] < 8)
-			{
-				doUTCUpgrade();
-			}
-			//Do settings storage migration if version is 2012.11.22.5 or below
-			if(prev[0] < 2013 && prev[1] < 12 && prev[2] < 23 && prev[3] < 6)
-			{
-				settings = doSettingsStorageMigration();
-			}
-		}
-		else if(details.reason == "install")
-		{
-			trackPageView('/new');
-			initialiseSettingsOnInstall();			
-			//window.location.reload();
-		}
-		else if(details.previousVersion === version.currVersion)
-		{
-			trackPageView('/reload/'+version.currVersion);
-		}
-		
+		doMigrationOrInstall(details);		
 	});
 	
 	//Do the actual initialisation of settings

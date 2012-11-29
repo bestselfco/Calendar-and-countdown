@@ -1,3 +1,7 @@
+/**
+COMMON FUNCTIONS FOR ALL PARTS OF THE APPLICATION. 
+*/
+
 var googleID = "caplfhpahpkhhckglldpmdmjclabckhc"; //For turning on/off logging
 var extVersion = 0; //Get extension version - for logging
 
