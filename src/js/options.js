@@ -100,6 +100,8 @@ function init()
 	$("#divOptionMoonPhase").buttonset();
 	$("#optionsShowBadge").buttonset();
 	$("#divShowBubbleOnStart").buttonset();
+	$("#optionsDateFormatShort").buttonset();
+	$("#optionsDateFormatLong").buttonset();
 	$("#reseteverything a").button();
 	$("#resettext a").button();
 	
