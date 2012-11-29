@@ -58,6 +58,22 @@ function init()
 		document.getElementById("showBubbleOnStart0").checked = true;
 	}
 	
+	var dateFormatShort = bg.settings.dateFormatShort;
+	if(dateFormatShort == "yy-mm-dd")
+	{
+		document.getElementById("dateShort2").checked = true;
+	}
+	else if(dateFormatShort == "mm-dd-yy")
+	{
+		document.getElementById("dateShort1").checked = true;
+	}
+	else 
+	{
+		//Set to default
+		changeSetting("dateFormatShort", "dd.mm.yy", true);
+		document.getElementById("dateShort0").checked = true;
+	}
+	
 	var colorSelected = bg.settings.badgeColor;
 
 	$("#badgeColorSelect").val(colorSelected);
@@ -117,6 +133,11 @@ function init()
 	$("#showBubbleOnStart0").on("click", function() { changeSetting("showBubbleOnStart", false, true); });
 	$("#showBubbleOnStart1").on("click", function() { changeSetting("showBubbleOnStart", true, true); });
 	
+	$("#dateShort0").on("click", function() { changeSetting("dateFormatShort", "dd.mm.yy", true); });
+	$("#dateShort1").on("click", function() { changeSetting("dateFormatShort", "mm-dd-yy", true); });
+	$("#dateShort2").on("click", function() { changeSetting("dateFormatShort", "yy-mm-dd", true); });
+	
+	
 	$("#reseteverything").on("click", function() { resetEverything(); });
 	
 	$("#badgeColorSelect").on("change", function() { setColor('badge',this.value); });
@@ -173,6 +194,8 @@ Write a setting to storage and persist it if persist is true, before maintaining
 */
 function changeSetting(key, value, persist)
 {
+	log("Setting changed", key+": "+value+ " - persist: " + persist);
+	
 	bg.settings[key] = value;
 	
 	if(persist)
@@ -180,9 +203,7 @@ function changeSetting(key, value, persist)
 		bg.persistSettingsToStorage();
 		bg.maintain();
 	}
-	
-	log("Setting changed", key+": "+value+ " - persist: " + persist);	
-	
+		
 }
 
 function resetEverything()

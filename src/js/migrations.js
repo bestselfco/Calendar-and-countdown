@@ -69,7 +69,7 @@ function getDefaultSettings()
 	tmpSettings.popup = "12";
 	tmpSettings.showWeek = "1";
 	tmpSettings.firstDay = "1";
-	tmpSettings.dateFormat = "dd/mm/yy"; //Also look for d/m/y due to my stupidity
+	tmpSettings.dateFormatShort = "dd/mm/yy"; //Also look for d/m/y due to my stupidity
 	tmpSettings.showBubbleOnStart = false;
 	
 	return tmpSettings;
