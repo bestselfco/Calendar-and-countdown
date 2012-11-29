@@ -108,6 +108,7 @@ function showBubbleForToday()
 	
 	var options = new Object();
 	options.showDelay = 500;
+	options.fadeIn = 300;
 	options.fadeOut = 1000;
 	
 	currentTodayTip = Tipped.create(selectorString, function(element) {
@@ -116,7 +117,7 @@ function showBubbleForToday()
 	
 	currentTodayTip.show();
 	
-	setTimeout(hideBubbleForToday, 3000);
+	setTimeout(hideBubbleForToday, 2000);
 	
 }
 
