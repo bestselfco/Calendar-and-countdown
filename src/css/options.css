@@ -2,7 +2,6 @@ body {
 	font-family: helvetica, arial, sans-serif;
 	color:  rgb(50,50,50);
 	background-color: rgb(255,255,255);
-	-webkit-font-smoothing: subpixel-antialiased;
 }
 
 .bottomTable td {
@@ -23,12 +22,24 @@ body {
 	color: rgba(0,0,0,0);
 }
 
-.pane {
-	background-color: rgb(255,255,255);
-	padding: 10px 20px 20px 20px;
-	width: 600px;
-	margin: 10px 10px 10px 0px;
+
+
+.settingstable {
+	padding:  10px;
+}
+
+#settingstable th {
+	border-bottom:  1px solid black;
+	text-align: left;
+	padding:  10px 0px 10px 5px;
+}
+
+#settingstable tr {
 	
+}
+
+#settingstable td {
+	padding:  5px;
 }
 
 h1 {
@@ -44,10 +55,6 @@ h2 {
 	width:  100%;
 	border-bottom:  1px solid rgb(200,200,200);
 	}
-
-.tab {
-	margin: 60px 0px 40px 10px;
-}
 
 p {
 	margin: 20px 0px 10px 10px;

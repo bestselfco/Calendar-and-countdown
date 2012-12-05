@@ -13,73 +13,91 @@
 
 <h1>Calendar and Countdown Options</h1>
 
-<!-- Start tabs -->
-<div id="tabs">
+<!-- Start calendar options tab -->	
+<div class="" id="">
 
-<div class="pane" id="tab2">
 <h2>
 Information
 </h2>
+
 <p>Please click <a href="http://www.kvasbo.no/cc/help.html" target="_blank">here</a> to open the help page.</p>
 <p>If you have any bug reports or feature requests, please <a href="https://chrome.google.com/webstore/support/caplfhpahpkhhckglldpmdmjclabckhc?hl=en" target="_blank">submit them here</a>.</p>
-</div>
 
-<!-- Start calendar options tab -->	
-<div class="pane" id="tab1">
+<h2>
+Settings
+</h2>
 
-<h2>Calendar type</h2>
-<div id="div_show312" class="optionButtons">
+<table style="" id="settingstable">
+<tr>
+<th colspan="3">Calendar</th>
+</tr>
+
+<td class="optionName">Calendar type</td>
+<td id="div_show312" class="optionButtons">
 <input type="radio" name="show312" id="show31203" value="0"><label for="show31203">3 month</label>
 <input type="radio" name="show312" id="show31212" value="1"><label for="show31212">12 month</label>
-</div>
+</td>
+<td class="optionHelp">?</td>
+</tr>
 
-
-<h2>Date format</h2>
-<div id="optionsDateFormatShort" class="optionButtons">
+<tr>
+<td class="optionName">Short date format</td>
+<td class="optionButtons" id="optionsDateFormatShort">
 <input type="radio" name="dateShort" id="dateShort0" value="dd/mm/yy"><label for="dateShort0">dd.mm.yy</label>
 <input type="radio" name="dateShort" id="dateShort1" value="mm-dd-yy"><label for="dateShort1">mm-dd-yy</label>
-<input type="radio" name="dateShort" id="dateShort2" value="yy-mm-dd"><label for="dateShort2">yy-mm-dd</label>
-</div>
+<input type="radio" name="dateShort" id="dateShort2" value="yy-mm-dd"><label for="dateShort2">yy-mm-dd</label></td>
+<td class="optionHelp">?</td>
+</tr>
 
-<!--
-<div id="optionsDateFormatLong" class="optionButtons">
-<input type="radio" name="dateLong" id="dateLong0"><label for="dateLong0">No</label>
-<input type="radio" name="dateLong" id="dateLong1"><label for="dateLong1">Yes</label>
-<input type="radio" name="dateLong" id="dateLong2"><label for="dateLong2">Yes</label>
-</div>
--->
-
-<div id="divOptionWeek" class="optionButtons">
-<h2>Week start day</h2>
+<tr>
+<td class="optionName">Week start day</td>
+<td id="divOptionWeek" class="optionButtons">
 <input type="radio" name="firstday" id="firstday0" value="0"><label for="firstday0">Sunday</label>
 <input type="radio" name="firstday" id="firstday1" value="1"><label for="firstday1">Monday</label>
-</div>
+</td>
+<td class="optionHelp">?</td>
+</tr>
 
-<div id="divOptionWeekNumbers" class="optionButtons">
-<h2>Display week numbers</h2>
+<tr>
+<td class="optionName">Display week numbers</td>
+<td id="divOptionWeekNumbers" class="optionButtons">
 <input type="radio" name="showweek" id="showweek0" value="0"><label for="showweek0">No</label>
 <input type="radio" name="showweek" id="showweek1" value="1"><label for="showweek1">Yes</label>
-</div>
+</td>
+<td class="optionHelp">?</td>
+</tr>
 
-<h2>Show countdown badge</h2>
-<div id="optionsShowBadge" class="optionButtons">
+<th colspan="3">Other settings</th>
+
+<tr>
+<td class="optionName">Show countdown badge</td>
+<td id="optionsShowBadge" class="optionButtons">
 <input type="radio" name="showBadge" id="showBadge0" value="0"><label for="showBadge0">No</label>
 <input type="radio" name="showBadge" id="showBadge1" value="1"><label for="showBadge1">Yes</label>
-</div>
+</td>
+<td class="optionHelp">?</td>
+</tr>
 
-<h2>Show popup with today's info on calendar startup</h2>
-<div id="divShowBubbleOnStart" class="optionButtons">
+<tr>
+<td class="optionName">Show today's info on start</td>
+<td id="divShowBubbleOnStart" class="optionButtons">
 <input type="radio" name="showBubbleOnStart" id="showBubbleOnStart0" value="0"><label for="showBubbleOnStart0">No</label>
 <input type="radio" name="showBubbleOnStart" id="showBubbleOnStart1" value="1"><label for="showBubbleOnStart1">Yes</label>
-</div>
+</td>
+<td class="optionHelp">?</td>
+</tr>
 
-<!-- default 18CD32 -->
-
-<h2>Badge color</h2>
-
+<tr>
+<td class="optionName">Badge color</td>
+<td id="" class="optionButtons">
 <input id="badgeColorSelect" class="colorSelect" value="18CD32" readonly="readonly">
+</td>
+<td class="optionHelp">?</td>
+</tr>
 
-<h2>Icon style</h2>
+<tr>
+<td class="optionName">Icon style</td>
+<td id="" class="optionButtons">
 
 <table style="border-style: none;">
 <tr>
@@ -90,9 +108,20 @@ Information
 <td class="iconSelectTableTd"><canvas id="canvas_icon_5" height="19" width="19"></canvas></td>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_6" height="19" width="19"></canvas></td>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_7" height="19" width="19"></canvas></td>
-<td class="iconSelectTableTd"><canvas id="canvas_icon_8" height="19" width="19"></canvas></td>
-<td class="iconSelectTableHelpTd">Today's date</td>
+<td class="iconSelectTableTd"><canvas id="canvas_icon_8" height="19" width="19"></canvas>
+</td>
 </tr>
+</table>
+
+</td>
+<td class="optionHelp">?</td>
+</tr>
+
+<tr>
+<td class="optionName"></td>
+<td id="" class="optionButtons">
+
+<table style="border-style: none;">
 <tr>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_17" height="19" width="19"></canvas></td>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_18" height="19" width="19"></canvas></td>
@@ -102,8 +131,18 @@ Information
 <td class="iconSelectTableTd"><canvas id="canvas_icon_22" height="19" width="19"></canvas></td>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_23" height="19" width="19"></canvas></td>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_24" height="19" width="19"></canvas></td>
-<td class="iconSelectTableHelpTd">Days left in countdown</td>
 </tr>
+</table>
+
+</td>
+<td class="optionHelp">?</td>
+</tr>
+
+<tr>
+<td class="optionName"></td>
+<td id="" class="optionButtons">
+
+<table style="border-style: none;">
 <tr>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_9" height="19" width="19"></canvas></td>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_10" height="19" width="19"></canvas></td>
@@ -113,8 +152,13 @@ Information
 <td class="iconSelectTableTd"><canvas id="canvas_icon_14" height="19" width="19"></canvas></td>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_15" height="19" width="19"></canvas></td>
 <td class="iconSelectTableTd"><canvas id="canvas_icon_16" height="19" width="19"></canvas></td>
-<td class="iconSelectTableHelpTd">No number</td>
 </tr>
+</table>
+
+</td>
+<td class="optionHelp">?</td>
+</tr>
+
 </table>
 
 <h2>Reset everyting</h2>
@@ -124,7 +168,7 @@ Click to reset the extension. All your settings will be lost. <br/><br/>
 </div>
 <!-- End calendar options tab -->
 
-<div class="pane" id="tab6">
+<div class="" id="">
 <h2>Pay it forward</h2>
 Please consider becoming a Kiva lender. It's free and you really help people! <br><br>
 <a href="http://www.kiva.org/invitedby/kvasbo" target="_blank">
@@ -134,7 +178,7 @@ Please consider becoming a Kiva lender. It's free and you really help people! <b
 </div>
 
 <!-- Start about tab -->	
-<div class="pane" id="tab5">
+<div class="" id="">
 
 <h2>Acknowledgements</h2>
 <p>Banner photo for the Chrome store by <a href="http://www.flickr.com/photos/joelanman/">Joe Lanman</a></p>
@@ -148,8 +192,6 @@ Version: <span id="ccversion"></span>
 
 </div> 
 <!-- End about tab -->
-
-</div> <!-- End tab panes -->
 
 <hr />
 
@@ -173,13 +215,15 @@ Please review this extension.</a>
 
 <script type="text/javascript" src="js/libraries/jquery.js"></script>
 <script type="text/javascript" src="js/libraries/jquery-ui/js/jquery-ui-1.9.2.custom.min.js"></script>
-<script type="text/javascript" src="js/jscolor/jscolor.js"></script>
+<script type="text/javascript" src="js/libraries/jscolor/jscolor.js"></script>
+<script type="text/javascript" src="js/libraries/tipped/js/tipped/tipped.unpacked.js"></script>
 
 <script type="text/javascript" src="js/date.extend.js"></script>
 <script type="text/javascript" src="js/external_common.js"></script>
 <script type="text/javascript" src="js/functions.js"></script>
 <script type="text/javascript" src="js/options.js"></script>
 <script type="text/javascript" src="js/icons.js"></script>
+
 
 
 <script type="text/javascript" src="js/googletrack.js"></script>
