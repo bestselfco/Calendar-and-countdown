@@ -121,6 +121,8 @@ function init()
 	$("#reseteverything a").button();
 	$("#resettext a").button();
 	
+	
+	
 	//Bind events
 	$("#show31203").on("click", function() { changeSetting("popup", 3, true); });
 	$("#show31212").on("click", function() { changeSetting("popup", 12, true); });

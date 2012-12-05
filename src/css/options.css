@@ -2,10 +2,31 @@ body {
 	font-family: helvetica, arial, sans-serif;
 	color:  rgb(50,50,50);
 	background-color: rgb(255,255,255);
+	margin:  20px;
+}
+
+h1 {
+	font-size: 25pt;
+}
+
+
+p {
+	margin-left:  20px;
+}
+
+.optionHelp {
+	display: none;
+
+}
+
+.bottomTable {
+	margin-top:  20px;
+	border-top:  1px solid black;
 }
 
 .bottomTable td {
 	vertical-align: top;	
+	padding-top:  15px;
 }
 
 .colorSelect {
@@ -13,19 +34,6 @@ body {
 	height: 25px;
 	width: 50px;
 	margin: 5px 0px 0px 30px;
-}
-
-.iconColorSwatch {
-	height: 25px;
-	width: 25px;
-	padding: 0px;
-	color: rgba(0,0,0,0);
-}
-
-
-
-.settingstable {
-	padding:  10px;
 }
 
 #settingstable th {
@@ -39,49 +47,22 @@ body {
 }
 
 #settingstable td {
-	padding:  5px;
+	padding:  5px 5px 5px 5px;
 }
 
-h1 {
 
-	font-size: 30pt;
-	margin: 0px 0px 20px 0px;
-	padding: 10px 20px 20px 20px;
-
-}
 
 h2 {
 	font-size: 12pt;
 	width:  100%;
 	border-bottom:  1px solid rgb(200,200,200);
-	}
+	margin-top:  35px;
+}
 
 p {
 	margin: 20px 0px 10px 10px;
 }
 
-ul {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	margin: 40px 0px 40px 0px;
-}
-
-li {
-	padding-top: 4px;
-	padding-botton: 4px;
-}
-
-hr {
-	border: 0px solid black;
-	height: 1px;
-	background-color: black;
-}
-
-.deleteButton {
-	padding-left: 10px;
-	color: red;
-}	
 
 input {
 	font-family: 'Nobile', arial, serif;
@@ -99,14 +80,7 @@ input {
 		border: none;
 	}
 	
-.iconSelectTableHelpTd
-{
-		padding: 3 6 3 6;
-		
-		margin: 0px;
-		border: none;
-}
-
+	
 .optionButtons .ui-button-text {
 	font-size: 10pt;
 	font-weight: normal;
