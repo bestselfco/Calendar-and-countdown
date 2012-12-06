@@ -200,20 +200,5 @@
     		"content": "$4"
     		}
   		}
-  },
-  "shortDate": {
-  	"message": "$day$.$month$.$year$",
-  	"description": "Short date formatted in a local way",
-  	"placeholders" : {
-  		"month": {
-  			"content": "$1"
-  		},
-  		"day": {
-  			"content": "$2"
-  		},
-  		"year": {
-  			"content": "$3"
-  		}
-  	}
-  }
+   }
 }
