@@ -67,47 +67,42 @@ function init()
 	{
 		document.getElementById("dateShort1").checked = true;
 	}
-	else 
+	else if(dateFormatShort == "dd.mm.yy")
 	{
-		//Set to default
+		document.getElementById("dateShort0").checked = true;
+	}
+	else {
+		//Set to default in case of corruption
 		changeSetting("dateFormatShort", "dd.mm.yy", true);
 		document.getElementById("dateShort0").checked = true;
 	}
 	
-	var colorSelected = bg.settings.badgeColor;
+	var iconTextStyle = bg.settings.iconShowText;
+	if(iconTextStyle == 2)
+	{
+		document.getElementById("setIconText2").checked = true;
+	}
+	else if (iconTextStyle == 1)
+	{
+		document.getElementById("setIconText1").checked = true;
+	}
+	else if (iconTextStyle == 0) 
+	{
+		document.getElementById("setIconText0").checked = true;
+	}
+	
+	var badgeColorSelected = bg.settings.badgeColor;
+	$("#badgeColorSelect").val(badgeColorSelected);
 
-	$("#badgeColorSelect").val(colorSelected);
-	
-	todayDate = new Date().getUTCDate();
-	cDownDate = 9;
-	
 	//Setup Icon selector Colors
-	createIconPreview("1", todayDate, 'rgba(160,57,27,1)', 'rgba(0,0,0,0.65)', "canvas_icon_1");
-	createIconPreview("1", todayDate, 'rgba(255,0,0,1)', 'rgba(0,0,0,0.65)', "canvas_icon_2");
-	createIconPreview("1", todayDate, 'rgba(115,115,115,1)', 'rgba(0,0,0,0.65)', "canvas_icon_3");
-	createIconPreview("1", todayDate, 'rgba(222,210,16,1)', 'rgba(0,0,0,0.65)', "canvas_icon_4");
-	createIconPreview("1", todayDate, 'rgba(27,140,160,1)', 'rgba(0,0,0,0.65)', "canvas_icon_5");
-	createIconPreview("1", todayDate, 'rgba(27,160,40,1)', 'rgba(0,0,0,0.65)', "canvas_icon_6");
-	createIconPreview("1", todayDate, 'rgba(27,74,160,1)', 'rgba(0,0,0,0.65)', "canvas_icon_7");
-	createIconPreview("1", todayDate, 'rgba(0,0,255,1)', 'rgba(0,0,0,0.65)', "canvas_icon_8");
-	
-	createIconPreview("0", todayDate, 'rgba(160,57,27,1)', 'rgba(0,0,0,0.65)', "canvas_icon_9");
-	createIconPreview("0", todayDate, 'rgba(255,0,0,1)', 'rgba(0,0,0,0.65)', "canvas_icon_10");
-	createIconPreview("0", todayDate, 'rgba(115,115,115,1)', 'rgba(0,0,0,0.65)', "canvas_icon_11");
-	createIconPreview("0", todayDate, 'rgba(222,210,16,1)', 'rgba(0,0,0,0.65)', "canvas_icon_12");
-	createIconPreview("0", todayDate, 'rgba(27,140,160,1)', 'rgba(0,0,0,0.65)', "canvas_icon_13");
-	createIconPreview("0", todayDate, 'rgba(27,160,40,1)', 'rgba(0,0,0,0.65)', "canvas_icon_14");
-	createIconPreview("0", todayDate, 'rgba(27,74,160,1)', 'rgba(0,0,0,0.65)', "canvas_icon_15");
-	createIconPreview("0", todayDate, 'rgba(0,0,255,1)', 'rgba(0,0,0,0.65)', "canvas_icon_16");
-
-	createIconPreview("2", cDownDate, 'rgba(160,57,27,1)', 'rgba(0,0,0,0.65)', "canvas_icon_17");
-	createIconPreview("2", cDownDate, 'rgba(255,0,0,1)', 'rgba(0,0,0,0.65)', "canvas_icon_18");
-	createIconPreview("2", cDownDate, 'rgba(115,115,115,1)', 'rgba(0,0,0,0.65)', "canvas_icon_19");
-	createIconPreview("2", cDownDate, 'rgba(222,210,16,1)', 'rgba(0,0,0,0.65)', "canvas_icon_20");
-	createIconPreview("2", cDownDate, 'rgba(27,140,160,1)', 'rgba(0,0,0,0.65)', "canvas_icon_21");
-	createIconPreview("2", cDownDate, 'rgba(27,160,40,1)', 'rgba(0,0,0,0.65)', "canvas_icon_22");
-	createIconPreview("2", cDownDate, 'rgba(27,74,160,1)', 'rgba(0,0,0,0.65)', "canvas_icon_23");
-	createIconPreview("2", cDownDate, 'rgba(0,0,255,1)', 'rgba(0,0,0,0.65)', "canvas_icon_24");
+	createIconPreview('#A0391B', "canvas_icon_9");
+	createIconPreview('#FF0000', "canvas_icon_10");
+	createIconPreview('#737373', "canvas_icon_11");
+	createIconPreview('#DED210', "canvas_icon_12");
+	createIconPreview('#1B8CA0', "canvas_icon_13");
+	createIconPreview('#1BA032', "canvas_icon_14");
+	createIconPreview('#1B4AA0', "canvas_icon_15");
+	createIconPreview('#0000FF', "canvas_icon_16");
 
 	
 	$("#div_show312").buttonset();
@@ -118,10 +113,10 @@ function init()
 	$("#divShowBubbleOnStart").buttonset();
 	$("#optionsDateFormatShort").buttonset();
 	$("#optionsDateFormatLong").buttonset();
+	$("#divSetIconTest").buttonset();
+	
 	$("#reseteverything a").button();
 	$("#resettext a").button();
-	
-	
 	
 	//Bind events
 	$("#show31203").on("click", function() { changeSetting("popup", 3, true); });
@@ -139,6 +134,11 @@ function init()
 	$("#dateShort1").on("click", function() { changeSetting("dateFormatShort", "mm-dd-yy", true); });
 	$("#dateShort2").on("click", function() { changeSetting("dateFormatShort", "yy-mm-dd", true); });
 	
+	$("#setIconText0").on("click", function() { changeSetting("iconShowText", 0, true); });
+	$("#setIconText1").on("click", function() { changeSetting("iconShowText", 1, true); });	
+	$("#setIconText2").on("click", function() { changeSetting("iconShowText", 2, true); });
+	
+	
 	
 	$("#reseteverything").on("click", function() { resetEverything(); });
 	
@@ -149,19 +149,19 @@ function init()
 }
 
 //Create an icon preview and bind it to the icon setup function
-function createIconPreview(textType, textValue, topColor, textColor, targetCanvas)
+function createIconPreview(topColor, targetCanvas)
 {
 	//Setup object
 	var iconSetup = new Object();
-	iconSetup.showNumbers = textType;
-	iconSetup.fillText = textValue;
+	iconSetup.showNumbers = "0";
+	iconSetup.fillText = "0";
 	iconSetup.topColor = topColor;
-	iconSetup.textColor = textColor;
+	iconSetup.textColor = bg.settings.iconTextColor;
 	
 	//Bind event
 	var selectString = "#"+targetCanvas;
 	$(selectString).bind('click', function() {
-		setIconProperties(topColor, textColor, textType);
+		changeSetting("iconTopColor", topColor, true);
 	});
 	
 	document.getElementById(targetCanvas).getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
@@ -177,19 +177,6 @@ function setColor(where, hex)
 
 }
 
-/**
- * Set parameters for generating icon. New version, no more pngs.
- * 
- * @param topColor Color of top field
- * @param textColor Color of text
- * @param showText Should text be shown?
- */
-function setIconProperties(topColor, textColor, showText)
-{
-	changeSetting("iconShowText", showText, false);
-	changeSetting("iconTextColor", textColor, false);
-	changeSetting("iconTopColor", topColor, true);
-}
 
 /**
 Write a setting to storage and persist it if persist is true, before maintaining all views

@@ -60,8 +60,8 @@ function getDefaultSettings()
 {
 	tmpSettings = new Object();
 	
-	tmpSettings.iconTopColor = "rgba(27,140,160,1)";
-	tmpSettings.iconTextColor = "rgba(0,0,0,0.65)";
+	tmpSettings.iconTopColor = "#1B8CA0";
+	tmpSettings.iconTextColor = "#323232";
 	tmpSettings.iconShowText = "0";
 	tmpSettings.iconColor = "red";
 	tmpSettings.showBadge = "1";

@@ -103,7 +103,7 @@ function Icon(iconDefinition){
 		if(force || this.def.showNumbers == undefined) this.def.showNumbers = "0";
 		if(force || this.def.fillText == null) this.def.fillText = "?";
 		if(force || this.def.topColor == null) this.def.topColor = "rgba(27,140,160,1)";
-		if(force || this.def.textColor == null) this.def.textColor = "rgba(0,0,0,0.65)";
+		if(force || this.def.textColor == null) this.def.textColor = "#323232";
 		if(force || this.def.outlineColor == null) this.def.outlineColor = "rgba(240,240,240,1)";
 		if(force || this.def.fillColor == null) this.def.backColor = "rgba(255,255,255,1)";
 		if(force || this.def.lineColor == null) this.def.lineColor = "rgba(200,200,200,1)";
