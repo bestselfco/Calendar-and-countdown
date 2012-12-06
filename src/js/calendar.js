@@ -117,7 +117,7 @@ function showBubbleForToday()
 	
 	currentTodayTip.show();
 	
-	setTimeout(hideBubbleForToday, 2000);
+	setTimeout(hideBubbleForToday, bg.settings.todayBubbleShowTime);
 	
 }
 
