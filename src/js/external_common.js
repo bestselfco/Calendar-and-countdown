@@ -30,6 +30,11 @@ function HexToG(h) {return parseInt((cutHex(h)).substring(2,4),16);};
 function HexToB(h) {return parseInt((cutHex(h)).substring(4,6),16);};
 function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h;};
 
+function colorToHex(c) {
+var m = /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(c);
+return m ? "#" + (1 << 24 | m[1] << 16 | m[2] << 8 | m[3]).toString(16).substr(1) : c;
+}
+
 function days_between_timestamps(ts1, ts2)
 {
 	// The number of milliseconds in one day

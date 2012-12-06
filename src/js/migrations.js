@@ -128,8 +128,10 @@ function doSettingsStorageMigration()
 
 function doIconColorMigration()
 {
-	settings.iconTopColor = "#1B8CA0";
+	settings.iconTopColor = colorToHex(settings.iconTopColor);
+	settings.iconTextColor = "#323232";
 	persistSettingsToStorage();
+	maintain();
 }
 
 /**
