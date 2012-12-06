@@ -22,6 +22,11 @@ function doMigrationOrInstall(details)
 			{
 				settings = doSettingsStorageMigration();
 			}
+			if(prev[0] < 2013 && prev[1] < 12 && prev[2] < 29)
+			{
+				doIconColorMigration();
+			}
+			
 		}
 		else if(details.reason == "install")
 		{
@@ -34,6 +39,8 @@ function doMigrationOrInstall(details)
 			trackPageView('/reload/'+version.currVersion);
 		}
 }
+
+
 
 /**
 Initialise default settings and store them
@@ -63,7 +70,7 @@ function getDefaultSettings()
 	tmpSettings.iconTopColor = "#1B8CA0";
 	tmpSettings.iconTextColor = "#323232";
 	tmpSettings.iconShowText = 0;
-	tmpSettings.iconColor = "red";
+	
 	tmpSettings.showBadge = "1";
 	tmpSettings.badgeColor = "#18CD32";
 	tmpSettings.popup = "12";
@@ -117,6 +124,12 @@ function doSettingsStorageMigration()
 	maintain();
 	
 	return settings;
+}
+
+function doIconColorMigration()
+{
+	settings.iconTopColor = "#1B8CA0";
+	persistSettingsToStorage();
 }
 
 /**
