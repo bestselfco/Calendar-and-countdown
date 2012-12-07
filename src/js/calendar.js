@@ -518,6 +518,8 @@ function calGetCal(template)
 	
 	//Set month name
 	this.outVars.monthName = ucFirst(chrome.i18n.getMessage("mon"+this.month));
+	
+	this.outVars.year = this.year;
 
 	//Set week header value
 	this.outVars.weekShortName = chrome.i18n.getMessage("weekHeader");

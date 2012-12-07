@@ -1,5 +1,5 @@
 var monthTemplate = "<table>" +
-		"<tr class='cal_tr_header'><td class='cal_td_header' colspan='8'>${monthName} <span class='cal_tr_year'>${year}</span></td></tr>"+
+		"<tr class='cal_tr_header'><td class='cal_td_header' colspan='8'><span class='cal_tr_year'>${year}</span><span class='cal_tr_monthname'>${monthName}</span></td></tr>"+
 		"<tr class='cal_tr_titles'>" +
 		"<td class='cal_td_weeknames cal_weekblock'>${weekShortName}</td>" +
 		"<td class='cal_td_dayname'>${day0_ShortName}</td>" +

@@ -77,6 +77,23 @@ body {
 	font-family: 'Droid Sans Mono', arial, serif;
 }
 
+.cal_tr_monthname
+{
+	display:  block;
+	float:  left;
+	text-align: center;
+	width:  80px;
+	margin-left:  10px;
+}
+
+.cal_tr_year
+{
+	color:  #dfe3e0;
+	display:  block;
+	float:  left;
+	width:  35px;
+}
+
 .cal_td_dayname, .cal_td_weeknames {
 	text-align: right;
 }
