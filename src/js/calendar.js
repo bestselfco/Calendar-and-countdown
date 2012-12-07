@@ -82,22 +82,6 @@ function bindEvents()
 }
 
 /**
-Add tool tips to year links
-*/
-function addToolTipsToYearLinks()
-{
-	Tipped.create(".yearlink", function(element){
-		
-		var year = $(element).html();
-		
-		populateYear(year, "popmonth", popupMonthTemplate);
-		
-		return $("#popupcalendar").html();
-		
-	});
-}
-
-/**
 Briefly show info box for today
 */
 function showBubbleForToday()
@@ -314,30 +298,6 @@ function getDateString(timestamp, long)
 	}
 
 	return dateString;
-
-}
-
-/**
- Show a year
-  
- @param year Which year to show
- */
-function showCal(year)
-{
-	
-	var showWeek = bg.settings.showWeek; //window.localStorage.getItem("showWeek");
-	
-	populateYear(year, "month"); //this year
-	populateYearLinks(); //Populate year links
-
-	$("#yearLabel").html(year);
-
-	if(showWeek != "1" && showWeek != "0"){
-		showWeek = 1;
-		window.localStorage.setItem("showWeek", 1);
-	}
-
-	if(showWeek == "0") $(".cal_weekblock").hide();
 
 }
 
@@ -726,7 +686,7 @@ function showCal(year)
 
 	firstDayOfWeek = firstDay;
 
-	populateYear(year,"month", monthTemplate); //this year
+	populate12MonthsFrom(year, 1, "month", monthTemplate); //this year from january
 
 	populateYearLinks();
 
@@ -746,6 +706,7 @@ function showCal(year)
 /**
 Create 12 separate monthly calendars //monthTemplate
 */
+/*
 function populateYear(year, selectstring, template)
 {
 	//Populate
@@ -757,6 +718,26 @@ function populateYear(year, selectstring, template)
 		$(selectString).html(new Calendar(year,i).getCal(template));
 	}
 }
+*/
+
+function populate12MonthsFrom(year, month, selectstring, template)
+{
+	for(var i = 1; i < 13; i++)
+	{
+		var selectString = "#"+selectstring;
+		if(i<10) selectString += "0";
+		selectString += i;
+		
+		var tmpDate = new Date(year, month-2+i, 1);
+		
+		var tyear = tmpDate.getFullYear();
+		var tmonth = tmpDate.getMonth()+1;
+		
+		$(selectString).html(new Calendar(tyear,tmonth).getCal(template));
+		
+	}
+}
+
 
 /**
 Add the links to the link bar
