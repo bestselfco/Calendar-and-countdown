@@ -80,6 +80,8 @@ function getDefaultSettings()
 	tmpSettings.showBubbleOnStart = false;
 	tmpSettings.todayBubbleShowTime = 2000;
 	
+	tmpSettings.calendarHeadingBGAnimSpeed = 500;
+	
 	return tmpSettings;
 }
 

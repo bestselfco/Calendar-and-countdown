@@ -138,6 +138,19 @@ function setMainDate(timestamp)
 	highLightSelectedDates();		
 }
 
+function toggleYearInHeader(state)
+{
+	
+	var speed = bg.settings.calendarHeadingBGAnimSpeed;
+
+	if (state === true) {
+		$(".cal_tr_year").animate({opacity: "1"}, speed);
+	}
+	else {
+	 	$(".cal_tr_year").animate({opacity: "0"}, speed);
+	}
+}
+
 /**
 Set sub date from time stamp and update all views
 */
