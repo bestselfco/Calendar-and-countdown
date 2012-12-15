@@ -834,20 +834,45 @@ Add the links to the link bar
  */
 function populateYearLinks()
 {
-	$("#ym6").html(currentYear-6).attr("year", currentYear-6);
-	$("#ym1").html(currentYear-1).attr("year", currentYear-1);
-	$("#ym2").html(currentYear-2).attr("year", currentYear-2);
-	$("#ym3").html(currentYear-3).attr("year", currentYear-3);
-	$("#ym4").html(currentYear-4).attr("year", currentYear-4);
-	$("#ym5").html(currentYear-5).attr("year", currentYear-5);
-	$("#yearLabel").html(currentYear).attr("year", currentYear);
-	$("#yp1").html(currentYear+1).attr("year", currentYear+1);
-	$("#yp2").html(currentYear+2).attr("year", currentYear+2);
-	$("#yp3").html(currentYear+3).attr("year", currentYear+3);
-	$("#yp4").html(currentYear+4).attr("year", currentYear+4);
-	$("#yp5").html(currentYear+5).attr("year", currentYear+5);
-	$("#yp6").html(currentYear+6).attr("year", currentYear+6);
-
+	//var showingFromMonth;
+	//var showingFromYear; 
+	
+	//Remove markings
+	$(".yearlink").removeClass(yearButtonFullClass).removeClass(yearButtonHalfClass).removeClass(yearButtonThirdClass);
+	
+	if(showingFromMonth == 1)
+	{
+		baseYear = showingFromYear;
+		$("#yearLabel").addClass(yearButtonFullClass);
+		
+	}
+	else if(showingFromMonth < 7)
+	{
+		baseYear = showingFromYear;
+		$("#yearLabel").addClass(yearButtonHalfClass);
+		$("#yp1").addClass(yearButtonThirdClass);
+		
+	}
+	else {
+		baseYear = showingFromYear + 1;
+		$("#yearLabel").addClass(yearButtonHalfClass);
+		$("#ym1").addClass(yearButtonThirdClass);
+	}
+	
+	$("#ym6").html(baseYear-6).attr("year", baseYear-6);
+	$("#ym1").html(baseYear-1).attr("year", baseYear-1);
+	$("#ym2").html(baseYear-2).attr("year", baseYear-2);
+	$("#ym3").html(baseYear-3).attr("year", baseYear-3);
+	$("#ym4").html(baseYear-4).attr("year", baseYear-4);
+	$("#ym5").html(baseYear-5).attr("year", baseYear-5);
+	$("#yearLabel").html(baseYear).attr("year", baseYear);
+	$("#yp1").html(baseYear+1).attr("year", baseYear+1);
+	$("#yp2").html(baseYear+2).attr("year", baseYear+2);
+	$("#yp3").html(baseYear+3).attr("year", baseYear+3);
+	$("#yp4").html(baseYear+4).attr("year", baseYear+4);
+	$("#yp5").html(baseYear+5).attr("year", baseYear+5);
+	$("#yp6").html(baseYear+6).attr("year", baseYear+6);
+	
 }
 
 /**
@@ -863,10 +888,10 @@ function keyPressed(key) {
 	//3 months and 
 	if(key == 37 || (key == 40 && !shifting)) { // down or right
 		
-		yearClicked(-1);
+		shiftCalendarByMonths(-12);
 	}
 	else if(key == 39 || (key == 38 && !shifting)) { // up or left
-		yearClicked(1);
+		shiftCalendarByMonths(12);
 	}
 	else if(key == 38)
 	{

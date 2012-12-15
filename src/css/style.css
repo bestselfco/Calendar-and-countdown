@@ -161,11 +161,11 @@ body {
 }
 
 .thisyearhalf {
-	color:  rgb(50,50,50);
+	color:  rgba(0,0,0,0.78);
 }
 
 .thisyearthird {
-	color:  rgb(100,100,100);
+	color:  rgba(0,0,0,0.4);
 }
 
 #popupProxy {
