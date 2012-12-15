@@ -15,6 +15,11 @@ var dynamicStartStamp = false;
 var dynamicDiff = false;
 var lastEventDate = "";
 
+var showingFromMonth;
+var showingFromYear; 
+
+var runningMousewheelCounter = 0;
+
 var currentTodayTip;
 
 //Init today time stamp
@@ -27,7 +32,7 @@ Bootstrap page on load
 */
 $(document).ready(function() {
 	
-	initPopupPage(currentYear);
+	initPopupPage(currentYear, 1);
 	
 });
 
@@ -36,13 +41,13 @@ $(document).ready(function() {
 /**
 Initialize popup
  */
-function initPopupPage(year)
+function initPopupPage(year, month)
 {	
 	//Display the calendar
-	showCal(year);
+	showCal(year, month);
 		
 	//Date specific update trigging.
-	updateDatesStuff();	
+	//updateDatesStuff();	
 	
 	//Bind all events
 	bindEvents();
@@ -79,7 +84,28 @@ function bindEvents()
 	$("#yp2").off().on("click", function() { yearClicked(2); });
 	$("#yp1").off().on("click", function() { yearClicked(1); });
 	
+	//Test scroll wheel
+	if (bg.settings.popup == 12) {
+		document.addEventListener("mousewheel", MouseWheelHandler, false);
+	}
+	
 }
+
+function MouseWheelHandler(e)
+{
+	var delta = e.wheelDelta;
+	
+
+	if(Math.abs(delta) > moveThreshold)
+	{		
+		log("Mousewheel", delta);
+	}
+	
+	return false;
+	
+}
+
+
 
 /**
 Briefly show info box for today
@@ -141,13 +167,11 @@ function setMainDate(timestamp)
 function toggleYearInHeader(state)
 {
 	
-	var speed = bg.settings.calendarHeadingBGAnimSpeed;
-
 	if (state === true) {
-		$(".cal_tr_year").animate({opacity: "1"}, speed);
+		$(".cal_tr_year").css({opacity: "1"});
 	}
 	else {
-	 	$(".cal_tr_year").animate({opacity: "0"}, speed);
+	 	$(".cal_tr_year").css({opacity: "0"});
 	}
 }
 
@@ -421,7 +445,7 @@ function yearClicked(offset){
 	log("User event", "Year link clicked"); //Log
 	currentYear = currentYear + offset; //Add offset to current year
 
-	initPopupPage(currentYear);
+	initPopupPage(currentYear, 1);
 	
 }
 
@@ -686,10 +710,23 @@ function calGetCal(template)
 }
 
 /**
+Shift calendar by N months
+*/
+function shiftCalendarByMonths(deltaMonths)
+{
+	var tmpDate = new Date(showingFromYear, showingFromMonth-1+deltaMonths, 1);
+	
+	showCal(tmpDate.getFullYear(), tmpDate.getMonth()+1);
+}
+
+/**
 Create a calendar
 */
-function showCal(year)
+function showCal(year, month)
 {	
+	//Remove all tipped 
+	Tipped.hideAll();
+
 	//Init and default for week start day
 	var firstDay = bg.settings.firstDay; //getItem("firstDay");
 	if(firstDay != "1" && firstDay != "0")
@@ -701,7 +738,7 @@ function showCal(year)
 
 	firstDayOfWeek = firstDay;
 
-	populate12MonthsFrom(year, 1, "month", monthTemplate); //this year from january
+	populate12MonthsFrom(year, month, "month", monthTemplate); //this year from january
 
 	populateYearLinks();
 
@@ -713,30 +750,24 @@ function showCal(year)
 		bg.persistSettingsToStorage();
 	}
 	if(showWeek == "0") $(".cal_weekblock").hide();
-	
-	//Highlight the current day
-	highLightToday();
-}
 
-/**
-Create 12 separate monthly calendars //monthTemplate
-*/
-/*
-function populateYear(year, selectstring, template)
-{
-	//Populate
-	for(var i = 1; i < 13; i++)
+	if(showingFromMonth != 1)
 	{
-		var selectString = "#"+selectstring;
-		if(i<10) selectString += "0";
-		selectString += i;
-		$(selectString).html(new Calendar(year,i).getCal(template));
+		toggleYearInHeader(true);
 	}
+	else {
+		toggleYearInHeader(false);
+	}
+
+	updateDatesStuff();
+
 }
-*/
 
 function populate12MonthsFrom(year, month, selectstring, template)
 {
+	showingFromMonth = month;
+	showingFromYear = year;
+
 	for(var i = 1; i < 13; i++)
 	{
 		var selectString = "#"+selectstring;
@@ -751,6 +782,7 @@ function populate12MonthsFrom(year, month, selectstring, template)
 		$(selectString).html(new Calendar(tyear,tmonth).getCal(template));
 		
 	}
+
 }
 
 
@@ -782,10 +814,23 @@ Keyboard controls
 */
 function keyPressed(key) {
 
-	if(key == 37 || key == 40) { // down or right
+	//Check if we are in 3 or 12 month calendar
+	var shifting = (bg.settings.popup == 12) ? true : false;
+		
+	//3 months and 
+	if(key == 37 || (key == 40 && !shifting)) { // down or right
+		
 		yearClicked(-1);
 	}
-	else if(key == 39 || key == 38) { // up or left
+	else if(key == 39 || (key == 38 && !shifting)) { // up or left
 		yearClicked(1);
+	}
+	else if(key == 38)
+	{
+		shiftCalendarByMonths(-4);
+	}
+	else if(key == 40)
+	{
+		shiftCalendarByMonths(4);
 	}
 }
