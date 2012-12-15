@@ -78,7 +78,8 @@ function getDefaultSettings()
 	tmpSettings.firstDay = "1";
 	tmpSettings.dateFormatShort = "dd.mm.yy"; //Also look for d/m/y due to my stupidity
 	tmpSettings.showBubbleOnStart = false;
-	tmpSettings.todayBubbleShowTime = 2000;
+	
+	tmpSettings.showFrom = 1; //1 = current, 2 = current third, 3 = current month
 	
 	return tmpSettings;
 }

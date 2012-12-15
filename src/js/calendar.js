@@ -5,6 +5,7 @@ var bg = chrome.extension.getBackgroundPage();
 
 var now = new Date(); //Today
 var currentYear = now.getUTCFullYear(); //This year, now with more UTC
+var currentMonth = now.getUTCMonth() + 1;
 
 var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "cal_day_chosen"; //God knows
@@ -19,6 +20,8 @@ var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 var dynamicStartStamp = false;
 var dynamicDiff = false;
 var lastEventDate = "";
+
+var showFromStart = bg.settings.showFrom;
 
 var showingFromMonth;
 var showingFromYear; 
@@ -38,10 +41,14 @@ Bootstrap page on load
 */
 $(document).ready(function() {
 	
-	initPopupPage(currentYear, 1);
+	//Find first month to show. Defaults to January
+	var startMonth = 1;	
+	if(showFromStart == 3 && bg.settings.popup == 12) { startMonth = currentMonth }
+	else if(showFromStart == 2 && bg.settings.popup == 12) { startMonth = getStartMonthForQuarter(currentMonth);}
+	
+	initPopupPage(currentYear, startMonth);
 	
 });
-
 
 
 /**
@@ -51,10 +58,7 @@ function initPopupPage(year, month)
 {	
 	//Display the calendar
 	showCal(year, month);
-		
-	//Date specific update trigging.
-	//updateDatesStuff();	
-	
+
 	//Bind all events
 	bindEvents();
 
@@ -62,8 +66,10 @@ function initPopupPage(year, month)
 	{
 		showBubbleForToday();
 	}
-	//TO BE: POPUP Calendar on year links
-	//addToolTipsToYearLinks();
+	
+	//Track a page view
+	bg.trackPageView("/calendar/"+bg.settings.popup);
+	
 }
 
 /**
@@ -164,8 +170,23 @@ function showBubbleForToday()
 	
 	currentTodayTip.show();
 	
-	setTimeout(hideBubbleForToday, bg.settings.todayBubbleShowTime);
+	setTimeout(hideBubbleForToday, 3200);
 	
+}
+
+function getStartMonthForQuarter(month)
+{
+	if(month < 5)
+	{
+		return 1;
+	}
+	else if(month < 9)
+	{
+		return 5;
+	}
+	else {
+		return 9;
+	}
 }
 
 function hideBubbleForToday(tip)
@@ -199,17 +220,6 @@ function setMainDate(timestamp)
 	bg.toggleDate(timestamp, false);
 	bg.maintain();
 	highLightSelectedDates();		
-}
-
-function toggleYearInHeader(state)
-{
-	
-	if (state === true) {
-		$(".cal_tr_year").css({opacity: "1"});
-	}
-	else {
-	 	$(".cal_tr_year").css({opacity: "0"});
-	}
 }
 
 /**
@@ -580,14 +590,6 @@ function Calendar(year, month)
 }	
 
 /**
-Return cached if it exists, otherwise return calendar
-*/
-//function returnCalendar()
-//{
-//	return this.genCal();
-//}
-
-/**
 Return the actual calendar html
 */
 function calGetCal(template)
@@ -596,7 +598,7 @@ function calGetCal(template)
 	//Set month name
 	this.outVars.monthName = ucFirst(chrome.i18n.getMessage("mon"+this.month));
 	
-	this.outVars.year = this.year;
+	this.outVars.year = this.year; //.toString().substring(2,4);
 
 	//Set week header value
 	this.outVars.weekShortName = chrome.i18n.getMessage("weekHeader");
@@ -791,14 +793,6 @@ function showCal(year, month)
 	}
 	if(showWeek == "0") $(".cal_weekblock").hide();
 
-	if(showingFromMonth != 1)
-	{
-		toggleYearInHeader(true);
-	}
-	else {
-		toggleYearInHeader(false);
-	}
-
 	updateDatesStuff();
 
 }
@@ -831,12 +825,11 @@ Add the links to the link bar
  */
 function populateYearLinks()
 {
-	//var showingFromMonth;
-	//var showingFromYear; 
 	
 	//Remove markings
 	$(".yearlink").removeClass(yearButtonFullClass).removeClass(yearButtonHalfClass).removeClass(yearButtonThirdClass);
 	
+	//We are showing a full year
 	if(showingFromMonth == 1)
 	{
 		baseYear = showingFromYear;

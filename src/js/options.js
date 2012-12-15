@@ -18,6 +18,19 @@ function init()
 		document.getElementById("firstday1").checked = true;
 	}
 
+	var showFrom = bg.settings.showFrom;
+	if(showFrom == 3)
+	{
+		document.getElementById("firstMonth3").checked = true;
+	}
+	else if(showFrom == 2)
+	{
+		document.getElementById("firstMonth2").checked = true;
+	}
+	else if(showFrom == 1){
+		document.getElementById("firstMonth1").checked = true;
+	}
+
 	var showBadge = bg.settings.showBadge;
 	if(showBadge == "0")
 	{
@@ -113,6 +126,7 @@ function init()
 	$("#divShowBubbleOnStart").buttonset();
 	$("#optionsDateFormatShort").buttonset();
 	$("#optionsDateFormatLong").buttonset();
+	$("#div_firstMonth").buttonset();
 	$("#divSetIconTest").buttonset();
 	
 	$("#reseteverything a").button();
@@ -137,6 +151,11 @@ function init()
 	$("#setIconText0").on("click", function() { changeSetting("iconShowText", 0, true); });
 	$("#setIconText1").on("click", function() { changeSetting("iconShowText", 1, true); });	
 	$("#setIconText2").on("click", function() { changeSetting("iconShowText", 2, true); });
+	
+	
+	$("#firstMonth1").on("click", function() { changeSetting("showFrom", 1, true); });
+	$("#firstMonth2").on("click", function() { changeSetting("showFrom", 2, true); });
+	$("#firstMonth3").on("click", function() { changeSetting("showFrom", 3, true); });
 	
 	
 	
