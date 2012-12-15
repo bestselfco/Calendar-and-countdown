@@ -10,6 +10,11 @@ var normalClass = "cal_td_day"; //The class for a normal day
 var selectedClass = "cal_day_chosen"; //God knows
 var selectedSubClass = "cal_subday_chosen";
 var dynamicClass = "cal_day_dynamic";
+
+var yearButtonFullClass = "thisyear";
+var yearButtonHalfClass = "thisyearhalf";
+var yearButtonThirdClass = "thisyearthird";
+
 var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
 var dynamicStartStamp = false;
 var dynamicDiff = false;
@@ -18,7 +23,8 @@ var lastEventDate = "";
 var showingFromMonth;
 var showingFromYear; 
 
-var runningMousewheelCounter = 0;
+var runningMouseWheelCounter = 0;
+var runningMouseWheelTimer;
 
 var currentTodayTip;
 
@@ -91,21 +97,55 @@ function bindEvents()
 	
 }
 
+/**
+Handle mouse wheel for scrolling
+*/
 function MouseWheelHandler(e)
 {
-	var delta = e.wheelDelta;
-	
 
-	if(Math.abs(delta) > moveThreshold)
-	{		
-		log("Mousewheel", delta);
+	//Move threshold
+	var threshold = 450;
+	
+	//Remove existing timeout
+	clearTimeout(runningMouseWheelTimer);
+	
+	//Add new timeout
+	runningMouseWheelTimer = window.setTimeout(mouseWheelReset, 400);
+	
+	//Get delta for this event
+	var delta = e.wheelDelta;
+	var isNegative = (delta < 0) ? true : false;
+
+	//Add delta to current value
+	runningMouseWheelCounter += delta;
+	
+	if(Math.abs(runningMouseWheelCounter) > threshold)
+	{
+		runningMouseWheelCounter = 0; //Reset
+		
+		if(!isNegative)
+		{
+			shiftCalendarByMonths(-4);
+		}
+		else {
+			shiftCalendarByMonths(4);
+		}
 	}
+	
+	log("Mousewheel", delta + " " + runningMouseWheelCounter);
 	
 	return false;
 	
 }
 
-
+/**
+Reset mouse wheel counter
+*/
+function mouseWheelReset()
+{
+	log("Mousewheel", "Resetting counter");
+	runningMouseWheelCounter = 0;
+}
 
 /**
 Briefly show info box for today
