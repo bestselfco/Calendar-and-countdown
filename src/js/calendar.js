@@ -67,22 +67,22 @@ function bindEvents()
 {
 	$("body").off().on("keydown", function() { keyPressed(window.event.keyCode);});
 	
-	$("#lastYear").off().on("click", function() { yearClicked(-1); });
-	$("#nextYear").off().on("click", function() { yearClicked(1); });
+	//$("#lastYear").off().on("click", function() { yearClicked(event, -1); });
+	//$("#nextYear").off().on("click", function() { yearClicked(event, 1); });
 	
-	$("#ym6").off().on("click", function() { yearClicked(-6); });
-	$("#ym5").off().on("click", function() { yearClicked(-5); });
-	$("#ym4").off().on("click", function() { yearClicked(-4); });
-	$("#ym3").off().on("click", function() { yearClicked(-3); });
-	$("#ym2").off().on("click", function() { yearClicked(-2); });
-	$("#ym1").off().on("click", function() { yearClicked(-1); });
-	
-	$("#yp6").off().on("click", function() { yearClicked(6); });
-	$("#yp5").off().on("click", function() { yearClicked(5); });
-	$("#yp4").off().on("click", function() { yearClicked(4); });
-	$("#yp3").off().on("click", function() { yearClicked(3); });
-	$("#yp2").off().on("click", function() { yearClicked(2); });
-	$("#yp1").off().on("click", function() { yearClicked(1); });
+	$("#ym6").off().on("click", function() { yearClicked(event,-6); });
+	$("#ym5").off().on("click", function() { yearClicked(event,-5); });
+	$("#ym4").off().on("click", function() { yearClicked(event,-4); });
+	$("#ym3").off().on("click", function() { yearClicked(event,-3); });
+	$("#ym2").off().on("click", function() { yearClicked(event,-2); });
+	$("#ym1").off().on("click", function() { yearClicked(event,-1); });
+	$("#yearLabel").off().on("click", function() { yearClicked(event,0); });
+	$("#yp6").off().on("click", function() { yearClicked(event,6); });
+	$("#yp5").off().on("click", function() { yearClicked(event,5); });
+	$("#yp4").off().on("click", function() { yearClicked(event,4); });
+	$("#yp3").off().on("click", function() { yearClicked(event,3); });
+	$("#yp2").off().on("click", function() { yearClicked(event,2); });
+	$("#yp1").off().on("click", function() { yearClicked(event,1); });
 	
 	//Test scroll wheel
 	if (bg.settings.popup == 12) {
@@ -440,10 +440,13 @@ The user has clicked a year link and we need to go to another year
 
 @param offset Delta between clicked year and current view
  */
-function yearClicked(offset){
+function yearClicked(event, offset){
 
-	log("User event", "Year link clicked"); //Log
-	currentYear = currentYear + offset; //Add offset to current year
+	var year = $(event.target).attr("year");
+
+	log("User event", "Year link clicked " + year); //Log
+	
+	currentYear = year*1; //Add offset to current year
 
 	initPopupPage(currentYear, 1);
 	
@@ -791,19 +794,19 @@ Add the links to the link bar
  */
 function populateYearLinks()
 {
-	$("#ym6").html(currentYear-6);
-	$("#ym1").html(currentYear-1);
-	$("#ym2").html(currentYear-2);
-	$("#ym3").html(currentYear-3);
-	$("#ym4").html(currentYear-4);
-	$("#ym5").html(currentYear-5);
-	$("#yearLabel").html(currentYear);
-	$("#yp1").html(currentYear+1);
-	$("#yp2").html(currentYear+2);
-	$("#yp3").html(currentYear+3);
-	$("#yp4").html(currentYear+4);
-	$("#yp5").html(currentYear+5);
-	$("#yp6").html(currentYear+6);
+	$("#ym6").html(currentYear-6).attr("year", currentYear-6);
+	$("#ym1").html(currentYear-1).attr("year", currentYear-1);
+	$("#ym2").html(currentYear-2).attr("year", currentYear-2);
+	$("#ym3").html(currentYear-3).attr("year", currentYear-3);
+	$("#ym4").html(currentYear-4).attr("year", currentYear-4);
+	$("#ym5").html(currentYear-5).attr("year", currentYear-5);
+	$("#yearLabel").html(currentYear).attr("year", currentYear);
+	$("#yp1").html(currentYear+1).attr("year", currentYear+1);
+	$("#yp2").html(currentYear+2).attr("year", currentYear+2);
+	$("#yp3").html(currentYear+3).attr("year", currentYear+3);
+	$("#yp4").html(currentYear+4).attr("year", currentYear+4);
+	$("#yp5").html(currentYear+5).attr("year", currentYear+5);
+	$("#yp6").html(currentYear+6).attr("year", currentYear+6);
 
 }
 
