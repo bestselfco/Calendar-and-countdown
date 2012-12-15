@@ -48,6 +48,9 @@ $(document).ready(function() {
 	
 	initPopupPage(currentYear, startMonth);
 	
+	//Track a page view
+	bg.trackPageView("/calendar/"+bg.settings.popup);
+	
 });
 
 
@@ -66,10 +69,6 @@ function initPopupPage(year, month)
 	{
 		showBubbleForToday();
 	}
-	
-	//Track a page view
-	bg.trackPageView("/calendar/"+bg.settings.popup);
-	
 }
 
 /**
@@ -495,7 +494,8 @@ function yearClicked(event){
 	
 	currentYear = year*1; //Add offset to current year
 
-	initPopupPage(currentYear, 1);
+	//initPopupPage(currentYear, 1);
+	showCal(currentYear, 1);
 	
 }
 
