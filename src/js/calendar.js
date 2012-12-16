@@ -106,7 +106,7 @@ function MouseWheelHandler(e)
 {
 
 	//Move threshold
-	var threshold = 450;
+	var threshold = 300;
 	
 	//Remove existing timeout
 	clearTimeout(runningMouseWheelTimer);
