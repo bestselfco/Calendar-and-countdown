@@ -118,7 +118,7 @@ function getToolTipDynamic()
 Return normal tool tip
 */
 function getToolTipNormal(timestamp){
-	
+		
 	var output = "";
 	var outArray = [];
 	var notes = getNoteArray();
