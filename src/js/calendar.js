@@ -138,7 +138,7 @@ function MouseWheelHandler(e)
 		}
 	}
 	
-	log("Mousewheel", delta + " " + runningMouseWheelCounter);
+	//log("Mousewheel", delta + " " + runningMouseWheelCounter);
 	
 	return false;
 	
@@ -149,7 +149,7 @@ Reset mouse wheel counter
 */
 function mouseWheelReset()
 {
-	log("Mousewheel", "Resetting counter");
+	//log("Mousewheel", "Resetting counter");
 	runningMouseWheelCounter = 0;
 }
 
@@ -158,7 +158,6 @@ Briefly show info box for today
 */
 function showBubbleForToday()
 {
-	//todayStamp;
 	
 	var selectorString = '[dateTimestamp="'+todayStamp+'"]';
 	
@@ -317,15 +316,13 @@ function getNoteForDate(timestampNote)
 	var tmpNotes = getNoteArray();
 	var output = "";
 	
-	console.log("checking note for "+timestampNote);
-	
 	if(tmpNotes[timestampNote] != undefined)
 	{
-		console.log("Note found "+timestampNote);
+		//console.log("Note found "+timestampNote);
 		output = tmpNotes[timestampNote];
 	}
 	else {
-		console.log("Note not found" + timestampNote);
+		//console.log("Note not found" + timestampNote);
 		output = "";
 	}
 	
@@ -380,8 +377,6 @@ function getDateString(timestamp, long)
 		dateString = dateTemplate.replace("mm",month+1);
 		dateString = dateString.replace("yy",year);
 		dateString = dateString.replace("dd",mDay);
-		//var dateString = chrome.i18n.getMessage("shortDate", [month+1, mDay, year]);
-		//var dateString = date.toLocaleDateString()
 	}
 
 	return dateString;
@@ -534,7 +529,6 @@ function highLightSelectedDates(){
 	//Sub days
 	$.each(subdates, function(key, value){
 		
-		//log("Labelling sub day", value);
 		highLightDay(value, selectedSubClass);
 		
 	});
@@ -576,7 +570,6 @@ function Calendar(year, month)
 	
 	//Functions
 	this.getCal = calGetCal;
-	//this.genCal = calGetCal;
 
 	//working variables
 	this.year = year;
