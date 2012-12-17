@@ -59,6 +59,10 @@ Initialize popup
  */
 function initPopupPage(year, month)
 {	
+
+	//Load CSS
+	loadjscssfile("css/colors.css", "css");
+
 	//Display the calendar
 	showCal(year, month);
 
