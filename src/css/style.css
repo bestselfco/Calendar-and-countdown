@@ -19,7 +19,7 @@ body {
 	top: 35px;
 	left: 10px;
 	padding: 3px;
-	-webkit-border-radius: 0px;
+	border-radius: 0px;
 	font-size: 15px;
 	overflow: hidden;
 	border: 1px solid;
@@ -56,7 +56,7 @@ body {
 	
 	font-size: 12px;
 	padding: 3px;
-	-webkit-border-radius: 0px;
+	border-radius: 0px;
 	text-align: center;
 	border: 1px solid;
 	font-weight: 400;
@@ -98,12 +98,12 @@ body {
 	border-width: 1px;
 	width: 18px;
 	overflow-x: hidden;
-	-webkit-border-radius: 0px;
+	border-radius: 0px;
 }
 
 .cal_day_chosen {
 	/*overflow-x: hidden; */
-	/*-webkit-border-radius: 0px;*/
+	/*border-radius: 0px;*/
 }
 
 .cal_day_chosen:hover  {
