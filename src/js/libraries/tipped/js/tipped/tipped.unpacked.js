@@ -1,12 +1,12 @@
 /*!
- * Tipped - The jQuery Tooltip - v3.1.3
- * (c) 2010-2012 Nick Stakenburg
+ * Tipped - The jQuery Tooltip - v3.1.7
+ * (c) 2010-2013 Nick Stakenburg
  *
  * http://projects.nickstakenburg.com/tipped
  *
  * License: http://projects.nickstakenburg.com/tipped/license
  */
-;var Tipped = { version: '3.1.3' };
+;var Tipped = { version: '3.1.7' };
 
 Tipped.Skins = {
   // base skin, don't modify! (create custom skins in a separate file)
@@ -243,62 +243,63 @@ Tipped.Skins.CloseButtons = {
 };
 
 
-(function (e) {
-	function n(e, t) {
-		var n = [e, t];
-		return n.left = e,
-		n.top = t,
-		n
+(function (a) {
+	function c(a, b) {
+		var c = [a, b];
+		return c.left = a,
+		c.top = b,
+		c
 	}
-	function s(e) { ! window.console || console[console.warn ? "warn": "log"](e)
+	function f(a) {
+		window.console && console[console.warn ? "warn": "log"](a)
 	}
-	function a(e) {
-		this.element = e
+	function j(a) {
+		this.element = a
 	}
-	function f(e) {
-		var t = {};
-		for (var n in e) t[n] = e[n] + "px";
-		return t
+	function k(a) {
+		var b = {};
+		for (var c in a) b[c] = a[c] + "px";
+		return b
 	}
-	function l(e, t) {
-		return Math.sqrt(e * e + t * t)
+	function l(a, b) {
+		return Math.sqrt(a * a + b * b)
 	}
-	function c(e) {
-		return e * 180 / Math.PI
+	function m(a) {
+		return 180 * a / Math.PI
 	}
-	function h(e) {
-		return e * Math.PI / 180
+	function n(a) {
+		return a * Math.PI / 180
 	}
-	function p(e) {
-		return 1 / Math.cos(e)
+	function o(a) {
+		return 1 / Math.cos(a)
 	}
-	function w(t) {
-		if (!t) return;
-		this.element = t,
-		b.remove(t);
-		var n = this.getTooltip();
-		this.options = e.extend({},
-		n.options),
-		this._globalAlpha = 1,
-		this._cache = {},
-		this.uid = e(t).data("tipped-uid"),
-		b.add(this),
-		this._hookPosition = this.options.hook.tooltip,
-		this._stemPosition = this.options.stem && this._hookPosition,
-		this._stemCorrection = {
-			x: 0,
-			y: 0
-		},
-		this._adjustment = {
-			top: 0,
-			left: 0
-		},
-		this.build()
+	function v(b) {
+		if (b) {
+			this.element = b,
+			u.remove(b);
+			var c = this.getTooltip();
+			this.options = a.extend({},
+			c.options),
+			this._globalAlpha = 1,
+			this._cache = {},
+			this.uid = a(b).data("tipped-uid"),
+			u.add(this),
+			this._hookPosition = this.options.hook.tooltip,
+			this._stemPosition = this.options.stem && this._hookPosition,
+			this._stemCorrection = {
+				x: 0,
+				y: 0
+			},
+			this._adjustment = {
+				top: 0,
+				left: 0
+			},
+			this.build()
+		}
 	}
-	function S(t, n) {
-		this.element = t;
-		if (!this.element || !n) return;
-		this.options = e.extend({
+	function x(b, c) {
+		this.element = b,
+		this.element && c && (this.options = a.extend({
 			blur: 3,
 			offset: {
 				x: 0,
@@ -308,17 +309,12 @@ Tipped.Skins.CloseButtons = {
 			opacity: .5,
 			globalAlpha: 1
 		},
-		arguments[2] || {}),
-		this._globalAlpha = this.options.globalAlpha,
-		this._cache = {},
-		this.uid = e(t).data("tipped-uid"),
-		E.add(this),
-		this.build()
+		arguments[2] || {}), this._globalAlpha = this.options.globalAlpha, this._cache = {},
+		this.uid = a(b).data("tipped-uid"), w.add(this), this.build())
 	}
-	function T(t) {
-		this.element = t;
-		if (!this.element) return;
-		this.options = e.extend({
+	function z(b) {
+		this.element = b,
+		this.element && (this.options = a.extend({
 			blur: 5,
 			offset: {
 				x: 0,
@@ -328,138 +324,133 @@ Tipped.Skins.CloseButtons = {
 			opacity: .5,
 			globalAlpha: 1
 		},
-		arguments[1] || {}),
-		this._globalAlpha = this.options.globalAlpha,
-		this.uid = e(t).data("tipped-uid"),
-		x.add(this),
-		this.build()
+		arguments[1] || {}), this._globalAlpha = this.options.globalAlpha, this.uid = a(b).data("tipped-uid"), y.add(this), this.build())
 	}
-	function N(t, n) {
-		for (var r in n) n[r] && n[r].constructor && n[r].constructor === Object ? (t[r] = e.extend({},
-		t[r]) || {},
-		N(t[r], n[r])) : t[r] = n[r];
-		return t
+	function A(b, c) {
+		for (var d in c) c[d] && c[d].constructor && c[d].constructor === Object ? (b[d] = a.extend({},
+		b[d]) || {},
+		A(b[d], c[d])) : b[d] = c[d];
+		return b
 	}
-	function k(t, n) {
-		this.element = t;
-		if (!this.element) return;
-		var i = e(t).data("tipped-uid");
-		i && C.remove(t),
-		i = u(),
-		e(t).data("tipped-uid", i),
-		this.uid = i;
-		var s;
-		e.type(n) == "object" && !r.isElement(n) ? (s = n, n = null) : s = arguments[2] || {},
-		this.options = C.createOptions(s);
-		var o = t.getAttribute("title");
-		if (!n) {
-			var a = t.getAttribute("data-tipped");
-			a ? n = a: o && (n = o)
+	function C(b, c) {
+		if (this.element = b, this.element) {
+			var e = a(b).data("tipped-uid");
+			e && B.remove(b),
+			e = h(),
+			a(b).data("tipped-uid", e),
+			this.uid = e;
+			var f;
+			"object" != a.type(c) || d.isElement(c) ? f = arguments[2] || {}: (f = c, c = null),
+			this.options = B.createOptions(f);
+			var g = b.getAttribute("title");
+			if (!c) {
+				var i = b.getAttribute("data-tipped");
+				i ? c = i: g && (c = g)
+			}
+			g && (a(b).data("tipped_restore_title", g), b.setAttribute("title", "")),
+			this.content = c,
+			this.zIndex = this.options.zIndex || +B.options.startingZIndex,
+			this._cache = {
+				contentDimensions: {
+					width: 1,
+					height: 1
+				},
+				events: [],
+				timers: [],
+				states: {
+					active: !1,
+					xhr: !1,
+					visible: !1,
+					updated: !1,
+					build: !1,
+					skinned: !1,
+					toggles: !1,
+					preloading_images: !1
+				},
+				fnCallContent: ""
+			};
+			var j = this.options.target;
+			this.target = "mouse" == j ? "mouse": "self" != j && j ? d.isElement(j) ? j: j && document.getElementById(j) || this.element: this.element,
+			this._preBuild(),
+			B.add(this)
 		}
-		o && (e(t).data("tipped_restore_title", o), t.setAttribute("title", "")),
-		this.content = n,
-		this.zIndex = this.options.zIndex || +C.options.startingZIndex,
-		this._cache = {
-			contentDimensions: {
-				width: 1,
-				height: 1
-			},
-			events: [],
-			timers: [],
-			states: {
-				active: !1,
-				xhr: !1,
-				visible: !1,
-				updated: !1,
-				build: !1,
-				skinned: !1,
-				toggles: !1,
-				preloading_images: !1
-			},
-			fnCallContent: ""
-		};
-		var f = this.options.target;
-		this.target = f == "mouse" ? "mouse": f == "self" || !f ? this.element: f && document.getElementById(f) || this.element,
-		this._preBuild(),
-		C.add(this)
 	}
-	var t = Array.prototype.slice,
-	r = {
-		wrap: function (n, r) {
-			var i = n;
+	var b = Array.prototype.slice,
+	d = {
+		wrap: function (c, d) {
+			var e = c;
 			return function () {
-				var n = [e.proxy(i, this)].concat(t.call(arguments));
-				return r.apply(this, n)
+				var c = [a.proxy(e, this)].concat(b.call(arguments));
+				return d.apply(this, c)
 			}
 		},
-		isElement: function (e) {
-			return e && e.nodeType == 1
+		isElement: function (a) {
+			return a && 1 == a.nodeType
 		},
-		delay: function (e, n) {
-			var r = t.call(arguments, 2);
+		delay: function (a, c) {
+			var d = b.call(arguments, 2);
 			return setTimeout(function () {
-				return e.apply(e, r)
+				return a.apply(a, d)
 			},
-			n)
+			c)
 		},
-		defer: function (e) {
-			return r.delay.apply(this, [e, 1].concat(t.call(arguments, 1)))
+		defer: function (a) {
+			return d.delay.apply(this, [a, 1].concat(b.call(arguments, 1)))
 		},
-		pointer: function (e) {
+		pointer: function (a) {
 			return {
-				x: e.pageX,
-				y: e.pageY
+				x: a.pageX,
+				y: a.pageY
 			}
 		},
 		element: {
-			cumulativeScrollOffset: function (e) {
-				var t = 0,
-				r = 0;
-				do t += e.scrollTop || 0,
-				r += e.scrollLeft || 0,
-				e = e.parentNode;
-				while (e);
-				return n(r, t)
+			cumulativeScrollOffset: function (a) {
+				var b = 0,
+				d = 0;
+				do b += a.scrollTop || 0,
+				d += a.scrollLeft || 0,
+				a = a.parentNode;
+				while (a);
+				return c(d, b)
 			},
-			cumulativeOffset: function (t) {
-				var i = e(t).offset(),
-				s = r.element.cumulativeScrollOffset(t),
-				o = {
-					top: e(window).scrollTop(),
-					left: e(window).scrollLeft()
+			cumulativeOffset: function (b) {
+				var e = a(b).offset(),
+				f = d.element.cumulativeScrollOffset(b),
+				g = {
+					top: a(window).scrollTop(),
+					left: a(window).scrollLeft()
 				};
-				return i.left += s.left - o.left,
-				i.top += s.top - o.top,
-				n(i.left, i.top)
+				return e.left += f.left - g.left,
+				e.top += f.top - g.top,
+				c(e.left, e.top)
 			},
 			isAttached: function () {
-				function e(e) {
-					var t = e;
-					while (t && t.parentNode) t = t.parentNode;
-					return t
+				function a(a) {
+					for (var b = a; b && b.parentNode;) b = b.parentNode;
+					return b
 				}
-				return function (t) {
-					var n = e(t);
-					return !! n && !!n.body
+				return function (b) {
+					var c = a(b);
+					return ! (!c || !c.body)
 				}
 			} ()
 		}
 	},
-	i = function (e) {
-		function t(t) {
-			var n = (new RegExp(t + "([\\d.]+)")).exec(e);
-			return n ? parseFloat(n[1]) : !0
+	e = function (a) {
+		function b(b) {
+			var c = RegExp(b + "([\\d.]+)").exec(a);
+			return c ? parseFloat(c[1]) : !0
 		}
 		return {
-			IE: !!window.attachEvent && e.indexOf("Opera") === -1 && t("MSIE "),
-			Opera: e.indexOf("Opera") > -1 && ( !! window.opera && opera.version && parseFloat(opera.version()) || 7.55),
-			WebKit: e.indexOf("AppleWebKit/") > -1 && t("AppleWebKit/"),
-			Gecko: e.indexOf("Gecko") > -1 && e.indexOf("KHTML") === -1 && t("rv:"),
-			MobileSafari: !!e.match(/Apple.*Mobile.*Safari/),
-			Chrome: e.indexOf("Chrome") > -1 && t("Chrome/")
+			IE: !(!window.attachEvent || -1 !== a.indexOf("Opera")) && b("MSIE "),
+			Opera: a.indexOf("Opera") > -1 && ( !! window.opera && opera.version && parseFloat(opera.version()) || 7.55),
+			WebKit: a.indexOf("AppleWebKit/") > -1 && b("AppleWebKit/"),
+			Gecko: a.indexOf("Gecko") > -1 && -1 === a.indexOf("KHTML") && b("rv:"),
+			MobileSafari: !!a.match(/Apple.*Mobile.*Safari/),
+			Chrome: a.indexOf("Chrome") > -1 && b("Chrome/")
 		}
 	} (navigator.userAgent),
-	o = {
+	g = {
 		scripts: {
 			jQuery: {
 				required: "1.4.4",
@@ -467,206 +458,221 @@ Tipped.Skins.CloseButtons = {
 			}
 		},
 		check: function () {
-			function t(t) {
-				var n = t.match(e),
-				r = n && n[1] && n[1].split(".") || [],
-				i = 0;
-				for (var s = 0, o = r.length; s < o; s++) i += parseInt(r[s] * Math.pow(10, 6 - s * 2));
-				return n && n[3] ? i - 1 : i
+			function b(b) {
+				for (var c = b.match(a), d = c && c[1] && c[1].split(".") || [], e = 0, f = 0, g = d.length; g > f; f++) e += parseInt(d[f] * Math.pow(10, 6 - 2 * f));
+				return c && c[3] ? e - 1 : e
 			}
-			var e = /^(\d+(\.?\d+){0,3})([A-Za-z_-]+[A-Za-z0-9]+)?/;
-			return function (n) {
-				if (this.scripts[n].checked) return;
-				this.scripts[n].checked = !0;
-				if (!this.scripts[n].available || t(this.scripts[n].available) < t(this.scripts[n].required) && !this.scripts[n].notified) this.scripts[n].notified = !0,
-				s("Tipped requires " + n + " >= " + this.scripts[n].required)
+			var a = /^(\d+(\.?\d+){0,3})([A-Za-z_-]+[A-Za-z0-9]+)?/;
+			return function (a) {
+				this.scripts[a].checked || (this.scripts[a].checked = !0, (!this.scripts[a].available || b(this.scripts[a].available) < b(this.scripts[a].required) && !this.scripts[a].notified) && (this.scripts[a].notified = !0, f("Tipped requires " + a + " >= " + this.scripts[a].required)))
 			}
 		} ()
 	},
-	u = function () {
-		var e = 0,
-		t = "_t_uid_";
-		return function (n) {
-			n = n || t,
-			e++;
-			while (document.getElementById(n + e)) e++;
-			return n + e
+	h = function () {
+		var a = 0,
+		b = "_t_uid_";
+		return function (c) {
+			for (c = c || b, a++; document.getElementById(c + a);) a++;
+			return c + a
+		}
+	} (),
+	i = function () {
+		var b = [];
+		return {
+			get: function (c) {
+				for (var d = null, e = 0; b.length > e; e++) b[e] && b[e].url == c.url && b[e].type.toUpperCase() == c.type.toUpperCase() && a.param(b[e].data || {}) == a.param(c.data || {}) && (d = b[e].responseText);
+				return d
+			},
+			set: function (c, d) {
+				this.remove(c.url),
+				b.push(a.extend({},
+				c, {
+					responseText: d
+				}))
+			},
+			remove: function (a) {
+				for (var c = 0; b.length > c; c++) b[c] && b[c].url == a && delete b[c]
+			},
+			clear: function () {
+				b = []
+			}
 		}
 	} ();
-	e.extend(Tipped, function () {
+	a.extend(Tipped, function () {
 		return {
 			support: {
 				canvas: function () {
-					var e = document.createElement("canvas");
-					return !! e.getContext && !!e.getContext("2d")
+					var a = document.createElement("canvas");
+					return ! (!a.getContext || !a.getContext("2d"))
 				} (),
 				touch: function () {
 					try {
 						return !! ("ontouchstart" in window || window.DocumentTouch && document instanceof DocumentTouch)
-					} catch(e) {
+					} catch(a) {
 						return ! 1
 					}
 				} (),
 				cssTransitions: function () {
-					var t = ["WebKitTransitionEvent", "TransitionEvent", "OTransitionEvent"],
-					n = !1;
-					return e.each(t, function (e, t) {
+					var b = ["WebKitTransitionEvent", "TransitionEvent", "OTransitionEvent"],
+					c = !1;
+					return a.each(b, function (a, b) {
 						try {
-							document.createEvent(t),
-							n = !0
-						} catch(r) {}
+							document.createEvent(b),
+							c = !0
+						} catch(d) {}
 					}),
-					n
+					c
 				} ()
 			},
-			init: function () {
-				if (!this.support.canvas && !i.IE) return;
-				o.check("jQuery"),
-				e(document).ready(function () {
-					C.startDelegating()
-				})
+			init: function () { (this.support.canvas || e.IE) && (g.check("jQuery"), a(document).ready(function () {
+					B.startDelegating()
+				}))
 			},
-			create: function (e, t, n) {
-				return a.create(e, t, n),
-				this.get(e)
+			create: function (a, b, c) {
+				return j.create(a, b, c),
+				this.get(a)
 			},
-			get: function (e) {
-				return new a(e)
+			get: function (a) {
+				return new j(a)
 			},
-			findElement: function (e) {
-				return C.findElement(e)
+			findElement: function (a) {
+				return B.findElement(a)
 			},
-			show: function (e) {
-				return this.get(e).show(),
+			show: function (a) {
+				return this.get(a).show(),
 				this
 			},
-			hide: function (e) {
-				return this.get(e).hide(),
+			hide: function (a) {
+				return this.get(a).hide(),
 				this
 			},
-			toggle: function (e) {
-				return this.get(e).toggle(),
+			toggle: function (a) {
+				return this.get(a).toggle(),
 				this
 			},
-			refresh: function (e) {
-				return this.get(e).refresh(),
+			refresh: function (a) {
+				return this.get(a).refresh(),
 				this
 			},
-			remove: function (e) {
-				return this.get(e).remove(),
+			remove: function (a) {
+				return this.get(a).remove(),
 				this
 			},
 			hideAll: function () {
-				return C.hideAll(),
+				return B.hideAll(),
 				this
 			},
-			setDefaultSkin: function (e) {
-				return C.setDefaultSkin(e),
+			setDefaultSkin: function (a) {
+				return B.setDefaultSkin(a),
 				this
 			},
-			setStartingZIndex: function (e) {
-				return C.setStartingZIndex(e),
+			setStartingZIndex: function (a) {
+				return B.setStartingZIndex(a),
 				this
 			},
-			visible: function (t) {
-				if (r.isElement(t)) return C.isVisibleByElement(t);
-				if (e.type(t) != "undefined") {
-					var n = e(t),
-					i = 0;
-					return e.each(n, function (e, t) {
-						C.isVisibleByElement(t) && i++
+			visible: function (b) {
+				if (d.isElement(b)) return B.isVisibleByElement(b);
+				if ("undefined" != a.type(b)) {
+					var c = a(b),
+					e = 0;
+					return a.each(c, function (a, b) {
+						B.isVisibleByElement(b) && e++
 					}),
-					i
+					e
 				}
-				return C.getVisible().length
+				return B.getVisible().length
+			},
+			clearAjaxCache: function () {
+				return B.clearAjaxCache(),
+				this
 			}
 		}
 	} ()),
-	e.extend(a, {
-		create: function (t, n) {
-			if (!t) return;
-			var i = arguments[2] || {},
-			s = [];
-			return C.removeDetached(),
-			r.isElement(t) ? s.push(new k(t, n, i)) : e(t).each(function (e, t) {
-				s.push(new k(t, n, i))
-			}),
-			s
+	a.extend(j, {
+		create: function (b, c) {
+			if (b) {
+				var e = arguments[2] || {},
+				f = [];
+				return B.removeDetached(),
+				d.isElement(b) ? f.push(new C(b, c, e)) : a(b).each(function (a, b) {
+					f.push(new C(b, c, e))
+				}),
+				f
+			}
 		}
 	}),
-	e.extend(a.prototype, {
+	a.extend(j.prototype, {
 		items: function () {
-			return C.Position.mouseBuffer = {
+			return B.Position.mouseBuffer = {
 				x: 0,
 				y: 0
 			},
-			C.get(this.element)
+			B.get(this.element)
 		},
 		show: function () {
-			return e.each(this.items(), function (e, t) {
-				t.show()
+			return a.each(this.items(), function (a, b) {
+				b.show()
 			}),
 			this
 		},
 		hide: function () {
-			return e.each(this.items(), function (e, t) {
-				t.hide()
+			return a.each(this.items(), function (a, b) {
+				b.hide()
 			}),
 			this
 		},
 		toggle: function () {
-			return e.each(this.items(), function (e, t) {
-				t.toggle()
+			return a.each(this.items(), function (a, b) {
+				b.toggle()
 			}),
 			this
 		},
 		refresh: function () {
-			return e.each(this.items(), function (e, t) {
-				t.refresh()
+			return a.each(this.items(), function (a, b) {
+				b.refresh()
 			}),
 			this
 		},
 		remove: function () {
-			return C.remove(this.element),
+			return B.remove(this.element),
 			this
 		}
 	});
-	var d = {
+	var p = {
 		viewport: function () {
-			var t;
-			return i.MobileSafari ? t = {
+			var b;
+			return b = e.MobileSafari ? {
 				width: window.innerWidth,
 				height: window.innerHeight
-			}: t = {
-				height: e(window).height(),
-				width: e(window).width()
-			},
-			t
+			}: {
+				height: a(window).height(),
+				width: a(window).width()
+			}
 		}
 	},
-	v = {
+	q = {
 		devicePixelRatio: Math.ceil(Math.min(window.devicePixelRatio ? parseFloat(window.devicePixelRatio) || 1 : 1, 2)),
 		init: function () {
-			function e(e) {
-				var t = e.getContext("2d");
-				t.scale(v.devicePixelRatio, v.devicePixelRatio)
+			function a(a) {
+				var b = a.getContext("2d");
+				b.scale(q.devicePixelRatio, q.devicePixelRatio)
 			}
-			return window.G_vmlCanvasManager && !Tipped.support.canvas && i.IE ?
-			function (t) {
-				G_vmlCanvasManager.initElement(t),
-				e(t)
-			}: function (t) {
-				e(t)
+			return window.G_vmlCanvasManager && !Tipped.support.canvas && e.IE ?
+			function (b) {
+				G_vmlCanvasManager.initElement(b),
+				a(b)
+			}: function (b) {
+				a(b)
 			}
 		} (),
-		resize: function (t, n) {
-			e(t).attr({
-				width: n.width * this.devicePixelRatio,
-				height: n.height * this.devicePixelRatio
-			}).css(f(n))
+		resize: function (b, c) {
+			a(b).attr({
+				width: c.width * this.devicePixelRatio,
+				height: c.height * this.devicePixelRatio
+			}).css(k(c))
 		},
-		drawRoundedRectangle: function (t) {
-			var n = e.extend({
+		drawRoundedRectangle: function (b) {
+			var c = a.extend({
 				top: 0,
 				left: 0,
 				width: 0,
@@ -674,67 +680,54 @@ Tipped.Skins.CloseButtons = {
 				radius: 0
 			},
 			arguments[1] || {}),
-			r = n,
-			i = r.left,
-			s = r.top,
-			o = r.width,
-			u = r.height,
-			a = r.radius;
-			if (!a) {
-				t.fillRect(i, s, o, u);
-				return
-			}
-			t.beginPath(),
-			t.moveTo(i + a, s),
-			t.arc(i + o - a, s + a, a, h( - 90), h(0), !1),
-			t.arc(i + o - a, s + u - a, a, h(0), h(90), !1),
-			t.arc(i + a, s + u - a, a, h(90), h(180), !1),
-			t.arc(i + a, s + a, a, h( - 180), h( - 90), !1),
-			t.closePath(),
-			t.fill()
+			d = c,
+			e = d.left,
+			f = d.top,
+			g = d.width,
+			h = d.height,
+			i = d.radius;
+			return i ? (b.beginPath(), b.moveTo(e + i, f), b.arc(e + g - i, f + i, i, n( - 90), n(0), !1), b.arc(e + g - i, f + h - i, i, n(0), n(90), !1), b.arc(e + i, f + h - i, i, n(90), n(180), !1), b.arc(e + i, f + i, i, n( - 180), n( - 90), !1), b.closePath(), b.fill(), void 0) : (b.fillRect(e, f, g, h), void 0)
 		},
-		drawPixelArray: function (t, n) {
-			var r = e.extend({
+		drawPixelArray: function (b, c) {
+			for (var d = a.extend({
 				x: 0,
 				y: 0,
 				color: "#000"
 			},
-			arguments[2] || {});
-			for (var i = 0, s = n.length; i < s; i++) for (var o = 0, u = n[i].length; o < u; o++) {
-				var a = parseInt(n[i].charAt(o)) * (1 / 9);
-				t.fillStyle = y.hex2fill(r.color, a),
-				a && t.fillRect(r.x + o, r.y + i, 1, 1)
+			arguments[2] || {}), e = 0, f = c.length; f > e; e++) for (var g = 0, h = c[e].length; h > g; g++) {
+				var i = parseInt(c[e].charAt(g)) * (1 / 9);
+				b.fillStyle = t.hex2fill(d.color, i),
+				i && b.fillRect(d.x + g, d.y + e, 1, 1)
 			}
 		},
-		createFillStyle: function (t, n) {
-			var r;
-			if (e.type(n) == "string") r = y.hex2fill(n);
-			else if (e.type(n.color) == "string") r = y.hex2fill(n.color, e.type(n.opacity) == "number" ? n.opacity: 1);
-			else if (e.isArray(n.color)) {
-				var i = e.extend({
+		createFillStyle: function (b, c) {
+			var d;
+			if ("string" == a.type(c)) d = t.hex2fill(c);
+			else if ("string" == a.type(c.color)) d = t.hex2fill(c.color, "number" == a.type(c.opacity) ? c.opacity: 1);
+			else if (a.isArray(c.color)) {
+				var e = a.extend({
 					x1: 0,
 					y1: 0,
 					x2: 0,
 					y2: 0
 				},
 				arguments[2] || {});
-				r = v.Gradient.addColorStops(t.createLinearGradient(i.x1, i.y1, i.x2, i.y2), n.color, n.opacity)
+				d = q.Gradient.addColorStops(b.createLinearGradient(e.x1, e.y1, e.x2, e.y2), c.color, c.opacity)
 			}
-			return r
+			return d
 		}
 	};
-	v.Gradient = {
-		addColorStops: function (t, n) {
-			var r = e.type(arguments[2]) == "number" ? arguments[2] : 1;
-			for (var i = 0, s = n.length; i < s; i++) {
-				var o = n[i];
-				if (e.type(o.opacity) == "undefined" || e.type(o.opacity) != "number") o.opacity = 1;
-				t.addColorStop(o.position, y.hex2fill(o.color, o.opacity * r))
+	q.Gradient = {
+		addColorStops: function (b, c) {
+			for (var d = "number" == a.type(arguments[2]) ? arguments[2] : 1, e = 0, f = c.length; f > e; e++) {
+				var g = c[e];
+				("undefined" == a.type(g.opacity) || "number" != a.type(g.opacity)) && (g.opacity = 1),
+				b.addColorStop(g.position, t.hex2fill(g.color, g.opacity * d))
 			}
-			return t
+			return b
 		}
 	};
-	var m = {
+	var r = {
 		positions: ["topleft", "topmiddle", "topright", "righttop", "rightmiddle", "rightbottom", "bottomright", "bottommiddle", "bottomleft", "leftbottom", "leftmiddle", "lefttop"],
 		regex: {
 			toOrientation: /^(top|left|bottom|right)(top|left|bottom|right|middle|center)$/,
@@ -743,410 +736,392 @@ Tipped.Skins.CloseButtons = {
 			side: /^(top|bottom|left|right)/
 		},
 		toDimension: function () {
-			var e = {
+			var a = {
 				top: "height",
 				left: "width",
 				bottom: "height",
 				right: "width"
 			};
-			return function (t) {
-				return e[t]
+			return function (b) {
+				return a[b]
 			}
 		} (),
-		isCenter: function (e) {
-			return !! e.toLowerCase().match(this.regex.isCenter)
+		isCenter: function (a) {
+			return !! a.toLowerCase().match(this.regex.isCenter)
 		},
-		isCorner: function (e) {
-			return ! this.isCenter(e)
+		isCorner: function (a) {
+			return ! this.isCenter(a)
 		},
-		getOrientation: function (e) {
-			return e.toLowerCase().match(this.regex.horizontal) ? "horizontal": "vertical"
+		getOrientation: function (a) {
+			return a.toLowerCase().match(this.regex.horizontal) ? "horizontal": "vertical"
 		},
-		getSide: function (e) {
-			var t = null,
-			n = e.toLowerCase().match(this.regex.side);
-			return n && n[1] && (t = n[1]),
-			t
+		getSide: function (a) {
+			var b = null,
+			c = a.toLowerCase().match(this.regex.side);
+			return c && c[1] && (b = c[1]),
+			b
 		},
-		split: function (e) {
-			return e.toLowerCase().match(this.regex.toOrientation)
+		split: function (a) {
+			return a.toLowerCase().match(this.regex.toOrientation)
 		}
 	},
-	g = {
-		getDimensions: function (e) {
-			var t = e.options.stem;
+	s = {
+		getDimensions: function (a) {
+			var b = a.options.stem;
 			return {
-				width: t.width,
-				height: t.height
+				width: b.width,
+				height: b.height
 			}
 		},
-		getBorderDimensions: function (t, n) {
-			var r = e.extend({
+		getBorderDimensions: function (b, c) {
+			var d = a.extend({
 				math: "ceil"
 			},
 			arguments[2] || {}),
-			i = t.options.stem,
-			s = i.width,
-			o = i.height,
-			u = this.getCenterBorderDimensions(s, o, n);
-			return r.math && (u.width = Math[r.math](u.width), u.height = Math[r.math](u.height)),
+			e = b.options.stem,
+			f = e.width,
+			g = e.height,
+			h = this.getCenterBorderDimensions(f, g, c);
+			return d.math && (h.width = Math[d.math](h.width), h.height = Math[d.math](h.height)),
 			{
-				width: u.width,
-				height: u.height
+				width: h.width,
+				height: h.height
 			}
 		},
-		getCenterBorderDimensions: function (e, t, n) {
-			var r = c(Math.atan(t / e * .5)),
-			i = 180 - r,
-			s = Math.cos(h(i - 90)) * n,
-			o = e + s * 2,
-			u = o * t / e;
+		getCenterBorderDimensions: function (a, b, c) {
+			var d = m(Math.atan(.5 * (b / a))),
+			e = 180 - d,
+			f = Math.cos(n(e - 90)) * c,
+			g = a + 2 * f,
+			h = g * b / a;
 			return {
-				width: o,
-				height: u
+				width: g,
+				height: h
 			}
 		},
-		getLayout: function (e, t) {
-			var n = this.getBorderDimensions(e, t),
-			r = this.getDimensions(e),
-			i = m.isCenter(e._hookPosition),
-			s = Math.ceil(n.height + t),
-			o = e.options.stem.offset || 0,
-			u = e.options.radius && e.options.radius.size || 0;
-			return {
+		getLayout: function (a, b) {
+			var c = this.getBorderDimensions(a, b),
+			d = this.getDimensions(a),
+			f = (r.isCenter(a._hookPosition), Math.ceil(c.height + b));
+			return a.options.stem.offset || 0,
+			a.options.radius && a.options.radius.size || 0,
+			{
 				box: {
 					dimensions: {
-						width: Math.ceil(n.width),
-						height: Math.ceil(s)
+						width: Math.ceil(c.width),
+						height: Math.ceil(f)
 					}
 				},
 				border: {
-					dimensions: n
+					dimensions: c
 				},
 				stem: {
 					dimensions: {
-						width: r.width,
-						height: r.height
+						width: d.width,
+						height: d.height
 					}
 				}
 			}
 		},
-		getBubbleLayout: function (t, n, r) {
-			var i = {},
-			s = t.options,
-			o = {
+		getBubbleLayout: function (b, c, d) {
+			var f = b.options,
+			g = {
 				top: 0,
 				left: 0
 			},
-			u = {
+			h = {
 				top: 0,
 				left: 0
 			},
-			a = e.extend({},
-			n),
-			f = t.border,
-			l = l || this.getLayout(t, t.border),
-			c = l.box.dimensions;
-			r && (c.height = r, f = 0);
-			var h = m.split(t._hookPosition),
-			p = m.getOrientation(t._hookPosition);
-			if (t.options.stem) {
-				var d = m.getSide(t._hookPosition);
-				d == "top" ? o.top = c.height - f: d == "left" && (o.left = c.height - f);
-				if (p == "horizontal") {
-					switch (h[2]) {
+			i = a.extend({},
+			c),
+			j = b.border,
+			k = k || this.getLayout(b, b.border),
+			l = k.box.dimensions;
+			d && (l.height = d, j = 0);
+			var m = r.split(b._hookPosition),
+			n = r.getOrientation(b._hookPosition);
+			if (b.options.stem) {
+				var o = r.getSide(b._hookPosition);
+				if ("top" == o ? g.top = l.height - j: "left" == o && (g.left = l.height - j), "horizontal" == n) {
+					switch (m[2]) {
 					case "middle":
 					case "center":
-						u.left = .5 * a.width;
+						h.left = .5 * i.width;
 						break;
 					case "right":
-						u.left = a.width
+						h.left = i.width
 					}
-					h[1] == "bottom" && (u.top = a.height - f + c.height)
+					"bottom" == m[1] && (h.top = i.height - j + l.height)
 				} else {
-					switch (h[2]) {
+					switch (m[2]) {
 					case "middle":
 					case "center":
-						u.top = .5 * a.height;
+						h.top = .5 * i.height;
 						break;
 					case "bottom":
-						u.top = a.height
+						h.top = i.height
 					}
-					h[1] == "right" && (u.left = a.width - f + c.height)
+					"right" == m[1] && (h.left = i.width - j + l.height)
 				}
-				a[m.toDimension(d)] += c.height - f
-			} else if (p == "horizontal") {
-				switch (h[2]) {
+				i[r.toDimension(o)] += l.height - j
+			} else if ("horizontal" == n) {
+				switch (m[2]) {
 				case "middle":
 				case "center":
-					u.left = .5 * a.width;
+					h.left = .5 * i.width;
 					break;
 				case "right":
-					u.left = a.width
+					h.left = i.width
 				}
-				h[1] == "bottom" && (u.top = a.height)
+				"bottom" == m[1] && (h.top = i.height)
 			} else {
-				switch (h[2]) {
+				switch (m[2]) {
 				case "middle":
 				case "center":
-					u.top = .5 * a.height;
+					h.top = .5 * i.height;
 					break;
 				case "bottom":
-					u.top = a.height
+					h.top = i.height
 				}
-				h[1] == "right" && (u.left = a.width)
+				"right" == m[1] && (h.left = i.width)
 			}
-			var v = s.radius && s.radius.size || 0,
-			y = s.border && s.border.size || 0;
-			if (t.options.stem) {
-				var b = v && s.radius.position == "background" ? v: 0,
-				w = v && s.radius.position == "border" ? v: v + y,
-				E = y + b + .5 * l.stem.dimensions.width - .5 * l.border.dimensions.width,
-				S = w > E ? w - E: 0,
-				x = Math.ceil(y + b + .5 * l.stem.dimensions.width + S);
-				if (p == "horizontal") switch (h[2]) {
+			var p = f.radius && f.radius.size || 0,
+			q = f.border && f.border.size || 0;
+			if (b.options.stem) {
+				var t = p && "background" == f.radius.position ? p: 0,
+				u = p && "border" == f.radius.position ? p: p + q,
+				v = q + t + .5 * k.stem.dimensions.width - .5 * k.border.dimensions.width,
+				w = u > v ? u - v: 0,
+				x = Math.ceil(q + t + .5 * k.stem.dimensions.width + w);
+				if ("horizontal" == n) switch (m[2]) {
 				case "left":
-					u.left += x;
+					h.left += x;
 					break;
 				case "right":
-					u.left -= x
-				} else switch (h[2]) {
+					h.left -= x
+				} else switch (m[2]) {
 				case "top":
-					u.top += x;
+					h.top += x;
 					break;
 				case "bottom":
-					u.top -= x
+					h.top -= x
 				}
 			}
-			var T;
-			if (s.stem && (T = s.stem.offset)) {
-				var N = g.nullifyCornerOffset(T, t._stemPosition, n, l.border.dimensions, y, v);
-				T = N.offset;
-				var C = N.correction;
-				if (p == "horizontal") switch (h[2]) {
+			var y;
+			if (f.stem && (y = f.stem.offset)) {
+				var z = s.nullifyCornerOffset(y, b._stemPosition, c, k.border.dimensions, q, p);
+				if (y = z.offset, z.correction, "horizontal" == n) switch (m[2]) {
 				case "left":
-					u.left += T.x;
+					h.left += y.x;
 					break;
 				case "right":
-					u.left -= T.x
-				} else switch (h[2]) {
+					h.left -= y.x
+				} else switch (m[2]) {
 				case "top":
-					u.top += T.y;
+					h.top += y.y;
 					break;
 				case "bottom":
-					u.top -= T.y
+					h.top -= y.y
 				}
 			}
-			var k;
-			if (s.stem && (k = s.stem.spacing)) if (p == "horizontal") switch (h[1]) {
+			var B;
+			if (f.stem && (B = f.stem.spacing)) if ("horizontal" == n) switch (m[1]) {
 			case "top":
-				u.top -= k;
+				h.top -= B;
 				break;
 			case "bottom":
-				u.top += k
-			} else switch (h[1]) {
+				h.top += B
+			} else switch (m[1]) {
 			case "left":
-				u.left -= k;
+				h.left -= B;
 				break;
 			case "right":
-				u.left += k
+				h.left += B
 			}
 			return {
-				dimensions: a,
+				dimensions: i,
 				position: {
 					top: 0,
 					left: 0
 				},
 				background: {
-					position: o,
-					dimensions: n
-				},
-				stem: {
+					position: g,
 					dimensions: c
 				},
-				anchor: u
+				stem: {
+					dimensions: l
+				},
+				anchor: h
 			}
 		},
-		nullifyCornerOffset: function (t, n, r, i, s, o) {
-			var u = m.getOrientation(n),
-			a = e.extend({},
-			t),
-			f = {
+		nullifyCornerOffset: function (b, c, d, e, f, g) {
+			var h = r.getOrientation(c),
+			i = a.extend({},
+			b),
+			j = {
 				x: 0,
 				y: 0
-			};
-			return u == "horizontal" && r.width - i.width - 2 * s - 2 * o < 2 * t.x && (f.x = a.x, a.x = 0),
-			u == "vertical" && r.height - i.height - 2 * s - 2 * o < 2 * t.y && (f.y = a.y, a.y = 0),
+			},
+			k = 0;
+			return "horizontal" == h && (k = d.width - e.width - 2 * f - 2 * g) < 2 * b.x && (j.x = i.x, /(right)$/.test(c) && (j.x *= -1), i.x = 0),
+			"vertical" == h && (k = d.height - e.height - 2 * f - 2 * g) < 2 * b.y && (j.y = i.y, /(bottom)$/.test(c) && (j.y *= -1), i.y = 0),
 			{
-				offset: a,
-				correction: f
+				offset: i,
+				correction: j
 			}
 		}
 	},
-	y = function () {
-		function r(e) {
-			var t = e;
-			return t.red = e[0],
-			t.green = e[1],
-			t.blue = e[2],
-			t
+	t = function () {
+		function d(a) {
+			var b = a;
+			return b.red = a[0],
+			b.green = a[1],
+			b.blue = a[2],
+			b
 		}
-		function i(e) {
-			return parseInt(e, 16)
+		function e(a) {
+			return parseInt(a, 16)
 		}
-		function s(e) {
-			var t = new Array(3);
-			e.indexOf("#") == 0 && (e = e.substring(1)),
-			e = e.toLowerCase();
-			if (e.replace(n, "") != "") return null;
-			e.length == 3 ? (t[0] = e.charAt(0) + e.charAt(0), t[1] = e.charAt(1) + e.charAt(1), t[2] = e.charAt(2) + e.charAt(2)) : (t[0] = e.substring(0, 2), t[1] = e.substring(2, 4), t[2] = e.substring(4));
-			for (var s = 0; s < t.length; s++) t[s] = i(t[s]);
-			return r(t)
+		function f(a) {
+			var b = Array(3);
+			if (0 == a.indexOf("#") && (a = a.substring(1)), a = a.toLowerCase(), "" != a.replace(c, "")) return null;
+			3 == a.length ? (b[0] = a.charAt(0) + a.charAt(0), b[1] = a.charAt(1) + a.charAt(1), b[2] = a.charAt(2) + a.charAt(2)) : (b[0] = a.substring(0, 2), b[1] = a.substring(2, 4), b[2] = a.substring(4));
+			for (var f = 0; b.length > f; f++) b[f] = e(b[f]);
+			return d(b)
 		}
-		function o(e, t) {
-			var n = s(e);
-			return n[3] = t,
-			n.opacity = t,
+		function g(a, b) {
+			var c = f(a);
+			return c[3] = b,
+			c.opacity = b,
+			c
+		}
+		function h(b, c) {
+			return "undefined" == a.type(c) && (c = 1),
+			"rgba(" + g(b, c).join() + ")"
+		}
+		function i(a) {
+			return "#" + (j(a)[2] > 50 ? "000": "fff")
+		}
+		function j(a) {
+			return k(f(a))
+		}
+		function k(a) {
+			var f, g, h, a = d(a),
+			b = a.red,
+			c = a.green,
+			e = a.blue,
+			i = b > c ? b: c;
+			e > i && (i = e);
+			var j = c > b ? b: c;
+			if (j > e && (j = e), h = i / 255, g = 0 != i ? (i - j) / i: 0, 0 == g) f = 0;
+			else {
+				var k = (i - b) / (i - j),
+				l = (i - c) / (i - j),
+				m = (i - e) / (i - j);
+				f = b == i ? m - l: c == i ? 2 + k - m: 4 + l - k,
+				f /= 6,
+				0 > f && (f += 1)
+			}
+			f = Math.round(360 * f),
+			g = Math.round(100 * g),
+			h = Math.round(100 * h);
+			var n = [];
+			return n[0] = f,
+			n[1] = g,
+			n[2] = h,
+			n.hue = f,
+			n.saturation = g,
+			n.brightness = h,
 			n
 		}
-		function u(t, n) {
-			return e.type(n) == "undefined" && (n = 1),
-			"rgba(" + o(t, n).join() + ")"
-		}
-		function a(e) {
-			return "#" + (f(e)[2] > 50 ? "000": "fff")
-		}
-		function f(e) {
-			return l(s(e))
-		}
-		function l(e) {
-			var e = r(e),
-			t = e.red,
-			n = e.green,
-			i = e.blue,
-			s,
-			o,
-			u,
-			a = t > n ? t: n;
-			i > a && (a = i);
-			var f = t < n ? t: n;
-			i < f && (f = i),
-			u = a / 255,
-			o = a != 0 ? (a - f) / a: 0;
-			if (o == 0) s = 0;
-			else {
-				var l = (a - t) / (a - f),
-				c = (a - n) / (a - f),
-				h = (a - i) / (a - f);
-				t == a ? s = h - c: n == a ? s = 2 + l - h: s = 4 + c - l,
-				s /= 6,
-				s < 0 && (s += 1)
-			}
-			s = Math.round(s * 360),
-			o = Math.round(o * 100),
-			u = Math.round(u * 100);
-			var p = [];
-			return p[0] = s,
-			p[1] = o,
-			p[2] = u,
-			p.hue = s,
-			p.saturation = o,
-			p.brightness = u,
-			p
-		}
-		var t = "0123456789abcdef",
-		n = new RegExp("[" + t + "]", "g");
+		var b = "0123456789abcdef",
+		c = RegExp("[" + b + "]", "g");
 		return {
-			hex2rgb: s,
-			hex2fill: u,
-			getSaturatedBW: a
+			hex2rgb: f,
+			hex2fill: h,
+			getSaturatedBW: i
 		}
 	} (),
-	b = {
+	u = {
 		skins: {},
-		get: function (t) {
-			if (!t) return null;
-			var n = null,
-			r = e(t).data("tipped-uid");
-			return r && (n = this.skins[r]),
-			n
+		get: function (b) {
+			if (!b) return null;
+			var c = null,
+			d = a(b).data("tipped-uid");
+			return d && (c = this.skins[d]),
+			c
 		},
-		add: function (e) {
-			this.skins[e.uid] = e
+		add: function (a) {
+			this.skins[a.uid] = a
 		},
-		remove: function (e) {
-			var t = this.get(e);
-			t && (delete this.skins[t.uid], t.remove())
+		remove: function (a) {
+			var b = this.get(a);
+			b && (delete this.skins[b.uid], b.remove())
 		}
 	};
-	e.extend(w.prototype, function () {
-		function t() {
+	a.extend(v.prototype, function () {
+		function b() {
 			this._cache.hook = {};
-			var t = this._hookPosition;
-			e.each(m.positions, e.proxy(function (t, n) {
-				var r, i = this._cache.hook[n] = {};
-				this._hookPosition = n;
-				var s = this.getOrderLayout();
-				r = s,
-				i.anchor = r.anchor;
-				var o = r.bubble.dimensions,
-				u = {
-					top: r.bubble.position.top,
-					left: r.bubble.position.left
+			var b = this._hookPosition;
+			a.each(r.positions, a.proxy(function (b, c) {
+				var d, e = this._cache.hook[c] = {};
+				this._hookPosition = c;
+				var f = this.getOrderLayout();
+				d = f,
+				e.anchor = d.anchor;
+				var g = d.bubble.dimensions,
+				h = {
+					top: d.bubble.position.top,
+					left: d.bubble.position.left
 				};
-				i.bubble = {
-					dimensions: o,
-					position: u
+				if (e.bubble = {
+					dimensions: g,
+					position: h
 				},
-				i.tooltip = {
-					dimensions: r.skin.dimensions
-				};
-				if (this.shadow) {
-					var a = this.shadow.getOrderLayout(),
-					f = a.skin.position,
-					l = i.bubble.position;
-					e.extend(!0, i, {
-						anchor: a.anchor,
+				e.tooltip = {
+					dimensions: d.skin.dimensions
+				},
+				this.shadow) {
+					var i = this.shadow.getOrderLayout(),
+					j = i.skin.position,
+					k = e.bubble.position;
+					a.extend(!0, e, {
+						anchor: i.anchor,
 						bubble: {
 							position: {
-								top: l.top + f.top,
-								left: l.left + f.left
+								top: k.top + j.top,
+								left: k.left + j.left
 							}
 						},
 						tooltip: {
-							dimensions: a.tooltip.dimensions
+							dimensions: i.tooltip.dimensions
 						}
 					})
 				}
 			},
 			this)),
-			this._hookPosition = t
+			this._hookPosition = b
 		}
-		function n() {
+		function c() {
 			this.cleanup(),
-			this.options.shadow && (E.remove(this.element), this.options.closeButton && this.options.closeButton.shadow && x.remove(this.element)),
+			this.options.shadow && (w.remove(this.element), this.options.closeButton && this.options.closeButton.shadow && y.remove(this.element)),
 			this.iframeShim && (this.iframeShim.remove(), this.iframeShim = null),
-			this.container && (e(this.container).remove(), this.container = null)
+			this.container && (a(this.container).remove(), this.container = null)
 		}
-		function r() {
-			if (!this.bubble) return;
-			this.closeButton && (e(this.closeButton).remove(), this.closeButton = null, this.defaultCloseButton = null, this.hoverCloseButton = null),
-			e(this.bubble).remove(),
-			this.stem = null,
-			this.background = null,
-			this.bubble = null,
-			this._cache = {}
+		function d() {
+			this.bubble && (this.closeButton && (a(this.closeButton).remove(), this.closeButton = null, this.defaultCloseButton = null, this.hoverCloseButton = null), a(this.bubble).remove(), this.stem = null, this.background = null, this.bubble = null, this._cache = {})
 		}
-		function s() {
-			var e = this.getTooltip();
-			this.contentDimensions = e._cache.contentDimensions;
-			var t = e.options;
-			this.radius = t.radius && t.radius.size || 0,
-			this.border = t.border && t.border.size || 0,
-			this.padding = t.padding;
-			var n = Math.min(this.contentDimensions.height, this.contentDimensions.width);
-			this.radius > n / 2 && (this.radius = Math.floor(n / 2)),
-			this.options.radius.position == "border" && this.radius > this.border && (this.border = this.radius),
+		function f() {
+			var a = this.getTooltip();
+			this.contentDimensions = a._cache.contentDimensions;
+			var b = a.options;
+			this.radius = b.radius && b.radius.size || 0,
+			this.border = b.border && b.border.size || 0,
+			this.padding = b.padding;
+			var c = Math.min(this.contentDimensions.height, this.contentDimensions.width);
+			this.radius > c / 2 && (this.radius = Math.floor(c / 2)),
+			"border" == this.options.radius.position && this.radius > this.border && (this.border = this.radius),
 			this._cache = {
 				options: {
 					radius: this.radius,
@@ -1155,187 +1130,184 @@ Tipped.Skins.CloseButtons = {
 				}
 			}
 		}
-		function o() {
+		function g() {
 			this.cleanup(),
 			window.G_vmlCanvasManager && window.G_vmlCanvasManager.init_(document);
-			var t = this.getTooltip(),
-			n = this.options;
-			this.bubble = e("<div>").addClass("t_Bubble")[0],
-			e(t.skinElement).append(this.bubble),
+			var b = this.getTooltip(),
+			c = this.options;
+			this.bubble = a("<div>").addClass("t_Bubble")[0],
+			a(b.skinElement).append(this.bubble),
 			this.prepare(),
-			this.drawBubble(t),
-			n.closeButton && (this.drawCloseButton(t), n.closeButton.shadow && (this.closeButtonShadow ? (this.closeButtonShadow.options = n.closeButton.shadow, this.closeButtonShadow.build()) : this.closeButtonShadow = new T(this.element, e.extend({
+			this.drawBubble(b),
+			c.closeButton && (this.drawCloseButton(b), c.closeButton.shadow && (this.closeButtonShadow ? (this.closeButtonShadow.options = c.closeButton.shadow, this.closeButtonShadow.build()) : this.closeButtonShadow = new z(this.element, a.extend({
 				globalAlpha: this._globalAlpha
 			},
-			n.closeButton.shadow)))),
-			i.IE && i.IE < 7 && e(t.container).prepend(this.iframeShim = e("<iframe>").addClass("t_iframeShim").attr({
+			c.closeButton.shadow)))),
+			e.IE && 7 > e.IE && a(b.container).prepend(this.iframeShim = a("<iframe>").addClass("t_iframeShim").attr({
 				frameBorder: 0,
 				src: "javascript:'';"
 			})),
 			this.order(),
-			n.shadow && (this.shadow ? (this.shadow.options = n.shadow, this.shadow.build()) : this.shadow = new S(this.element, this, e.extend({
+			c.shadow && (this.shadow ? (this.shadow.options = c.shadow, this.shadow.build()) : this.shadow = new x(this.element, this, a.extend({
 				globalAlpha: this._globalAlpha
 			},
-			n.shadow))),
+			c.shadow))),
 			this.createHookCache()
 		}
-		function u() {
-			var t = this.getTooltip(),
-			n = e(t.container),
-			r = e(t.container).find(".t_ContentContainer").first()[0];
-			if (r) {
-				e(r).css({
+		function h() {
+			var b = this.getTooltip(),
+			c = a(b.container),
+			d = a(b.container).find(".t_ContentContainer").first()[0];
+			if (d) {
+				a(d).css({
 					width: "auto",
 					height: "auto"
 				});
-				var i = parseInt(n.css("top")),
-				s = parseInt(n.css("left")),
-				o = parseInt(n.css("width"));
-				n.css({
+				var e = parseInt(c.css("top")),
+				f = parseInt(c.css("left")),
+				g = parseInt(c.css("width"));
+				c.css({
 					left: "-25000px",
 					top: "-25000px",
 					width: "15000px",
 					height: "auto"
 				}),
-				t.getState("visible") || e(t.container).show();
-				var u = C.UpdateQueue.getMeasureElementDimensions(r);
-				t.options.maxWidth && e.type(t.options.maxWidth) == "number" && u.width > t.options.maxWidth && (e(r).css({
-					width: t.options.maxWidth + "px"
-				}), u = C.UpdateQueue.getMeasureElementDimensions(r)),
-				t.getState("visible") || e(t.container).hide(),
-				t._cache.contentDimensions = u,
-				n.css({
-					left: s + "px",
-					top: i + "px",
-					width: o + "px"
+				b.getState("visible") || a(b.container).show();
+				var h = B.UpdateQueue.getMeasureElementDimensions(d);
+				b.options.maxWidth && "number" == a.type(b.options.maxWidth) && h.width > b.options.maxWidth && (a(d).css({
+					width: b.options.maxWidth + "px"
+				}), h = B.UpdateQueue.getMeasureElementDimensions(d)),
+				b.getState("visible") || a(b.container).hide(),
+				b._cache.contentDimensions = h,
+				c.css({
+					left: f + "px",
+					top: e + "px",
+					width: g + "px"
 				}),
 				this.build()
 			}
 		}
-		function a(e, t, n) {
-			var r = !1;
-			this.setHookPosition(e) && (r = !0),
-			this.setStemCorrection(t) && (r = !0),
-			n && this.setAdjustment(n) && (r = !0),
-			r && this.build()
+		function i(a, b, c) {
+			var d = !1;
+			this.setHookPosition(a) && (d = !0),
+			this.setStemCorrection(b) && (d = !0),
+			c && this.setAdjustment(c) && (d = !0),
+			d && this.build()
 		}
-		function l(e) {
-			var t = !1;
-			if (this._adjustment.left != e.left || this._adjustment.top != e.top) t = !0,
-			this._adjustment = e;
-			return t
+		function j(a) {
+			var b = !1;
+			return (this._adjustment.left != a.left || this._adjustment.top != a.top) && (b = !0, this._adjustment = a),
+			b
 		}
-		function c(e) {
-			var t = !1;
-			if (this._stemCorrection.x != e.x || this._stemCorrection.y != e.y) t = !0,
-			this._stemCorrection = e;
-			return t
+		function l(a) {
+			var b = !1;
+			return (this._stemCorrection.x != a.x || this._stemCorrection.y != a.y) && (b = !0, this._stemCorrection = a),
+			b
 		}
-		function p(e, t) {
-			var n = !1;
-			return this._hookPosition != e && (n = !0, this._hookPosition = e),
-			n
+		function m(a) {
+			var c = !1;
+			return this._hookPosition != a && (c = !0, this._hookPosition = a),
+			c
 		}
-		function d() {
-			return C.get(this.element)[0]
+		function o() {
+			return B.get(this.element)[0]
 		}
-		function b() {
-			return g.getLayout(this, this.border)
+		function p() {
+			return s.getLayout(this, this.border)
 		}
-		function w() {
-			var t = this.getTooltip().options.closeButton,
-			n = t.diameter + t.border * 2;
-			e(this.defaultCloseButton).css({
-				left: -1 * n + "px"
+		function u() {
+			var b = this.getTooltip().options.closeButton,
+			c = b.diameter + 2 * b.border;
+			a(this.defaultCloseButton).css({
+				left: -1 * c + "px"
 			}),
-			e(this.hoverCloseButton).css({
+			a(this.hoverCloseButton).css({
 				left: 0
 			})
 		}
-		function N() {
-			var t = this.getTooltip().options.closeButton,
-			n = t.diameter + t.border * 2;
-			e(this.defaultCloseButton).css({
+		function v() {
+			var b = this.getTooltip().options.closeButton,
+			c = b.diameter + 2 * b.border;
+			a(this.defaultCloseButton).css({
 				left: 0
 			}),
-			e(this.hoverCloseButton).css({
-				left: n + "px"
+			a(this.hoverCloseButton).css({
+				left: c + "px"
 			})
 		}
-		function k(t) {
-			var n = t.options.closeButton,
-			r = {
-				width: n.diameter + 2 * n.border,
-				height: n.diameter + 2 * n.border
+		function A(b) {
+			var c = b.options.closeButton,
+			d = {
+				width: c.diameter + 2 * c.border,
+				height: c.diameter + 2 * c.border
 			};
-			e(t.container).append(e(this.closeButton = document.createElement("div")).addClass("t_Close").css(f(r)).append(e(this.closeButtonShift = document.createElement("div")).addClass("t_CloseButtonShift").css(f(r)))),
-			this.drawCloseButtonState(t, "default"),
-			this.drawCloseButtonState(t, "hover"),
-			!Tipped.support.touch && !i.Chrome && e(this.closeButton).bind("mouseenter", e.proxy(this.closeButtonMouseover, this)).bind("mouseleave", e.proxy(this.closeButtonMouseout, this))
+			a(b.container).append(a(this.closeButton = document.createElement("div")).addClass("t_Close").css(k(d)).append(a(this.closeButtonShift = document.createElement("div")).addClass("t_CloseButtonShift").css(k(d)))),
+			this.drawCloseButtonState(b, "default"),
+			this.drawCloseButtonState(b, "hover"),
+			Tipped.support.touch || e.Chrome || a(this.closeButton).bind("mouseenter", a.proxy(this.closeButtonMouseover, this)).bind("mouseleave", a.proxy(this.closeButtonMouseout, this))
 		}
-		function L(t, n) {
-			var r = t.options.closeButton,
-			i = r.diameter,
-			s = r.border || 0,
-			o = r.x.diameter,
-			u = r.x.size,
-			a = r.x.lineCap,
-			l = r.states[n || "default"],
-			c = {
-				width: i + 2 * s,
-				height: i + 2 * s
+		function C(b, c) {
+			var d = b.options.closeButton,
+			e = d.diameter,
+			f = d.border || 0,
+			g = d.x.diameter,
+			h = d.x.size,
+			j = (d.x.lineCap, d.states[c || "default"]),
+			l = {
+				width: e + 2 * f,
+				height: e + 2 * f
 			};
-			o >= i && (o = i - 2);
-			var p;
-			e(this.closeButtonShift).append(e(this[n + "CloseButton"] = document.createElement("div")).addClass("t_CloseState").css(e.extend(f(c), {
-				left: (n == "hover" ? c.width: 0) + "px"
+			g >= e && (g = e - 2);
+			var m;
+			a(this.closeButtonShift).append(a(this[c + "CloseButton"] = document.createElement("div")).addClass("t_CloseState").css(a.extend(k(l), {
+				left: ("hover" == c ? l.width: 0) + "px"
 			}))),
-			e(document.body).append(e(p = document.createElement("canvas"))),
-			v.resize(p, c),
-			v.init(p);
-			var d = p.getContext("2d");
-			d.globalAlpha = this._globalAlpha,
-			e(this[n + "CloseButton"]).append(p),
-			d.translate(c.width / 2, c.height / 2),
-			d.fillStyle = v.createFillStyle(d, l.background, {
+			a(document.body).append(a(m = document.createElement("canvas"))),
+			q.resize(m, l),
+			q.init(m);
+			var o = m.getContext("2d");
+			o.globalAlpha = this._globalAlpha,
+			a(this[c + "CloseButton"]).append(m),
+			o.translate(l.width / 2, l.height / 2),
+			o.fillStyle = q.createFillStyle(o, j.background, {
 				x1: 0,
-				y1: 0 - i / 2,
+				y1: 0 - e / 2,
 				x2: 0,
-				y2: 0 + i / 2
+				y2: 0 + e / 2
 			}),
-			d.beginPath(),
-			d.arc(0, 0, i / 2, 0, Math.PI * 2, !0),
-			d.closePath(),
-			d.fill(),
-			s && (d.fillStyle = v.createFillStyle(d, l.border, {
+			o.beginPath(),
+			o.arc(0, 0, e / 2, 0, 2 * Math.PI, !0),
+			o.closePath(),
+			o.fill(),
+			f && (o.fillStyle = q.createFillStyle(o, j.border, {
 				x1: 0,
-				y1: 0 - i / 2 - s,
+				y1: 0 - e / 2 - f,
 				x2: 0,
-				y2: 0 + i / 2 + s
-			}), d.beginPath(), d.arc(0, 0, i / 2, Math.PI, 0, !1), d.lineTo((i + s) / 2, 0), d.arc(0, 0, i / 2 + s, 0, Math.PI, !0), d.arc(0, 0, i / 2 + s, Math.PI, 0, !0), d.lineTo(i / 2, 0), d.arc(0, 0, i / 2, 0, Math.PI, !1), d.closePath(), d.fill());
-			var m = o / 2,
-			g = u / 2;
-			if (g > m) {
-				var b = g;
-				g = m,
-				m = b
+				y2: 0 + e / 2 + f
+			}), o.beginPath(), o.arc(0, 0, e / 2, Math.PI, 0, !1), o.lineTo((e + f) / 2, 0), o.arc(0, 0, e / 2 + f, 0, Math.PI, !0), o.arc(0, 0, e / 2 + f, Math.PI, 0, !0), o.lineTo(e / 2, 0), o.arc(0, 0, e / 2, 0, Math.PI, !1), o.closePath(), o.fill());
+			var p = g / 2,
+			r = h / 2;
+			if (r > p) {
+				var s = r;
+				r = p,
+				p = s
 			}
-			d.fillStyle = y.hex2fill(l.x.color || l.x, l.x.opacity || 1),
-			d.rotate(h(45)),
-			d.beginPath(),
-			d.moveTo(0, 0),
-			d.lineTo(0, m);
-			for (var w = 0; w < 4; w++) d.lineTo(0, m),
-			d.lineTo(g, m),
-			d.lineTo(g, m - (m - g)),
-			d.lineTo(m, g),
-			d.lineTo(m, 0),
-			d.rotate(h(90));
-			d.closePath(),
-			d.fill()
+			o.fillStyle = t.hex2fill(j.x.color || j.x, j.x.opacity || 1),
+			o.rotate(n(45)),
+			o.beginPath(),
+			o.moveTo(0, 0),
+			o.lineTo(0, p);
+			for (var u = 0; 4 > u; u++) o.lineTo(0, p),
+			o.lineTo(r, p),
+			o.lineTo(r, p - (p - r)),
+			o.lineTo(p, r),
+			o.lineTo(p, 0),
+			o.rotate(n(90));
+			o.closePath(),
+			o.fill()
 		}
-		function A(t) {
-			var n = e.extend({
+		function D(b) {
+			var l, m, o, p, q, c = a.extend({
 				stem: !1,
 				hookPosition: null,
 				stemCorrection: null,
@@ -1352,235 +1324,223 @@ Tipped.Skins.CloseButtons = {
 				}
 			},
 			arguments[1] || {}),
-			r = n.layout,
-			i = n.stemLayout,
-			s = n.cornerOffset,
-			o = n.border,
-			u = n.radius,
-			a = n.hookPosition,
-			f = r.background.position,
-			l = r.background.dimensions,
-			c,
-			p,
-			d,
-			v,
-			y,
-			b = {
+			d = c.layout,
+			e = c.stemLayout,
+			f = c.cornerOffset,
+			g = c.border,
+			h = c.radius,
+			i = c.hookPosition,
+			j = d.background.position,
+			k = d.background.dimensions,
+			t = {
 				x: Math.abs(this._stemCorrection.x),
 				y: Math.abs(this._stemCorrection.y)
 			},
-			w = {
+			u = {
 				x: 0,
 				y: 0
 			},
-			E = {
+			v = {
 				x: 0,
 				y: 0
 			};
-			if (i) {
-				c = i.stem.dimensions,
-				p = i.box.position,
-				d = i.box.dimensions,
-				v = d.width - c.width;
-				var S = n.borderRadius,
-				x = o + u + .5 * c.width - .5 * i.border.dimensions.width;
-				y = Math.ceil(S > x ? S - x: 0);
-				var T = g.nullifyCornerOffset(s, a, l, i.border.dimensions, o, u);
-				s = T.offset,
-				E = T.correction,
-				w = {
-					x: Math.max(l.width - Math.max(y, s.x || 0) * 2 - i.border.dimensions.width - (2 * u || 0), 0),
-					y: Math.max(l.height - Math.max(y, s.y || 0) * 2 - i.border.dimensions.height - (2 * u || 0), 0)
+			if (e) {
+				l = e.stem.dimensions,
+				m = e.box.position,
+				o = e.box.dimensions,
+				p = o.width - l.width;
+				var w = c.borderRadius,
+				x = g + h + .5 * l.width - .5 * e.border.dimensions.width;
+				q = Math.ceil(w > x ? w - x: 0);
+				var y = s.nullifyCornerOffset(f, i, k, e.border.dimensions, g, h);
+				f = y.offset,
+				v = y.correction,
+				u = {
+					x: Math.max(k.width - 2 * Math.max(q, f.x || 0) - e.border.dimensions.width - (2 * h || 0), 0),
+					y: Math.max(k.height - 2 * Math.max(q, f.y || 0) - e.border.dimensions.height - (2 * h || 0), 0)
 				},
-				m.isCenter(a) && (w.x *= .5, w.y *= .5),
-				b.x = Math.min(b.x, w.x),
-				b.y = Math.min(b.y, w.y),
-				m.isCenter(a) && (this._stemCorrection.x < 0 && b.x > 0 && (b.x *= -1), this._stemCorrection.y < 0 && b.y > 0 && (b.y *= -1)),
-				this._adjustment && this._adjustment.sides && e.each(this._adjustment.sides, function (t, n) {
-					e.each("top right bottom left".split(" "), function (e, t) {
-						n == t && (new RegExp("(" + t + ")$")).test(a) && (b[/^(left|right)$/.test(t) ? "x": "y"] = 0)
+				r.isCenter(i) && (u.x *= .5, u.y *= .5),
+				t.x = Math.min(t.x, u.x),
+				t.y = Math.min(t.y, u.y),
+				r.isCenter(i) && (0 > this._stemCorrection.x && t.x > 0 && (t.x *= -1), 0 > this._stemCorrection.y && t.y > 0 && (t.y *= -1)),
+				this._adjustment && this._adjustment.sides && a.each(this._adjustment.sides, function (b, c) {
+					a.each("top right bottom left".split(" "), function (a, b) {
+						c == b && RegExp("(" + b + ")$").test(i) && (t[/^(left|right)$/.test(b) ? "x": "y"] = 0)
 					})
 				})
 			}
-			var N, C;
-			u ? (N = f.left + o + u, C = f.top + o) : (N = f.left + o, C = f.top + o),
-			s && s.x && /^(topleft|lefttop)$/.test(a) && (N += s.x),
-			n.beginPath && t.beginPath(),
-			t.moveTo(N, C);
-			if (n.stem) switch (a) {
+			var z, A;
+			if (h ? (z = j.left + g + h, A = j.top + g) : (z = j.left + g, A = j.top + g), f && f.x && /^(topleft|lefttop)$/.test(i) && (z += f.x), c.beginPath && b.beginPath(), b.moveTo(z, A), c.stem) switch (i) {
 			case "topleft":
-				N = f.left + o,
-				u && (N += u),
-				N += Math.max(y, s.x || 0),
-				N += b.x,
-				t.lineTo(N, C),
-				C -= c.height,
-				N += c.width * .5,
-				t.lineTo(N, C),
-				C += c.height,
-				N += c.width * .5,
-				t.lineTo(N, C);
+				z = j.left + g,
+				h && (z += h),
+				z += Math.max(q, f.x || 0),
+				z += t.x,
+				b.lineTo(z, A),
+				A -= l.height,
+				z += .5 * l.width,
+				b.lineTo(z, A),
+				A += l.height,
+				z += .5 * l.width,
+				b.lineTo(z, A);
 				break;
 			case "topmiddle":
 			case "topcenter":
-				N = f.left + l.width * .5 - c.width * .5,
-				N += b.x,
-				t.lineTo(N, C),
-				C -= c.height,
-				N += c.width * .5,
-				t.lineTo(N, C),
-				C += c.height,
-				N += c.width * .5,
-				t.lineTo(N, C),
-				N = f.left + l.width * .5 - d.width * .5,
-				t.lineTo(N, C);
+				z = j.left + .5 * k.width - .5 * l.width,
+				z += t.x,
+				b.lineTo(z, A),
+				A -= l.height,
+				z += .5 * l.width,
+				b.lineTo(z, A),
+				A += l.height,
+				z += .5 * l.width,
+				b.lineTo(z, A),
+				z = j.left + .5 * k.width - .5 * o.width,
+				b.lineTo(z, A);
 				break;
 			case "topright":
-				N = f.left + l.width - o - c.width,
-				u && (N -= u),
-				N -= Math.max(y, s.x || 0),
-				N -= b.x,
-				t.lineTo(N, C),
-				C -= c.height,
-				N += c.width * .5,
-				t.lineTo(N, C),
-				C += c.height,
-				N += c.width * .5,
-				t.lineTo(N, C)
+				z = j.left + k.width - g - l.width,
+				h && (z -= h),
+				z -= Math.max(q, f.x || 0),
+				z -= t.x,
+				b.lineTo(z, A),
+				A -= l.height,
+				z += .5 * l.width,
+				b.lineTo(z, A),
+				A += l.height,
+				z += .5 * l.width,
+				b.lineTo(z, A)
 			}
-			u ? u && (t.arc(f.left + l.width - o - u, f.top + o + u, u, h( - 90), h(0), !1), N = f.left + l.width - o, C = f.top + o + u) : (N = f.left + l.width - o, C = f.top + o, t.lineTo(N, C));
-			if (n.stem) switch (a) {
+			if (h ? h && (b.arc(j.left + k.width - g - h, j.top + g + h, h, n( - 90), n(0), !1), z = j.left + k.width - g, A = j.top + g + h) : (z = j.left + k.width - g, A = j.top + g, b.lineTo(z, A)), c.stem) switch (i) {
 			case "righttop":
-				C = f.top + o,
-				u && (C += u),
-				C += Math.max(y, s.y || 0),
-				C += b.y,
-				t.lineTo(N, C),
-				N += c.height,
-				C += c.width * .5,
-				t.lineTo(N, C),
-				N -= c.height,
-				C += c.width * .5,
-				t.lineTo(N, C);
+				A = j.top + g,
+				h && (A += h),
+				A += Math.max(q, f.y || 0),
+				A += t.y,
+				b.lineTo(z, A),
+				z += l.height,
+				A += .5 * l.width,
+				b.lineTo(z, A),
+				z -= l.height,
+				A += .5 * l.width,
+				b.lineTo(z, A);
 				break;
 			case "rightmiddle":
 			case "rightcenter":
-				C = f.top + l.height * .5 - c.width * .5,
-				C += b.y,
-				t.lineTo(N, C),
-				N += c.height,
-				C += c.width * .5,
-				t.lineTo(N, C),
-				N -= c.height,
-				C += c.width * .5,
-				t.lineTo(N, C);
+				A = j.top + .5 * k.height - .5 * l.width,
+				A += t.y,
+				b.lineTo(z, A),
+				z += l.height,
+				A += .5 * l.width,
+				b.lineTo(z, A),
+				z -= l.height,
+				A += .5 * l.width,
+				b.lineTo(z, A);
 				break;
 			case "rightbottom":
-				C = f.top + l.height - o,
-				u && (C -= u),
-				C -= c.width,
-				C -= Math.max(y, s.y || 0),
-				C -= b.y,
-				t.lineTo(N, C),
-				N += c.height,
-				C += c.width * .5,
-				t.lineTo(N, C),
-				N -= c.height,
-				C += c.width * .5,
-				t.lineTo(N, C)
+				A = j.top + k.height - g,
+				h && (A -= h),
+				A -= l.width,
+				A -= Math.max(q, f.y || 0),
+				A -= t.y,
+				b.lineTo(z, A),
+				z += l.height,
+				A += .5 * l.width,
+				b.lineTo(z, A),
+				z -= l.height,
+				A += .5 * l.width,
+				b.lineTo(z, A)
 			}
-			u ? u && (t.arc(f.left + l.width - o - u, f.top + l.height - o - u, u, h(0), h(90), !1), N = f.left + l.width - o - u, C = f.top + l.height - o) : (N = f.left + l.width - o, C = f.top + l.height - o, t.lineTo(N, C));
-			if (n.stem) switch (a) {
+			if (h ? h && (b.arc(j.left + k.width - g - h, j.top + k.height - g - h, h, n(0), n(90), !1), z = j.left + k.width - g - h, A = j.top + k.height - g) : (z = j.left + k.width - g, A = j.top + k.height - g, b.lineTo(z, A)), c.stem) switch (i) {
 			case "bottomright":
-				N = f.left + l.width - o,
-				u && (N -= u),
-				N -= Math.max(y, s.x || 0),
-				N -= b.x,
-				t.lineTo(N, C),
-				N -= c.width * .5,
-				C += c.height,
-				t.lineTo(N, C),
-				N -= c.width * .5,
-				C -= c.height,
-				t.lineTo(N, C);
+				z = j.left + k.width - g,
+				h && (z -= h),
+				z -= Math.max(q, f.x || 0),
+				z -= t.x,
+				b.lineTo(z, A),
+				z -= .5 * l.width,
+				A += l.height,
+				b.lineTo(z, A),
+				z -= .5 * l.width,
+				A -= l.height,
+				b.lineTo(z, A);
 				break;
 			case "bottommiddle":
 			case "bottomcenter":
-				N = f.left + l.width * .5 + c.width * .5,
-				N += b.x,
-				t.lineTo(N, C),
-				N -= c.width * .5,
-				C += c.height,
-				t.lineTo(N, C),
-				N -= c.width * .5,
-				C -= c.height,
-				t.lineTo(N, C);
+				z = j.left + .5 * k.width + .5 * l.width,
+				z += t.x,
+				b.lineTo(z, A),
+				z -= .5 * l.width,
+				A += l.height,
+				b.lineTo(z, A),
+				z -= .5 * l.width,
+				A -= l.height,
+				b.lineTo(z, A);
 				break;
 			case "bottomleft":
-				N = f.left + o + c.width,
-				u && (N += u),
-				N += Math.max(y, s.x || 0),
-				N += b.x,
-				t.lineTo(N, C),
-				N -= c.width * .5,
-				C += c.height,
-				t.lineTo(N, C),
-				N -= c.width * .5,
-				C -= c.height,
-				t.lineTo(N, C)
+				z = j.left + g + l.width,
+				h && (z += h),
+				z += Math.max(q, f.x || 0),
+				z += t.x,
+				b.lineTo(z, A),
+				z -= .5 * l.width,
+				A += l.height,
+				b.lineTo(z, A),
+				z -= .5 * l.width,
+				A -= l.height,
+				b.lineTo(z, A)
 			}
-			u ? u && (t.arc(f.left + o + u, f.top + l.height - o - u, u, h(90), h(180), !1), N = f.left + o, C = f.top + l.height - o - u) : (N = f.left + o, C = f.top + l.height - o, t.lineTo(N, C));
-			if (n.stem) switch (a) {
+			if (h ? h && (b.arc(j.left + g + h, j.top + k.height - g - h, h, n(90), n(180), !1), z = j.left + g, A = j.top + k.height - g - h) : (z = j.left + g, A = j.top + k.height - g, b.lineTo(z, A)), c.stem) switch (i) {
 			case "leftbottom":
-				C = f.top + l.height - o,
-				u && (C -= u),
-				C -= Math.max(y, s.y || 0),
-				C -= b.y,
-				t.lineTo(N, C),
-				N -= c.height,
-				C -= c.width * .5,
-				t.lineTo(N, C),
-				N += c.height,
-				C -= c.width * .5,
-				t.lineTo(N, C);
+				A = j.top + k.height - g,
+				h && (A -= h),
+				A -= Math.max(q, f.y || 0),
+				A -= t.y,
+				b.lineTo(z, A),
+				z -= l.height,
+				A -= .5 * l.width,
+				b.lineTo(z, A),
+				z += l.height,
+				A -= .5 * l.width,
+				b.lineTo(z, A);
 				break;
 			case "leftmiddle":
 			case "leftcenter":
-				C = f.top + l.height * .5 + c.width * .5,
-				C += b.y,
-				t.lineTo(N, C),
-				N -= c.height,
-				C -= c.width * .5,
-				t.lineTo(N, C),
-				N += c.height,
-				C -= c.width * .5,
-				t.lineTo(N, C);
+				A = j.top + .5 * k.height + .5 * l.width,
+				A += t.y,
+				b.lineTo(z, A),
+				z -= l.height,
+				A -= .5 * l.width,
+				b.lineTo(z, A),
+				z += l.height,
+				A -= .5 * l.width,
+				b.lineTo(z, A);
 				break;
 			case "lefttop":
-				C = f.top + o + c.width,
-				u && (C += u),
-				C += Math.max(y, s.y || 0),
-				C += b.y,
-				t.lineTo(N, C),
-				N -= c.height,
-				C -= c.width * .5,
-				t.lineTo(N, C),
-				N += c.height,
-				C -= c.width * .5,
-				t.lineTo(N, C)
+				A = j.top + g + l.width,
+				h && (A += h),
+				A += Math.max(q, f.y || 0),
+				A += t.y,
+				b.lineTo(z, A),
+				z -= l.height,
+				A -= .5 * l.width,
+				b.lineTo(z, A),
+				z += l.height,
+				A -= .5 * l.width,
+				b.lineTo(z, A)
 			}
-			return u ? u && (t.arc(f.left + o + u, f.top + o + u, u, h( - 180), h( - 90), !1), N = f.left + o + u, C = f.top + o, N += 1, t.lineTo(N, C)) : (N = f.left + o, C = f.top + o, t.lineTo(N, C)),
-			n.closePath && t.closePath(),
+			return h ? h && (b.arc(j.left + g + h, j.top + g + h, h, n( - 180), n( - 90), !1), z = j.left + g + h, A = j.top + g, z += 1, b.lineTo(z, A)) : (z = j.left + g, A = j.top + g, b.lineTo(z, A)),
+			c.closePath && b.closePath(),
 			{
-				x: N,
-				y: C,
-				stem: b,
-				corner: E,
-				cornerOffset: s
+				x: z,
+				y: A,
+				stem: t,
+				corner: v,
+				cornerOffset: f
 			}
 		}
-		function O(t) {
-			var n = e.extend({
+		function E(b) {
+			var o, p, q, r, s, t, c = a.extend({
 				stem: !1,
 				hookPosition: null,
 				beginPath: !1,
@@ -1597,595 +1557,571 @@ Tipped.Skins.CloseButtons = {
 				corrections: null
 			},
 			arguments[1] || {}),
-			r = n.layout,
-			i = n.stemLayout,
-			s = n.stemOffset,
-			o = n.cornerOffset,
-			u = n.border,
-			a = n.radius && n.radius.size || 0,
-			f = n.backgroundRadius,
-			l = n.hookPosition,
-			c = r.background.position,
-			p = r.background.dimensions,
-			d,
-			v,
-			m,
-			g,
-			y,
-			b,
-			w = n.corrections && n.corrections.stem || {
+			d = c.layout,
+			e = c.stemLayout,
+			g = (c.stemOffset, c.cornerOffset),
+			h = c.border,
+			i = c.radius && c.radius.size || 0,
+			j = c.backgroundRadius,
+			k = c.hookPosition,
+			l = d.background.position,
+			m = d.background.dimensions,
+			u = c.corrections && c.corrections.stem || {
 				x: 0,
 				y: 0
 			};
-			if (i) {
-				d = i.stem.dimensions,
-				v = i.box.position,
-				m = i.box.dimensions,
-				g = i.border.dimensions,
-				y = m.width - d.width;
-				var E = u + f + .5 * d.width - .5 * g.width;
-				b = Math.ceil(a > E ? a - E: 0)
+			if (e) {
+				o = e.stem.dimensions,
+				p = e.box.position,
+				q = e.box.dimensions,
+				r = e.border.dimensions,
+				s = q.width - o.width;
+				var v = h + j + .5 * o.width - .5 * r.width;
+				t = Math.ceil(i > v ? i - v: 0)
 			}
-			var S = c.left + u + f,
-			x = c.top + u;
-			f && (S += 1);
-			var T = e.extend({},
+			var w = l.left + h + j,
+			x = l.top + h;
+			j && (w += 1),
+			a.extend({},
 			{
-				x: S,
+				x: w,
+				y: x
+			}),
+			c.beginPath && b.beginPath();
+			var z = a.extend({},
+			{
+				x: w,
 				y: x
 			});
-			n.beginPath && t.beginPath();
-			var N = e.extend({},
-			{
-				x: S,
-				y: x
-			});
-			x -= u,
-			t.lineTo(S, x),
-			a ? a && (t.arc(c.left + a, c.top + a, a, h( - 90), h( - 180), !0), S = c.left, x = c.top + a) : (S = c.left, x = c.top, t.lineTo(S, x));
-			if (n.stem) switch (l) {
+			if (x -= h, b.lineTo(w, x), i ? i && (b.arc(l.left + i, l.top + i, i, n( - 90), n( - 180), !0), w = l.left, x = l.top + i) : (w = l.left, x = l.top, b.lineTo(w, x)), c.stem) switch (k) {
 			case "lefttop":
-				x = c.top + u,
-				f && (x += f),
-				x -= g.width * .5,
-				x += d.width * .5,
-				x += Math.max(b, o.y || 0),
-				x += w.y,
-				t.lineTo(S, x),
-				S -= g.height,
-				x += g.width * .5,
-				t.lineTo(S, x),
-				S += g.height,
-				x += g.width * .5,
-				t.lineTo(S, x);
+				x = l.top + h,
+				j && (x += j),
+				x -= .5 * r.width,
+				x += .5 * o.width,
+				x += Math.max(t, g.y || 0),
+				x += u.y,
+				b.lineTo(w, x),
+				w -= r.height,
+				x += .5 * r.width,
+				b.lineTo(w, x),
+				w += r.height,
+				x += .5 * r.width,
+				b.lineTo(w, x);
 				break;
 			case "leftmiddle":
 			case "leftcenter":
-				x = c.top + p.height * .5 - g.width * .5,
-				x += w.y,
-				t.lineTo(S, x),
-				S -= g.height,
-				x += g.width * .5,
-				t.lineTo(S, x),
-				S += g.height,
-				x += g.width * .5,
-				t.lineTo(S, x);
+				x = l.top + .5 * m.height - .5 * r.width,
+				x += u.y,
+				b.lineTo(w, x),
+				w -= r.height,
+				x += .5 * r.width,
+				b.lineTo(w, x),
+				w += r.height,
+				x += .5 * r.width,
+				b.lineTo(w, x);
 				break;
 			case "leftbottom":
-				x = c.top + p.height - u - g.width,
-				f && (x -= f),
-				x += g.width * .5,
-				x -= d.width * .5,
-				x -= Math.max(b, o.y || 0),
-				x -= w.y,
-				t.lineTo(S, x),
-				S -= g.height,
-				x += g.width * .5,
-				t.lineTo(S, x),
-				S += g.height,
-				x += g.width * .5,
-				t.lineTo(S, x)
+				x = l.top + m.height - h - r.width,
+				j && (x -= j),
+				x += .5 * r.width,
+				x -= .5 * o.width,
+				x -= Math.max(t, g.y || 0),
+				x -= u.y,
+				b.lineTo(w, x),
+				w -= r.height,
+				x += .5 * r.width,
+				b.lineTo(w, x),
+				w += r.height,
+				x += .5 * r.width,
+				b.lineTo(w, x)
 			}
-			a ? a && (t.arc(c.left + a, c.top + p.height - a, a, h( - 180), h( - 270), !0), S = c.left + a, x = c.top + p.height) : (S = c.left, x = c.top + p.height, t.lineTo(S, x));
-			if (n.stem) switch (l) {
+			if (i ? i && (b.arc(l.left + i, l.top + m.height - i, i, n( - 180), n( - 270), !0), w = l.left + i, x = l.top + m.height) : (w = l.left, x = l.top + m.height, b.lineTo(w, x)), c.stem) switch (k) {
 			case "bottomleft":
-				S = c.left + u,
-				f && (S += f),
-				S -= g.width * .5,
-				S += d.width * .5,
-				S += Math.max(b, o.x || 0),
-				S += w.x,
-				t.lineTo(S, x),
-				x += g.height,
-				S += g.width * .5,
-				t.lineTo(S, x),
-				x -= g.height,
-				S += g.width * .5,
-				t.lineTo(S, x);
+				w = l.left + h,
+				j && (w += j),
+				w -= .5 * r.width,
+				w += .5 * o.width,
+				w += Math.max(t, g.x || 0),
+				w += u.x,
+				b.lineTo(w, x),
+				x += r.height,
+				w += .5 * r.width,
+				b.lineTo(w, x),
+				x -= r.height,
+				w += .5 * r.width,
+				b.lineTo(w, x);
 				break;
 			case "bottommiddle":
 			case "bottomcenter":
-				S = c.left + p.width * .5 - g.width * .5,
-				S += w.x,
-				t.lineTo(S, x),
-				x += g.height,
-				S += g.width * .5,
-				t.lineTo(S, x),
-				x -= g.height,
-				S += g.width * .5,
-				t.lineTo(S, x),
-				S = c.left + p.width * .5 + g.width,
-				t.lineTo(S, x);
+				w = l.left + .5 * m.width - .5 * r.width,
+				w += u.x,
+				b.lineTo(w, x),
+				x += r.height,
+				w += .5 * r.width,
+				b.lineTo(w, x),
+				x -= r.height,
+				w += .5 * r.width,
+				b.lineTo(w, x),
+				w = l.left + .5 * m.width + r.width,
+				b.lineTo(w, x);
 				break;
 			case "bottomright":
-				S = c.left + p.width - u - g.width,
-				f && (S -= f),
-				S += g.width * .5,
-				S -= d.width * .5,
-				S -= Math.max(b, o.x || 0),
-				S -= w.x,
-				t.lineTo(S, x),
-				x += g.height,
-				S += g.width * .5,
-				t.lineTo(S, x),
-				x -= g.height,
-				S += g.width * .5,
-				t.lineTo(S, x)
+				w = l.left + m.width - h - r.width,
+				j && (w -= j),
+				w += .5 * r.width,
+				w -= .5 * o.width,
+				w -= Math.max(t, g.x || 0),
+				w -= u.x,
+				b.lineTo(w, x),
+				x += r.height,
+				w += .5 * r.width,
+				b.lineTo(w, x),
+				x -= r.height,
+				w += .5 * r.width,
+				b.lineTo(w, x)
 			}
-			a ? a && (t.arc(c.left + p.width - a, c.top + p.height - a, a, h(90), h(0), !0), S = c.left + p.width, x = c.top + p.width + a) : (S = c.left + p.width, x = c.top + p.height, t.lineTo(S, x));
-			if (n.stem) switch (l) {
+			if (i ? i && (b.arc(l.left + m.width - i, l.top + m.height - i, i, n(90), n(0), !0), w = l.left + m.width, x = l.top + m.width + i) : (w = l.left + m.width, x = l.top + m.height, b.lineTo(w, x)), c.stem) switch (k) {
 			case "rightbottom":
-				x = c.top + p.height - u,
-				x += g.width * .5,
-				x -= d.width * .5,
-				f && (x -= f),
-				x -= Math.max(b, o.y || 0),
-				x -= w.y,
-				t.lineTo(S, x),
-				S += g.height,
-				x -= g.width * .5,
-				t.lineTo(S, x),
-				S -= g.height,
-				x -= g.width * .5,
-				t.lineTo(S, x);
+				x = l.top + m.height - h,
+				x += .5 * r.width,
+				x -= .5 * o.width,
+				j && (x -= j),
+				x -= Math.max(t, g.y || 0),
+				x -= u.y,
+				b.lineTo(w, x),
+				w += r.height,
+				x -= .5 * r.width,
+				b.lineTo(w, x),
+				w -= r.height,
+				x -= .5 * r.width,
+				b.lineTo(w, x);
 				break;
 			case "rightmiddle":
 			case "rightcenter":
-				x = c.top + p.height * .5 + g.width * .5,
-				x += w.y,
-				t.lineTo(S, x),
-				S += g.height,
-				x -= g.width * .5,
-				t.lineTo(S, x),
-				S -= g.height,
-				x -= g.width * .5,
-				t.lineTo(S, x);
+				x = l.top + .5 * m.height + .5 * r.width,
+				x += u.y,
+				b.lineTo(w, x),
+				w += r.height,
+				x -= .5 * r.width,
+				b.lineTo(w, x),
+				w -= r.height,
+				x -= .5 * r.width,
+				b.lineTo(w, x);
 				break;
 			case "righttop":
-				x = c.top + u,
-				f && (x += f),
-				x += g.width,
-				x -= g.width * .5 - d.width * .5,
-				x += Math.max(b, o.y || 0),
-				x += w.y,
-				t.lineTo(S, x),
-				S += g.height,
-				x -= g.width * .5,
-				t.lineTo(S, x),
-				S -= g.height,
-				x -= g.width * .5,
-				t.lineTo(S, x)
+				x = l.top + h,
+				j && (x += j),
+				x += r.width,
+				x -= .5 * r.width - .5 * o.width,
+				x += Math.max(t, g.y || 0),
+				x += u.y,
+				b.lineTo(w, x),
+				w += r.height,
+				x -= .5 * r.width,
+				b.lineTo(w, x),
+				w -= r.height,
+				x -= .5 * r.width,
+				b.lineTo(w, x)
 			}
-			a ? a && (t.arc(c.left + p.width - a, c.top + a, a, h(0), h( - 90), !0), S = c.left + p.width - a, x = c.top) : (S = c.left + p.width, x = c.top, t.lineTo(S, x));
-			if (n.stem) switch (l) {
+			if (i ? i && (b.arc(l.left + m.width - i, l.top + i, i, n(0), n( - 90), !0), w = l.left + m.width - i, x = l.top) : (w = l.left + m.width, x = l.top, b.lineTo(w, x)), c.stem) switch (k) {
 			case "topright":
-				S = c.left + p.width - u,
-				S += g.width * .5 - d.width * .5,
-				f && (S -= f),
-				S -= Math.max(b, o.x || 0),
-				S -= w.x,
-				t.lineTo(S, x),
-				x -= g.height,
-				S -= g.width * .5,
-				t.lineTo(S, x),
-				x += g.height,
-				S -= g.width * .5,
-				t.lineTo(S, x);
+				w = l.left + m.width - h,
+				w += .5 * r.width - .5 * o.width,
+				j && (w -= j),
+				w -= Math.max(t, g.x || 0),
+				w -= u.x,
+				b.lineTo(w, x),
+				x -= r.height,
+				w -= .5 * r.width,
+				b.lineTo(w, x),
+				x += r.height,
+				w -= .5 * r.width,
+				b.lineTo(w, x);
 				break;
 			case "topmiddle":
 			case "topcenter":
-				S = c.left + p.width * .5 + g.width * .5,
-				S += w.x,
-				t.lineTo(S, x),
-				x -= g.height,
-				S -= g.width * .5,
-				t.lineTo(S, x),
-				x += g.height,
-				S -= g.width * .5,
-				t.lineTo(S, x),
-				S = c.left + p.width * .5 - g.width,
-				t.lineTo(S, x),
-				t.lineTo(S, x);
+				w = l.left + .5 * m.width + .5 * r.width,
+				w += u.x,
+				b.lineTo(w, x),
+				x -= r.height,
+				w -= .5 * r.width,
+				b.lineTo(w, x),
+				x += r.height,
+				w -= .5 * r.width,
+				b.lineTo(w, x),
+				w = l.left + .5 * m.width - r.width,
+				b.lineTo(w, x),
+				b.lineTo(w, x);
 				break;
 			case "topleft":
-				S = c.left + u + g.width,
-				S -= g.width * .5,
-				S += d.width * .5,
-				f && (S += f),
-				S += Math.max(b, o.x || 0),
-				S += w.x,
-				t.lineTo(S, x),
-				x -= g.height,
-				S -= g.width * .5,
-				t.lineTo(S, x),
-				x += g.height,
-				S -= g.width * .5,
-				t.lineTo(S, x)
+				w = l.left + h + r.width,
+				w -= .5 * r.width,
+				w += .5 * o.width,
+				j && (w += j),
+				w += Math.max(t, g.x || 0),
+				w += u.x,
+				b.lineTo(w, x),
+				x -= r.height,
+				w -= .5 * r.width,
+				b.lineTo(w, x),
+				x += r.height,
+				w -= .5 * r.width,
+				b.lineTo(w, x)
 			}
-			t.lineTo(N.x, N.y - u),
-			t.lineTo(N.x, N.y),
-			n.closePath && t.closePath()
+			b.lineTo(z.x, z.y - h),
+			b.lineTo(z.x, z.y),
+			c.closePath && b.closePath()
 		}
-		function M(t) {
-			var n = this.getOrderLayout(),
-			r = this.options.stem && this.getStemLayout(),
-			i = this._hookPosition && this._hookPosition.toLowerCase(),
-			s = this.radius,
-			o = s * 2,
-			u = this.border,
-			a = this.padding,
-			f = {
-				width: u * 2 + a * 2 + this.contentDimensions.width,
-				height: u * 2 + a * 2 + this.contentDimensions.height
+		function F(b) {
+			var c = this.getOrderLayout(),
+			d = this.options.stem && this.getStemLayout(),
+			e = this._hookPosition && this._hookPosition.toLowerCase(),
+			f = this.radius,
+			h = this.border,
+			i = this.padding,
+			k = ({
+				width: 2 * h + 2 * i + this.contentDimensions.width,
+				height: 2 * h + 2 * i + this.contentDimensions.height
 			},
-			l = t.options.stem && t.options.stem.offset || {
+			b.options.stem && b.options.stem.offset || {
 				x: 0,
 				y: 0
-			},
-			c = 0,
-			h = 0;
-			s && (c = this.options.radius.position == "background" ? s: 0, h = this.options.radius.position == "border" ? s: c + u),
-			e(document.body).append(this.bubbleCanvas = document.createElement("canvas")),
-			v.resize(this.bubbleCanvas, n.bubble.dimensions),
-			v.init(this.bubbleCanvas);
-			var p = this.bubbleCanvas.getContext("2d");
-			p.globalAlpha = this._globalAlpha,
-			e(this.bubble).append(this.bubbleCanvas),
-			p.fillStyle = v.createFillStyle(p, this.options.background, {
-				x1: 0,
-				y1: n.background.position.top + u,
-				x2: 0,
-				y2: n.background.position.top + n.background.dimensions.height - u
 			}),
-			p.lineWidth = 0;
-			var d;
-			d = this._drawBackgroundPath(p, {
+			l = 0,
+			m = 0;
+			f && (l = "background" == this.options.radius.position ? f: 0, m = "border" == this.options.radius.position ? f: l + h),
+			a(document.body).append(this.bubbleCanvas = document.createElement("canvas")),
+			q.resize(this.bubbleCanvas, c.bubble.dimensions),
+			q.init(this.bubbleCanvas);
+			var n = this.bubbleCanvas.getContext("2d");
+			n.globalAlpha = this._globalAlpha,
+			a(this.bubble).append(this.bubbleCanvas),
+			n.fillStyle = q.createFillStyle(n, this.options.background, {
+				x1: 0,
+				y1: c.background.position.top + h,
+				x2: 0,
+				y2: c.background.position.top + c.background.dimensions.height - h
+			}),
+			n.lineWidth = 0;
+			var o;
+			if (o = this._drawBackgroundPath(n, {
 				beginPath: !0,
 				closePath: !0,
-				border: u,
-				radius: c,
-				borderRadius: h,
-				layout: n,
-				stemLayout: r,
+				border: h,
+				radius: l,
+				borderRadius: m,
+				layout: c,
+				stemLayout: d,
 				stem: this.options.stem,
-				hookPosition: i,
-				cornerOffset: l
-			}),
-			p.fill();
-			if (u) {
-				var m = v.createFillStyle(p, this.options.border, {
+				hookPosition: e,
+				cornerOffset: k
+			}), n.fill(), h) {
+				var p = q.createFillStyle(n, this.options.border, {
 					x1: 0,
-					y1: n.background.position.top,
+					y1: c.background.position.top,
 					x2: 0,
-					y2: n.background.position.top + n.background.dimensions.height
+					y2: c.background.position.top + c.background.dimensions.height
 				});
-				p.fillStyle = m,
-				d = this._drawBackgroundPath(p, {
+				n.fillStyle = p,
+				o = this._drawBackgroundPath(n, {
 					beginPath: !0,
 					closePath: !1,
-					border: u,
-					radius: c,
-					borderRadius: h,
-					layout: n,
-					stemLayout: r,
+					border: h,
+					radius: l,
+					borderRadius: m,
+					layout: c,
+					stemLayout: d,
 					stem: this.options.stem,
-					hookPosition: i,
-					cornerOffset: l
+					hookPosition: e,
+					cornerOffset: k
 				}),
-				this._drawBorderPath(p, {
+				this._drawBorderPath(n, {
 					beginPath: !1,
 					closePath: !0,
-					border: u,
-					backgroundRadius: c,
+					border: h,
+					backgroundRadius: l,
 					radius: {
-						size: h,
+						size: m,
 						position: this.options.radius.position
 					},
-					layout: n,
-					stemLayout: r,
+					layout: c,
+					stemLayout: d,
 					stem: this.options.stem,
-					hookPosition: i,
-					cornerOffset: d.cornerOffset,
-					corrections: d
+					hookPosition: e,
+					cornerOffset: o.cornerOffset,
+					corrections: o
 				}),
-				p.fill()
+				n.fill()
 			}
-			this._corrections = d
+			this._corrections = o
 		}
-		function _() {
-			var e = this.getTooltip(),
-			t = this.contentDimensions,
-			n = e.options,
-			r = this.radius,
-			i = r * 2,
-			s = this.border,
-			o = this.padding,
-			u = {
-				width: s * 2 + o * 2 + t.width,
-				height: s * 2 + o * 2 + t.height
-			},
-			a;
+		function G() {
+			var i, a = this.getTooltip(),
+			b = this.contentDimensions,
+			c = a.options,
+			d = this.radius,
+			f = this.border,
+			g = this.padding,
+			h = {
+				width: 2 * f + 2 * g + b.width,
+				height: 2 * f + 2 * g + b.height
+			};
 			if (this.options.stem) {
-				var f = this.getStemLayout();
-				a = f.box.dimensions
+				var j = this.getStemLayout();
+				i = j.box.dimensions
 			}
-			var l = g.getBubbleLayout(this, u),
-			c = l.dimensions,
-			p = l.position,
-			u = l.background.dimensions,
-			d = l.background.position,
-			v = l.stem.dimensions,
-			m = {
+			var k = s.getBubbleLayout(this, h),
+			l = k.dimensions,
+			m = k.position,
+			h = k.background.dimensions,
+			o = k.background.position;
+			k.stem.dimensions;
+			var r, t, u, q = {
 				top: 0,
 				left: 0
 			},
-			y,
-			b,
-			w,
-			E = {
-				width: c.width,
-				height: c.height
+			v = {
+				width: l.width,
+				height: l.height
 			};
-			if (n.closeButton) {
-				var S = r;
-				n.radius.position == "background" && (S += s);
-				var x = S - Math.sin(h(45)) * S,
-				T = "right";
-				this._hookPosition.toLowerCase().match(/^(topright|righttop)$/) && (T = "left");
-				var N = n.closeButton.diameter + 2 * n.closeButton.border,
-				y = {
-					width: N,
-					height: N
+			if (c.closeButton) {
+				var w = d;
+				"background" == c.radius.position && (w += f);
+				var x = w - Math.sin(n(45)) * w,
+				y = "right";
+				this._hookPosition.toLowerCase().match(/^(topright|righttop)$/) && (y = "left");
+				var z = c.closeButton.diameter + 2 * c.closeButton.border,
+				r = {
+					width: z,
+					height: z
 				};
-				m.left = d.left - N / 2 + (T == "left" ? x: u.width - x),
-				m.top = d.top - N / 2 + x;
-				if (T == "left") {
-					if (m.left < 0) {
-						var C = Math.abs(m.left);
-						E.width += C,
-						p.left += C,
-						m.left = 0
+				if (q.left = o.left - z / 2 + ("left" == y ? x: h.width - x), q.top = o.top - z / 2 + x, "left" == y) {
+					if (0 > q.left) {
+						var A = Math.abs(q.left);
+						v.width += A,
+						m.left += A,
+						q.left = 0
 					}
 				} else {
-					var k = m.left + N - E.width;
-					k > 0 && (E.width += k)
+					var B = q.left + z - v.width;
+					B > 0 && (v.width += B)
 				}
-				if (m.top < 0) {
-					var L = Math.abs(m.top);
-					E.height += L,
-					p.top += L,
-					m.top = 0
+				if (0 > q.top) {
+					var C = Math.abs(q.top);
+					v.height += C,
+					m.top += C,
+					q.top = 0
 				}
 				if (this.options.closeButton.shadow) {
-					var A = this.options.closeButton.shadow,
-					O = A.blur,
-					M = A.offset;
-					b = {
-						width: y.width + 2 * O,
-						height: y.height + 2 * O
+					var D = this.options.closeButton.shadow,
+					E = D.blur,
+					F = D.offset;
+					if (t = {
+						width: r.width + 2 * E,
+						height: r.height + 2 * E
 					},
-					w = {
-						top: m.top - O + M.y,
-						left: m.left - O + M.x
-					};
-					if (T == "left") {
-						if (w.left < 0) {
-							var C = Math.abs(w.left);
-							E.width += C,
-							p.left += C,
-							m.left += C,
-							w.left = 0
+					u = {
+						top: q.top - E + F.y,
+						left: q.left - E + F.x
+					},
+					"left" == y) {
+						if (0 > u.left) {
+							var A = Math.abs(u.left);
+							v.width += A,
+							m.left += A,
+							q.left += A,
+							u.left = 0
 						}
 					} else {
-						var k = w.left + b.width - E.width;
-						k > 0 && (E.width += k)
+						var B = u.left + t.width - v.width;
+						B > 0 && (v.width += B)
 					}
-					if (w.top < 0) {
-						var L = Math.abs(w.top);
-						E.height += L,
-						p.top += L,
-						m.top += L,
-						w.top = 0
+					if (0 > u.top) {
+						var C = Math.abs(u.top);
+						v.height += C,
+						m.top += C,
+						q.top += C,
+						u.top = 0
 					}
 				}
 			}
-			var _ = l.anchor;
-			_.top += p.top,
-			_.left += p.left;
-			var D = {
-				left: Math.ceil(p.left + d.left + this.border + this.options.padding),
-				top: Math.ceil(p.top + d.top + this.border + this.options.padding)
+			var G = k.anchor;
+			G.top += m.top,
+			G.left += m.left;
+			var H = {
+				left: Math.ceil(m.left + o.left + this.border + this.options.padding),
+				top: Math.ceil(m.top + o.top + this.border + this.options.padding)
 			},
-			P = {
+			I = {
 				tooltip: {
 					dimensions: {
-						width: Math.ceil(E.width),
-						height: Math.ceil(E.height)
+						width: Math.ceil(v.width),
+						height: Math.ceil(v.height)
 					}
 				},
 				skin: {
 					dimensions: {
-						width: Math.ceil(E.width),
-						height: Math.ceil(E.height)
+						width: Math.ceil(v.width),
+						height: Math.ceil(v.height)
 					}
 				},
 				bubble: {
-					dimensions: c,
+					dimensions: l,
 					position: {
-						top: Math.round(p.top),
-						left: Math.round(p.left)
+						top: Math.round(m.top),
+						left: Math.round(m.left)
 					}
 				},
 				background: {
 					dimensions: {
-						width: Math.ceil(u.width),
-						height: Math.ceil(u.height)
+						width: Math.ceil(h.width),
+						height: Math.ceil(h.height)
 					},
 					position: {
-						top: Math.round(d.top),
-						left: Math.round(d.left)
+						top: Math.round(o.top),
+						left: Math.round(o.left)
 					}
 				},
 				anchor: {
-					top: Math.round(_.top),
-					left: Math.round(_.left)
+					top: Math.round(G.top),
+					left: Math.round(G.left)
 				},
 				content: {
-					position: D
+					position: H
 				}
 			};
-			return this.options.closeButton && (P.closeButton = {
+			return this.options.closeButton && (I.closeButton = {
 				dimensions: {
-					width: Math.ceil(y.width),
-					height: Math.ceil(y.height)
+					width: Math.ceil(r.width),
+					height: Math.ceil(r.height)
 				},
 				position: {
-					top: Math.round(m.top),
-					left: Math.round(m.left)
+					top: Math.round(q.top),
+					left: Math.round(q.left)
 				}
 			},
-			this.options.closeButton.shadow && (P.closeButtonShadow = {
+			this.options.closeButton.shadow && (I.closeButtonShadow = {
 				dimensions: {
-					width: Math.ceil(b.width),
-					height: Math.ceil(b.height)
+					width: Math.ceil(t.width),
+					height: Math.ceil(t.height)
 				},
 				position: {
-					top: Math.round(w.top),
-					left: Math.round(w.left)
+					top: Math.round(u.top),
+					left: Math.round(u.left)
 				}
 			})),
-			P
+			I
 		}
-		function D() {
-			var t = this.getOrderLayout(),
-			n = this.getTooltip();
-			e(n.container).css(f(t.tooltip.dimensions)),
-			e(n.skinElement).css(f(t.skin.dimensions)),
-			this.iframeShim && this.iframeShim.css(f(t.tooltip.dimensions)),
-			e(this.bubble).css(e.extend(f(t.bubble.dimensions), f(t.bubble.position))),
-			this.closeButton && (e(this.closeButton).css(f(t.closeButton.position)), t.closeButtonShadow && e(this.closeButtonShadow.container).css(f(t.closeButtonShadow.position))),
-			e(n.contentElement).css(f(t.content.position))
+		function H() {
+			var b = this.getOrderLayout(),
+			c = this.getTooltip();
+			a(c.container).css(k(b.tooltip.dimensions)),
+			a(c.skinElement).css(k(b.skin.dimensions)),
+			this.iframeShim && this.iframeShim.css(k(b.tooltip.dimensions)),
+			a(this.bubble).css(a.extend(k(b.bubble.dimensions), k(b.bubble.position))),
+			this.closeButton && (a(this.closeButton).css(k(b.closeButton.position)), b.closeButtonShadow && a(this.closeButtonShadow.container).css(k(b.closeButtonShadow.position))),
+			a(c.contentElement).css(k(b.content.position))
 		}
-		function P(e) {
-			this._globalAlpha = e || 0,
+		function I(a) {
+			this._globalAlpha = a || 0,
 			this.shadow && (this.shadow._globalAlpha = this._globalAlpha)
 		}
-		function H(e) {
-			this.setGlobalAlpha(e),
+		function J(a) {
+			this.setGlobalAlpha(a),
 			this.build()
 		}
 		return {
-			prepare: s,
-			createHookCache: t,
-			build: o,
-			remove: n,
-			cleanup: r,
-			getTooltip: d,
-			refresh: u,
-			setHookPositionAndStemCorrection: a,
-			setAdjustment: l,
-			setStemCorrection: c,
-			setHookPosition: p,
-			drawCloseButton: k,
-			drawCloseButtonState: L,
-			drawBubble: M,
-			_drawBackgroundPath: A,
-			_drawBorderPath: O,
-			closeButtonMouseover: w,
-			closeButtonMouseout: N,
-			getStemLayout: b,
-			getOrderLayout: _,
-			order: D,
-			setGlobalAlpha: P,
-			setOpacity: H
+			prepare: f,
+			createHookCache: b,
+			build: g,
+			remove: c,
+			cleanup: d,
+			getTooltip: o,
+			refresh: h,
+			setHookPositionAndStemCorrection: i,
+			setAdjustment: j,
+			setStemCorrection: l,
+			setHookPosition: m,
+			drawCloseButton: A,
+			drawCloseButtonState: C,
+			drawBubble: F,
+			_drawBackgroundPath: D,
+			_drawBorderPath: E,
+			closeButtonMouseover: u,
+			closeButtonMouseout: v,
+			getStemLayout: p,
+			getOrderLayout: G,
+			order: H,
+			setGlobalAlpha: I,
+			setOpacity: J
 		}
 	} ());
-	var E = {
+	var w = {
 		shadows: {},
-		get: function (t) {
-			if (!t) return null;
-			var n = null,
-			r = e(t).data("tipped-uid");
-			return r && (n = this.shadows[r]),
-			n
+		get: function (b) {
+			if (!b) return null;
+			var c = null,
+			d = a(b).data("tipped-uid");
+			return d && (c = this.shadows[d]),
+			c
 		},
-		add: function (e) {
-			this.shadows[e.uid] = e
+		add: function (a) {
+			this.shadows[a.uid] = a
 		},
-		remove: function (e) {
-			var t = this.get(e);
-			t && (delete this.shadows[t.uid], t.remove())
+		remove: function (a) {
+			var b = this.get(a);
+			b && (delete this.shadows[b.uid], b.remove())
 		},
-		transition: function (e) {
-			return Math.PI / 2 - Math.pow(e, Math.cos(e) * Math.PI)
+		transition: function (a) {
+			return Math.PI / 2 - Math.pow(a, Math.cos(a) * Math.PI)
 		}
 	};
-	E.Stem = {
-		getBorderDimensions: function (e, t) {
-			var n = b.get(e.element),
-			r = n.getStemLayout().border.dimensions,
-			i = this.getCenterBorderDimensions(r.width, r.height, t, {
+	w.Stem = {
+		getBorderDimensions: function (a, b) {
+			var c = u.get(a.element),
+			d = c.getStemLayout().border.dimensions,
+			e = this.getCenterBorderDimensions(d.width, d.height, b, {
 				math: !1
 			});
 			return {
-				width: i.width,
-				height: i.height
+				width: e.width,
+				height: e.height
 			}
 		},
-		getCenterBorderDimensions2: function (e, t, n) {
-			var r = e * .5,
-			i = c(Math.acos(r / l(r, t))),
-			s = 180 - i - 90,
-			o = p(h(s)) * n,
-			u = (r + o) * 2,
-			a = u / e * t;
+		getCenterBorderDimensions2: function (a, b, c) {
+			var d = .5 * a,
+			e = m(Math.acos(d / l(d, b))),
+			f = 180 - e - 90,
+			g = o(n(f)) * c,
+			h = 2 * (d + g),
+			i = h / a * b;
 			return {
-				width: u,
-				height: a
+				width: h,
+				height: i
 			}
 		},
-		getCenterBorderDimensions: function (e, t, n) {
-			var r = c(Math.atan(t / e * .5)),
-			i = 180 - r,
-			s = Math.cos(h(i - 90)) * n,
-			o = e + s * 2,
-			u = o * t / e;
+		getCenterBorderDimensions: function (a, b, c) {
+			var d = m(Math.atan(.5 * (b / a))),
+			e = 180 - d,
+			f = Math.cos(n(e - 90)) * c,
+			g = a + 2 * f,
+			h = g * b / a;
 			return {
-				width: o,
-				height: u
+				width: g,
+				height: h
 			}
 		},
-		getLayout: function (t) {
-			var n = b.get(t.element),
-			r = t.options.blur,
-			i = m.isCorner(n._hookPosition),
-			s = m.getOrientation(n._hookPosition),
-			o = E.Stem.getBorderDimensions(t, r),
-			u = {
+		getLayout: function (b) {
+			var c = u.get(b.element),
+			d = b.options.blur,
+			e = r.isCorner(c._hookPosition),
+			g = (r.getOrientation(c._hookPosition), w.Stem.getBorderDimensions(b, d)),
+			h = {
 				box: {
 					dimensions: {
-						width: Math.ceil(o.width),
-						height: Math.ceil(o.height)
+						width: Math.ceil(g.width),
+						height: Math.ceil(g.height)
 					},
 					position: {
 						top: 0,
@@ -2193,1041 +2129,1011 @@ Tipped.Skins.CloseButtons = {
 					}
 				}
 			};
-			if (r) {
-				u.blurs = [];
-				for (var a = 0; a <= r; a++) {
-					var f = E.Stem.getBorderDimensions(t, a, {
+			if (d) {
+				h.blurs = [];
+				for (var i = 0; d >= i; i++) {
+					var j = w.Stem.getBorderDimensions(b, i, {
 						math: !1
 					}),
-					l = {
+					k = {
 						position: {
-							top: u.box.dimensions.height - f.height,
-							left: i ? r - a: (u.box.dimensions.width - f.width) / 2
+							top: h.box.dimensions.height - j.height,
+							left: e ? d - i: (h.box.dimensions.width - j.width) / 2
 						},
-						dimensions: f
+						dimensions: j
 					};
-					u.blurs.push(l)
+					h.blurs.push(k)
 				}
-			} else u.blurs = [e.extend({},
-			u.box)];
-			return u
+			} else h.blurs = [a.extend({},
+			h.box)];
+			return h
 		},
-		rotate: function (e, t, n) {
-			g.rotate(e, t.getSkin(), n)
+		rotate: function (a, b, c) {
+			s.rotate(a, b.getSkin(), c)
 		}
 	},
-	e.extend(S.prototype, function () {
-		function t() {
-			return C.get(this.element)[0]
+	a.extend(x.prototype, function () {
+		function b() {
+			return B.get(this.element)[0]
 		}
-		function n() {
-			return b.get(this.element)
+		function c() {
+			return u.get(this.element)
 		}
-		function r() {
+		function d() {
 			this.cleanup()
 		}
-		function i() {
-			if (!this.container) return;
-			e(this.container).remove(),
-			this.stem = null,
-			this.background = null,
-			this.bubble = null,
-			this.container = null,
-			this._cache = {}
+		function e() {
+			this.container && (a(this.container).remove(), this.stem = null, this.background = null, this.bubble = null, this.container = null, this._cache = {})
 		}
-		function s() {}
-		function o() {
+		function f() {}
+		function g() {
 			this.cleanup(),
 			this.prepare();
-			var t = this.getTooltip(),
-			n = this.getSkin();
-			this.container = e("<div>").addClass("t_Shadow")[0],
-			e(t.container).prepend(this.container),
-			n.iframeShim && e(t.container).prepend(n.iframeShim);
-			var r = n.getOrderLayout();
-			e(this.container).css({
+			var b = this.getTooltip(),
+			c = this.getSkin();
+			this.container = a("<div>").addClass("t_Shadow")[0],
+			a(b.container).prepend(this.container),
+			c.iframeShim && a(b.container).prepend(c.iframeShim),
+			c.getOrderLayout(),
+			a(this.container).css({
 				top: 0,
 				left: 0
 			}),
 			this.drawBackground(),
 			this.order()
 		}
-		function u() {
+		function h() {
 			return this.options.opacity / (this.options.blur + 1)
 		}
-		function a() {
-			var t = this.getSkin(),
-			n = t.getOrderLayout(),
-			r = this.getTooltip(),
-			i = this.getOrderLayout(),
-			s = this.options.blur,
-			o = E.Stem.getLayout(this),
-			u = t._hookPosition,
-			a = m.getSide(u),
-			l = {
-				top: s,
-				left: s
+		function i() {
+			var b = this.getSkin(),
+			c = b.getOrderLayout(),
+			d = this.getTooltip(),
+			e = this.getOrderLayout(),
+			f = this.options.blur,
+			g = w.Stem.getLayout(this),
+			h = b._hookPosition,
+			i = r.getSide(h),
+			j = {
+				top: f,
+				left: f
 			};
-			if (r.options.stem) {
-				var c = o.blurs[o.blurs.length - 1];
-				a == "left" && (l.left += Math.ceil(c.dimensions.height)),
-				a == "top" && (l.top += Math.ceil(c.dimensions.height))
+			if (d.options.stem) {
+				var l = g.blurs[g.blurs.length - 1];
+				"left" == i && (j.left += Math.ceil(l.dimensions.height)),
+				"top" == i && (j.top += Math.ceil(l.dimensions.height))
 			}
-			var h = t._cache.options,
-			p = h.radius,
-			d = h.border;
-			r.options.radius.position == "background" && p && (p += d);
-			var g = i.bubble.dimensions;
-			e(this.container).append(e(this.bubble = document.createElement("div")).addClass("t_ShadowBubble").css(f(g))).css(f(g)),
-			e(document.body).append(e(this.bubbleCanvas = document.createElement("canvas"))),
-			v.resize(this.bubbleCanvas, i.bubble.dimensions),
-			v.init(this.bubbleCanvas);
-			var b = this.bubbleCanvas.getContext("2d");
-			b.globalAlpha = this._globalAlpha,
-			e(this.bubble).append(this.bubbleCanvas);
-			var w = s + 1;
-			for (var S = 0; S <= s; S++) b.fillStyle = y.hex2fill(this.options.color, E.transition(S * (1 / w)) * (this.options.opacity / w)),
-			v.drawRoundedRectangle(b, {
-				width: n.background.dimensions.width + S * 2,
-				height: n.background.dimensions.height + S * 2,
-				top: l.top - S,
-				left: l.left - S,
-				radius: p + S
+			var m = b._cache.options,
+			n = m.radius,
+			o = m.border;
+			"background" == d.options.radius.position && n && (n += o);
+			var p = e.bubble.dimensions;
+			a(this.container).append(a(this.bubble = document.createElement("div")).addClass("t_ShadowBubble").css(k(p))).css(k(p)),
+			a(document.body).append(a(this.bubbleCanvas = document.createElement("canvas"))),
+			q.resize(this.bubbleCanvas, e.bubble.dimensions),
+			q.init(this.bubbleCanvas);
+			var s = this.bubbleCanvas.getContext("2d");
+			s.globalAlpha = this._globalAlpha,
+			a(this.bubble).append(this.bubbleCanvas);
+			for (var u = f + 1, v = 0; f >= v; v++) s.fillStyle = t.hex2fill(this.options.color, w.transition(v * (1 / u)) * (this.options.opacity / u)),
+			q.drawRoundedRectangle(s, {
+				width: c.background.dimensions.width + 2 * v,
+				height: c.background.dimensions.height + 2 * v,
+				top: j.top - v,
+				left: j.left - v,
+				radius: n + v
 			});
-			if (!t.options.stem) return;
-			var x = {
-				x: l.left,
-				y: l.top
-			},
-			T = o.blurs[0].dimensions,
-			N = t.options.stem,
-			C = d;
-			C += N.width * .5;
-			var k = t.options.radius && t.options.radius.position == "background" ? t.options.radius.size || 0 : 0;
-			k && (C += k);
-			var L = d + k + .5 * N.width - .5 * T.width,
-			A = Math.ceil(p > L ? p - L: 0),
-			O = t._corrections && t._corrections.stem || {
-				x: 0,
-				y: 0
-			},
-			M = t._corrections && t._corrections.corner || {
-				x: 0,
-				y: 0
-			};
-			C += Math.max(A, t.options.stem.offset && t.options.stem.offset[a && /^(left|right)$/.test(a) ? "y": "x"] || 0);
-			if (a == "top" || a == "bottom") {
-				switch (u) {
-				case "topleft":
-				case "bottomleft":
-					x.x += C + O.x - M.x;
-					break;
-				case "topmiddle":
-				case "topcenter":
-				case "bottommiddle":
-				case "bottomcenter":
-					x.x += n.background.dimensions.width * .5 + O.x;
-					break;
-				case "topright":
-				case "bottomright":
-					x.x += n.background.dimensions.width - C - O.x + M.x
-				}
-				a == "bottom" && (x.y += n.background.dimensions.height);
-				for (var S = 0, _ = o.blurs.length; S < _; S++) {
-					b.fillStyle = y.hex2fill(this.options.color, E.transition(S * (1 / w)) * (this.options.opacity / w));
-					var s = o.blurs[S];
-					b.beginPath(),
-					a == "top" ? (b.moveTo(x.x, x.y - S), b.lineTo(x.x - s.dimensions.width * .5, x.y - S), b.lineTo(x.x, x.y - S - s.dimensions.height), b.lineTo(x.x + s.dimensions.width * .5, x.y - S)) : (b.moveTo(x.x, x.y + S), b.lineTo(x.x - s.dimensions.width * .5, x.y + S), b.lineTo(x.x, x.y + S + s.dimensions.height), b.lineTo(x.x + s.dimensions.width * .5, x.y + S)),
-					b.closePath(),
-					b.fill()
-				}
-			} else {
-				switch (u) {
-				case "lefttop":
-				case "righttop":
-					x.y += C + O.y - M.y;
-					break;
-				case "leftmiddle":
-				case "leftcenter":
-				case "rightmiddle":
-				case "rightcenter":
-					x.y += n.background.dimensions.height * .5 + O.y;
-					break;
-				case "leftbottom":
-				case "rightbottom":
-					x.y += n.background.dimensions.height - C - O.y + M.y
-				}
-				a == "right" && (x.x += n.background.dimensions.width);
-				for (var S = 0, _ = o.blurs.length; S < _; S++) {
-					b.fillStyle = y.hex2fill(this.options.color, E.transition(S * (1 / w)) * (this.options.opacity / w));
-					var s = o.blurs[S];
-					b.beginPath(),
-					a == "left" ? (b.moveTo(x.x - S, x.y), b.lineTo(x.x - S, x.y - s.dimensions.width * .5), b.lineTo(x.x - S - s.dimensions.height, x.y), b.lineTo(x.x - S, x.y + s.dimensions.width * .5)) : (b.moveTo(x.x + S, x.y), b.lineTo(x.x + S, x.y - s.dimensions.width * .5), b.lineTo(x.x + S + s.dimensions.height, x.y), b.lineTo(x.x + S, x.y + s.dimensions.width * .5)),
-					b.closePath(),
-					b.fill()
+			if (b.options.stem) {
+				var x = {
+					x: j.left,
+					y: j.top
+				},
+				y = g.blurs[0].dimensions,
+				z = b.options.stem,
+				A = o;
+				A += .5 * z.width;
+				var B = b.options.radius && "background" == b.options.radius.position ? b.options.radius.size || 0 : 0;
+				B && (A += B);
+				var C = o + B + .5 * z.width - .5 * y.width,
+				D = Math.ceil(n > C ? n - C: 0),
+				E = b._corrections && b._corrections.stem || {
+					x: 0,
+					y: 0
+				},
+				F = b._corrections && b._corrections.corner || {
+					x: 0,
+					y: 0
+				};
+				if (A += Math.max(D, b.options.stem.offset && b.options.stem.offset[i && /^(left|right)$/.test(i) ? "y": "x"] || 0), "top" == i || "bottom" == i) {
+					switch (h) {
+					case "topleft":
+					case "bottomleft":
+						x.x += A + E.x - F.x;
+						break;
+					case "topmiddle":
+					case "topcenter":
+					case "bottommiddle":
+					case "bottomcenter":
+						x.x += .5 * c.background.dimensions.width + E.x;
+						break;
+					case "topright":
+					case "bottomright":
+						x.x += c.background.dimensions.width - (A - E.x + F.x)
+					}
+					"bottom" == i && (x.y += c.background.dimensions.height);
+					for (var v = 0, G = g.blurs.length; G > v; v++) {
+						s.fillStyle = t.hex2fill(this.options.color, w.transition(v * (1 / u)) * (this.options.opacity / u));
+						var f = g.blurs[v];
+						s.beginPath(),
+						"top" == i ? (s.moveTo(x.x, x.y - v), s.lineTo(x.x - .5 * f.dimensions.width, x.y - v), s.lineTo(x.x, x.y - v - f.dimensions.height), s.lineTo(x.x + .5 * f.dimensions.width, x.y - v)) : (s.moveTo(x.x, x.y + v), s.lineTo(x.x - .5 * f.dimensions.width, x.y + v), s.lineTo(x.x, x.y + v + f.dimensions.height), s.lineTo(x.x + .5 * f.dimensions.width, x.y + v)),
+						s.closePath(),
+						s.fill()
+					}
+				} else {
+					switch (h) {
+					case "lefttop":
+					case "righttop":
+						x.y += A + E.y - F.y;
+						break;
+					case "leftmiddle":
+					case "leftcenter":
+					case "rightmiddle":
+					case "rightcenter":
+						x.y += .5 * c.background.dimensions.height + E.y;
+						break;
+					case "leftbottom":
+					case "rightbottom":
+						x.y += c.background.dimensions.height - (A - E.y + F.y)
+					}
+					"right" == i && (x.x += c.background.dimensions.width);
+					for (var v = 0, G = g.blurs.length; G > v; v++) {
+						s.fillStyle = t.hex2fill(this.options.color, w.transition(v * (1 / u)) * (this.options.opacity / u));
+						var f = g.blurs[v];
+						s.beginPath(),
+						"left" == i ? (s.moveTo(x.x - v, x.y), s.lineTo(x.x - v, x.y - .5 * f.dimensions.width), s.lineTo(x.x - v - f.dimensions.height, x.y), s.lineTo(x.x - v, x.y + .5 * f.dimensions.width)) : (s.moveTo(x.x + v, x.y), s.lineTo(x.x + v, x.y - .5 * f.dimensions.width), s.lineTo(x.x + v + f.dimensions.height, x.y), s.lineTo(x.x + v, x.y + .5 * f.dimensions.width)),
+						s.closePath(),
+						s.fill()
+					}
 				}
 			}
 		}
-		function l() {
-			var t = this.getSkin(),
-			n = t.contentDimensions,
-			r = t.radius,
-			i = t.getOrderLayout(),
-			s = this.getTooltip(),
-			o = this.options.blur,
-			u = e.extend({},
-			i.background.dimensions);
-			u.width += 2 * o,
-			u.height += 2 * o;
-			var a, f, l;
-			if (t.options.stem) {
-				var c = E.Stem.getLayout(this);
-				a = c.box.dimensions,
-				l = a.height
+		function j() {
+			var b = this.getSkin();
+			b.contentDimensions,
+			b.radius;
+			var e = b.getOrderLayout(),
+			g = (this.getTooltip(), this.options.blur),
+			h = a.extend({},
+			e.background.dimensions);
+			h.width += 2 * g,
+			h.height += 2 * g;
+			var i, k;
+			if (b.options.stem) {
+				var l = w.Stem.getLayout(this);
+				i = l.box.dimensions,
+				k = i.height
 			}
-			var h = g.getBubbleLayout(t, u, l),
-			p = h.dimensions,
-			d = h.position,
-			u = h.background.dimensions,
-			v = h.background.position,
-			m = a,
-			y = i.bubble.position,
-			b = i.background.position,
-			w = {
-				top: y.top + b.top - (v.top + o) + this.options.offset.y,
-				left: y.left + b.left - (v.left + o) + this.options.offset.x
+			var m = s.getBubbleLayout(b, h, k),
+			n = m.dimensions,
+			o = m.position,
+			h = m.background.dimensions,
+			p = m.background.position,
+			r = e.bubble.position,
+			t = e.background.position,
+			u = {
+				top: r.top + t.top - (p.top + g) + this.options.offset.y,
+				left: r.left + t.left - (p.left + g) + this.options.offset.x
 			},
-			S = i.anchor,
-			x = i.skin.dimensions,
-			T = {
+			v = e.anchor,
+			x = e.skin.dimensions,
+			y = {
 				top: 0,
 				left: 0
 			};
-			if (w.top < 0) {
-				var N = Math.abs(w.top);
-				T.top += N,
-				w.top = 0,
-				S.top += N
+			if (0 > u.top) {
+				var z = Math.abs(u.top);
+				y.top += z,
+				u.top = 0,
+				v.top += z
 			}
-			if (w.left < 0) {
-				var C = Math.abs(w.left);
-				T.left += C,
-				w.left = 0,
-				S.left += C
+			if (0 > u.left) {
+				var A = Math.abs(u.left);
+				y.left += A,
+				u.left = 0,
+				v.left += A
 			}
-			var k = {
-				height: Math.max(p.height + w.top, x.height + T.top),
-				width: Math.max(p.width + w.left, x.width + T.left)
+			var B = {
+				height: Math.max(n.height + u.top, x.height + y.top),
+				width: Math.max(n.width + u.left, x.width + y.left)
 			},
-			L = {
-				left: Math.ceil(T.left + i.bubble.position.left + i.background.position.left + t.border + t.padding),
-				top: Math.ceil(T.top + i.bubble.position.top + i.background.position.top + t.border + t.padding)
+			C = {
+				left: Math.ceil(y.left + e.bubble.position.left + e.background.position.left + b.border + b.padding),
+				top: Math.ceil(y.top + e.bubble.position.top + e.background.position.top + b.border + b.padding)
 			},
-			A = {
+			D = {
 				tooltip: {
-					dimensions: k
+					dimensions: B
 				},
 				skin: {
 					dimensions: x,
-					position: T
+					position: y
 				},
 				container: {
-					dimensions: p,
-					position: w
+					dimensions: n,
+					position: u
 				},
 				bubble: {
-					dimensions: p,
+					dimensions: n,
 					position: {
-						top: Math.round(d.top),
-						left: Math.round(d.left)
+						top: Math.round(o.top),
+						left: Math.round(o.left)
 					}
 				},
 				background: {
 					dimensions: {
-						width: Math.ceil(u.width),
-						height: Math.ceil(u.height)
+						width: Math.ceil(h.width),
+						height: Math.ceil(h.height)
 					},
 					position: {
-						top: Math.round(v.top),
-						left: Math.round(v.left)
+						top: Math.round(p.top),
+						left: Math.round(p.left)
 					}
 				},
-				anchor: S,
+				anchor: v,
 				content: {
-					position: L
+					position: C
 				}
 			};
-			return A
+			return D
 		}
-		function c() {
-			var t = this.getOrderLayout(),
-			n = this.getSkin(),
-			r = this.getTooltip();
-			e(r.container).css(f(t.tooltip.dimensions)),
-			e(r.skinElement).css(e.extend(f(t.skin.position), f(t.skin.dimensions))),
-			n.iframeShim && n.iframeShim.css(f(t.tooltip.dimensions));
-			if (r.options.closeButton) {
-				var i = n.getOrderLayout(),
-				s = t.skin.position,
-				o = i.closeButton.position;
-				e(n.closeButton).css(f({
-					top: s.top + o.top,
-					left: s.left + o.left
-				}));
-				if (r.options.closeButton.shadow) {
-					var u = i.closeButtonShadow.position;
-					e(n.closeButtonShadow.container).css(f({
-						top: s.top + u.top,
-						left: s.left + u.left
+		function l() {
+			var b = this.getOrderLayout(),
+			c = this.getSkin(),
+			d = this.getTooltip();
+			if (a(d.container).css(k(b.tooltip.dimensions)), a(d.skinElement).css(a.extend(k(b.skin.position), k(b.skin.dimensions))), c.iframeShim && c.iframeShim.css(k(b.tooltip.dimensions)), d.options.closeButton) {
+				var e = c.getOrderLayout(),
+				f = b.skin.position,
+				g = e.closeButton.position;
+				if (a(c.closeButton).css(k({
+					top: f.top + g.top,
+					left: f.left + g.left
+				})), d.options.closeButton.shadow) {
+					var h = e.closeButtonShadow.position;
+					a(c.closeButtonShadow.container).css(k({
+						top: f.top + h.top,
+						left: f.left + h.left
 					}))
 				}
 			}
-			e(this.container).css(e.extend(f(t.container.dimensions), f(t.container.position))),
-			e(this.bubble).css(f(t.bubble.dimensions)),
-			e(r.contentElement).css(f(t.content.position))
+			a(this.container).css(a.extend(k(b.container.dimensions), k(b.container.position))),
+			a(this.bubble).css(k(b.bubble.dimensions)),
+			a(d.contentElement).css(k(b.content.position))
 		}
 		return {
-			prepare: s,
-			remove: r,
-			cleanup: i,
-			build: o,
-			getTooltip: t,
-			getSkin: n,
-			getOrderLayout: l,
-			getBlurOpacity: u,
-			drawBackground: a,
-			order: c
+			prepare: f,
+			remove: d,
+			cleanup: e,
+			build: g,
+			getTooltip: b,
+			getSkin: c,
+			getOrderLayout: j,
+			getBlurOpacity: h,
+			drawBackground: i,
+			order: l
 		}
 	} ());
-	var x = {
+	var y = {
 		shadows: {},
-		get: function (t) {
-			if (!t) return null;
-			var n = e(t).data("tipped-uid");
-			return n ? this.shadows[n] : null
+		get: function (b) {
+			if (!b) return null;
+			var c = a(b).data("tipped-uid");
+			return c ? this.shadows[c] : null
 		},
-		add: function (e) {
-			this.shadows[e.uid] = e
+		add: function (a) {
+			this.shadows[a.uid] = a
 		},
-		remove: function (e) {
-			var t = this.get(e);
-			t && (delete this.shadows[t.uid], t.remove())
+		remove: function (a) {
+			var b = this.get(a);
+			b && (delete this.shadows[b.uid], b.remove())
 		}
 	};
-	e.extend(T.prototype, function () {
-		function t() {
-			return C.get(this.element)[0]
+	a.extend(z.prototype, function () {
+		function b() {
+			return B.get(this.element)[0]
 		}
-		function n() {
-			return b.get(this.element)
+		function c() {
+			return u.get(this.element)
 		}
-		function r() {
+		function d() {
 			return this.options.opacity / (this.options.blur + 1)
 		}
-		function i() {
+		function e() {
 			this.cleanup()
 		}
-		function s() {
-			if (!this.container) return;
-			e(this.container).remove(),
-			this.container = null
+		function f() {
+			this.container && (a(this.container).remove(), this.container = null)
 		}
-		function o() {
+		function g() {
 			this.cleanup();
-			var t = this.getTooltip(),
-			n = this.getSkin(),
-			r = n.getOrderLayout().closeButton.dimensions,
-			i = e.extend({},
-			r),
-			s = this.options.blur;
-			i.width += s * 2,
-			i.height += s * 2,
-			e(n.closeButton).before(e(this.container = document.createElement("div")).addClass("t_CloseButtonShadow")),
-			e(document.body).append(e(this.closeButtonCanvas = document.createElement("canvas"))),
-			v.resize(this.closeButtonCanvas, i),
-			v.init(this.closeButtonCanvas);
-			var o = this.closeButtonCanvas.getContext("2d");
-			o.globalAlpha = this._globalAlpha,
-			e(this.container).append(this.closeButtonCanvas);
-			var u = i.width / 2,
-			a = i.height / 2,
-			f = r.height / 2,
-			l = s + 1;
-			for (var c = 0; c <= s; c++) o.fillStyle = y.hex2fill(this.options.color, E.transition(c * (1 / l)) * (this.options.opacity / l)),
-			o.beginPath(),
-			o.arc(u, a, f + c, h(0), h(360), !0),
-			o.closePath(),
-			o.fill()
+			var c = (this.getTooltip(), this.getSkin()),
+			d = c.getOrderLayout().closeButton.dimensions,
+			e = a.extend({},
+			d),
+			f = this.options.blur;
+			e.width += 2 * f,
+			e.height += 2 * f,
+			a(c.closeButton).before(a(this.container = document.createElement("div")).addClass("t_CloseButtonShadow")),
+			a(document.body).append(a(this.closeButtonCanvas = document.createElement("canvas"))),
+			q.resize(this.closeButtonCanvas, e),
+			q.init(this.closeButtonCanvas);
+			var g = this.closeButtonCanvas.getContext("2d");
+			g.globalAlpha = this._globalAlpha,
+			a(this.container).append(this.closeButtonCanvas);
+			for (var h = e.width / 2, i = e.height / 2, j = d.height / 2, k = f + 1, l = 0; f >= l; l++) g.fillStyle = t.hex2fill(this.options.color, w.transition(l * (1 / k)) * (this.options.opacity / k)),
+			g.beginPath(),
+			g.arc(h, i, j + l, n(0), n(360), !0),
+			g.closePath(),
+			g.fill()
 		}
 		return {
-			build: o,
-			remove: i,
-			cleanup: s,
-			getTooltip: t,
-			getSkin: n,
-			getBlurOpacity: r
+			build: g,
+			remove: e,
+			cleanup: f,
+			getTooltip: b,
+			getSkin: c,
+			getBlurOpacity: d
 		}
 	} ());
-	var C = {
+	var B = {
 		tooltips: {},
 		options: {
 			defaultSkin: "dark",
 			startingZIndex: 999999
 		},
 		startDelegating: function () {
-			function t() {
-				var t = ["click"];
-				Tipped.support.touch && (t.push("touchstart"), e(document.body).bind("click", function () {
+			function b() {
+				var b = ["click"];
+				Tipped.support.touch && (b.push("touchstart"), a(document.body).bind("click", function () {
 					return void 0
 				})),
-				e.each(t, function (t, n) {
-					e(document.documentElement).delegate(".t_Tooltip .t_Close, .t_Tooltip .close-tooltip", n, function (t) {
-						t.preventDefault(),
-						t.stopPropagation(),
-						C.getByTooltipElement(e(t.target).closest(".t_Tooltip")[0]).hide()
+				a.each(b, function (b, c) {
+					a(document.documentElement).delegate(".t_Tooltip .t_Close, .t_Tooltip .close-tooltip", c, function (b) {
+						b.preventDefault(),
+						b.stopPropagation(),
+						B.getByTooltipElement(a(b.target).closest(".t_Tooltip")[0]).hide()
 					})
 				}),
-				e(window).bind("resize", e.proxy(this.onWindowResize, this))
+				a(window).bind("resize", a.proxy(this.onWindowResize, this))
 			}
-			return t
+			return b
 		} (),
 		onWindowResize: function () {
 			this._resizeTimer && (window.clearTimeout(this._resizeTimer), this._resizeTimer = null),
-			this._resizeTimer = r.delay(e.proxy(function () {
-				var t = this.getVisible();
-				e.each(t, function (e, t) {
-					t.position()
+			this._resizeTimer = d.delay(a.proxy(function () {
+				var b = this.getVisible();
+				a.each(b, function (a, b) {
+					b.position()
 				})
 			},
 			this), 200)
 		},
-		_getTooltip: function (t) {
-			var n = e(t).data("tipped-uid"),
-			r;
-			if (!n) {
-				var i = this.getByTooltipElement(e(t).closest(".t_Tooltip")[0]);
-				i && i.element && (n = e(i.element).data("tipped-uid"))
+		_getTooltip: function (b) {
+			var d, c = a(b).data("tipped-uid");
+			if (!c) {
+				var e = this.getByTooltipElement(a(b).closest(".t_Tooltip")[0]);
+				e && e.element && (c = a(e.element).data("tipped-uid"))
 			}
-			if (n && (r = this.tooltips[n])) return r
+			return c && (d = this.tooltips[c]) ? d: void 0
 		},
-		findElement: function (e) {
-			var t;
-			return r.isElement(e) && (t = this._getTooltip(e)),
-			t && t.element
+		findElement: function (a) {
+			var b;
+			return d.isElement(a) && (b = this._getTooltip(a)),
+			b && b.element
 		},
-		get: function (t) {
-			var n = [];
-			if (r.isElement(t)) {
-				var i = this._getTooltip(t);
-				i && (n = [i])
-			} else e.each(this.tooltips, function (r, i) {
-				i.element && e(i.element).is(t) && n.push(i)
+		get: function (b) {
+			var c = [];
+			if (d.isElement(b)) {
+				var e = this._getTooltip(b);
+				e && (c = [e])
+			} else a.each(this.tooltips, function (d, e) {
+				e.element && a(e.element).is(b) && c.push(e)
 			});
-			return n
+			return c
 		},
-		getByTooltipElement: function (t) {
-			if (!t) return null;
-			var n = null;
-			return e.each(this.tooltips, function (e, r) {
-				r.getState("build") && r.container === t && (n = r)
+		getByTooltipElement: function (b) {
+			if (!b) return null;
+			var c = null;
+			return a.each(this.tooltips, function (a, d) {
+				d.getState("build") && d.container === b && (c = d)
 			}),
-			n
+			c
 		},
-		getBySelector: function (t) {
-			var n = [];
-			return e.each(this.tooltips, function (r, i) {
-				i.element && e(i.element).is(t) && n.push(i)
+		getBySelector: function (b) {
+			var c = [];
+			return a.each(this.tooltips, function (d, e) {
+				e.element && a(e.element).is(b) && c.push(e)
 			}),
-			n
+			c
 		},
-		show: function (t) {
-			if (r.isElement(t)) {
-				var n = t,
-				i = this.get(n)[0];
-				i && i.show()
-			} else e(t).each(e.proxy(function (e, t) {
-				var n = this.get(t)[0];
-				n && n.show()
+		show: function (b) {
+			if (d.isElement(b)) {
+				var c = b,
+				e = this.get(c)[0];
+				e && e.show()
+			} else a(b).each(a.proxy(function (a, b) {
+				var c = this.get(b)[0];
+				c && c.show()
 			},
 			this))
 		},
-		hide: function (t) {
-			if (r.isElement(t)) {
-				var n = this.get(t)[0];
-				n && n.hide()
-			} else e(t).each(e.proxy(function (e, t) {
-				var n = this.get(t)[0];
-				n && n.hide()
+		hide: function (b) {
+			if (d.isElement(b)) {
+				var c = this.get(b)[0];
+				c && c.hide()
+			} else a(b).each(a.proxy(function (a, b) {
+				var c = this.get(b)[0];
+				c && c.hide()
 			},
 			this))
 		},
-		toggle: function (t) {
-			if (r.isElement(t)) {
-				var n = t,
-				i = this.get(n)[0];
-				i && i.toggle()
-			} else e(t).each(e.proxy(function (e, t) {
-				var n = this.get(t)[0];
-				n && n.toggle()
+		toggle: function (b) {
+			if (d.isElement(b)) {
+				var c = b,
+				e = this.get(c)[0];
+				e && e.toggle()
+			} else a(b).each(a.proxy(function (a, b) {
+				var c = this.get(b)[0];
+				c && c.toggle()
 			},
 			this))
 		},
 		hideAll: function () {
-			e.each(this.getVisible(), function (e, t) {
-				t.hide()
+			a.each(this.getVisible(), function (a, b) {
+				b.hide()
 			})
 		},
-		refresh: function (t) {
-			if (r.isElement(t)) {
-				var n = t,
-				i = this.get(n)[0];
-				i && i.refresh()
-			} else e(t).each(e.proxy(function (e, t) {
-				var n = this.get(t)[0];
-				n && n.refresh()
+		refresh: function (b) {
+			if (d.isElement(b)) {
+				var c = b,
+				e = this.get(c)[0];
+				e && e.refresh()
+			} else a(b).each(a.proxy(function (a, b) {
+				var c = this.get(b)[0];
+				c && c.refresh()
 			},
 			this))
 		},
 		getVisible: function () {
-			var t = [];
-			return e.each(this.tooltips, function (e, n) {
-				n.visible() && t.push(n)
+			var b = [];
+			return a.each(this.tooltips, function (a, c) {
+				c.visible() && b.push(c)
 			}),
-			t
+			b
 		},
-		isVisibleByElement: function (t) {
-			var n = !1;
-			return r.isElement(t) && e.each(this.getVisible() || [], function (e, r) {
-				if (r.element == t) return n = !0,
-				!1
+		isVisibleByElement: function (b) {
+			var c = !1;
+			return d.isElement(b) && a.each(this.getVisible() || [], function (a, d) {
+				return d.element == b ? (c = !0, !1) : void 0
 			}),
-			n
+			c
 		},
 		getHighestTooltip: function () {
-			var t = 0,
-			n;
-			return e.each(this.tooltips, function (e, r) {
-				r.zIndex > t && (t = r.zIndex, n = r)
+			var c, b = 0;
+			return a.each(this.tooltips, function (a, d) {
+				d.zIndex > b && (b = d.zIndex, c = d)
 			}),
-			n
+			c
 		},
 		resetZ: function () {
-			this.getVisible().length <= 1 && e.each(this.tooltips, function (t, n) {
-				n.getState("build") && !n.options.zIndex && e(n.container).css({
-					zIndex: n.zIndex = +C.options.startingZIndex
+			1 >= this.getVisible().length && a.each(this.tooltips, function (b, c) {
+				c.getState("build") && !c.options.zIndex && a(c.container).css({
+					zIndex: c.zIndex = +B.options.startingZIndex
 				})
 			})
 		},
-		add: function (e) {
-			this.tooltips[e.uid] = e
+		add: function (a) {
+			this.tooltips[a.uid] = a
 		},
-		_remove: function (t) {
-			var n = this._getTooltip(t);
-			if (n) {
-				var r = e(n.element).data("tipped-uid");
-				delete this.tooltips[r],
-				n.hide(),
-				n.remove()
+		_remove: function (b) {
+			var c = this._getTooltip(b);
+			if (c) {
+				var d = a(c.element).data("tipped-uid");
+				delete this.tooltips[d],
+				c.hide(),
+				c.remove()
 			}
 		},
-		remove: function (t) {
-			r.isElement(t) ? this._remove(t) : e(t).each(e.proxy(function (e, t) {
-				this._remove(t)
+		remove: function (b) {
+			d.isElement(b) ? this._remove(b) : a(b).each(a.proxy(function (a, b) {
+				this._remove(b)
 			},
 			this))
 		},
 		removeDetached: function () {
-			e.each(this.tooltips, e.proxy(function (e, t) {
-				t.element && !r.element.isAttached(t.element) && this._remove(t.element)
+			a.each(this.tooltips, a.proxy(function (a, b) {
+				b.element && !d.element.isAttached(b.element) && this._remove(b.element)
 			},
 			this))
 		},
-		setDefaultSkin: function (e) {
-			this.options.defaultSkin = e || "dark"
+		setDefaultSkin: function (a) {
+			this.options.defaultSkin = a || "dark"
 		},
-		setStartingZIndex: function (e) {
-			this.options.startingZIndex = e || 0
+		setStartingZIndex: function (a) {
+			this.options.startingZIndex = a || 0
+		},
+		clearAjaxCache: function () {
+			a.each(this.tooltips, a.proxy(function (a, b) {
+				b._cache && b._cache.xhr && (b._cache.xhr.abort(), b._cache.xhr = null),
+				b.setState("updated", !1)
+			},
+			this)),
+			i.clear()
 		},
 		createOptions: function () {
-			function s(r) {
-				var i;
-				return e.type(r) == "string" ? i = {
-					element: n.hideOn && n.hideOn.element || t.hideOn.element,
-					event: r
-				}: i = N(e.extend({},
-				t.hideOn), r),
-				i
+			function f(d) {
+				var e;
+				return e = "string" == a.type(d) ? {
+					element: c.hideOn && c.hideOn.element || b.hideOn.element,
+					event: d
+				}: A(a.extend({},
+				b.hideOn), d)
 			}
-			function o(s) {
-				return t = Tipped.Skins.base,
-				n = N(e.extend({},
-				t), Tipped.Skins.reset),
-				r = Tipped.Skins.CloseButtons.base,
-				i = N(e.extend({},
-				r), Tipped.Skins.CloseButtons.reset),
-				o = u,
-				u(s)
+			function g(f) {
+				return b = Tipped.Skins.base,
+				c = A(a.extend({},
+				b), Tipped.Skins.reset),
+				d = Tipped.Skins.CloseButtons.base,
+				e = A(a.extend({},
+				d), Tipped.Skins.CloseButtons.reset),
+				g = h,
+				h(f)
 			}
-			function u(o) {
-				o.skin = o.skin && Tipped.Skins[o.skin] ? o.skin: Tipped.Skins[C.options.defaultSkin] ? C.options.defaultSkin: "dark";
-				var u = o.skin ? e.extend({},
-				Tipped.Skins[o.skin] || Tipped.Skins[C.options.defaultSkin]) : {},
-				a = N(e.extend({},
-				n), u),
-				f = N(e.extend({},
-				a), o);
-				if (f.ajax) {
-					var l = n.ajax || {},
-					c = t.ajax;
-					e.type(f.ajax) == "boolean" && (f.ajax = {
-						cache: l.cache || c.cache,
-						type: l.type || c.type
+			function h(g) {
+				g.skin = g.skin && Tipped.Skins[g.skin] ? g.skin: Tipped.Skins[B.options.defaultSkin] ? B.options.defaultSkin: "dark";
+				var h = g.skin ? a.extend({},
+				Tipped.Skins[g.skin] || Tipped.Skins[B.options.defaultSkin]) : {},
+				i = A(a.extend({},
+				c), h),
+				j = A(a.extend({},
+				i), g);
+				if (j.ajax) {
+					var k = c.ajax || {},
+					l = b.ajax;
+					"boolean" == a.type(j.ajax) && (j.ajax = {
+						cache: k.cache || l.cache,
+						type: k.type || l.type
 					}),
-					f.ajax = N(e.extend({},
-					c), f.ajax)
+					j.ajax = A(a.extend({},
+					l), j.ajax)
 				}
-				f.background && e.type(f.background) == "string" && (f.background = {
-					color: f.background,
+				if (j.background && "string" == a.type(j.background) && (j.background = {
+					color: j.background,
 					opacity: 1
-				});
-				if (f.border) {
-					var h, p = n.border || {},
-					d = t.border;
-					e.type(f.border) == "number" ? h = {
-						size: f.border,
-						color: p.color || d.color,
-						opacity: p.opacity || d.opacity
-					}: h = N(e.extend({},
-					d), f.border),
-					f.border = h.size === 0 ? !1 : h
+				}), j.border) {
+					var m, n = c.border || {},
+					o = b.border;
+					m = "number" == a.type(j.border) ? {
+						size: j.border,
+						color: n.color || o.color,
+						opacity: n.opacity || o.opacity
+					}: A(a.extend({},
+					o), j.border),
+					j.border = 0 === m.size ? !1 : m
 				}
-				if (f.radius) {
-					var v;
-					e.type(f.radius) == "number" ? v = {
-						size: f.radius,
-						position: n.radius && n.radius.position || t.radius.position
-					}: v = N(e.extend({},
-					t.radius), f.radius),
-					f.radius = v.size === 0 ? !1 : v
+				if (j.radius) {
+					var p;
+					p = "number" == a.type(j.radius) ? {
+						size: j.radius,
+						position: c.radius && c.radius.position || b.radius.position
+					}: A(a.extend({},
+					b.radius), j.radius),
+					j.radius = 0 === p.size ? !1 : p
 				}
-				var g, y = y = f.hook && f.hook.target || e.type(f.hook) == "string" && f.hook || n.hook && n.hook.target || e.type(n.hook) == "string" && n.hook || t.hook && t.hook.target || t.hook,
-				b = f.hook && f.hook.tooltip || n.hook && n.hook.tooltip || t.hook && t.hook.tooltip || C.Position.getInversedPosition(y);
-				f.hook ? e.type(f.hook) == "string" ? g = {
-					target: f.hook,
-					tooltip: C.Position.getTooltipPositionFromTarget(f.hook)
-				}: (g = {
-					tooltip: b,
-					target: y
+				var q, s = s = j.hook && j.hook.target || "string" == a.type(j.hook) && j.hook || c.hook && c.hook.target || "string" == a.type(c.hook) && c.hook || b.hook && b.hook.target || b.hook,
+				t = j.hook && j.hook.tooltip || c.hook && c.hook.tooltip || b.hook && b.hook.tooltip || B.Position.getInversedPosition(s);
+				if (j.hook ? "string" == a.type(j.hook) ? q = {
+					target: j.hook,
+					tooltip: B.Position.getTooltipPositionFromTarget(j.hook)
+				}: (q = {
+					tooltip: t,
+					target: s
 				},
-				f.hook.tooltip && (g.tooltip = f.hook.tooltip), f.hook.target && (g.target = f.hook.target)) : g = {
-					tooltip: b,
-					target: y
-				};
-				if (f.target == "mouse") {
-					var w = m.getOrientation(g.target);
-					w == "horizontal" ? g.target = g.target.replace(/(left|right)/, "middle") : g.target = g.target.replace(/(top|bottom)/, "middle")
-				}
-				f.hook = g;
-				var E;
-				f.target == "mouse" ? (E = e.extend({},
-				t.offset), e.extend(E, Tipped.Skins.reset.offset || {}), o.skin && e.extend(E, (Tipped.Skins[o.skin] || Tipped.Skins[C.options.defaultSkin]).offset || {}), E = C.Position.adjustOffsetBasedOnHooks(t.offset, t.hook, g.target, !0), o.offset && (E = e.extend(E, o.offset || {})), f.fadeOut = 0) : E = {
-					x: f.offset.x,
-					y: f.offset.y
+				j.hook.tooltip && (q.tooltip = j.hook.tooltip), j.hook.target && (q.target = j.hook.target)) : q = {
+					tooltip: t,
+					target: s
 				},
-				f.offset = E;
-				if (f.closeButton && f.closeButtonSkin) {
-					var S = e.extend({},
-					Tipped.Skins.CloseButtons[f.closeButtonSkin]),
-					x = N(e.extend({},
-					i), S);
-					if (x.states) {
-						var T = {};
-						e.each(["default", "hover"], function (t, n) {
-							var s = x.states[n],
-							o = i.states && i.states[n];
-							if (s.background) {
-								var u = o && o.background;
-								if (e.type(s.background) == "number") s.background = {
-									color: u && u.color || r.states[n].background.color,
-									opacity: s.background
-								};
-								else if (e.type(s.background) == "string") {
-									var a = u && e.type(u.opacity) == "number" && u.opacity || r.states[n].background.opacity;
-									s.background = {
-										color: s.background,
-										opacity: a
-									}
-								} else s.background = N(e.extend({},
-								r.states[n].background), s.background)
-							}
-							if (s.border) {
-								var f = o && o.border;
-								e.type(s.border) == "number" ? s.border = {
-									color: f && f.color || r.states[n].border.color,
-									opacity: s.border
-								}: s.border = N(e.extend({},
-								r.states[n].border), s.border)
-							}
-						})
+				"mouse" == j.target) {
+					var u = r.getOrientation(q.target);
+					q.target = "horizontal" == u ? q.target.replace(/(left|right)/, "middle") : q.target.replace(/(top|bottom)/, "middle")
+				}
+				j.hook = q;
+				var v;
+				if ("mouse" == j.target ? (v = a.extend({},
+				b.offset), a.extend(v, Tipped.Skins.reset.offset || {}), g.skin && a.extend(v, (Tipped.Skins[g.skin] || Tipped.Skins[B.options.defaultSkin]).offset || {}), v = B.Position.adjustOffsetBasedOnHooks(b.offset, b.hook, q.target, !0), g.offset && (v = a.extend(v, g.offset || {})), j.fadeOut = 0) : v = {
+					x: j.offset.x,
+					y: j.offset.y
+				},
+				j.offset = v, j.closeButton && j.closeButtonSkin) {
+					var w = a.extend({},
+					Tipped.Skins.CloseButtons[j.closeButtonSkin]),
+					x = A(a.extend({},
+					e), w);
+					if (x.states && a.each(["default", "hover"], function (b, c) {
+						var f = x.states[c],
+						g = e.states && e.states[c];
+						if (f.background) {
+							var h = g && g.background;
+							if ("number" == a.type(f.background)) f.background = {
+								color: h && h.color || d.states[c].background.color,
+								opacity: f.background
+							};
+							else if ("string" == a.type(f.background)) {
+								var i = h && "number" == a.type(h.opacity) && h.opacity || d.states[c].background.opacity;
+								f.background = {
+									color: f.background,
+									opacity: i
+								}
+							} else f.background = A(a.extend({},
+							d.states[c].background), f.background)
+						}
+						if (f.border) {
+							var j = g && g.border;
+							f.border = "number" == a.type(f.border) ? {
+								color: j && j.color || d.states[c].border.color,
+								opacity: f.border
+							}: A(a.extend({},
+							d.states[c].border), f.border)
+						}
+					}), x.shadow) {
+						var z = e.shadow && e.shadow.constructor && e.shadow.constructor == Object ? e.shadow: d.shadow;
+						x.shadow.constructor && x.shadow.constructor == Object && (z = A(z, x.shadow)),
+						x.shadow = z
 					}
-					if (x.shadow) {
-						var k = i.shadow && i.shadow.constructor && i.shadow.constructor == Object ? i.shadow: r.shadow;
-						x.shadow.constructor && x.shadow.constructor == Object && (k = N(k, x.shadow)),
-						x.shadow = k
-					}
-					f.closeButton = x
+					j.closeButton = x
 				}
-				if (f.shadow) {
-					var L;
-					e.type(f.shadow) == "boolean" ? n.shadow && e.type(n.shadow) == "boolean" ? L = t.shadow: n.shadow ? L = n.shadow: L = t.shadow: L = N(e.extend({},
-					t.shadow), f.shadow || {}),
-					e.type(L.offset) == "number" && (L.offset = {
-						x: L.offset,
-						y: L.offset
+				if (j.shadow) {
+					var C;
+					C = "boolean" == a.type(j.shadow) ? c.shadow && "boolean" == a.type(c.shadow) ? b.shadow: c.shadow ? c.shadow: b.shadow: A(a.extend({},
+					b.shadow), j.shadow || {}),
+					"number" == a.type(C.offset) && (C.offset = {
+						x: C.offset,
+						y: C.offset
 					}),
-					f.shadow = L
+					j.shadow = C
 				}
-				if (f.stem) {
-					var A = {};
-					e.type(f.stem) == "boolean" ? A = N({},
-					t.stem) : A = N(N({},
-					t.stem), e.extend({},
-					f.stem)),
-					e.type(A.offset) == "number" && (A.offset = {
-						x: A.offset,
-						y: A.offset
+				if (j.stem) {
+					var D = {};
+					D = "boolean" == a.type(j.stem) ? A({},
+					b.stem) : A(A({},
+					b.stem), a.extend({},
+					j.stem)),
+					"number" == a.type(D.offset) && (D.offset = {
+						x: D.offset,
+						y: D.offset
 					}),
-					f.stem = A
+					j.stem = D
 				}
-				f.containment && (e.type(f.containment) == "string" ? f.containment = {
-					selector: f.containment,
+				if (j.containment && ("string" == a.type(j.containment) ? j.containment = {
+					selector: j.containment,
 					flip: !0
-				}: e.type(f.containment) == "boolean" && (f.containment = f.containment ? {
+				}: "boolean" == a.type(j.containment) && (j.containment = j.containment ? {
 					selector: "viewport",
 					flip: !0
-				}: !1)),
-				f.hideOn && f.hideOn == "click-outside" && (f.hideOnClickOutside = !0, f.hideOn = !1);
-				if (f.hideOn) if (e.isArray(f.hideOn)) {
-					var O = [];
-					e.each(f.hideOn, function (e, t) {
-						O.push(s(t))
+				}: !1)), j.hideOn && "click-outside" == j.hideOn && (j.hideOnClickOutside = !0, j.hideOn = !1), j.hideOn) if (a.isArray(j.hideOn)) {
+					var E = [];
+					a.each(j.hideOn, function (a, b) {
+						E.push(f(b))
 					}),
-					f.hideOn = O
-				} else f.hideOn = [s(f.hideOn)];
-				return f.showOn && e.type(f.showOn) == "string" && (f.showOn = ["" + f.showOn]),
-				f.padding = 0,
-				f.spinner && (window.Spinners || (f.spinner = !1)),
-				f
+					j.hideOn = E
+				} else j.hideOn = [f(j.hideOn)];
+				return j.showOn && "string" == a.type(j.showOn) && (j.showOn = ["" + j.showOn]),
+				j.padding = 0,
+				j.spinner && (window.Spinners || (j.spinner = !1)),
+				j
 			}
-			var t, n, r, i;
-			return o
+			var b, c, d, e;
+			return g
 		} ()
 	};
-	C.Position = function () {
-		function n(n) {
-			var r = m.split(n),
-			i = r[1],
-			s = r[2],
-			o = m.getOrientation(n),
-			u = e.extend({
+	B.Position = function () {
+		function c(c) {
+			var d = r.split(c),
+			e = d[1],
+			f = d[2],
+			g = r.getOrientation(c),
+			h = a.extend({
 				horizontal: !0,
 				vertical: !0
 			},
 			arguments[1] || {});
-			return o == "horizontal" ? (u.vertical && (i = t[i]), u.horizontal && (s = t[s])) : (u.vertical && (s = t[s]), u.horizontal && (i = t[i])),
-			i + s
+			return "horizontal" == g ? (h.vertical && (e = b[e]), h.horizontal && (f = b[f])) : (h.vertical && (f = b[f]), h.horizontal && (e = b[e])),
+			e + f
 		}
-		function s(e) {
-			var r = m.split(e);
-			return n(r[1] + t[r[2]])
+		function f(a) {
+			var d = r.split(a);
+			return c(d[1] + b[d[2]])
 		}
-		function o(e, t, n, r) {
-			return Math.sqrt(Math.pow(Math.abs(n - e), 2) + Math.pow(Math.abs(r - t), 2))
-		}
-		function u(t, n) {
-			e(t.container).css({
-				top: n.top + "px",
-				left: n.left + "px"
+		function h(b, c) {
+			a(b.container).css({
+				top: c.top + "px",
+				left: c.left + "px"
 			})
 		}
-		function f(e, t, r, i, s) {
-			var o = T(e, t, r, i),
-			u = r && typeof r.type == "string" ? r.type: "",
-			a = /move$/.test(u),
-			f = [];
-			if (o.contained.overlap === 1) return c(e, o),
-			o;
-			var h = t,
-			p = i,
-			d = {
-				horizontal: !o.contained.horizontal,
-				vertical: !o.contained.vertical
+		function j(a, b, d, e) {
+			var g = y(a, b, d, e),
+			h = d && "string" == typeof d.type ? d.type: "";
+			if (/move$/.test(h), 1 === g.contained.overlap) return l(a, g),
+			g;
+			var m = b,
+			n = e,
+			o = {
+				horizontal: !g.contained.horizontal,
+				vertical: !g.contained.vertical
 			},
-			v = {
+			p = {
 				horizontal: !1,
 				vertical: !1
 			},
-			g = m.getOrientation(t);
-			if ((v.vertical = g == "horizontal" && d.vertical) || (v.horizontal = g == "vertical" && d.horizontal)) {
-				h = n(t, v),
-				p = n(i, v),
-				o = T(e, h, r, p);
-				if (o.contained.overlap === 1) return c(e, o),
-				o
-			}
-			return o = l(o, e),
-			c(e, o),
-			o
+			q = r.getOrientation(b);
+			return ((p.vertical = "horizontal" == q && o.vertical) || (p.horizontal = "vertical" == q && o.horizontal)) && (m = c(b, p), n = c(e, p), g = y(a, m, d, n), 1 === g.contained.overlap) ? (l(a, g), g) : (g = k(g, a), l(a, g), g)
 		}
-		function l(e, t) {
-			var n = N(t),
-			r = n.dimensions,
-			i = n.position,
-			s = b.get(t.element)._cache.hook[e.hook.tooltip].tooltip.dimensions,
-			o = e.position,
-			u = {
+		function k(a, b) {
+			var c = z(b),
+			d = c.dimensions,
+			e = c.position,
+			f = u.get(b.element)._cache.hook[a.hook.tooltip].tooltip.dimensions,
+			g = a.position,
+			h = {
 				top: 0,
 				left: 0,
 				sides: []
 			};
-			return i.left > o.left && (u.left = i.left - o.left, u.sides.push("left"), e.position.left = i.left),
-			i.top > o.top && (u.top = o.top - i.top, u.sides.push("top"), e.position.top = i.top),
-			i.left + r.width < o.left + s.width && (u.left = i.left + r.width - (o.left + s.width), u.sides.push("right"), e.position.left = i.left + r.width - s.width),
-			i.top + r.height < o.top + s.height && (u.top = i.top + r.height - (o.top + s.height), u.sides.push("bottom"), e.position.top = i.top + r.height - s.height),
-			e.adjustment = u,
-			e
+			return e.left > g.left && (h.left = e.left - g.left, h.sides.push("left"), a.position.left = e.left),
+			e.top > g.top && (h.top = g.top - e.top, h.sides.push("top"), a.position.top = e.top),
+			e.left + d.width < g.left + f.width && (h.left = e.left + d.width - (g.left + f.width), h.sides.push("right"), a.position.left = e.left + d.width - f.width),
+			e.top + d.height < g.top + f.height && (h.top = e.top + d.height - (g.top + f.height), h.sides.push("bottom"), a.position.top = e.top + d.height - f.height),
+			a.adjustment = h,
+			a
 		}
-		function c(e, t) {
-			e.setHookPositionAndStemCorrection(t.hook.tooltip, t.contained.correction, t.adjustment),
-			u(e, t.position)
+		function l(a, b) {
+			a.setHookPositionAndStemCorrection(b.hook.tooltip, b.contained.correction, b.adjustment),
+			h(a, b.position)
 		}
-		function h(e) {
-			return e && (/^mouse|click|touch$/.test(typeof e.type == "string" && e.type || "") || e.pageX >= 0)
+		function m(a) {
+			return a && (/^mouse|click|touch$/.test("string" == typeof a.type && a.type || "") || a.pageX >= 0)
 		}
-		function p(e, t, n) {
-			return e >= t && e <= n
+		function n(a, b, c) {
+			return a >= b && c >= a
 		}
-		function v(e, t, n, r) {
-			var i = p(e, n, r),
-			s = p(t, n, r);
-			if (i && s) return t - e;
-			if (i && !s) return r - e;
-			if (!i && s) return t - n;
-			var o = p(n, e, t),
-			u = p(r, e, t);
-			return o && u ? r - n: o && !u ? t - n: !o && u ? r - e: 0
+		function o(a, b, c, d) {
+			var e = n(a, c, d),
+			f = n(b, c, d);
+			if (e && f) return b - a;
+			if (e && !f) return d - a;
+			if (!e && f) return b - c;
+			var g = n(c, a, b),
+			h = n(d, a, b);
+			return g && h ? d - c: g && !h ? b - c: !g && h ? d - a: 0
 		}
-		function g(e, t) {
-			return v(e.position.left, e.position.left + e.dimensions.width, t.position.left, t.position.left + t.dimensions.width) * v(e.position.top, e.position.top + e.dimensions.height, t.position.top, t.position.top + t.dimensions.height)
+		function q(a, b) {
+			return o(a.position.left, a.position.left + a.dimensions.width, b.position.left, b.position.left + b.dimensions.width) * o(a.position.top, a.position.top + a.dimensions.height, b.position.top, b.position.top + b.dimensions.height)
 		}
-		function y(e, t) {
-			var n = e.dimensions.width * e.dimensions.height;
-			return n ? g(e, t) / n: 0
+		function s(a, b) {
+			var c = a.dimensions.width * a.dimensions.height;
+			return c ? q(a, b) / c: 0
 		}
-		function w(e, t) {
-			var n = m.split(t),
-			r = m.getOrientation(t),
-			i = {
+		function t(a, b) {
+			var c = r.split(b),
+			d = r.getOrientation(b),
+			e = {
 				left: 0,
 				top: 0
 			};
-			if (r == "horizontal") {
-				switch (n[2]) {
+			if ("horizontal" == d) {
+				switch (c[2]) {
 				case "middle":
 				case "center":
-					i.left = .5 * e.width;
+					e.left = .5 * a.width;
 					break;
 				case "right":
-					i.left = e.width
+					e.left = a.width
 				}
-				n[1] == "bottom" && (i.top = e.height)
+				"bottom" == c[1] && (e.top = a.height)
 			} else {
-				switch (n[2]) {
+				switch (c[2]) {
 				case "middle":
 				case "center":
-					i.top = .5 * e.height;
+					e.top = .5 * a.height;
 					break;
 				case "bottom":
-					i.top = e.height
+					e.top = a.height
 				}
-				n[1] == "right" && (i.left = e.width)
+				"right" == c[1] && (e.left = a.width)
 			}
-			return i
+			return e
 		}
-		function S(t) {
-			var n = r.element.cumulativeOffset(t),
-			i = r.element.cumulativeScrollOffset(t),
-			s = {
-				top: e(window).scrollTop(),
-				left: e(window).scrollLeft()
+		function v(b) {
+			var c = d.element.cumulativeOffset(b),
+			e = d.element.cumulativeScrollOffset(b),
+			f = {
+				top: a(window).scrollTop(),
+				left: a(window).scrollLeft()
 			};
-			return n.left += -1 * (i.left - s.left),
-			n.top += -1 * (i.top - s.top),
-			n
+			return c.left += -1 * (e.left - f.left),
+			c.top += -1 * (e.top - f.top),
+			c
 		}
-		function T(t, i, s, o) {
-			var u, a, f, l = b.get(t.element),
-			c = l.options,
-			p = c.offset,
-			d = h(s);
-			if (d || !s) {
-				f = {
+		function y(b, e, f, g) {
+			var h, i, j, k = u.get(b.element),
+			l = k.options,
+			n = l.offset,
+			o = m(f);
+			if (o || !f) {
+				if (j = {
 					width: 24,
 					height: 24
-				};
-				if (d) {
-					var v = r.pointer(s);
-					u = {
-						top: v.y - .5 * f.height + 6,
-						left: v.x - .5 * f.width + 6
+				},
+				o) {
+					var p = d.pointer(f);
+					h = {
+						top: p.y - .5 * j.height + 6,
+						left: p.x - .5 * j.width + 6
 					}
 				} else {
-					var g = t._cache.event;
-					u = {
-						top: (g ? g.y: 0) - .5 * f.height + 6,
-						left: (g ? g.x: 0) - .5 * f.width + 6
+					var q = b._cache.event;
+					h = {
+						top: (q ? q.y: 0) - .5 * j.height + 6,
+						left: (q ? q.x: 0) - .5 * j.width + 6
 					}
 				}
-				t._cache.event = {
-					x: u.left,
-					y: u.top
+				b._cache.event = {
+					x: h.left,
+					y: h.top
 				}
-			} else u = S(s),
-			f = {
-				width: e(s).outerWidth(),
-				height: e(s).outerHeight()
+			} else h = v(f),
+			j = {
+				width: a(f).outerWidth(),
+				height: a(f).outerHeight()
 			};
-			if (c.stem && c.target != "mouse") {
-				var T = m.split(o),
-				C = m.split(i),
-				k = m.getOrientation(o),
-				L = l._cache.options,
-				A = l.getStemLayout().border.dimensions,
-				O = L.radius,
-				M = L.border,
-				_ = O && c.radius.position == "background" ? O: 0,
-				P = O && c.radius.position == "border" ? O: O + M,
-				H = M + _ + .5 * c.stem.width - .5 * A.width,
-				j = P > H ? P - H: 0;
-				sideOffset = Math.ceil(M + _ + .5 * c.stem.width + j + c.stem.offset[k == "horizontal" ? "x": "y"]);
-				if (k == "horizontal" && T[2] == "left" && C[2] == "left" || T[2] == "right" && C[2] == "right") f.width -= sideOffset * 2,
-				u.left += sideOffset;
-				else if (k == "vertical" && T[2] == "top" && C[2] == "top" || T[2] == "bottom" && C[2] == "bottom") f.height -= sideOffset * 2,
-				u.top += sideOffset
+			if (l.stem && "mouse" != l.target) {
+				var y = r.split(g),
+				A = r.split(e),
+				C = r.getOrientation(g),
+				D = k._cache.options,
+				E = k.getStemLayout().border.dimensions,
+				F = D.radius,
+				G = D.border,
+				H = F && "background" == l.radius.position ? F: 0,
+				I = F && "border" == l.radius.position ? F: F + G,
+				J = G + H + .5 * l.stem.width - .5 * E.width,
+				K = I > J ? I - J: 0;
+				sideOffset = Math.ceil(G + H + .5 * l.stem.width + K + l.stem.offset["horizontal" == C ? "x": "y"]),
+				"horizontal" == C && "left" == y[2] && "left" == A[2] || "right" == y[2] && "right" == A[2] ? (j.width -= 2 * sideOffset, h.left += sideOffset) : ("vertical" == C && "top" == y[2] && "top" == A[2] || "bottom" == y[2] && "bottom" == A[2]) && (j.height -= 2 * sideOffset, h.top += sideOffset)
 			}
-			a = e.extend({},
-			u);
-			var F = d ? n(c.hook.tooltip) : c.hook.target,
-			q = w(f, F),
-			U = w(f, o),
-			W = {
-				top: u.top + q.top + p.y,
-				left: u.left + q.left + p.x
+			i = a.extend({},
+			h);
+			var L = o ? c(l.hook.tooltip) : l.hook.target,
+			M = t(j, L),
+			N = t(j, g);
+			({
+				top: h.top + M.top + n.y,
+				left: h.left + M.left + n.x
+			}),
+			h = {
+				left: h.left + N.left,
+				top: h.top + N.top
 			};
-			u = {
-				left: u.left + U.left,
-				top: u.top + U.top
+			var P = a.extend({},
+			n);
+			P = x(P, L, g, "mouse" == k.options.target),
+			h.top += P.y,
+			h.left += P.x;
+			var k = u.get(b.element),
+			Q = k._cache.hook,
+			R = a.extend({},
+			Q[e]),
+			S = {
+				x: 0,
+				y: 0
+			},
+			y = r.split(g);
+			if ("middle" != y[2]) {
+				var C = C = r.getOrientation(g),
+				T = B.Position.getInversedPosition(g, "vertical" == C ? {
+					horizontal: !0,
+					vertical: !1
+				}: {
+					horizontal: !1,
+					vertical: !0
+				});
+				e == T && (S.y = k._corrections.corner.y, S.x = k._corrections.corner.x)
+			}
+			var U = {
+				top: h.top - R.anchor.top - S.y,
+				left: h.left - R.anchor.left - S.x
 			};
-			var X = e.extend({},
-			p);
-			X = x(X, F, o, l.options.target == "mouse"),
-			u.top += X.y,
-			u.left += X.x;
-			var l = b.get(t.element),
-			V = l._cache.hook,
-			$ = e.extend({},
-			V[i]),
-			Q = {
-				top: u.top - $.anchor.top,
-				left: u.left - $.anchor.left
-			};
-			$.tooltip.position = Q;
-			var G = {
+			R.tooltip.position = U;
+			var V = {
 				horizontal: !0,
 				vertical: !0
 			},
-			Y = {
+			W = {
 				x: 0,
 				y: 0
 			};
-			if (t.options.containment) {
-				var Z = N(t),
-				et = t.options.shadow ? E.get(t.element) : l,
-				tt = et.getOrderLayout().tooltip.dimensions;
-				G.overlap = y({
-					dimensions: tt,
-					position: Q
+			if (b.options.containment) {
+				var X = z(b),
+				Y = b.options.shadow ? w.get(b.element) : k,
+				Z = Y.getOrderLayout().tooltip.dimensions;
+				V.overlap = s({
+					dimensions: Z,
+					position: U
 				},
-				Z);
-				if (G.overlap < 1) {
-					if (Q.left < Z.position.left || Q.left + tt.width > Z.position.left + Z.dimensions.width) G.horizontal = !1,
-					Q.left < Z.position.left ? Y.x = Q.left - Z.position.left: Y.x = Q.left + tt.width - (Z.position.left + Z.dimensions.width);
-					if (Q.top < Z.position.top || Q.top + tt.height > Z.position.top + Z.dimensions.height) G.vertical = !1,
-					Q.top < Z.position.top ? Y.y = Q.top - Z.position.top: Y.y = Q.top + tt.height - (Z.position.top + Z.dimensions.height)
-				}
-			} else G.overlap = 1;
-			G.correction = Y;
-			var z = V[i].bubble,
-			rt = y({
-				dimensions: f,
-				position: a
+				X),
+				1 > V.overlap && ((U.left < X.position.left || U.left + Z.width > X.position.left + X.dimensions.width) && (V.horizontal = !1, W.x = U.left < X.position.left ? U.left - X.position.left: U.left + Z.width - (X.position.left + X.dimensions.width)), (U.top < X.position.top || U.top + Z.height > X.position.top + X.dimensions.height) && (V.vertical = !1, W.y = U.top < X.position.top ? U.top - X.position.top: U.top + Z.height - (X.position.top + X.dimensions.height)))
+			} else V.overlap = 1;
+			V.correction = W;
+			var $ = Q[e].bubble,
+			_ = s({
+				dimensions: j,
+				position: i
 			},
 			{
-				dimensions: z.dimensions,
+				dimensions: $.dimensions,
 				position: {
-					top: Q.top + z.position.top,
-					left: Q.left + z.position.left
+					top: U.top + $.position.top,
+					left: U.left + $.position.left
 				}
 			});
 			return {
-				position: Q,
+				position: U,
 				overlap: {
-					target: rt
+					target: _
 				},
-				contained: G,
+				contained: V,
 				hook: {
-					tooltip: i,
-					target: o
+					tooltip: e,
+					target: g
 				}
 			}
 		}
-		function N(t) {
-			var n = {
-				top: e(window).scrollTop(),
-				left: e(window).scrollLeft()
+		function z(b) {
+			var c = {
+				top: a(window).scrollTop(),
+				left: a(window).scrollLeft()
 			},
-			i = t.options,
-			s = i.target;
-			if (s == "mouse" || s == "self") s = t.element;
-			var o = e(s).closest(i.containment.selector).first()[0];
-			if (!o || i.containment.selector == "viewport") return {
-				dimensions: d.viewport(),
-				position: n
+			e = b.options,
+			f = e.target;
+			("mouse" == f || "self" == f) && (f = b.element);
+			var g = a(f).closest(e.containment.selector).first()[0];
+			if (!g || "viewport" == e.containment.selector) return {
+				dimensions: p.viewport(),
+				position: c
 			};
-			var u = r.element.cumulativeOffset(o),
-			a = r.element.cumulativeScrollOffset(o);
-			return u.left += -1 * (a.left - n.left),
-			u.top += -1 * (a.top - n.top),
+			var h = d.element.cumulativeOffset(g),
+			i = d.element.cumulativeScrollOffset(g);
+			return h.left += -1 * (i.left - c.left),
+			h.top += -1 * (i.top - c.top),
 			{
 				dimensions: {
-					width: e(o).innerWidth(),
-					height: e(o).innerHeight()
+					width: a(g).innerWidth(),
+					height: a(g).innerHeight()
 				},
-				position: u
+				position: h
 			}
 		}
-		var t = {
+		var b = {
 			left: "right",
 			right: "left",
 			top: "bottom",
 			bottom: "top",
 			middle: "middle",
 			center: "center"
-		},
-		a = i.IE && i.IE < 9 || i.Gecko && i.Gecko < 2 || i.WebKit && i.WebKit < 530,
-		x = function () {
-			var e = [[ - 1, -1], [0, -1], [1, -1], [ - 1, 0], [0, 0], [1, 0], [ - 1, 1], [0, 1], [1, 1]],
-			t = {
+		};
+		e.IE && 9 > e.IE || e.Gecko && 2 > e.Gecko || e.WebKit && 530 > e.WebKit;
+		var x = function () {
+			var a = [[ - 1, -1], [0, -1], [1, -1], [ - 1, 0], [0, 0], [1, 0], [ - 1, 1], [0, 1], [1, 1]],
+			b = {
 				lefttop: 0,
 				topleft: 0,
 				topmiddle: 1,
@@ -3245,534 +3151,527 @@ Tipped.Skins.CloseButtons = {
 				leftmiddle: 3,
 				leftcenter: 3
 			};
-			return function (n, r, i, s) {
-				var o = e[t[r]],
-				u = e[t[i]],
-				a = [Math.floor(Math.abs(o[0] - u[0]) * .5) ? -1 : 1, Math.floor(Math.abs(o[1] - u[1]) * .5) ? -1 : 1];
-				return ! m.isCenter(r) && m.isCenter(i) && !s && (m.getOrientation(i) == "horizontal" ? a[0] = 0 : a[1] = 0),
+			return function (c, d, e, f) {
+				var g = a[b[d]],
+				h = a[b[e]],
+				i = [Math.floor(.5 * Math.abs(g[0] - h[0])) ? -1 : 1, Math.floor(.5 * Math.abs(g[1] - h[1])) ? -1 : 1];
+				return r.isCenter(d) || !r.isCenter(e) || f || ("horizontal" == r.getOrientation(e) ? i[0] = 0 : i[1] = 0),
 				{
-					x: a[0] * n.x,
-					y: a[1] * n.y
+					x: i[0] * c.x,
+					y: i[1] * c.y
 				}
 			}
 		} ();
 		return {
-			get: T,
-			set: f,
-			getInversedPosition: n,
-			getTooltipPositionFromTarget: s,
-			getAbsoluteOffset: S,
+			get: y,
+			set: j,
+			getInversedPosition: c,
+			getTooltipPositionFromTarget: f,
+			getAbsoluteOffset: v,
 			adjustOffsetBasedOnHooks: x,
-			isPointerEvent: h
+			isPointerEvent: m
 		}
 	} (),
-	C.Position.mouseBuffer = {
+	B.Position.mouseBuffer = {
 		x: 0,
 		y: 0
 	},
-	e(document).ready(function () {
-		var t = C.Position;
-		e(document).bind("mousemove", function (e) {
-			t.mouseBuffer = {
-				x: e.pageX,
-				y: e.pageY
+	a(document).ready(function () {
+		var b = B.Position;
+		a(document).bind("mousemove", function (a) {
+			b.mouseBuffer = {
+				x: a.pageX,
+				y: a.pageY
 			}
 		})
 	}),
-	C.UpdateQueue = function () {
-		function t() {
-			e(document.body).append(e(document.createElement("div")).addClass("t_UpdateQueue").append(e(document.createElement("div")).addClass("t_Tooltip").append(e(this.container = document.createElement("div")).addClass("t_Content"))))
+	B.UpdateQueue = function () {
+		function b() {
+			a(document.body).append(a(document.createElement("div")).addClass("t_UpdateQueue").append(a(document.createElement("div")).addClass("t_Tooltip").append(a(this.container = document.createElement("div")).addClass("t_Content"))))
 		}
-		function n(t) {
+		function c(b) {
 			return {
-				width: e(t).innerWidth(),
-				height: e(t).innerHeight()
+				width: a(b).innerWidth(),
+				height: a(b).innerHeight()
 			}
 		}
-		function i(t) {
-			var r = n(t),
-			i = t.parentNode;
-			return i && e(i).css({
-				width: r.width + "px"
-			}) && n(t).height > r.height && r.width++,
-			e(i).css({
+		function e(b) {
+			var d = c(b),
+			e = b.parentNode;
+			return e && a(e).css({
+				width: d.width + "px"
+			}) && c(b).height > d.height && d.width++,
+			a(e).css({
 				width: "100%"
 			}),
-			r
+			d
 		}
-		function s(t, n, i) {
+		function f(b, c, e) {
 			this.container || this.build();
-			var s = t.options,
-			o = e.extend({
+			var f = b.options,
+			g = a.extend({
 				spinner: !1
 			},
-			arguments[3] || {});
-			(s.inline || r.isElement(n)) && !e(n).data("isSpinner") && (s.inline && e.type(n) == "string" && (t.inlineContent = e("#" + n)[0], n = t.inlineContent), !t.inlineMarker && n && r.element.isAttached(n) && (e(t.inlineContent).data("tipped_restore_inline_display", e(t.inlineContent).css("display")), t.inlineMarker = document.createElement("div"), e(t.inlineContent).before(e(t.inlineMarker).hide())));
-			var u = document.createElement("div");
-			e(this.container).append(e(u).addClass("t_ContentContainer t_clearfix").append(n)),
-			r.isElement(n) && e(n).show(),
-			s.skin && e(u).addClass("t_Content_" + t.options.skin);
-			var a = e(u).find("img[src]").filter(function () {
-				return ! e(this).attr("height") || !e(this).attr("width")
+			arguments[3] || {}); ! f.inline && !d.isElement(c) || a(c).data("isSpinner") || (f.inline && "string" == a.type(c) && (b.inlineContent = a("#" + c)[0], c = b.inlineContent), !b.inlineMarker && c && d.element.isAttached(c) && (a(b.inlineContent).data("tipped_restore_inline_display", a(b.inlineContent).css("display")), b.inlineMarker = document.createElement("div"), a(b.inlineContent).before(a(b.inlineMarker).hide())));
+			var h = document.createElement("div");
+			a(this.container).append(a(h).addClass("t_ContentContainer t_clearfix").append(c)),
+			d.isElement(c) && a(c).show(),
+			f.skin && a(h).addClass("t_Content_" + b.options.skin);
+			var i = a(h).find("img[src]").filter(function () {
+				return ! (a(this).attr("height") && a(this).attr("width"))
 			});
-			if (a.length > 0 && !t.getState("preloading_images")) {
-				t.setState("preloading_images", !0),
-				s.spinner && (!o.spinner && !t.spinner && (t.spinner = t.insertSpinner(s.spinner)), t.getState("visible") && (t.position(), e(t.container).show()), t.spinner.play());
-				var f = 0,
-				l = Math.max(8e3, (a.length || 0) * 750);
-				t.clearTimer("preloading_images"),
-				t.setTimer("preloading_images", e.proxy(function () {
-					a.each(function () {
+			if (i.length > 0 && !b.getState("preloading_images")) {
+				b.setState("preloading_images", !0),
+				f.spinner && (g.spinner || b.spinner || (b.spinner = b.insertSpinner(f.spinner)), b.getState("visible") && (b.position(), a(b.container).show()), b.spinner.play());
+				var j = 0,
+				k = Math.max(8e3, 750 * (i.length || 0));
+				b.clearTimer("preloading_images"),
+				b.setTimer("preloading_images", a.proxy(function () {
+					i.each(function () {
 						this.onload = function () {}
-					});
-					if (f >= a.length) return;
-					this._updateTooltip(t, u),
-					i && i()
+					}),
+					j >= i.length || (this._updateTooltip(b, h), e && e())
 				},
-				this), l),
-				e.each(a, e.proxy(function (n, r) {
-					var s = new Image;
-					s.onload = e.proxy(function () {
-						s.onload = function () {};
-						var n = s.width,
-						o = s.height,
-						l = e(r).attr("width"),
-						c = e(r).attr("height");
-						if (!l || !c) ! l && c ? (n = Math.round(c * n / o), o = c) : !c && l && (o = Math.round(l * o / n), n = l),
-						e(r).attr({
-							width: n,
-							height: o
-						}),
-						f++;
-						f == a.length && (t.clearTimer("preloading_images"), t.spinner && (t.spinner.remove(), t.spinner = null), t.getState("visible") && e(t.container).hide(), this._updateTooltip(t, u), i && i())
+				this), k),
+				a.each(i, a.proxy(function (c, d) {
+					var f = new Image;
+					f.onload = a.proxy(function () {
+						f.onload = function () {};
+						var c = f.width,
+						g = f.height,
+						k = a(d).attr("width"),
+						l = a(d).attr("height");
+						k && l || (!k && l ? (c = Math.round(l * c / g), g = l) : !l && k && (g = Math.round(k * g / c), c = k), a(d).attr({
+							width: c,
+							height: g
+						}), j++),
+						j == i.length && (b.clearTimer("preloading_images"), b.spinner && (b.spinner.remove(), b.spinner = null), b.getState("visible") && a(b.container).hide(), this._updateTooltip(b, h), e && e())
 					},
 					this),
-					s.src = r.src
+					f.src = d.src
 				},
 				this))
-			} else this._updateTooltip(t, u),
-			i && i()
+			} else this._updateTooltip(b, h),
+			e && e()
 		}
-		function o(t, n) {
-			var r = i(n),
-			s = {
-				width: r.width - (parseInt(e(n).css("padding-left")) || 0) - (parseInt(e(n).css("padding-right")) || 0),
-				height: r.height - (parseInt(e(n).css("padding-top")) || 0) - (parseInt(e(n).css("padding-bottom")) || 0)
+		function g(b, c) {
+			var d = e(c),
+			f = {
+				width: d.width - (parseInt(a(c).css("padding-left")) || 0) - (parseInt(a(c).css("padding-right")) || 0),
+				height: d.height - (parseInt(a(c).css("padding-top")) || 0) - (parseInt(a(c).css("padding-bottom")) || 0)
 			};
-			t.options.maxWidth && e.type(t.options.maxWidth) == "number" && s.width > t.options.maxWidth && (e(n).css({
-				width: t.options.maxWidth + "px"
-			}), r = i(n)),
-			t._cache.contentDimensions = r,
-			e(t.contentElement).html(n)
+			b.options.maxWidth && "number" == a.type(b.options.maxWidth) && f.width > b.options.maxWidth && (a(c).css({
+				width: b.options.maxWidth + "px"
+			}), d = e(c)),
+			b._cache.contentDimensions = d,
+			a(b.contentElement).html(c)
 		}
 		return {
-			build: t,
-			update: s,
-			_updateTooltip: o,
-			getMeasureElementDimensions: i
+			build: b,
+			update: f,
+			_updateTooltip: g,
+			getMeasureElementDimensions: e
 		}
 	} (),
-	e.extend(k.prototype, function () {
-		function t(e, t, n) {
-			this._cache.timers[e] = r.delay(t, n)
+	a.extend(C.prototype, function () {
+		function b(a, b, c) {
+			this._cache.timers[a] = d.delay(b, c)
 		}
-		function n(e) {
-			return this._cache.timers[e]
+		function c(a) {
+			return this._cache.timers[a]
 		}
-		function i(e) {
-			this._cache.timers[e] && (window.clearTimeout(this._cache.timers[e]), delete this._cache.timers[e])
+		function e(a) {
+			this._cache.timers[a] && (window.clearTimeout(this._cache.timers[a]), delete this._cache.timers[a])
 		}
-		function s() {
-			e.each(this._cache.timers, function (e, t) {
-				window.clearTimeout(t)
+		function f() {
+			a.each(this._cache.timers, function (a, b) {
+				window.clearTimeout(b)
 			}),
 			this._cache.timers = []
 		}
-		function o(t, n, r, i) {
-			n = n;
-			var s = e.proxy(r, i || this);
+		function g(b, c, d, e) {
+			c = c;
+			var f = a.proxy(d, e || this);
 			this._cache.events.push({
-				element: t,
-				eventName: n,
-				handler: s
+				element: b,
+				eventName: c,
+				handler: f
 			}),
-			e(t).bind(n, s)
+			a(b).bind(c, f)
 		}
-		function u() {
-			e.each(this._cache.events, function (t, n) {
-				e(n.element).unbind(n.eventName, n.handler)
+		function h() {
+			a.each(this._cache.events, function (b, c) {
+				a(c.element).unbind(c.eventName, c.handler)
 			})
 		}
-		function a(e, t) {
-			this._cache.states[e] = t
+		function j(a, b) {
+			this._cache.states[a] = b
 		}
-		function l(e) {
-			return this._cache.states[e]
+		function l(a) {
+			return this._cache.states[a]
 		}
-		function c() {
+		function m() {
 			this.setEvent(this.element, "mouseenter", this.setActive),
-			this.setEvent(this.element, "mouseleave", e.proxy(function (e) {
-				this.setIdle(e)
+			this.setEvent(this.element, "mouseleave", a.proxy(function (a) {
+				this.setIdle(a)
 			},
 			this)),
-			this.options.showOn && e.each(this.options.showOn, e.proxy(function (t, n) {
-				var r = !1;
-				n == "click" && (this.options.hideOn && e.each(this.options.hideOn, function (e, t) {
-					if (t.element == "self" && t.event == "click") return r = !0,
-					!1
-				}), this.setState("toggles", r)),
-				this.setEvent(this.element, n, n == "click" ? r ? this.toggle: this.show: e.proxy(function () {
+			this.options.showOn && a.each(this.options.showOn, a.proxy(function (b, c) {
+				var d = !1;
+				"click" == c && (this.options.hideOn && a.each(this.options.hideOn, function (a, b) {
+					return "self" == b.element && "click" == b.event ? (d = !0, !1) : void 0
+				}), this.setState("toggles", d)),
+				this.setEvent(this.element, c, "click" == c ? d ? this.toggle: this.show: a.proxy(function () {
 					this.showDelayed()
 				},
 				this))
 			},
 			this)),
-			this.options.hideOn ? e.each(this.options.hideOn, e.proxy(function (t, n) {
-				var r;
-				switch (n.element) {
+			this.options.hideOn ? a.each(this.options.hideOn, a.proxy(function (b, c) {
+				var d;
+				switch (c.element) {
 				case "self":
-					if (this.getState("toggles") && n.event == "click") return;
-					r = this.element;
+					if (this.getState("toggles") && "click" == c.event) return;
+					d = this.element;
 					break;
 				case "target":
-					r = this.target
+					d = this.target
 				}
-				if (!r) return;
-				this.setEvent(r, n.event, n.event == "click" ? this.hide: e.proxy(function () {
+				d && this.setEvent(d, c.event, "click" == c.event ? this.hide: a.proxy(function () {
 					this.hideDelayed()
 				},
 				this))
 			},
-			this)) : this.options.showDelay && this.options.showOn && !e.inArray("click", this.options.showOn) > -1 && this.setEvent(this.element, "mouseleave", e.proxy(function () {
+			this)) : this.options.showDelay && this.options.showOn && !a.inArray("click", this.options.showOn) > -1 && this.setEvent(this.element, "mouseleave", a.proxy(function () {
 				this.clearTimer("show")
 			},
 			this));
-			var t = !1; ! this.options.fixed && this.options.showOn && ((t = e.inArray("mousemove", this.options.showOn) > -1) || e.inArray("touchmove", this.options.showOn) > -1) && this.target == "mouse" && this.setEvent(this.element, t ? "mousemove": "touchmove", function (e) {
-				if (!this.getState("skinned")) return;
-				this.position(e)
+			var b = !1; ! this.options.fixed && this.options.showOn && ((b = a.inArray("mousemove", this.options.showOn) > -1) || a.inArray("touchmove", this.options.showOn) > -1) && "mouse" == this.target && this.setEvent(this.element, b ? "mousemove": "touchmove", function (a) {
+				this.getState("skinned") && this.position(a)
 			})
 		}
-		function h() {
+		function n() {
 			this.setEvent(this.container, "mouseenter", this.setActive),
 			this.setEvent(this.container, "mouseleave", this.setIdle),
-			this.setEvent(this.container, "mouseenter", e.proxy(function () {
+			this.setEvent(this.container, "mouseenter", a.proxy(function () {
 				this.getTimer("fadeTransition") || this.show()
 			},
 			this)),
-			this.options.hideOn && e.each(this.options.hideOn, e.proxy(function (t, n) {
-				var r;
-				switch (n.element) {
+			this.options.hideOn && a.each(this.options.hideOn, a.proxy(function (b, c) {
+				var d;
+				switch (c.element) {
 				case "tooltip":
-					r = this.container
+					d = this.container
 				}
-				if (!r) return;
-				this.setEvent(r, n.event, n.event.match(/^(click|mousemove|mouseenter)$/) ? this.hide: e.proxy(function () {
+				d && this.setEvent(d, c.event, c.event.match(/^(click|mousemove|mouseenter)$/) ? this.hide: a.proxy(function () {
 					this.hideDelayed()
 				},
 				this))
 			},
 			this))
 		}
-		function p(e, t, n) {
-			var r = b.get(this.element);
-			r && r.setHookPositionAndStemCorrection(e, t, n)
+		function o(a, b, c) {
+			var d = u.get(this.element);
+			d && d.setHookPositionAndStemCorrection(a, b, c)
 		}
-		function d(e) {
-			var t = b.get(this.element);
-			t && t.setHookPosition(e)
+		function p(a) {
+			var b = u.get(this.element);
+			b && b.setHookPosition(a)
 		}
-		function v() {
+		function q() {
 			this.setHookPosition(this.options.hook.tooltip)
 		}
-		function m() {
-			e(this.container = document.createElement("div")).addClass("t_Tooltip"),
+		function r() {
+			a(this.container = document.createElement("div")).addClass("t_Tooltip"),
 			this.createPreBuildObservers()
 		}
-		function g() {
+		function s() {
 			this.build();
-			var e = b.get(this.element);
-			e ? e.build() : (new w(this.element), this.setState("skinned", !0))
+			var a = u.get(this.element);
+			a ? a.build() : (new v(this.element), this.setState("skinned", !0))
 		}
-		function y() {
-			if (this.getState("build")) return;
-			e(document.body).append(e(this.container).css({
+		function t() {
+			this.getState("build") || (a(document.body).append(a(this.container).css({
 				left: "-10000px",
 				top: "-10000px",
 				zIndex: this.zIndex
-			}).append(e(this.skinElement = document.createElement("div")).addClass("t_Skin")).append(e(this.contentElement = document.createElement("div")).addClass("t_Content"))),
-			e(this.container).addClass("t_Tooltip_" + this.options.skin),
-			this.options.hideOnClickOutside && (e(this.element).addClass("t_hideOnClickOutside"), this.setEvent(document.documentElement, "click", e.proxy(function (t) {
-				if (!this.visible()) return;
-				var n = e(t.target).closest(".t_Tooltip, .t_hideOnClickOutside")[0];
-				(!n || n && n != this.container && n != this.element) && this.hide()
+			}).append(a(this.skinElement = document.createElement("div")).addClass("t_Skin")).append(a(this.contentElement = document.createElement("div")).addClass("t_Content"))), a(this.container).addClass("t_Tooltip_" + this.options.skin), this.options.hideOnClickOutside && (a(this.element).addClass("t_hideOnClickOutside"), this.setEvent(document.documentElement, "click", a.proxy(function (b) {
+				if (this.visible()) {
+					var c = a(b.target).closest(".t_Tooltip, .t_hideOnClickOutside")[0];
+					(!c || c && c != this.container && c != this.element) && this.hide()
+				}
 			},
-			this))),
-			Tipped.support.cssTransitions && (this.options.fadeIn || this.options.fadeOut) && (this.setFadeDuration(this.options.fadeIn), e(this.container).addClass("t_hidden")),
-			this.createPostBuildObservers(),
-			this.setState("build", !0),
-			C.add(this)
+			this))), Tipped.support.cssTransitions && (this.options.fadeIn || this.options.fadeOut) && (this.setFadeDuration(this.options.fadeIn), a(this.container).addClass("t_hidden")), this.createPostBuildObservers(), this.setState("build", !0), B.add(this))
 		}
-		function E() {
-			var t = this.content,
-			n;
-			this.inlineMarker && this.inlineContent && ((n = e(this.inlineContent).data("tipped_restore_inline_display")) && e(this.inlineContent).css({
-				display: n
-			}), e(this.inlineMarker).before(this.inlineContent).remove(), this.inlineMarker = null)
+		function w() {
+			var c;
+			this.content,
+			this.inlineMarker && this.inlineContent && ((c = a(this.inlineContent).data("tipped_restore_inline_display")) && a(this.inlineContent).css({
+				display: c
+			}), a(this.inlineMarker).before(this.inlineContent).remove(), this.inlineMarker = null)
 		}
-		function S() {
-			r.defer(e.proxy(function () {
+		function x() {
+			d.defer(a.proxy(function () {
 				this.clearEvents()
 			},
 			this)),
 			this.clearTimers(),
 			this._restoreInlineContent(),
-			r.defer(e.proxy(function () {
-				e(this.container).find("img[src]").unbind("load")
+			d.defer(a.proxy(function () {
+				a(this.container).find("img[src]").unbind("load")
 			},
 			this)),
-			b.remove(this.element),
-			this.getState("build") && this.container && (e(this.container).remove(), this.container = null);
-			var t = "tipped_restore_title",
-			n;
-			(n = e(this.element).data(t)) && e(this.element).attr("title", n).removeData("tipped_restore_title"),
-			e(this.element).removeData("tipped-uid")
+			u.remove(this.element),
+			this.getState("build") && this.container && (a(this.container).remove(), this.container = null);
+			var c, b = "tipped_restore_title";
+			(c = a(this.element).data(b)) && a(this.element).attr("title", c).removeData("tipped_restore_title"),
+			a(this.element).removeData("tipped-uid")
 		}
-		function x(t) {
-			var n = e.extend({
+		function y(b) {
+			var c = a.extend({
 				afterUpdate: this.options.afterUpdate,
 				spinner: !1
 			},
 			arguments[1] || {});
 			this.build(),
-			this.getState("visible") && e(this.container).hide(),
-			C.UpdateQueue.update(this, t, e.proxy(function () {
-				var t = this.getState("visible");
-				t || this.setState("visible", !0),
+			this.getState("visible") && a(this.container).hide(),
+			B.UpdateQueue.update(this, b, a.proxy(function () {
+				var b = this.getState("visible");
+				b || this.setState("visible", !0),
 				this._buildSkin(),
-				t || this.setState("visible", !1),
-				this.getState("visible") && (e(this.container).hide(), this.position(), this.raise(), e(this.container).show()),
+				b || this.setState("visible", !1),
+				this.getState("visible") && (a(this.container).hide(), this.position(), this.raise(), a(this.container).show()),
 				this.setState("updated", !0),
-				n.afterUpdate && n.afterUpdate(this.contentElement.firstChild, this.element),
-				n.callback && n.callback()
+				c.afterUpdate && c.afterUpdate(this.contentElement.firstChild, this.element),
+				c.callback && c.callback()
 			},
 			this), {
-				spinner: n.spinner
+				spinner: c.spinner
 			})
 		}
-		function T(t) {
-			if (this.getState("xhr") || this.options.ajax.cache && this.getState("updated")) return;
-			this.setState("xhr", !0),
-			this.options.spinner && (this.spinner ? this.spinner.play() : (this.spinner = this.insertSpinner(this.options.spinner), this.setState("updated", !1)), this.position(t)),
-			this._cache.xhr && (this._cache.xhr.abort(), this._cache.xhr = null),
-			this._cache.xhr = e.ajax({
+		function z(b) {
+			var c, d = {
 				url: this.content,
 				type: this.options.ajax.type,
 				data: this.options.ajax.data || {},
-				dataType: this.options.ajax.dataType || "html",
-				success: e.proxy(function (t, n, r) {
-					if (r.status === 0) return;
-					this.update(r.responseText, {
-						spinner: this.options.spinner && this.spinner,
-						callback: e.proxy(function () {
-							this.setState("xhr", !1),
-							this.getState("visible") && this.options.onShow && this.options.onShow(this.contentElement.firstChild, this.element),
-							this.spinner && (this.spinner.remove(), this.spinner = null)
-						},
-						this)
-					})
-				},
-				this)
-			})
+				dataType: this.options.ajax.dataType || "html"
+			};
+			if (! (this.getState("xhr") || this.options.ajax.cache && this.getState("updated"))) {
+				if (this.options.ajax.cache && (c = i.get(d))) return this.afterAjaxUpdate(c, {
+					callback: a.proxy(function () {
+						this.getState("visible") && this.options.onShow && this.options.onShow(this.contentElement.firstChild, this.element)
+					},
+					this)
+				}),
+				void 0;
+				this.setState("xhr", !0),
+				this.options.spinner && (this.spinner ? this.spinner.play() : (this.spinner = this.insertSpinner(this.options.spinner), this.setState("updated", !1)), this.position(b)),
+				this._cache.xhr && (this._cache.xhr.abort(), this._cache.xhr = null),
+				this._cache.xhr = a.ajax(a.extend({},
+				d, {
+					success: a.proxy(function (b, c, e) {
+						0 !== e.status && (i.set(d, e.responseText), this.afterAjaxUpdate(e.responseText, {
+							callback: a.proxy(function () {
+								this.setState("xhr", !1),
+								this.getState("visible") && this.options.onShow && this.options.onShow(this.contentElement.firstChild, this.element),
+								this.spinner && (this.spinner.remove(), this.spinner = null)
+							},
+							this)
+						}))
+					},
+					this)
+				}))
+			}
 		}
-		function N() {
-			var t = document.createElement("div");
-			e(t).data("isSpinner", !0);
-			var n = Spinners.create(t, e.extend({},
+		function A(b) {
+			var c = a.extend({
+				spinner: this.options.spinner && this.spinner
+			},
+			arguments[1] || {});
+			this.update(b, c)
+		}
+		function C() {
+			var b = document.createElement("div");
+			a(b).data("isSpinner", !0);
+			var c = Spinners.create(b, a.extend({},
 			arguments[0] || {})),
-			r = Spinners.getDimensions(t);
-			return e(t).css(f(r)),
-			this.update(t, {
+			d = Spinners.getDimensions(b);
+			return a(b).css(k(d)),
+			this.update(b, {
 				afterUpdate: !1,
 				callback: function () {
-					n.play()
+					c.play()
 				}
 			}),
-			n
+			c
 		}
-		function L() {
-			if (!this.getState("build") || this.options.zIndex) return;
-			var t = C.getHighestTooltip();
-			t && t != this && this.zIndex <= t.zIndex && e(this.container).css({
-				zIndex: this.zIndex = t.zIndex + 1
-			})
+		function E() {
+			if (this.getState("build") && !this.options.zIndex) {
+				var b = B.getHighestTooltip();
+				b && b != this && this.zIndex <= b.zIndex && a(this.container).css({
+					zIndex: this.zIndex = b.zIndex + 1
+				})
+			}
 		}
-		function A() {
-			var e = b.get(this.element);
-			e && (e.refresh(), this.visible() && this.position())
+		function F() {
+			var a = u.get(this.element);
+			a && (a.refresh(), this.visible() && this.position())
 		}
-		function O(e) {
-			if (!Tipped.support.cssTransitions) return;
-			e = e || 0;
-			var t = this.container.style;
-			t.MozTransitionDuration = e + "ms",
-			t.webkitTransitionDuration = e + "ms",
-			t.OTransitionDuration = e + "ms",
-			t.transitionDuration = e + "ms"
+		function G(a) {
+			if (Tipped.support.cssTransitions) {
+				a = a || 0;
+				var b = this.container.style;
+				b.MozTransitionDuration = a + "ms",
+				b.webkitTransitionDuration = a + "ms",
+				b.OTransitionDuration = a + "ms",
+				b.transitionDuration = a + "ms"
+			}
 		}
-		function M(t) {
+		function H(b) {
 			this.clearTimer("hide"),
-			this.clearTimer("fadeTransition");
-			if (this.getState("visible") || this.getTimer("show")) return;
-			this.setTimer("show", e.proxy(function () {
+			this.clearTimer("fadeTransition"),
+			this.getState("visible") || this.getTimer("show") || this.setTimer("show", a.proxy(function () {
 				this.clearTimer("show"),
-				this.show(t)
+				this.show(b)
 			},
 			this), this.options.showDelay || 1)
 		}
-		function _(t) {
-			this.clearTimer("hide"),
-			this.clearTimer("fadeTransition");
-			if (this.visible()) return;
-			if (e.type(this.content) == "function" || e.type(this._cache.contentFunction) == "function") {
-				e.type(this._cache.contentFunction) != "function" && (this._cache.contentFunction = this.content);
-				var n = this._cache.contentFunction(this.element) || !1;
-				n != this._cache.fnCallContent && (this._cache.fnCallContent = n, this.setState("updated", !1), this._restoreInlineContent()),
-				this.content = n;
-				if (!n) return
+		function I(b) {
+			if (this.clearTimer("hide"), this.clearTimer("fadeTransition"), !this.visible()) {
+				if ("function" == a.type(this.content) || "function" == a.type(this._cache.contentFunction)) {
+					"function" != a.type(this._cache.contentFunction) && (this._cache.contentFunction = this.content);
+					var c = this._cache.contentFunction(this.element) || !1;
+					if (c != this._cache.fnCallContent && (this._cache.fnCallContent = c, this.setState("updated", !1), this._restoreInlineContent()), this.content = c, !c) return
+				}
+				this.options.hideOthers && B.hideAll(),
+				this.setState("visible", !0),
+				this.options.ajax ? this.ajaxUpdate(b) : this.getState("updated") || this.update(this.content),
+				this.getState("skinned") && this.position(b),
+				this.raise(),
+				this.options.hideAfter && d.defer(a.proxy(function () {
+					this.setActive()
+				},
+				this)),
+				"function" == a.type(this.options.onShow) && (!this.options.ajax || this.options.ajax && this.options.ajax.cache && this.getState("updated")) && this.options.onShow(this.contentElement.firstChild, this.element),
+				Tipped.support.cssTransitions && (this.options.fadeIn || this.options.fadeOut) && (this.setFadeDuration(this.options.fadeIn), a(this.container).addClass("t_visible").removeClass("t_hidden")),
+				a(this.container).show()
 			}
-			this.options.hideOthers && C.hideAll(),
-			this.setState("visible", !0),
-			this.options.ajax ? this.ajaxUpdate(t) : this.getState("updated") || this.update(this.content),
-			this.getState("skinned") && this.position(t),
-			this.raise(),
-			this.options.hideAfter && r.defer(e.proxy(function () {
-				this.setActive()
-			},
-			this)),
-			e.type(this.options.onShow) == "function" && (!this.options.ajax || this.options.ajax && this.options.ajax.cache && this.getState("updated")) && this.options.onShow(this.contentElement.firstChild, this.element),
-			Tipped.support.cssTransitions && (this.options.fadeIn || this.options.fadeOut) && (this.setFadeDuration(this.options.fadeIn), e(this.container).addClass("t_visible").removeClass("t_hidden")),
-			e(this.container).show()
 		}
-		function D() {
-			this.clearTimer("show");
-			if (!this.getState("visible")) return;
-			this.setState("visible", !1),
-			Tipped.support.cssTransitions && (this.options.fadeIn || this.options.fadeOut) ? (this.setFadeDuration(this.options.fadeOut), e(this.container).removeClass("t_visible").addClass("t_hidden"), this.setTimer("fadeTransition", e.proxy(this._hide, this), this.options.fadeOut)) : this._hide(),
-			this._cache.xhr && (this._cache.xhr.abort(), this._cache.xhr = null, this.setState("xhr", !1))
+		function J() {
+			this.clearTimer("show"),
+			this.getState("visible") && (this.setState("visible", !1), Tipped.support.cssTransitions && (this.options.fadeIn || this.options.fadeOut) ? (this.setFadeDuration(this.options.fadeOut), a(this.container).removeClass("t_visible").addClass("t_hidden"), this.setTimer("fadeTransition", a.proxy(this._hide, this), this.options.fadeOut)) : this._hide(), this._cache.xhr && (this._cache.xhr.abort(), this._cache.xhr = null, this.setState("xhr", !1)))
 		}
-		function P() {
-			if (!this.getState("build")) return;
-			e(this.container).css({
+		function K() {
+			this.getState("build") && (a(this.container).css({
 				left: "-10000px",
 				top: "-10000px"
-			}),
-			C.resetZ(),
-			e.type(this.options.onHide) == "function" && !this.spinner && this.options.onHide(this.contentElement.firstChild, this.element)
+			}), B.resetZ(), "function" != a.type(this.options.onHide) || this.spinner || this.options.onHide(this.contentElement.firstChild, this.element))
 		}
-		function H() {
-			this.clearTimer("show");
-			if (this.getTimer("hide") || !this.getState("visible")) return;
-			this.setTimer("hide", e.proxy(function () {
+		function L() {
+			this.clearTimer("show"),
+			!this.getTimer("hide") && this.getState("visible") && this.setTimer("hide", a.proxy(function () {
 				this.clearTimer("hide"),
 				this.clearTimer("fadeTransition"),
 				this.hide()
 			},
 			this), this.options.hideDelay || 1)
 		}
-		function B(e) {
-			this[this.visible() ? "hide": "show"](e)
+		function M(a) {
+			this[this.visible() ? "hide": "show"](a)
 		}
-		function F() {
+		function N() {
 			return this.getState("visible")
 		}
-		function I() {
+		function O() {
 			this.setState("active", !0),
 			this.getState("visible") && this.raise(),
 			this.options.hideAfter && this.clearTimer("idle")
 		}
-		function q() {
+		function P() {
 			this.setState("active", !1),
-			this.options.hideAfter && this.setTimer("idle", e.proxy(function () {
+			this.options.hideAfter && this.setTimer("idle", a.proxy(function () {
 				this.clearTimer("idle"),
 				this.getState("active") || this.hide()
 			},
 			this), this.options.hideAfter)
 		}
-		var k = function (t) {
-			if (!this.visible()) return;
-			var n;
-			if (this.options.target == "mouse") {
-				var i = C.Position.isPointerEvent(t),
-				s = C.Position.mouseBuffer;
-				if (!i) {
-					if (s.x || s.y) this._cache.event = {
-						x: s.x,
-						y: s.y
-					};
-					else if (!this._cache.event) {
-						var o = C.Position.getAbsoluteOffset(this.element);
-						this._cache.event = {
-							x: o.left,
-							y: o.top
+		var D = function (b) {
+			if (this.visible()) {
+				var c;
+				if ("mouse" == this.options.target) {
+					var e = B.Position.isPointerEvent(b),
+					f = B.Position.mouseBuffer;
+					if (e) f.x || f.y ? (this._cache.event = {
+						x: f.x,
+						y: f.y
+					},
+					c = null) : c = b;
+					else {
+						if (f.x || f.y) this._cache.event = {
+							x: f.x,
+							y: f.y
+						};
+						else if (!this._cache.event) {
+							var g = B.Position.getAbsoluteOffset(this.element);
+							this._cache.event = {
+								x: g.left,
+								y: g.top
+							}
 						}
+						c = null
 					}
-					n = null
-				} else s.x || s.y ? (this._cache.event = {
-					x: s.x,
-					y: s.y
-				},
-				n = null) : n = t
-			} else n = this.target;
-			C.Position.set(this, this.options.hook.tooltip, n, this.options.hook.target);
-			if (t && C.Position.isPointerEvent(t)) {
-				var u = {
-					width: e(this.container).outerWidth(),
-					height: e(this.container).outerHeight()
-				},
-				a = r.pointer(t),
-				o = r.element.cumulativeOffset(this.container);
-				a.x >= o.left && a.x <= o.left + u.width && a.y >= o.top && a.y <= o.top + u.height && r.defer(e.proxy(function () {
-					this.clearTimer("hide")
-				},
-				this))
+				} else c = this.target;
+				if (B.Position.set(this, this.options.hook.tooltip, c, this.options.hook.target), b && B.Position.isPointerEvent(b)) {
+					var h = {
+						width: a(this.container).outerWidth(),
+						height: a(this.container).outerHeight()
+					},
+					i = d.pointer(b),
+					g = d.element.cumulativeOffset(this.container);
+					i.x >= g.left && i.x <= g.left + h.width && i.y >= g.top && i.y <= g.top + h.height && d.defer(a.proxy(function () {
+						this.clearTimer("hide")
+					},
+					this))
+				}
 			}
 		};
 		return {
-			build: y,
-			_preBuild: m,
-			_buildSkin: g,
-			createPreBuildObservers: c,
-			createPostBuildObservers: h,
-			show: _,
-			hide: D,
-			_hide: P,
-			toggle: B,
-			visible: F,
-			showDelayed: M,
-			hideDelayed: H,
-			setFadeDuration: O,
-			setState: a,
+			build: t,
+			_preBuild: r,
+			_buildSkin: s,
+			createPreBuildObservers: m,
+			createPostBuildObservers: n,
+			show: I,
+			hide: J,
+			_hide: K,
+			toggle: M,
+			visible: N,
+			showDelayed: H,
+			hideDelayed: L,
+			setFadeDuration: G,
+			setState: j,
 			getState: l,
-			setActive: I,
-			setIdle: q,
-			getTimer: n,
-			setTimer: t,
-			clearTimer: i,
-			clearTimers: s,
-			setEvent: o,
-			clearEvents: u,
-			setHookPositionAndStemCorrection: p,
-			setHookPosition: d,
-			resetHookPosition: v,
-			refresh: A,
-			update: x,
-			ajaxUpdate: T,
-			insertSpinner: N,
-			position: k,
-			raise: L,
-			_restoreInlineContent: E,
-			remove: S
+			setActive: O,
+			setIdle: P,
+			getTimer: c,
+			setTimer: b,
+			clearTimer: e,
+			clearTimers: f,
+			setEvent: g,
+			clearEvents: h,
+			setHookPositionAndStemCorrection: o,
+			setHookPosition: p,
+			resetHookPosition: q,
+			refresh: F,
+			update: y,
+			ajaxUpdate: z,
+			afterAjaxUpdate: A,
+			insertSpinner: C,
+			position: D,
+			raise: E,
+			_restoreInlineContent: w,
+			remove: x
 		}
 	} ()),
 	Tipped.init()
-})(jQuery)
+})(jQuery);
