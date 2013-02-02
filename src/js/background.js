@@ -26,28 +26,34 @@ Initialise background page and start the extension
 */
 function bginit()
 {	
-	//Set title
-	document.title = "Calendar and Countdown";
+	try {
+		//Set title
+		document.title = "Calendar and Countdown";
+		
+		//Do install stuff if installed, migration stuff if updated
+		chrome.runtime.onInstalled.addListener(function(details) {
+			doMigrationOrInstall(details);		
+		});
+		
+		//Start with default settings
+		settings = getDefaultSettings();
+		//Do the actual initialisation of settings
+		getSettingsFromStorage();
+		
 	
-	//Do install stuff if installed, migration stuff if updated
-	chrome.runtime.onInstalled.addListener(function(details) {
-		doMigrationOrInstall(details);		
-	});
-	
-	//Start with default settings
-	settings = getDefaultSettings();
-	//Do the actual initialisation of settings
-	getSettingsFromStorage();
-	
-
-	
-	
-	
-	initDateArrays();
-	
-	//Do first maintenance and set up loop
-	maintain();
-	setupMaintainLoop();
+		
+		
+		
+		initDateArrays();
+		
+		//Do first maintenance and set up loop
+		maintain();
+		setupMaintainLoop();
+	}
+	catch(e)
+	{
+		handleError(e);
+	}	
 	
 }
 
@@ -545,7 +551,7 @@ function getSettingsFromStorage()
 		
 		log("Settings", "Settings has been read");
 		
-		//maintain();
+	
 	});
 }
 
@@ -564,14 +570,7 @@ function persistSettingsToStorage() {
 	}
 }
 
-/**
-Track a page view to Google
-*/
-function trackPageView(pagetitle)
-{
-	log("Googletrack - page", pagetitle);
-	_gaq.push(['_trackPageview', pagetitle]);
-}
+
 
 /**
 Bootstrap background on page load finished

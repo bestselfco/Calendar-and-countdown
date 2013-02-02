@@ -18,3 +18,9 @@ function log(cat, text)
 		console.log(time.getHours()+":"+time.getMinutes()+":"+time.getSeconds() + " " + cat + ": " + text);
 	}
 }
+
+function handleError(e)
+{
+	//console.log(e);
+	trackError(e.name, e.message);
+}
