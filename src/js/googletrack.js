@@ -40,3 +40,4 @@ function trackEvent(type, category, text)
 {
 	_gaq.push(['_trackEvent', type, category, text]);
 }
+

@@ -86,10 +86,8 @@ input {
 	font-weight: normal;
 }
 
-#badgeColorSelect {
-	padding-left: 0px;
-	margin-top: 0px;
-    margin-left: 0px;
-    border-color: rgb(150,150,150); 
-    border-radius: 5px;
+.badgeColorSelector {
+	width:  19px;
+	height:  19px;
+	display: block;
 }

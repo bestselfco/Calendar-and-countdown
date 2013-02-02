@@ -294,18 +294,24 @@ Retrieve note for a given date from backend
 */
 function getNoteArray()
 {
-	var tmpNoteArray = bg.dateNoteArray;
-	var outObj = new Object;
+	try{
+		var tmpNoteArray = bg.dateNoteArray;
+		var outObj = new Object;
+		
+		for(i = 0; i < tmpNoteArray.length; i++)
+		{
+			var thekey = tmpNoteArray[i].timestamp.toString();
+			var nota = tmpNoteArray[i].note;
 	
-	for(i = 0; i < tmpNoteArray.length; i++)
-	{
-		var thekey = tmpNoteArray[i].timestamp.toString();
-		var nota = tmpNoteArray[i].note;
-
-		outObj[thekey] = nota;
+			outObj[thekey] = nota;
+		}
+	
+		return outObj;
 	}
-
-	return outObj;
+	catch(e)
+	{
+		handleError("getNoteArray", e);
+	}
 }
 
 /**
@@ -313,20 +319,28 @@ Get note for a specific date
 */
 function getNoteForDate(timestampNote)
 {
-	var tmpNotes = getNoteArray();
-	var output = "";
+	try{
+		
+		var tmpNotes = getNoteArray();
+		var output = "";
+		
+		if(tmpNotes[timestampNote] != undefined)
+		{
+			//console.log("Note found "+timestampNote);
+			output = tmpNotes[timestampNote];
+		}
+		else {
+			//console.log("Note not found" + timestampNote);
+			output = "";
+		}
+		
+		return output;
 	
-	if(tmpNotes[timestampNote] != undefined)
+	}
+	catch(e)
 	{
-		//console.log("Note found "+timestampNote);
-		output = tmpNotes[timestampNote];
+		handleError("getNoteArray", e);
 	}
-	else {
-		//console.log("Note not found" + timestampNote);
-		output = "";
-	}
-	
-	return output;
 	
 }
 

@@ -40,10 +40,6 @@ function bginit()
 		//Do the actual initialisation of settings
 		getSettingsFromStorage();
 		
-	
-		
-		
-		
 		initDateArrays();
 		
 		//Do first maintenance and set up loop
@@ -78,7 +74,7 @@ function maintain()
 	}
 	catch(e)
 	{
-	
+		handleError("maintain", e);
 	}
 	
 }
@@ -411,25 +407,9 @@ function getVersion() {
 	
 	//Create and set up object for returning
 	var returnObject = new Object();
-	//returnObject.newInstall = false;
-	//returnObject.upgrade = false;
 	
 	returnObject.currVersion = manifest.version;
 	
-	//returnObject.prevVersion = getItem("version");
-/*		
-	if (returnObject.currVersion != returnObject.prevVersion) {
-		// Check if we just installed this extension.
-		if (returnObject.prevVersion === null) {
-			returnObject.newInstall = true;
-		} else {
-			returnObject.upgrade = true;
-		}
-		//Set version
-		setItem("version", version);
-	}
-	log("Version", version);
-	*/
 	return returnObject;
 }
 
@@ -547,6 +527,8 @@ Set settings object to stored settings
 */
 function getSettingsFromStorage()
 {
+	//var tmpSettings = getDefaultSettings();
+	
 	settingsStorage.get("settings", function(items){
 	
 		//Overwrite default settings with stored ones where applicable.
@@ -557,6 +539,8 @@ function getSettingsFromStorage()
 		
 		log("Settings", "Settings has been read");
 		
+		//return tmpSettings;
+			
 	
 	});
 }
@@ -576,7 +560,16 @@ function persistSettingsToStorage() {
 	}
 }
 
-
+/**
+Push settings to google analytics
+*/
+function pushSettingsToGoogleTracker()
+{
+	for (var setting in settings)
+	{
+		_gaq.push(['_setCustomVar', 1, setting, settings[setting], 1]);
+	} 
+}
 
 /**
 Bootstrap background on page load finished

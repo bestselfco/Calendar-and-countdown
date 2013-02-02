@@ -103,9 +103,6 @@ function init()
 	{
 		document.getElementById("setIconText0").checked = true;
 	}
-	
-	var badgeColorSelected = bg.settings.badgeColor;
-	$("#badgeColorSelect").val(badgeColorSelected);
 
 	//Setup Icon selector Colors
 	createIconPreview('#A0391B', "canvas_icon_9");
@@ -116,6 +113,16 @@ function init()
 	createIconPreview('#1BA032', "canvas_icon_14");
 	createIconPreview('#1B4AA0', "canvas_icon_15");
 	createIconPreview('#0000FF', "canvas_icon_16");
+	
+	//Setup badge color selector colors
+	$("#badge_color_1").css("background-color", "#A0391B").attr("colorval", "#A0391B");
+	$("#badge_color_2").css("background-color", "#FF0000").attr("colorval", "#FF0000");
+	$("#badge_color_3").css("background-color", "#737373").attr("colorval", "#737373");
+	$("#badge_color_4").css("background-color", "#DED210").attr("colorval", "#DED210");
+	$("#badge_color_5").css("background-color", "#1B8CA0").attr("colorval", "#1B8CA0");
+	$("#badge_color_6").css("background-color", "#1BA032").attr("colorval", "#1BA032");
+	$("#badge_color_7").css("background-color", "#1B4AA0").attr("colorval", "#1B4AA0");
+	$("#badge_color_8").css("background-color", "#0000FF").attr("colorval", "#0000FF");
 
 	
 	$("#div_show312").buttonset();
@@ -157,14 +164,21 @@ function init()
 	$("#firstMonth2").on("click", function() { changeSetting("showFrom", 2, true); });
 	$("#firstMonth3").on("click", function() { changeSetting("showFrom", 3, true); });
 	
-	
+	$(".badgeColorSelector").on("click", function () { changeBadgeColor(this); });
 	
 	$("#reseteverything").on("click", function() { resetEverything(); });
-	
-	$("#badgeColorSelect").on("change", function() { setColor('badge',this.value); });
-	
+		
 	$("#ccversion").html(bg.getVersion().currVersion);
 	
+}
+
+/**
+Set badge color
+*/
+function changeBadgeColor(item)
+{
+ 	var colorValue = $(item).attr("colorval");
+ 	changeSetting("badgeColor", colorValue, true);
 }
 
 //Create an icon preview and bind it to the icon setup function
@@ -184,15 +198,6 @@ function createIconPreview(topColor, targetCanvas)
 	});
 	
 	document.getElementById(targetCanvas).getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
-
-}
-
-function setColor(where, hex)
-{
-	//Set color for selector element
-	$("#badgeColorSelect").css("color", hex);
-	
-	changeSetting("badgeColor", hex, true);
 
 }
 
