@@ -19,8 +19,8 @@ function log(cat, text)
 	}
 }
 
-function handleError(e)
+function handleError(where, e)
 {
 	//console.log(e);
-	trackError(e.name, e.message);
+	trackError(where, e.name, e.message);
 }

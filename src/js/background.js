@@ -52,7 +52,7 @@ function bginit()
 	}
 	catch(e)
 	{
-		handleError(e);
+		handleError("bginit", e);
 	}	
 	
 }
@@ -62,18 +62,24 @@ Maintain data
 */
 function maintain()
 {
-	maintainCycles++;
+	try {
+		maintainCycles++;
+		
+		var nowNew = new Date();
+		todayStamp = Date.UTC(nowNew.getFullYear(),nowNew.getMonth(), nowNew.getDate());
 	
-	var nowNew = new Date();
-	todayStamp = Date.UTC(nowNew.getFullYear(),nowNew.getMonth(), nowNew.getDate());
-
-	updateBadgeFromStored();
-	updatePopupFromStored();
-	updateIconFromStored();
-
-	setToolTip(new Date().toLocaleDateString());
+		updateBadgeFromStored();
+		updatePopupFromStored();
+		updateIconFromStored();
 	
-	log("Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
+		setToolTip(new Date().toLocaleDateString());
+		
+		log("Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
+	}
+	catch(e)
+	{
+	
+	}
 	
 }
 

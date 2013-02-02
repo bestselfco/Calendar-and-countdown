@@ -1,7 +1,7 @@
 {
   "name": "Calendar and Countdown",
   "default_locale": "en",
-  "version": "2013.1.31.1",
+  "version": "2013.2.2.1",
   "minimum_chrome_version": "22",
   "description": "__MSG_extDesc__",
   "options_page": "options.html",

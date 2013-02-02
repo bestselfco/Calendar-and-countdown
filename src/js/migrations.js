@@ -50,7 +50,7 @@ function doMigrationOrInstall(details)
 	}
 	catch(e)
 	{
-		handleError(e);
+		handleError("doMigrationOrInstall", e);
 	}
 }
 
@@ -75,7 +75,7 @@ function initialiseSettingsOnInstall()
 	}
 	catch(e)
 	{
-		handleError(e);
+		handleError("initialiseSettingsOnInstall", e);
 	}
 	
 }
@@ -150,7 +150,7 @@ function doSettingsStorageMigration()
 	}
 	catch(e)
 	{
-		handleError(e);
+		handleError("doSettingsStorageMigration", e);
 		return getDefaultSettings();
 	}
 }
@@ -166,7 +166,7 @@ function doIconColorMigration()
 	}
 	catch(e)
 	{
-		handleError(e);
+		handleError("doIconColorMigration", e);
 	}
 }
 
@@ -211,6 +211,6 @@ function updateDatesToUtc()
 	}
 	catch(e)
 	{
-		handleError(e);
+		handleError("updateDatesToUtc", e);
 	}
 }

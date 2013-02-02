@@ -28,9 +28,9 @@ function trackPageView(pagetitle)
 /**
 Track an error to Google Analytics
 */
-function trackError(category, text)
+function trackError(where, category, text)
 {
-	_gaq.push(['_trackEvent', 'Error', category, text]);
+	_gaq.push(['_trackEvent', 'Error', where, category + " " + text]);
 }
 
 /**
