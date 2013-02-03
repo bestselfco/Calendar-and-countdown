@@ -5,8 +5,7 @@ FUNCTIONS RELATED TO INSTALLATION AND SETTINGS MIGRATION
 function doMigrationOrInstall(details)
 {
 	try{
-		//Turn of normal startup tracking for new installs
-		doTrackNormalStart = false;
+		
 		
 		if(details.reason == "update" && details.previousVersion != version.currVersion)
 	 	{

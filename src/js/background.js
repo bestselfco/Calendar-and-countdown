@@ -13,7 +13,7 @@ var dateNoteArray; //Notes for dates
 var dateColorArray; //Colors for dates
 var maintainCycles = 0;
 
-var doTrackNormalStart = true;
+//var doTrackNormalStart = true;
 
 var version = getVersion();
 
@@ -49,6 +49,10 @@ function bginit()
 		//Do first maintenance and set up loop
 		maintain();
 		setupMaintainLoop();
+		
+		//Track startup to Google
+		trackPageView('/start/'+version.currVersion);
+		
 	}
 	catch(e)
 	{
@@ -436,7 +440,7 @@ function setupMaintainLoop()
 {
 	//d = Now, ad = next full hour.
 	var d = new Date();
-	var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+1, 0);
+	var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+5, 0);
 	
 	//Version for tracking
 	var version = getVersion();
@@ -445,11 +449,11 @@ function setupMaintainLoop()
 	aInfo.when = ad.getTime();
 	aInfo.periodInMinutes = 5;
 	
-	var trackAlarmInfo = new Object();
-	trackAlarmInfo.delayInMinutes  = 5;
+	//var trackAlarmInfo = new Object();
+	//trackAlarmInfo.delayInMinutes  = 5;
 	
 	chrome.alarms.create("MaintainAlarm", aInfo);
-	chrome.alarms.create("TrackingAlarm", trackAlarmInfo);
+	//chrome.alarms.create("TrackingAlarm", trackAlarmInfo);
 	
 	log("Startup", "Maintenance alarm added");
 	
@@ -457,10 +461,6 @@ function setupMaintainLoop()
 		if(alarm.name == "MaintainAlarm")
 		{
 			maintain();
-		}
-		else if(alarm.name == "TrackingAlarm" && doTrackNormalStart == true) //Track normal startup after one minute only if it is not an update or a new install. This is meaningless and only because it is fun to watch the live updates of the tracker.
-		{
-			trackPageView('/start/'+version.currVersion);
 		}
 	});
 	
@@ -471,7 +471,6 @@ Initialise settings and/or reset everything to scratch
 */ 
 function initDateArrays()
 {
-	
 	
 	try {
 	
