@@ -6,11 +6,8 @@ function doMigrationOrInstall(details)
 {
 	try{
 		
-		
 		if(details.reason == "update" && details.previousVersion != version.currVersion)
-	 	{
-			//trackPageView('/update/'+details.previousVersion+'/'+version.currVersion);
-			
+	 	{	
 			trackEvent("Update", version.currVersion, details.previousVersion);
 			
 			//UTC update if update from older version than august 2012
@@ -18,7 +15,6 @@ function doMigrationOrInstall(details)
 			if(prev[0] < 2013 && prev[1] < 8)
 			{	
 				trackEvent("Migration", "UTC" , details.previousVersion);
-				
 				updateDatesToUtc();
 			}
 			//Do settings storage migration if version is 2012.11.22.5 or below

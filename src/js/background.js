@@ -4,7 +4,9 @@ var settings = new Object();
 var dates = new Object();
 
 //Set storage area for settings and dates. Not yet functional.
-var settingsStorage = chrome.storage.local; 
+//var settingsStorage = chrome.storage.local; 
+
+var settingsStorage = chrome.storage.local;
 var dateStorage = chrome.storage.local;
 
 var dateArray; //Holds the dates we count down to
@@ -679,6 +681,24 @@ function persistSettingsToStorage() {
 	catch(e)
 	{
 		handleError("persistSettingsToStorage", e);
+	}
+}
+
+/**
+Send the stored data from the extension to the cloud. Not referenced yet.
+*/
+function uploadDataToTheCloud()
+{
+	try {
+		// Save it using the Chrome extension storage API.
+		chrome.storage.sync.set({'settings': settings}, function() {
+		  // Notify that we saved.
+		  log("Storage", 'Settings saved to synced area');
+		});
+	}
+	catch(err)
+	{
+		handleError("uploadDataToTheCloud", err);
 	}
 }
 
