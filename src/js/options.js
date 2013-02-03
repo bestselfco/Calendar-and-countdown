@@ -239,7 +239,8 @@ function changeSetting(key, value, persist)
 			bg.maintain();
 		}
 	}
-	catch {
+	catch(e)
+	{
 		handleError("Options, changeSetting", e);
 	}
 		
