@@ -40,6 +40,10 @@ function bginit()
 		//Do the actual initialisation of settings
 		getSettingsFromStorage();
 		
+		//Call home with the settings.
+		pushSettingsToGoogleTracker();
+		
+		//Init the data arrays
 		initDateArrays();
 		
 		//Do first maintenance and set up loop
@@ -82,9 +86,17 @@ function maintain()
 /**
 Retrieve the dates in a JSON format
 */
+/*
 function getDatesJSON(){
-	return JSON.stringify(getDates());
+
+	try{
+		return JSON.stringify(getDates());
+	}
+	catch (e) {
+		handleError("getDatesJSON",e);
+	}	
 }
+*/
 
 /**
 Get date array
@@ -98,9 +110,11 @@ function getDates()
 /**
 Get sub dates as JSON
 */
+/*
 function getSubDatesJSON(){
 	return JSON.stringify(getSubDates());
 }
+*/
 
 /**
 Get sub dates
@@ -565,10 +579,16 @@ Push settings to google analytics
 */
 function pushSettingsToGoogleTracker()
 {
-	for (var setting in settings)
+	try {
+		for (var setting in settings)
+		{
+			_gaq.push(['_setCustomVar', 1, setting, settings[setting], 1]);
+		} 
+	}
+	catch(e)
 	{
-		_gaq.push(['_setCustomVar', 1, setting, settings[setting], 1]);
-	} 
+		handleError("pushSettingsToGoogleTracker", e);
+	}
 }
 
 /**
