@@ -41,15 +41,21 @@ Bootstrap page on load
 */
 $(document).ready(function() {
 	
-	//Find first month to show. Defaults to January
-	var startMonth = 1;	
-	if(showFromStart == 3 && bg.settings.popup == 12) { startMonth = currentMonth }
-	else if(showFromStart == 2 && bg.settings.popup == 12) { startMonth = getStartMonthForQuarter(currentMonth);}
-	
-	initPopupPage(currentYear, startMonth);
-	
-	//Track a page view
-	bg.trackPageView("/calendar/"+bg.settings.popup);
+	try {
+		//Find first month to show. Defaults to January
+		var startMonth = 1;	
+		if(showFromStart == 3 && bg.settings.popup == 12) { startMonth = currentMonth }
+		else if(showFromStart == 2 && bg.settings.popup == 12) { startMonth = getStartMonthForQuarter(currentMonth);}
+		
+		initPopupPage(currentYear, startMonth);
+		
+		//Track a page view
+		bg.trackPageView("/calendar/"+bg.settings.popup);
+	}
+	catch(e)
+	{
+		handleError("Calendar, Documentready", e);
+	}
 	
 });
 
@@ -59,19 +65,24 @@ Initialize popup
  */
 function initPopupPage(year, month)
 {	
-
-	//Load CSS
-	loadjscssfile("css/colors.css", "css");
-
-	//Display the calendar
-	showCal(year, month);
-
-	//Bind all events
-	bindEvents();
-
-	if(bg.settings.showBubbleOnStart)
+	try {
+		//Load CSS
+		loadjscssfile("css/colors.css", "css");
+	
+		//Display the calendar
+		showCal(year, month);
+	
+		//Bind all events
+		bindEvents();
+	
+		if(bg.settings.showBubbleOnStart)
+		{
+			showBubbleForToday();
+		}
+	}
+	catch(e)
 	{
-		showBubbleForToday();
+		handleError("Calendar, initPopupPage", e);
 	}
 }
 
@@ -80,25 +91,31 @@ Bind all relevant events to their dom elements
 */
 function bindEvents()
 {
-	$("body").off().on("keydown", function() { keyPressed(window.event.keyCode);});
-		
-	$("#ym6").off().on("click", function() { yearClicked(event); });
-	$("#ym5").off().on("click", function() { yearClicked(event); });
-	$("#ym4").off().on("click", function() { yearClicked(event); });
-	$("#ym3").off().on("click", function() { yearClicked(event); });
-	$("#ym2").off().on("click", function() { yearClicked(event); });
-	$("#ym1").off().on("click", function() { yearClicked(event); });
-	$("#yearLabel").off().on("click", function() { yearClicked(event); });
-	$("#yp6").off().on("click", function() { yearClicked(event); });
-	$("#yp5").off().on("click", function() { yearClicked(event); });
-	$("#yp4").off().on("click", function() { yearClicked(event); });
-	$("#yp3").off().on("click", function() { yearClicked(event); });
-	$("#yp2").off().on("click", function() { yearClicked(event); });
-	$("#yp1").off().on("click", function() { yearClicked(event); });
 	
-	//Test scroll wheel
-	if (bg.settings.popup == 12) {
-		document.addEventListener("mousewheel", MouseWheelHandler, false);
+	try {
+		$("body").off().on("keydown", function() { keyPressed(window.event.keyCode);});	
+		$("#ym6").off().on("click", function() { yearClicked(event); });
+		$("#ym5").off().on("click", function() { yearClicked(event); });
+		$("#ym4").off().on("click", function() { yearClicked(event); });
+		$("#ym3").off().on("click", function() { yearClicked(event); });
+		$("#ym2").off().on("click", function() { yearClicked(event); });
+		$("#ym1").off().on("click", function() { yearClicked(event); });
+		$("#yearLabel").off().on("click", function() { yearClicked(event); });
+		$("#yp6").off().on("click", function() { yearClicked(event); });
+		$("#yp5").off().on("click", function() { yearClicked(event); });
+		$("#yp4").off().on("click", function() { yearClicked(event); });
+		$("#yp3").off().on("click", function() { yearClicked(event); });
+		$("#yp2").off().on("click", function() { yearClicked(event); });
+		$("#yp1").off().on("click", function() { yearClicked(event); });
+		
+		//Test scroll wheel
+		if (bg.settings.popup == 12) {
+			document.addEventListener("mousewheel", MouseWheelHandler, false);
+		}
+	}
+	catch(e)
+	{
+		handleError("Calendar.js bindEvents" ,e);
 	}
 	
 }
@@ -108,39 +125,45 @@ Handle mouse wheel for scrolling
 */
 function MouseWheelHandler(e)
 {
-
-	//Move threshold
-	var threshold = 300;
-	
-	//Remove existing timeout
-	clearTimeout(runningMouseWheelTimer);
-	
-	//Add new timeout
-	runningMouseWheelTimer = window.setTimeout(mouseWheelReset, 400);
-	
-	//Get delta for this event
-	var delta = e.wheelDelta;
-	var isNegative = (delta < 0) ? true : false;
-
-	//Add delta to current value
-	runningMouseWheelCounter += delta;
-	
-	if(Math.abs(runningMouseWheelCounter) > threshold)
-	{
-		runningMouseWheelCounter = 0; //Reset
+	try {
+		//Move threshold
+		var threshold = 300;
 		
-		if(!isNegative)
+		//Remove existing timeout
+		clearTimeout(runningMouseWheelTimer);
+		
+		//Add new timeout
+		runningMouseWheelTimer = window.setTimeout(mouseWheelReset, 400);
+		
+		//Get delta for this event
+		var delta = e.wheelDelta;
+		var isNegative = (delta < 0) ? true : false;
+	
+		//Add delta to current value
+		runningMouseWheelCounter += delta;
+		
+		if(Math.abs(runningMouseWheelCounter) > threshold)
 		{
-			shiftCalendarByMonths(-4);
+			runningMouseWheelCounter = 0; //Reset
+			
+			if(!isNegative)
+			{
+				shiftCalendarByMonths(-4);
+			}
+			else {
+				shiftCalendarByMonths(4);
+			}
 		}
-		else {
-			shiftCalendarByMonths(4);
-		}
+		
+		//log("Mousewheel", delta + " " + runningMouseWheelCounter);
+		
+		return false;
+	
 	}
-	
-	//log("Mousewheel", delta + " " + runningMouseWheelCounter);
-	
-	return false;
+	catch(err)
+	{
+		handleError("Calendar.js MouseWheelHandler", err);
+	}
 	
 }
 
@@ -158,21 +181,26 @@ Briefly show info box for today
 */
 function showBubbleForToday()
 {
-	
-	var selectorString = '[dateTimestamp="'+todayStamp+'"]';
-	
-	var options = new Object();
-	options.showDelay = 500;
-	options.fadeIn = 300;
-	options.fadeOut = 1000;
-	
-	currentTodayTip = Tipped.create(selectorString, function(element) {
-		return getToolTip(todayStamp);
-	}, options);
-	
-	currentTodayTip.show();
-	
-	setTimeout(hideBubbleForToday, 3200);
+		try {
+		var selectorString = '[dateTimestamp="'+todayStamp+'"]';
+		
+		var options = new Object();
+		options.showDelay = 500;
+		options.fadeIn = 300;
+		options.fadeOut = 1000;
+		
+		currentTodayTip = Tipped.create(selectorString, function(element) {
+			return getToolTip(todayStamp);
+		}, options);
+		
+		currentTodayTip.show();
+		
+		setTimeout(hideBubbleForToday, 3200);
+	}
+	catch(err)
+	{
+		handleError("Calendar.js showBubbleForToday", err);
+	}
 	
 }
 
@@ -193,7 +221,13 @@ function getStartMonthForQuarter(month)
 
 function hideBubbleForToday(tip)
 {
-	currentTodayTip.hide();
+	try {
+		currentTodayTip.hide();
+	}
+	catch(err)
+	{
+		handleError("Calendar.js hideBubbleForToday", err);
+	}
 }
 
 /**
@@ -201,8 +235,14 @@ Return the main date (the one we count down to)
 */
 function getMainDate()
 {
-	var tmp = bg.getDates();
-	return tmp[0];
+	try {
+		var tmp = bg.getDates();
+		return tmp[0];
+	}
+	catch(err)
+	{
+		handleError("Calendar.js getMainDate", err);
+	}
 }
 
 /**
@@ -210,7 +250,13 @@ Return the subsidiary dates (the ones we just show)
 */
 function getSubDates()
 {
-	return bg.getSubDates();
+	try {
+		return bg.getSubDates();
+	}
+	catch(err)
+	{
+		handleError("Calendar.js getSubDates", err);
+	}
 }
 
 /**
@@ -218,11 +264,18 @@ Set main date from time stamp and update all views
 */
 function setMainDate(timestamp)
 {	
-	//Set date in background page	
-	bg.toggleDate(timestamp, false);
-	bg.maintain();
-	highLightSelectedDates();		
-}
+	try 
+	{
+		//Set date in background page	
+		bg.toggleDate(timestamp, false);
+		bg.maintain();
+		highLightSelectedDates();		
+	}
+	catch(err)
+	{
+	handleError("Calendar.js setMainDate", err);
+	}	
+}	
 
 /**
 Set sub date from time stamp and update all views
@@ -230,9 +283,15 @@ Set sub date from time stamp and update all views
 function setSubDate(timestamp)
 {
 	//Set date in background page	
-	bg.toggleDate(timestamp, true);
-	bg.maintain();
-	highLightSelectedDates();
+	try {
+		bg.toggleDate(timestamp, true);
+		bg.maintain();
+		highLightSelectedDates();
+	}
+	catch(e)
+	{
+		handleError("Calendar.js setSubDate", e);
+	}
 }
 
 /**
@@ -240,33 +299,43 @@ Update date set from back end and start update of content when done
 */
 function updateDatesStuff()
 {
+	try {
+		//Refresh backgroudn page
+		bg.maintain();
+		
+		//Update link to background page
+		bg = chrome.extension.getBackgroundPage();
+		
+		notesArray = getNoteArray();
+		
+		//Bind clicks and mouseovers for dates - dialog on right click!
+		$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);	
 	
-	//Refresh backgroudn page
-	bg.maintain();
-	
-	//Update link to background page
-	bg = chrome.extension.getBackgroundPage();
-	
-	notesArray = getNoteArray();
-	
-	//Bind clicks and mouseovers for dates - dialog on right click!
-	$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);	
-
-	//Highlight today
-	highLightToday();
-	
-	//Update the selected date
-	highLightSelectedDates();
+		//Highlight today
+		highLightToday();
+		
+		//Update the selected date
+		highLightSelectedDates();
+	}
+	catch(e)
+	{
+		handleError("Calendar.js updateDatesStuff", e);
+	}
 	
 }
 
 function normalPopupShow(event)
 {
-	
-	Tipped.create(event.originalEvent.target, function(element) {
-		var timestamp = $(element).attr("datetimestamp");
-		return getToolTip(timestamp);
-	}, { skin: 'kvasbo', showDelay: '450'});
+	try {
+		Tipped.create(event.originalEvent.target, function(element) {
+			var timestamp = $(element).attr("datetimestamp");
+			return getToolTip(timestamp);
+		}, { skin: 'kvasbo', showDelay: '450'});
+	}
+	catch(e)
+	{
+		handleError("Calendar.js normalPopupShow", e);
+	}
 	
 }
 
@@ -275,17 +344,22 @@ Open dialog on right click
 */
 function dayRightClickedDialog(event)
 {	
-
-	event.preventDefault();
+	try {
+		event.preventDefault();
+			
+		var timestamp = event.originalEvent.target.attributes["datetimestamp"].value;
+		var target = event.originalEvent.target.id;
+			
+		lastEventDate = timestamp;
 		
-	var timestamp = event.originalEvent.target.attributes["datetimestamp"].value;
-	var target = event.originalEvent.target.id;
+		var tip = Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: 'click-outside', closeButton: true, showOn: false, onShow: updateRightClickToolTipMenu, onHide: resetRightClickToolTipMenu});
 		
-	lastEventDate = timestamp;
-	
-	var tip = Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: 'click-outside', closeButton: true, showOn: false, onShow: updateRightClickToolTipMenu, onHide: resetRightClickToolTipMenu});
-	
-	tip.show();
+		tip.show();
+	}
+	catch(e)
+	{
+		handleError("Calendar.js dayRightClickedDialog", e);
+	}
 
 }
 
@@ -294,7 +368,7 @@ Retrieve note for a given date from backend
 */
 function getNoteArray()
 {
-	try{
+	try {
 		var tmpNoteArray = bg.dateNoteArray;
 		var outObj = new Object;
 		
@@ -310,7 +384,7 @@ function getNoteArray()
 	}
 	catch(e)
 	{
-		handleError("getNoteArray", e);
+		handleError("Calendar.js getNoteArray", e);
 	}
 }
 
@@ -339,7 +413,7 @@ function getNoteForDate(timestampNote)
 	}
 	catch(e)
 	{
-		handleError("getNoteArray", e);
+		handleError("Calendar.js getNoteArray", e);
 	}
 	
 }
@@ -349,52 +423,58 @@ Return date as a localised string
 */
 function getDateString(timestamp, long)
 {
+	try {
 
-	date = new Date(timestamp*1);
-	
-	var day = date.getUTCDay();
-	var month = date.getUTCMonth();
-	var mDay = date.getUTCDate();
-	var year = date.getUTCFullYear();
-
-	//Get correct suffix
-	lDay = (mDay%10);
-	switch(lDay)
-	{
-	case 1:
-		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberSt");
-		else sFix = chrome.i18n.getMessage("numberTh");
-		break;
-	case 2:
-		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberNd");
-		else sFix = chrome.i18n.getMessage("numberTh");
-		break;
-	case 3:
-		if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberRd");
-		else sFix = chrome.i18n.getMessage("numberTh");
-		break;
-	default:
-		sFix = chrome.i18n.getMessage("numberTh");
-	}
-
-	var monthName = chrome.i18n.getMessage("mon"+(month+1)); 
-
-	var dateString = "";
-
-	if(long)
-	{
-		dateString = chrome.i18n.getMessage("fullDate", [ucFirst(chrome.i18n.getMessage("lday"+day)), monthName, mDay, sFix]);
-	}
-	else {
+		date = new Date(timestamp*1);
 		
-		var dateTemplate = bg.settings.dateFormatShort;
-		dateString = dateTemplate.replace("mm",month+1);
-		dateString = dateString.replace("yy",year);
-		dateString = dateString.replace("dd",mDay);
+		var day = date.getUTCDay();
+		var month = date.getUTCMonth();
+		var mDay = date.getUTCDate();
+		var year = date.getUTCFullYear();
+	
+		//Get correct suffix
+		lDay = (mDay%10);
+		switch(lDay)
+		{
+		case 1:
+			if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberSt");
+			else sFix = chrome.i18n.getMessage("numberTh");
+			break;
+		case 2:
+			if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberNd");
+			else sFix = chrome.i18n.getMessage("numberTh");
+			break;
+		case 3:
+			if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberRd");
+			else sFix = chrome.i18n.getMessage("numberTh");
+			break;
+		default:
+			sFix = chrome.i18n.getMessage("numberTh");
+		}
+	
+		var monthName = chrome.i18n.getMessage("mon"+(month+1)); 
+	
+		var dateString = "";
+	
+		if(long)
+		{
+			dateString = chrome.i18n.getMessage("fullDate", [ucFirst(chrome.i18n.getMessage("lday"+day)), monthName, mDay, sFix]);
+		}
+		else {
+			
+			var dateTemplate = bg.settings.dateFormatShort;
+			dateString = dateTemplate.replace("mm",month+1);
+			dateString = dateString.replace("yy",year);
+			dateString = dateString.replace("dd",mDay);
+		}
+	
+		return dateString;
+		
 	}
-
-	return dateString;
-
+	catch(e)
+	{
+		handleError("Calendar.js getDateString", e);
+	}
 }
 
 /**
@@ -402,12 +482,18 @@ Start the dynamic counter
 */
 function startDynamic(event)
 {
-	Tipped.hide(daysSelectString); //Hide all tool tips
-	
-	$(daysSelectString).on("mouseenter", updateDynamic); //Add mouseenter event for days
-	$("*").on("mouseup", endDynamic); //Add mouseup event for all (to end on end of click, also outside specific days)
-	
-	dynamicStartStamp = event.target.attributes["datetimestamp"].value * 1;
+	try {
+		Tipped.hide(daysSelectString); //Hide all tool tips
+		
+		$(daysSelectString).on("mouseenter", updateDynamic); //Add mouseenter event for days
+		$("*").on("mouseup", endDynamic); //Add mouseup event for all (to end on end of click, also outside specific days)
+		
+		dynamicStartStamp = event.target.attributes["datetimestamp"].value * 1;
+	}
+	catch(e)
+	{
+		handleError("Calendar.js startDynamic", e);
+	}
 }
 
 /**
@@ -415,35 +501,41 @@ Update the dynamic counter
 */
 function updateDynamic(event){
 	
-	//Only run if start point is set. Should not be available, but you never know!
-	if(dynamicStartStamp !== false)
-	{
-		var currentStamp = event.target.attributes["datetimestamp"].value * 1;
-	
-		//Get diff
-		dynamicDiff = currentStamp - dynamicStartStamp;
+	try {
 		
-		//Find increment: minus or plus
-		var increment = (dynamicDiff > 0) ? 86400000 : -86400000;
-		
-		//Remove dynamic class from all days
-		$(daysSelectString).removeClass(dynamicClass);
-		
-		//Go through all points between current and start, add class
-		var iterations = 0;
-		for(i=dynamicStartStamp; i != (currentStamp + increment); i = i + increment)
+		//Only run if start point is set. Should not be available, but you never know!
+		if(dynamicStartStamp !== false)
 		{
-			iterations++;
-			
-			if(iterations>366) break; //Safeguard against misses
-			
-			//Add class
-			var selectorString = '[dateTimestamp="'+i+'"]';
-			$(selectorString).addClass(dynamicClass);
-		}
+			var currentStamp = event.target.attributes["datetimestamp"].value * 1;
 		
+			//Get diff
+			dynamicDiff = currentStamp - dynamicStartStamp;
+			
+			//Find increment: minus or plus
+			var increment = (dynamicDiff > 0) ? 86400000 : -86400000;
+			
+			//Remove dynamic class from all days
+			$(daysSelectString).removeClass(dynamicClass);
+			
+			//Go through all points between current and start, add class
+			var iterations = 0;
+			for(i=dynamicStartStamp; i != (currentStamp + increment); i = i + increment)
+			{
+				iterations++;
+				
+				if(iterations>366) break; //Safeguard against misses
+				
+				//Add class
+				var selectorString = '[dateTimestamp="'+i+'"]';
+				$(selectorString).addClass(dynamicClass);
+			}
+			
+		}
 	}
-	
+	catch(e)
+	{
+		handleError("Calendar.js updateDynamic", e);
+	}
 }
 
 /**
@@ -451,17 +543,24 @@ End and unset the dynamic counter
 */
 function endDynamic(event){
 	
-	Tipped.hide(daysSelectString); //Hide all tool tips
+	try {
 	
-	//Unbind events from all events
-	$("*").off("mouseup", endDynamic).off("mouseenter", updateDynamic);
-	
-	//Remove dynamic class from all days
-	$(daysSelectString).removeClass("cal_day_dynamic");
-	
-	//Unset start point for dynamic counter
-	dynamicStartStamp = false;
-	dynamicDiff = false;
+		Tipped.hide(daysSelectString); //Hide all tool tips
+		
+		//Unbind events from all events
+		$("*").off("mouseup", endDynamic).off("mouseenter", updateDynamic);
+		
+		//Remove dynamic class from all days
+		$(daysSelectString).removeClass("cal_day_dynamic");
+		
+		//Unset start point for dynamic counter
+		dynamicStartStamp = false;
+		dynamicDiff = false;
+	}
+	catch(e)
+	{
+		handleError("Calendar.js endDynamic", e);
+	}
 	
 }
 
@@ -501,14 +600,20 @@ The user has clicked a year link and we need to go to another year
  */
 function yearClicked(event){
 
-	var year = $(event.target).attr("year");
-
-	log("User event", "Year link clicked " + year); //Log
+	try {
+		var year = $(event.target).attr("year");
 	
-	currentYear = year*1; //Add offset to current year
-
-	//initPopupPage(currentYear, 1);
-	showCal(currentYear, 1);
+		log("User event", "Year link clicked " + year); //Log
+		
+		currentYear = year*1; //Add offset to current year
+	
+		//initPopupPage(currentYear, 1);
+		showCal(currentYear, 1);
+	}
+	catch(e)
+	{
+		handleError("Calendar.js yearClicked", e);
+	}
 	
 }
 
@@ -580,23 +685,29 @@ Highlights the chosen dates, from loaded value
 */
 function Calendar(year, month)
 {
-//	log("Creating calendar", year+"-"+month);
-	
-	//Functions
-	this.getCal = calGetCal;
 
-	//working variables
-	this.year = year;
-	this.month = month;
-	this.workMonth = month-1;
+	try {	
+		//Functions
+		this.getCal = calGetCal;
 	
-	this.workDate = new Date(Date.UTC(year,this.workMonth,1));
+		//working variables
+		this.year = year;
+		this.month = month;
+		this.workMonth = month-1;
+		
+		this.workDate = new Date(Date.UTC(year,this.workMonth,1));
+		
+		this.startStamp = Date.UTC(year,this.workMonth,1);
+		
+		this.offSet = this.workDate.getTimezoneOffset();
+		
+		this.outVars = new Object();
 	
-	this.startStamp = Date.UTC(year,this.workMonth,1);
-	
-	this.offSet = this.workDate.getTimezoneOffset();
-	
-	this.outVars = new Object();
+	}
+	catch(e)
+	{
+		handleError("Calendar.js Calendar", e);
+	}
 	
 }	
 
@@ -605,161 +716,166 @@ Return the actual calendar html
 */
 function calGetCal(template)
 {
+	try {
+		//Set month name
+		this.outVars.monthName = ucFirst(chrome.i18n.getMessage("mon"+this.month));
+		
+		this.outVars.year = this.year; //.toString().substring(2,4);
 	
-	//Set month name
-	this.outVars.monthName = ucFirst(chrome.i18n.getMessage("mon"+this.month));
+		//Set week header value
+		this.outVars.weekShortName = chrome.i18n.getMessage("weekHeader");
 	
-	this.outVars.year = this.year; //.toString().substring(2,4);
-
-	//Set week header value
-	this.outVars.weekShortName = chrome.i18n.getMessage("weekHeader");
-
-	//Set day names
-	if(firstDayOfWeek == 0) {
-		this.outVars.day0_ShortName = chrome.i18n.getMessage("sday0");
-		this.outVars.day1_ShortName = chrome.i18n.getMessage("sday1");
-		this.outVars.day2_ShortName = chrome.i18n.getMessage("sday2");
-		this.outVars.day3_ShortName = chrome.i18n.getMessage("sday3");
-		this.outVars.day4_ShortName = chrome.i18n.getMessage("sday4");
-		this.outVars.day5_ShortName = chrome.i18n.getMessage("sday5");
-		this.outVars.day6_ShortName = chrome.i18n.getMessage("sday6");
-	}
-	else {
-		this.outVars.day0_ShortName = chrome.i18n.getMessage("sday1");
-		this.outVars.day1_ShortName = chrome.i18n.getMessage("sday2");
-		this.outVars.day2_ShortName = chrome.i18n.getMessage("sday3");
-		this.outVars.day3_ShortName = chrome.i18n.getMessage("sday4");
-		this.outVars.day4_ShortName = chrome.i18n.getMessage("sday5");
-		this.outVars.day5_ShortName = chrome.i18n.getMessage("sday6");
-		this.outVars.day6_ShortName = chrome.i18n.getMessage("sday0");
-	}
-
-	var startWeek = this.workDate.getWeek(1);
-	var startWeekDay = this.workDate.getUTCDay();
+		//Set day names
+		if(firstDayOfWeek == 0) {
+			this.outVars.day0_ShortName = chrome.i18n.getMessage("sday0");
+			this.outVars.day1_ShortName = chrome.i18n.getMessage("sday1");
+			this.outVars.day2_ShortName = chrome.i18n.getMessage("sday2");
+			this.outVars.day3_ShortName = chrome.i18n.getMessage("sday3");
+			this.outVars.day4_ShortName = chrome.i18n.getMessage("sday4");
+			this.outVars.day5_ShortName = chrome.i18n.getMessage("sday5");
+			this.outVars.day6_ShortName = chrome.i18n.getMessage("sday6");
+		}
+		else {
+			this.outVars.day0_ShortName = chrome.i18n.getMessage("sday1");
+			this.outVars.day1_ShortName = chrome.i18n.getMessage("sday2");
+			this.outVars.day2_ShortName = chrome.i18n.getMessage("sday3");
+			this.outVars.day3_ShortName = chrome.i18n.getMessage("sday4");
+			this.outVars.day4_ShortName = chrome.i18n.getMessage("sday5");
+			this.outVars.day5_ShortName = chrome.i18n.getMessage("sday6");
+			this.outVars.day6_ShortName = chrome.i18n.getMessage("sday0");
+		}
 	
-	var tabWidth = 8;
-
-	if(!this.showWeekNumber) tabWidth = 7;
-
-	var tmpWeek = startWeek;
-	var currentWeek = 0;
-
-	//	Screw rules, hard code instead. This is Monday first.
-	if(firstDayOfWeek == 1)
-	{
-		switch(startWeekDay)
+		var startWeek = this.workDate.getWeek(1);
+		var startWeekDay = this.workDate.getUTCDay();
+		
+		var tabWidth = 8;
+	
+		if(!this.showWeekNumber) tabWidth = 7;
+	
+		var tmpWeek = startWeek;
+		var currentWeek = 0;
+	
+		//	Screw rules, hard code instead. This is Monday first.
+		if(firstDayOfWeek == 1)
 		{
-		case 0:
-			tmpWeek = tmpWeek - 1;
-			if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
-			days = 6;
-			break;
-
-		case 1:
-			days = 0;
-			break;
-
-		case 2:
-			days = 1;
-			break;
-
-		case 3:
-			days = 2;
-			break;
-
-		case 4:
-			days = 3;
-			break;
-
-		case 5:
-			days = 4;
-			break;
-
-		case 6:
-			days = 5;
-			break;
-
+			switch(startWeekDay)
+			{
+			case 0:
+				tmpWeek = tmpWeek - 1;
+				if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
+				days = 6;
+				break;
+	
+			case 1:
+				days = 0;
+				break;
+	
+			case 2:
+				days = 1;
+				break;
+	
+			case 3:
+				days = 2;
+				break;
+	
+			case 4:
+				days = 3;
+				break;
+	
+			case 5:
+				days = 4;
+				break;
+	
+			case 6:
+				days = 5;
+				break;
+	
+			}
 		}
-	}
-	else //Start on sunday.
-	{
-		switch(startWeekDay)
+		else //Start on sunday.
 		{
-		case 0:
-			tmpWeek = tmpWeek - 1;
-			if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
-			days = 0;
-			break;
-
-		case 1:
-			days = 1;
-			break;
-
-		case 2:
-			days = 2;
-			break;
-
-		case 3:
-			days = 3;
-			break;
-
-		case 4:
-			days = 4;
-			break;
-
-		case 5:
-			days = 5;
-			break;
-
-		case 6:
-			days = 6;
-			break;
-
+			switch(startWeekDay)
+			{
+			case 0:
+				tmpWeek = tmpWeek - 1;
+				if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
+				days = 0;
+				break;
+	
+			case 1:
+				days = 1;
+				break;
+	
+			case 2:
+				days = 2;
+				break;
+	
+			case 3:
+				days = 3;
+				break;
+	
+			case 4:
+				days = 4;
+				break;
+	
+			case 5:
+				days = 5;
+				break;
+	
+			case 6:
+				days = 6;
+				break;
+	
+			}
 		}
+	
+		//First week shown for month
+		this.outVars.w_0 = tmpWeek;
+	
+		//	The actual day adder code
+		for(var i = 0; i < this.workDate.getDaysInMonth(); i++)
+		{
+			var dayStamp = this.startStamp + (i * 86400000);
+			var tmpDate = new Date(dayStamp);
+	
+			if(days==7)
+			{	
+				currentWeek++;
+				this.outVars["w_"+currentWeek] = tmpDate.getWeek(1);
+				days = 0;
+			}
+	
+			this.outVars["d_stamp_"+currentWeek+"_"+days] = dayStamp;
+			this.outVars["d_content_"+currentWeek+"_"+days] = i+1;
+			this.outVars["d_class_"+currentWeek+"_"+days] = "cal_td_day";
+			this.outVars["d_id_"+currentWeek+"_"+days] = dayStamp;
+	
+			days++;
+		}
+	
+		var thisCalOutHtml = template;
+	
+		//New home made str_replace version
+		var replaceString;
+		
+		$.each(this.outVars, function(key, value){
+			
+			replaceString = "${"+key+"}";
+			
+			thisCalOutHtml = thisCalOutHtml.replace(replaceString,value);
+			
+		});
+			
+		myregexp = new RegExp(/\${[a-zA-Z0-9_-]*}/gi);
+		
+		thisCalOutHtml = thisCalOutHtml.replace(myregexp, "");
+		
+		return thisCalOutHtml;
 	}
-
-	//First week shown for month
-	this.outVars.w_0 = tmpWeek;
-
-	//	The actual day adder code
-	for(var i = 0; i < this.workDate.getDaysInMonth(); i++)
+	catch(e)
 	{
-		var dayStamp = this.startStamp + (i * 86400000);
-		var tmpDate = new Date(dayStamp);
-
-		if(days==7)
-		{	
-			currentWeek++;
-			this.outVars["w_"+currentWeek] = tmpDate.getWeek(1);
-			days = 0;
-		}
-
-		this.outVars["d_stamp_"+currentWeek+"_"+days] = dayStamp;
-		this.outVars["d_content_"+currentWeek+"_"+days] = i+1;
-		this.outVars["d_class_"+currentWeek+"_"+days] = "cal_td_day";
-		this.outVars["d_id_"+currentWeek+"_"+days] = dayStamp;
-
-		days++;
+		handleError("Calendar.js calgetCal", e);
 	}
-
-	var thisCalOutHtml = template;
-
-	//New home made str_replace version
-	var replaceString;
-	
-	$.each(this.outVars, function(key, value){
-		
-		replaceString = "${"+key+"}";
-		
-		thisCalOutHtml = thisCalOutHtml.replace(replaceString,value);
-		
-	});
-		
-	myregexp = new RegExp(/\${[a-zA-Z0-9_-]*}/gi);
-	
-	thisCalOutHtml = thisCalOutHtml.replace(myregexp, "");
-	
-	return thisCalOutHtml;
 }
 
 /**
@@ -777,39 +893,48 @@ Create a calendar
 */
 function showCal(year, month)
 {	
-	//Remove all tipped 
-	Tipped.hideAll();
-
-	//Init and default for week start day
-	var firstDay = bg.settings.firstDay; //getItem("firstDay");
-	if(firstDay != "1" && firstDay != "0")
+	try {
+		//Remove all tipped 
+		Tipped.hideAll();
+	
+		//Init and default for week start day
+		var firstDay = bg.settings.firstDay; //getItem("firstDay");
+		if(firstDay != "1" && firstDay != "0")
+		{
+			firstDay = "1";
+			bg.settings.firstDay = firstDay; 
+			bg.persistSettingsToStorage();
+		}
+	
+		firstDayOfWeek = firstDay;
+	
+		populate12MonthsFrom(year, month, "month", monthTemplate); //this year from january
+	
+		populateYearLinks();
+	
+		//Initialize and default for showing week number
+		var showWeek = bg.settings.showWeek; //getItem("showWeek");
+		if(showWeek != "1" && showWeek != "0"){
+			showWeek = "1";
+			bg.settings.showWeek = showWeek; //setItem("showWeek", 1);
+			bg.persistSettingsToStorage();
+		}
+		if(showWeek == "0") $(".cal_weekblock").hide();
+	
+		updateDatesStuff();
+	}
+	catch(e)
 	{
-		firstDay = "1";
-		bg.settings.firstDay = firstDay; 
-		bg.persistSettingsToStorage();
+		handleError("Calendar.js showCal", e);
 	}
-
-	firstDayOfWeek = firstDay;
-
-	populate12MonthsFrom(year, month, "month", monthTemplate); //this year from january
-
-	populateYearLinks();
-
-	//Initialize and default for showing week number
-	var showWeek = bg.settings.showWeek; //getItem("showWeek");
-	if(showWeek != "1" && showWeek != "0"){
-		showWeek = "1";
-		bg.settings.showWeek = showWeek; //setItem("showWeek", 1);
-		bg.persistSettingsToStorage();
-	}
-	if(showWeek == "0") $(".cal_weekblock").hide();
-
-	updateDatesStuff();
 
 }
 
 function populate12MonthsFrom(year, month, selectstring, template)
 {
+	
+	try {
+	
 	showingFromMonth = month;
 	showingFromYear = year;
 
@@ -828,6 +953,12 @@ function populate12MonthsFrom(year, month, selectstring, template)
 		
 	}
 
+	}
+	catch(e)
+	{
+		handleError("Calendar.js populate12MonthsFrom", e);
+	}	
+
 }
 
 
@@ -836,44 +967,48 @@ Add the links to the link bar
  */
 function populateYearLinks()
 {
-	
-	//Remove markings
-	$(".yearlink").removeClass(yearButtonFullClass).removeClass(yearButtonHalfClass).removeClass(yearButtonThirdClass);
-	
-	//We are showing a full year
-	if(showingFromMonth == 1)
-	{
-		baseYear = showingFromYear;
-		$("#yearLabel").addClass(yearButtonFullClass);
+	try {
+		//Remove markings
+		$(".yearlink").removeClass(yearButtonFullClass).removeClass(yearButtonHalfClass).removeClass(yearButtonThirdClass);
 		
-	}
-	else if(showingFromMonth < 7)
-	{
-		baseYear = showingFromYear;
-		$("#yearLabel").addClass(yearButtonHalfClass);
-		$("#yp1").addClass(yearButtonThirdClass);
+		//We are showing a full year
+		if(showingFromMonth == 1)
+		{
+			baseYear = showingFromYear;
+			$("#yearLabel").addClass(yearButtonFullClass);
+			
+		}
+		else if(showingFromMonth < 7)
+		{
+			baseYear = showingFromYear;
+			$("#yearLabel").addClass(yearButtonHalfClass);
+			$("#yp1").addClass(yearButtonThirdClass);
+			
+		}
+		else {
+			baseYear = showingFromYear + 1;
+			$("#yearLabel").addClass(yearButtonHalfClass);
+			$("#ym1").addClass(yearButtonThirdClass);
+		}
 		
+		$("#ym6").html(baseYear-6).attr("year", baseYear-6);
+		$("#ym1").html(baseYear-1).attr("year", baseYear-1);
+		$("#ym2").html(baseYear-2).attr("year", baseYear-2);
+		$("#ym3").html(baseYear-3).attr("year", baseYear-3);
+		$("#ym4").html(baseYear-4).attr("year", baseYear-4);
+		$("#ym5").html(baseYear-5).attr("year", baseYear-5);
+		$("#yearLabel").html(baseYear).attr("year", baseYear);
+		$("#yp1").html(baseYear+1).attr("year", baseYear+1);
+		$("#yp2").html(baseYear+2).attr("year", baseYear+2);
+		$("#yp3").html(baseYear+3).attr("year", baseYear+3);
+		$("#yp4").html(baseYear+4).attr("year", baseYear+4);
+		$("#yp5").html(baseYear+5).attr("year", baseYear+5);
+		$("#yp6").html(baseYear+6).attr("year", baseYear+6);
 	}
-	else {
-		baseYear = showingFromYear + 1;
-		$("#yearLabel").addClass(yearButtonHalfClass);
-		$("#ym1").addClass(yearButtonThirdClass);
+	catch(e)
+	{
+		handleError("Calendar.js populateYearLinks", e);
 	}
-	
-	$("#ym6").html(baseYear-6).attr("year", baseYear-6);
-	$("#ym1").html(baseYear-1).attr("year", baseYear-1);
-	$("#ym2").html(baseYear-2).attr("year", baseYear-2);
-	$("#ym3").html(baseYear-3).attr("year", baseYear-3);
-	$("#ym4").html(baseYear-4).attr("year", baseYear-4);
-	$("#ym5").html(baseYear-5).attr("year", baseYear-5);
-	$("#yearLabel").html(baseYear).attr("year", baseYear);
-	$("#yp1").html(baseYear+1).attr("year", baseYear+1);
-	$("#yp2").html(baseYear+2).attr("year", baseYear+2);
-	$("#yp3").html(baseYear+3).attr("year", baseYear+3);
-	$("#yp4").html(baseYear+4).attr("year", baseYear+4);
-	$("#yp5").html(baseYear+5).attr("year", baseYear+5);
-	$("#yp6").html(baseYear+6).attr("year", baseYear+6);
-	
 }
 
 /**
@@ -883,23 +1018,29 @@ Keyboard controls
 */
 function keyPressed(key) {
 
-	//Check if we are in 3 or 12 month calendar
-	var shifting = (bg.settings.popup == 12) ? true : false;
-		
-	//3 months and 
-	if(key == 37 || (key == 40 && !shifting)) { // down or right
-		
-		shiftCalendarByMonths(-12);
+	try {
+		//Check if we are in 3 or 12 month calendar
+		var shifting = (bg.settings.popup == 12) ? true : false;
+			
+		//3 months and 
+		if(key == 37 || (key == 40 && !shifting)) { // down or right
+			
+			shiftCalendarByMonths(-12);
+		}
+		else if(key == 39 || (key == 38 && !shifting)) { // up or left
+			shiftCalendarByMonths(12);
+		}
+		else if(key == 38)
+		{
+			shiftCalendarByMonths(-4);
+		}
+		else if(key == 40)
+		{
+			shiftCalendarByMonths(4);
+		}
 	}
-	else if(key == 39 || (key == 38 && !shifting)) { // up or left
-		shiftCalendarByMonths(12);
-	}
-	else if(key == 38)
+	catch(e)
 	{
-		shiftCalendarByMonths(-4);
-	}
-	else if(key == 40)
-	{
-		shiftCalendarByMonths(4);
+		handleError("Calendar.js keyPressed", e);
 	}
 }

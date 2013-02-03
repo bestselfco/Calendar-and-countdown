@@ -1,3 +1,4 @@
+
 //New date and settings objects to persist to synced storage
 var settings = new Object();
 var dates = new Object();
@@ -107,8 +108,14 @@ Get date array
 */
 function getDates()
 {
-	dateArray = JSON.parse(getItem("dateArray"));
-	return dateArray;
+	try {
+		dateArray = JSON.parse(getItem("dateArray"));
+		return dateArray;
+	}
+	catch(e)
+	{
+		handleError("getDates", e);
+	}
 }
 
 /**
@@ -125,8 +132,14 @@ Get sub dates
 */
 function getSubDates()
 {
-	subDateArray = JSON.parse(getItem("noCountDateArray"));
-	return subDateArray;
+	try{
+		subDateArray = JSON.parse(getItem("noCountDateArray"));
+		return subDateArray;
+	}
+	catch(e)
+	{
+		handleError("getSubDates", e);
+	}
 }
 
 /**
@@ -134,34 +147,43 @@ Add or remove a note for a date. If "remove" is true, it is deleted no matter wh
 */
 function setNoteForDate(timestamp, note, remove)
 {
-	//Create new object
-	var tmp = {};
-	tmp.timestamp = timestamp;
-	tmp.note = note;
 	
-	var newArray = [];
-	
-	//First, remove any references to the date, because we are either deleting or replacing
-	for(i=0; i<dateNoteArray.length; i++)
-	{
-		var tempR = dateNoteArray[i];
+	try {
 		
-		if(tempR.timestamp.toString() !== timestamp.toString())
+		//Create new object
+		var tmp = {};
+		tmp.timestamp = timestamp;
+		tmp.note = note;
+		
+		var newArray = [];
+		
+		//First, remove any references to the date, because we are either deleting or replacing
+		for(i=0; i<dateNoteArray.length; i++)
 		{
-			newArray.push(tempR); //If not to be removed, add to next array.
-		}	
+			var tempR = dateNoteArray[i];
+			
+			if(tempR.timestamp.toString() !== timestamp.toString())
+			{
+				newArray.push(tempR); //If not to be removed, add to next array.
+			}	
+		}
+		
+		dateNoteArray = newArray; //dateNoteArray is now cleaned
+	
+		
+		//Then, if not remove, add current
+		if(!remove)
+		{
+			dateNoteArray.push(tmp);
+		}
+		
+		setItem("dateNoteArray", JSON.stringify(dateNoteArray));
+	
 	}
-	
-	dateNoteArray = newArray; //dateNoteArray is now cleaned
-
-	
-	//Then, if not remove, add current
-	if(!remove)
+	catch(e)
 	{
-		dateNoteArray.push(tmp);
+		handleError("setNoteForDate",e);
 	}
-	
-	setItem("dateNoteArray", JSON.stringify(dateNoteArray));
 	
 }
 
@@ -170,34 +192,42 @@ Add or remove a color mark for a date
 */
 function setColorForDate(timestamp, color, remove)
 {
-		//Create new object
-		var tmp = {};
-		tmp.timestamp = timestamp;
-		tmp.color = color;
-		
-		var newArray = [];
-		
-		//First, remove any references to the date, because we are either deleting or replacing
-		for(i=0; i<dateColorArray.length; i++)
-		{
-			var tempR = dateColorArray[i];
+		try {
 			
-			if(tempR.timestamp.toString() !== timestamp.toString())
+			//Create new object
+			var tmp = {};
+			tmp.timestamp = timestamp;
+			tmp.color = color;
+			
+			var newArray = [];
+			
+			//First, remove any references to the date, because we are either deleting or replacing
+			for(i=0; i<dateColorArray.length; i++)
 			{
-				newArray.push(tempR); //If not to be removed, add to next array.
-			}	
+				var tempR = dateColorArray[i];
+				
+				if(tempR.timestamp.toString() !== timestamp.toString())
+				{
+					newArray.push(tempR); //If not to be removed, add to next array.
+				}	
+			}
+			
+			dateColorArray = newArray; //dateNoteArray is now cleaned
+		
+			
+			//Then, if not remove, add current
+			if(!remove)
+			{
+				dateColorArray.push(tmp);
+			}
+			
+			setItem("dateColorArray", JSON.stringify(dateColorArray));
+			
 		}
-		
-		dateColorArray = newArray; //dateNoteArray is now cleaned
-	
-		
-		//Then, if not remove, add current
-		if(!remove)
+		catch(e)
 		{
-			dateColorArray.push(tmp);
+			handleError("setColorForDate", e);
 		}
-		
-		setItem("dateColorArray", JSON.stringify(dateColorArray));
 }
 
 /**
@@ -205,46 +235,52 @@ Toggle dates. "nocount" means secondary dates if true.
 */
 function toggleDate(timestamp, noCount)
 {
-
-	if(noCount)
-	{
-		//Secondary dates. Store many hooray
-		var idx = noCountDateArray.indexOf(timestamp);
-	
-		if(idx != -1)
+	try {
+		if(noCount)
 		{
-			noCountDateArray.splice(idx, 1); //Remove if found
-		}
-		else
-		{
-			//...add if not found.
-			noCountDateArray.push(timestamp);
-		}
+			//Secondary dates. Store many hooray
+			var idx = noCountDateArray.indexOf(timestamp);
 		
-		noCountDateArray.sort();
-		setItem("noCountDateArray", JSON.stringify(noCountDateArray));
-		log("Sub date array changed", noCountDateArray);
+			if(idx != -1)
+			{
+				noCountDateArray.splice(idx, 1); //Remove if found
+			}
+			else
+			{
+				//...add if not found.
+				noCountDateArray.push(timestamp);
+			}
 			
+			noCountDateArray.sort();
+			setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+			log("Sub date array changed", noCountDateArray);
+				
+			
+		}
+		else //The main one. Store just that.
+		{
+			var idx = dateArray.indexOf(timestamp);
+			
+			if(idx != -1)
+			{
+				dateArray = []; // Clear out
+			}
+			else
+			{
+				dateArray = [timestamp]; //Set
+			}
 		
+			setItem("dateArray", JSON.stringify(dateArray)); //Store it
+			log("Date array changed", dateArray); //Log it	
+		}
+		
+		maintain();
+	
 	}
-	else //The main one. Store just that.
+	catch(e)
 	{
-		var idx = dateArray.indexOf(timestamp);
-		
-		if(idx != -1)
-		{
-			dateArray = []; // Clear out
-		}
-		else
-		{
-			dateArray = [timestamp]; //Set
-		}
-	
-		setItem("dateArray", JSON.stringify(dateArray)); //Store it
-		log("Date array changed", dateArray); //Log it	
+		handleError("toggleDate", e);
 	}
-	
-	maintain();
 	
 }
 
@@ -253,6 +289,8 @@ Update the icon from the stored values
 */
 function updateIconFromStored()
 {
+	
+	try {
 	//Setup object
 	var iconSetup = new Object();
 	
@@ -268,6 +306,12 @@ function updateIconFromStored()
 
 	setIcon();
 	
+	}
+	catch(e)
+	{
+		handleError("updateIconFromStored", e);
+	}
+	
 }
 
 
@@ -276,22 +320,19 @@ Set the popup page
 */
 function updatePopupFromStored()
 {
-	var popup = settings.popup;
-	setPopup(popup);
-}
-
-/**
- Switch the popup file
-
- @param p The ID of the popup file
- */
-function setPopup(p)
-{
-	var page = "popup_12.html";
-
-	if(p == "3") page = "popup_3.html";
-
-	chrome.browserAction.setPopup({popup:page});
+	try {
+		var popup = settings.popup;
+		
+		var page = "popup_12.html";
+		
+		if(popup == "3") page = "popup_3.html";
+		
+		chrome.browserAction.setPopup({popup:page});
+	}
+	catch(e)
+	{
+		handleError("updatePopupFromStored",e);
+	}
 }
 
 
@@ -302,10 +343,16 @@ Set the icon in the browser bar
  */
 function setIcon()
 {
-	var canvas = document.getElementById("iconCanvas");	
-	var ctx = canvas.getContext("2d");
-	var iconPixelData = ctx.getImageData(0, 0, 19, 19);
-	chrome.browserAction.setIcon({imageData:iconPixelData});
+	try {
+		var canvas = document.getElementById("iconCanvas");	
+		var ctx = canvas.getContext("2d");
+		var iconPixelData = ctx.getImageData(0, 0, 19, 19);
+		chrome.browserAction.setIcon({imageData:iconPixelData});
+	}
+	catch(e)
+	{
+		handleError("setIcon" ,e);
+	}
 }
 
 /**
@@ -314,8 +361,14 @@ Set the tooltip.
  */
 function setToolTip(text)
 {
-	text = text.toString();
-	chrome.browserAction.setTitle({title:text});
+	try{
+		text = text.toString();
+		chrome.browserAction.setTitle({title:text});
+	}
+	catch(e)
+	{
+		handleError("setToolTip", e);
+	}
 }
 
 /**
@@ -323,6 +376,9 @@ Reset extension
 */
 function killEmAll()
 {
+	
+	trackEvent("Full reset", version.currVersion, "");
+	
 	clearStrg();
 	initialiseSettingsOnInstall();
 	initDateArrays();
@@ -336,24 +392,30 @@ function killEmAll()
 */
 function updateBadgeFromStored()
 {
-
-	if(dateArray.length > 0)
-	{
-		var count = getDistanceInDays();
-	
-		if(count != null)
+	try{
+		
+		if(dateArray.length > 0)
 		{
-			setBadge(count);
+			var count = getDistanceInDays();
+		
+			if(count != null)
+			{
+				setBadge(count);
+			}
+			else
+			{
+				chrome.browserAction.setBadgeText({text:""});
+			}
+			
 		}
-		else
+		else //We are not counting to anything, so we delete this.
 		{
 			chrome.browserAction.setBadgeText({text:""});
 		}
-		
 	}
-	else //We are not counting to anything, so we delete this.
+	catch(e)
 	{
-		chrome.browserAction.setBadgeText({text:""});
+		handleError("updateBadgeFromStored", e);
 	}
 }
 
@@ -363,21 +425,28 @@ Set the badge to a countdown value. Also updates the color from memory.
  */
 function setBadge(text)
 {
-	text = text.toString();
-	var color = settings.badgeColor;
-	color = HexToRGB(color);
-
-	var showBadge = settings.showBadge;
+	try{
+		
+		text = text.toString();
+		var color = settings.badgeColor;
+		color = HexToRGB(color);
 	
-	if(showBadge == 1)
-	{
-		chrome.browserAction.setBadgeBackgroundColor({color:color});
-		chrome.browserAction.setBadgeText({text:text});
+		var showBadge = settings.showBadge;
+		
+		if(showBadge == 1)
+		{
+			chrome.browserAction.setBadgeBackgroundColor({color:color});
+			chrome.browserAction.setBadgeText({text:text});
+		}
+		else
+		{
+			//remove badge
+			chrome.browserAction.setBadgeText({text:""});
+		}
 	}
-	else
+	catch(e)
 	{
-		//remove badge
-		chrome.browserAction.setBadgeText({text:""});
+		handleError("setBadge", e);
 	}
 }
 
@@ -386,32 +455,39 @@ Get countdown days for the badge
 */
 function getDistanceInDays()
 {
-	var countto = dateArray[0];
 	
-	if(countto !== null && countto !== undefined)
-	{
-		try {
-			var badgeDate = new Date((countto*1)); //Stupid casting
+	try {
+		var countto = dateArray[0];
 		
-			var diff = Math.abs(badgeDate.getDistanceInDays(todayStamp));
-
-			if(badgeDate.getFullYear() > 1980 && badgeDate.getFullYear() < 2050)
-			{
-				return diff; //All is well;
+		if(countto !== null && countto !== undefined)
+		{
+			try {
+				var badgeDate = new Date((countto*1)); //Stupid casting
+			
+				var diff = Math.abs(badgeDate.getDistanceInDays(todayStamp));
+	
+				if(badgeDate.getFullYear() > 1980 && badgeDate.getFullYear() < 2050)
+				{
+					return diff; //All is well;
+				}
+				else
+				{
+					return null; //Too large
+				}
 			}
-			else
+			catch(err)
 			{
-				return null; //Too large
+				handleError("getDistanceInDays inner", err);
+				return null;
 			}
 		}
-		catch(err)
-		{
-			log(err);
+		else{
 			return null;
 		}
 	}
-	else{
-		return null;
+	catch(e)
+	{
+		handleError("getDistanceInDays", e);
 	}
 }
 
@@ -420,15 +496,21 @@ Get version of extension.
 */
 function getVersion() {
 
-	var manifest = chrome.runtime.getManifest();
-	var version = manifest.version;
-	
-	//Create and set up object for returning
-	var returnObject = new Object();
-	
-	returnObject.currVersion = manifest.version;
-	
-	return returnObject;
+	try {
+		var manifest = chrome.runtime.getManifest();
+		var version = manifest.version;
+		
+		//Create and set up object for returning
+		var returnObject = new Object();
+		
+		returnObject.currVersion = manifest.version;
+		
+		return returnObject;
+	}
+	catch(e)
+	{
+		handleError("getVersion", e);
+	}	
 }
 
 
@@ -438,6 +520,9 @@ Setup alarm for maintenance
 */
 function setupMaintainLoop()
 {
+	
+	try{
+	
 	//d = Now, ad = next full hour.
 	var d = new Date();
 	var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+5, 0);
@@ -463,6 +548,12 @@ function setupMaintainLoop()
 			maintain();
 		}
 	});
+	
+	}
+	catch(e)
+	{
+		handleError("setupMaintainLoop", e);
+	}
 	
 }
 

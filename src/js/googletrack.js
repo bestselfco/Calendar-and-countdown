@@ -21,16 +21,28 @@ Track a page view to Google
 */
 function trackPageView(pagetitle)
 {
-	//log("Googletrack - page", pagetitle);
-	_gaq.push(['_trackPageview', pagetitle]);
+	if(!debug)
+	{
+		_gaq.push(['_trackPageview', pagetitle]);
+	}
+	else {
+		log("TrackPageview", pagetitle);
+	}
 }
 
 /**
-Track an error to Google Analytics
+Track an error to Google Analytics, both immediately and in detail
 */
 function trackError(where, category, text)
 {
-	_gaq.push(['_trackEvent', 'Error', where, category + " " + text]);
+	if(!debug)
+	{
+		_gaq.push(['_trackEvent', 'Error', where, category + " " + text]);
+		trackPageView("/error" + where + "/" + category);
+	}
+	else {
+		log("TrackError", where + " / " + category + " / " + text);
+	}	
 }
 
 /**
@@ -38,6 +50,12 @@ Track an event view to Google Analytics
 */
 function trackEvent(type, category, text)
 {
-	_gaq.push(['_trackEvent', type, category, text]);
+	if(!debug)
+	{
+		_gaq.push(['_trackEvent', type, category, text]);
+	}
+	else {
+		log("TrackEvent",  type + " / " + category + " / " + text);
+	}
 }
 

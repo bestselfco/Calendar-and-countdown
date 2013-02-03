@@ -2,7 +2,8 @@
 COMMON FUNCTIONS FOR ALL PARTS OF THE APPLICATION. 
 */
 
-var googleID = "caplfhpahpkhhckglldpmdmjclabckhc"; //For turning on/off logging
+//Debug object. If true, we are in debug mode. Checks if ID is the official Google ID or not.
+var debug = (location.hostname == "caplfhpahpkhhckglldpmdmjclabckhc") ? false : true;
 
 /**
  * Output to log if "debug" is true
@@ -12,7 +13,7 @@ var googleID = "caplfhpahpkhhckglldpmdmjclabckhc"; //For turning on/off logging
  */
 function log(cat, text)
 {
-	if(location.hostname != googleID) //Only if local, not if proper
+	if(debug) //Only if local, not if proper
 	{
 		var time = new Date();
 		console.log(time.getHours()+":"+time.getMinutes()+":"+time.getSeconds() + " " + cat + ": " + text);
@@ -21,8 +22,5 @@ function log(cat, text)
 
 function handleError(where, e)
 {
-	console.log(where);
-	console.log(e.name);
-	console.log(e.message);
 	trackError(where, e.name, e.message);
 }

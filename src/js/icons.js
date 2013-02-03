@@ -122,7 +122,7 @@ function Icon(iconDefinition){
 	}
 	catch(e)
 	{
-		handleError("Icon", e);
+		handleError("Icon.js Icon", e);
 	}
 
 }
