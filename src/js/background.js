@@ -471,68 +471,76 @@ Initialise settings and/or reset everything to scratch
 */ 
 function initDateArrays()
 {
-	log("Event", "initDateArrays()");
-	
-	dateArray = getItem("dateArray");
-	if(dateArray === null && getItem("countto") != null )
-	{
-		//Transition to new solution for storing date.
-		dateArray = new Array();
-		var countTo = getItem("countto");
-		toggleDate(countTo);
-		log("Migrating date solution", countTo);
-	}
-	else if(dateArray === null)
-	{
-		dateArray = new Array();
-		setItem("dateArray", JSON.stringify(dateArray));
-		log("Setting default (empty) date array", dateArray);
-	}
-	else
-	{
-		dateArray = JSON.parse(dateArray);
-	}
 	
 	
-	//Init date note array
-	dateNoteArray = getItem("dateNoteArray");
-	if(dateNoteArray == null)
-	{
-		dateNoteArray = new Array();
-		setItem("dateNoteArray", JSON.stringify(dateNoteArray));
-		//log("Debug", "Setting default (empty) note array");
-	}
-	else {
-		dateNoteArray = JSON.parse(dateNoteArray);
-	}
+	try {
 	
+		dateArray = getItem("dateArray");
+		if(dateArray === null && getItem("countto") != null )
+		{
+			//Transition to new solution for storing date.
+			dateArray = new Array();
+			var countTo = getItem("countto");
+			toggleDate(countTo);
+			log("Migrating date solution", countTo);
+		}
+		else if(dateArray === null)
+		{
+			dateArray = new Array();
+			setItem("dateArray", JSON.stringify(dateArray));
+			log("Setting default (empty) date array", dateArray);
+		}
+		else
+		{
+			dateArray = JSON.parse(dateArray);
+		}
+		
+		
+		//Init date note array
+		dateNoteArray = getItem("dateNoteArray");
+		if(dateNoteArray == null)
+		{
+			dateNoteArray = new Array();
+			setItem("dateNoteArray", JSON.stringify(dateNoteArray));
+			
+		}
+		else {
+			dateNoteArray = JSON.parse(dateNoteArray);
+		}
+		
+		
+		//Init date color array
+		dateColorArray = getItem("dateColorArray");
+		if(dateColorArray == null)
+		{
+			dateColorArray = new Array();
+			setItem("dateColorArray", JSON.stringify(dateColorArray));
+		}
+		else {
+			dateColorArray = JSON.parse(dateColorArray);
+		}
+		
+		//Secondary dates
+		noCountDateArray = getItem("noCountDateArray");
+		if(noCountDateArray === null)
+		{
+			noCountDateArray = new Array();
+			setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+		}
+		else
+		{
+			noCountDateArray = JSON.parse(noCountDateArray);
+		}
+		
+		//Load default icon, autocreates new if not already set
+		var icon = new Icon(new Object());
+		icon.getDefaultValues(true);
 	
-	//Init date color array
-	dateColorArray = getItem("dateColorArray");
-	if(dateColorArray == null)
+	}
+	catch(e)
 	{
-		dateColorArray = new Array();
-		setItem("dateColorArray", JSON.stringify(dateColorArray));
+		handleError("initDateArrays", e);
 	}
-	else {
-		dateColorArray = JSON.parse(dateColorArray);
-	}
-	
-	//Secondary dates
-	noCountDateArray = getItem("noCountDateArray");
-	if(noCountDateArray === null)
-	{
-		noCountDateArray = new Array();
-		setItem("noCountDateArray", JSON.stringify(noCountDateArray));
-	}
-	else
-	{
-		noCountDateArray = JSON.parse(noCountDateArray);
-	}
-	
-	//Load default icon, autocreates new if not already set
-	var icon = new Icon(new Object());
-	icon.getDefaultValues(true);
 
 }
 
@@ -541,22 +549,26 @@ Set settings object to stored settings
 */
 function getSettingsFromStorage()
 {
-	//var tmpSettings = getDefaultSettings();
 	
-	settingsStorage.get("settings", function(items){
+	try{
 	
-		//Overwrite default settings with stored ones where applicable.
-		for (var i in items.settings)
-		{
-			settings[i] = items.settings[i];
-		}
+		settingsStorage.get("settings", function(items){
 		
-		log("Settings", "Settings has been read");
-		
-		//return tmpSettings;
+			//Overwrite default settings with stored ones where applicable.
+			for (var i in items.settings)
+			{
+				settings[i] = items.settings[i];
+			}
 			
-	
-	});
+			log("Settings", "Settings has been read");
+				
+		});
+	}
+	catch(e)
+	{
+		handleError("getSettingsFromStorage", e);
+	}
+		
 }
 
 /**
@@ -564,13 +576,19 @@ Persist the current settings object
 */
 function persistSettingsToStorage() {
 	
-	if(settings.popup)
-	{
-		settingsStorage.set({"settings": settings}, function(items){
+	try {
+		if(settings.popup)
+		{
+			settingsStorage.set({"settings": settings}, function(items){
+			
+				log("Settings", "Settings has been written to storage");
 		
-			log("Settings", "Settings has been written to storage");
-	
-		});
+			});
+		}
+	}
+	catch(e)
+	{
+		handleError("persistSettingsToStorage", e);
 	}
 }
 

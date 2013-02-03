@@ -21,6 +21,8 @@ function log(cat, text)
 
 function handleError(where, e)
 {
-	//console.log(e);
+	console.log(where);
+	console.log(e.name);
+	console.log(e.message);
 	trackError(where, e.name, e.message);
 }
