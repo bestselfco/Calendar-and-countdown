@@ -30,6 +30,12 @@ Initialise background page and start the extension
 function bginit()
 {	
 	try {
+	
+		//Create and add icon canvas to background document
+		var iconCanvas = document.createElement("canvas");
+		iconCanvas.setAttribute("id", "iconCanvas");
+		document.body.appendChild(iconCanvas);
+	
 		//Set title
 		document.title = "Calendar and Countdown";
 		
@@ -710,7 +716,8 @@ function pushSettingsToGoogleTracker()
 	try {
 		for (var setting in settings)
 		{
-			_gaq.push(['_setCustomVar', 1, setting, settings[setting], 1]);
+		    log("Settings to google", setting + settings[setting]);
+            _gaq.push(['_setCustomVar', 1, setting, settings[setting], 1]);
 		} 
 	}
 	catch(e)

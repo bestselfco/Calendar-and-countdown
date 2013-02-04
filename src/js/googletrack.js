@@ -38,7 +38,7 @@ function trackError(where, category, text)
 	if(!debug)
 	{
 		_gaq.push(['_trackEvent', 'Error', where, category + " " + text]);
-		trackPageView("/error" + where + "/" + category);
+		trackPageView("/error/" + where + "/" + category);
 	}
 	else {
 		log("TrackError", where + " / " + category + " / " + text);
