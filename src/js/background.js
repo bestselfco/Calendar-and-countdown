@@ -661,17 +661,12 @@ function bgInit()
 	startupSequence.start();
 }
 
-/**
-Bootstrap background on page load finished
-*/
-$(document).ready(function() {	
-	
-});
-
+//reload, update or install
 chrome.runtime.onInstalled.addListener(function(details) {
 	doMigrationOrInstall(details);	//On reload or new install, run migration function (migrations.js)
 });
 
+//normal startup
 chrome.runtime.onStartup.addListener(function() {
 	bgInit();
 });
