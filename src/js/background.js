@@ -21,26 +21,26 @@ var now = new Date();
 var todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 
 /**
-Initialise background page and start the extension
+Add migration listener
 */
-function bginit()
+function migrate()
 {	
 	try {
-			
 		//Do install stuff if installed, migration stuff if updated
 		chrome.runtime.onInstalled.addListener(function(details) {
 			doMigrationOrInstall(details);		
-		});
-		        
-		//Track startup to Google
-		trackPageView('/start/'+version.currVersion);
-		
+		});     
 	}
 	catch(e)
 	{
-		handleError("bginit", e);
+		handleError("migrate", e);
 	}	
 	
+}
+
+function trackExtensionStart()
+{
+	trackPageView('/start/'+version.currVersion);
 }
 
 /**
@@ -584,7 +584,6 @@ Set settings object to stored settings
 */
 function getSettingsFromStorage(previous, baton)
 {
-	
 	try{
 	
 		baton.take(); // Block further progress until we pass the baton
@@ -676,8 +675,9 @@ Bootstrap background on page load finished
 $(document).ready(function() {	
 	
 	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(getSettingsFromStorage).andThen(initDateArrays).andThen(bginit).andThen(setupMaintainLoop).andThen(pushSettingsToGoogleTracker);
+	var startupSequence = jWorkflow.order(migrate).andThen(getSettingsFromStorage).andThen(initDateArrays).andThen(setupMaintainLoop).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
 	
+	//Up, Up and Away!
 	startupSequence.start();
 	
 });
