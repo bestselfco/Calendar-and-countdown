@@ -31,21 +31,23 @@ function doMigrationOrInstall(details)
 			{
 				//trackEvent("Migration", "Date storage" , details.previousVersion);
 				//doMigrateDatesToNewStorageAPI()
-				
 			}
+			bgInit();
 			
 		}
 		else if(details.reason == "install")
 		{
 			trackPageView('/new');
 			trackEvent("New install", version.currVersion, "");	
-			initialiseSettingsOnInstall();	
+			initialiseSettingsOnInstall();
+			bgInit();
 			
 		}
 		else if(details.previousVersion === version.currVersion)
 		{
 			trackPageView('/reload/'+version.currVersion);
 			trackEvent("Reloaded", version.currVersion, "");
+			bgInit();
 		}
 	}
 	catch(e)
@@ -230,12 +232,7 @@ function doMigrateDatesToNewStorageAPI()
 	
 	dateStorage.set({"dates": dateObject}, function(items){
 		logger("migration", "Migrating dates", "Re-initiating");
-		bgInit();
 	});
-	
-	
-	
-	
 }
 
 

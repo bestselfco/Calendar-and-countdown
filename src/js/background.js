@@ -23,9 +23,6 @@ function addListeners()
 {	
 	try {
 		//Do install stuff if installed, migration stuff if updated
-		chrome.runtime.onInstalled.addListener(function(details) {
-			doMigrationOrInstall(details);	//On reload or new install, run migration function (migrations.js)
-		});
 		
 		chrome.storage.onChanged.addListener(function(changes, namespace) {
 		  
@@ -668,5 +665,13 @@ function bgInit()
 Bootstrap background on page load finished
 */
 $(document).ready(function() {	
+	
+});
+
+chrome.runtime.onInstalled.addListener(function(details) {
+	doMigrationOrInstall(details);	//On reload or new install, run migration function (migrations.js)
+});
+
+chrome.runtime.onStartup.addListener(function() {
 	bgInit();
 });
