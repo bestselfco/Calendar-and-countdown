@@ -27,6 +27,12 @@ function doMigrationOrInstall(details)
 				trackEvent("Migration", "Icon colors" , details.previousVersion);
 				doIconColorMigration();
 			}
+			if(compareVersions(details.previousVersion, "2019.2.8.1") == -1)
+			{
+				//trackEvent("Migration", "Date storage" , details.previousVersion);
+				//doMigrateDatesToNewStorageAPI()
+				
+			}
 			
 		}
 		else if(details.reason == "install")
@@ -195,17 +201,43 @@ function updateDatesToUtc()
 			subdateutc.push(tmpDate);
 						
 		}
-	
-		//var shouldIUpdateDates = getItem("shouldIUpdateDates");
-
 			setItem("noCountDateArray", JSON.stringify(subdateutc));
 			setItem("dateArray", JSON.stringify(mainUtc));
-			log("Date update", "Update of dates being written");
-		//	setItem("shouldIUpdateDates", "nope");
-	
+			log("Date update", "Update of dates being written");	
 	}
 	catch(e)
 	{
 		handleError("updateDatesToUtc", e);
 	}
 }
+
+/**
+Migrate dates to new storage solution
+*/
+function doMigrateDatesToNewStorageAPI()
+{
+	var tmpMainDateArray = JSON.parse(getItem("dateArray"));
+	var tmpSubDateArray = JSON.parse(getItem("noCountDateArray"));
+	var tmpDateNoteArray = JSON.parse(getItem("dateNoteArray"));
+	var tmpDateColorArray = JSON.parse(getItem("dateColorArray"));
+	
+	var dateObject = {};
+	
+	dateObject.mainDateArray = tmpMainDateArray;
+	dateObject.subDateArray = tmpSubDateArray;
+	dateObject.dateNoteArray = tmpDateNoteArray;
+	dateObject.dateColorArray = tmpDateColorArray;
+	
+	dateStorage.set({"dates": dateObject}, function(items){
+		logger("migration", "Migrating dates", "Re-initiating");
+		bgInit();
+	});
+	
+	
+	
+	
+}
+
+
+
+

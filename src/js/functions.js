@@ -1,6 +1,10 @@
 /**
-COMMON FUNCTIONS FOR ALL PARTS OF THE APPLICATION. 
+COMMON FUNCTIONS AND VARIABLES FOR ALL PARTS OF THE APPLICATION. 
 */
+
+//Set storage area for settings and dates. Not yet functional.
+var settingsStorage = chrome.storage.local;
+var dateStorage = chrome.storage.local;
 
 //Debug object. If true, we are in debug mode. Checks if ID is the official Google ID or not.
 var debug = (location.hostname == "caplfhpahpkhhckglldpmdmjclabckhc") ? false : true;

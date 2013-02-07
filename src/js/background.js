@@ -2,10 +2,6 @@
 var settings = {}; //new Object();
 var dates = {}; //new Object();
 
-//Set storage area for settings and dates. Not yet functional.
-var settingsStorage = chrome.storage.local;
-var dateStorage = chrome.storage.local;
-
 var dateArray = []; //Holds the dates we count down to
 var subDateArray = [];
 var newInstall; //Is this a first time install (ie: is the date array set?)
@@ -21,23 +17,39 @@ var now = new Date();
 var todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 
 /**
-Add migration listener
+Add event listeners 
 */
-function migrate()
+function addListeners()
 {	
 	try {
 		//Do install stuff if installed, migration stuff if updated
 		chrome.runtime.onInstalled.addListener(function(details) {
-			doMigrationOrInstall(details);		
-		});     
+			doMigrationOrInstall(details);	//On reload or new install, run migration function (migrations.js)
+		});
+		
+		chrome.storage.onChanged.addListener(function(changes, namespace) {
+		  
+		  maintain(); //Run maintenance whenever storage has changed for some reason
+		  
+		});
+		
+		chrome.alarms.onAlarm.addListener(function(alarm){
+			if(alarm.name == "MaintainAlarm")
+			{
+				maintain(); //Add maintain function to loop
+			}
+		});
+		
 	}
 	catch(e)
 	{
 		handleError("migrate", e);
-	}	
-	
+	}		
 }
 
+/**
+Do a call to Google Analytics whenever exension has finished loading. 
+*/
 function trackExtensionStart()
 {
 	trackPageView('/start/'+version.currVersion);
@@ -58,9 +70,9 @@ function maintain()
 		updatePopupFromStored();
 		updateIconFromStored();
 	
-		setToolTip(new Date().toLocaleDateString());
+		//setToolTip(new Date().toLocaleDateString());
 		
-		log("Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
+		logger("info", "Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
 	}
 	catch(e)
 	{
@@ -356,7 +368,6 @@ function killEmAll()
 function updateBadgeFromStored()
 {
 	try{
-		
 		if(dateArray.length > 0)
 		{
 			var count = getDistanceInDays();
@@ -462,43 +473,24 @@ Setup alarm for maintenance
 */
 function setupMaintainLoop()
 {
-	
 	try{
 		
-		maintain();
-		
-		//d = Now, ad = next full hour.
 		var d = new Date();
 		var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+5, 0);
-		
-		//Version for tracking
-		var version = getVersion();
 		
 		var aInfo = {}; //new Object();
 		aInfo.when = ad.getTime();
 		aInfo.periodInMinutes = 5;
-		
-		//var trackAlarmInfo = new Object();
-		//trackAlarmInfo.delayInMinutes  = 5;
-		
+				
 		chrome.alarms.create("MaintainAlarm", aInfo);
-		//chrome.alarms.create("TrackingAlarm", trackAlarmInfo);
 		
-		log("Startup", "Maintenance alarm added");
-	
-	chrome.alarms.onAlarm.addListener(function(alarm){
-		if(alarm.name == "MaintainAlarm")
-		{
-			maintain();
-		}
-	});
+		logger("info", "Startup", "Maintenance alarm added");
 	
 	}
 	catch(e)
 	{
 		handleError("setupMaintainLoop", e);
-	}
-	
+	}	
 }
 
 /**
@@ -508,7 +500,6 @@ function initDateArrays()
 {
 	
 	try {
-	
 		dateArray = getItem("dateArray");
 		if(dateArray === null && getItem("countto") != null )
 		{
@@ -566,11 +557,6 @@ function initDateArrays()
 		{
 			noCountDateArray = JSON.parse(noCountDateArray);
 		}
-		
-		//Load default icon, autocreates new if not already set
-		var icon = new Icon({});
-		icon.getDefaultValues(true);
-	
 	}
 	catch(e)
 	{
@@ -651,7 +637,7 @@ function uploadDataToTheCloud()
 }
 
 /**
-Push settings to google analytics
+Push settings to Google Analytics
 */
 function pushSettingsToGoogleTracker()
 {
@@ -669,15 +655,18 @@ function pushSettingsToGoogleTracker()
 	}
 }
 
+function bgInit()
+{
+	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
+	var startupSequence = jWorkflow.order(addListeners).andThen(getSettingsFromStorage).andThen(initDateArrays).andThen(setupMaintainLoop).andThen(maintain).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
+	
+	//Up, Up and Away!
+	startupSequence.start();
+}
+
 /**
 Bootstrap background on page load finished
 */
 $(document).ready(function() {	
-	
-	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(migrate).andThen(getSettingsFromStorage).andThen(initDateArrays).andThen(setupMaintainLoop).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
-	
-	//Up, Up and Away!
-	startupSequence.start();
-	
+	bgInit();
 });

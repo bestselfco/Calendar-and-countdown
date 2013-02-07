@@ -3,7 +3,6 @@ var bg = chrome.extension.getBackgroundPage();
 
 function init()
 {
-
 	try {
 		//Copyright year
 		var dd = new Date();
@@ -236,8 +235,6 @@ function changeSetting(key, value, persist)
 		if(persist)
 		{
 			bg.persistSettingsToStorage();
-			bg.maintain();
-            bg.pushSettingsToGoogleTracker();
             trackEvent("Setting change", key, value);
 		}
 	}
