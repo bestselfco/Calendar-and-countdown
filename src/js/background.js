@@ -1,11 +1,8 @@
-
 //New date and settings objects to persist to synced storage
 var settings = {}; //new Object();
 var dates = {}; //new Object();
 
 //Set storage area for settings and dates. Not yet functional.
-//var settingsStorage = chrome.storage.local; 
-
 var settingsStorage = chrome.storage.local;
 var dateStorage = chrome.storage.local;
 
@@ -15,11 +12,6 @@ var newInstall; //Is this a first time install (ie: is the date array set?)
 var dateNoteArray; //Notes for dates
 var dateColorArray; //Colors for dates
 var maintainCycles = 0;
-
-//var iconCanvas = document.createElement("canvas"); //Create icon canvas. 
-
-//var doTrackNormalStart = true;
-
 
 //Set title
 document.title = "CC " + version.currVersion;
@@ -34,30 +26,12 @@ Initialise background page and start the extension
 function bginit()
 {	
 	try {
-	
-       // addIconCanvasToBGPage();
-		
+			
 		//Do install stuff if installed, migration stuff if updated
 		chrome.runtime.onInstalled.addListener(function(details) {
 			doMigrationOrInstall(details);		
 		});
-		
-		//Start with default settings
-		//settings = getDefaultSettings();
-        
-		//Do the actual initialisation of settings
-		//getSettingsFromStorage();
-		
-		//Init the data arrays
-		initDateArrays();
-		
-		//Do first maintenance and set up loop
-		maintain();
-		setupMaintainLoop();
-		
-        //Call home with the settings.
-		pushSettingsToGoogleTracker();   
-        
+		        
 		//Track startup to Google
 		trackPageView('/start/'+version.currVersion);
 		
@@ -95,29 +69,6 @@ function maintain()
 	
 }
 
-//function addIconCanvasToBGPage()
-//{
-        //Create and add icon canvas to background document
-//		iconCanvas = document.createElement("canvas");
-		//iconCanvas.setAttribute("id", "iconCanvas");
-		//document.body.appendChild(iconCanvas); 
-//}
-
-/**
-Retrieve the dates in a JSON format
-*/
-/*
-function getDatesJSON(){
-
-	try{
-		return JSON.stringify(getDates());
-	}
-	catch (e) {
-		handleError("getDatesJSON",e);
-	}	
-}
-*/
-
 /**
 Get date array
 */
@@ -132,15 +83,6 @@ function getDates()
 		handleError("getDates", e);
 	}
 }
-
-/**
-Get sub dates as JSON
-*/
-/*
-function getSubDatesJSON(){
-	return JSON.stringify(getSubDates());
-}
-*/
 
 /**
 Get sub dates
@@ -308,29 +250,25 @@ function updateIconFromStored()
 {
 	
 	try {
-	//Setup object
-	var iconSetup = {}; //new Object();
-	
-	iconSetup.textColor = settings.iconTextColor;
-	iconSetup.topColor = settings.iconTopColor;
-	iconSetup.showNumbers = settings.iconShowText;
-	
-	if(iconSetup.showNumbers == "1") iconSetup.fillText = new Date().getDate(); //Today
-	else if (iconSetup.showNumbers == "2") iconSetup.fillText = getDistanceInDays(); //Countdown
-    else  iconSetup.fillText = 0; //Nothing, so why bother
-	
-    var tmpIconCanvas = document.createElement("canvas");
-    
-    tmpIconCanvas.getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
-    
-    var ctx = tmpIconCanvas.getContext("2d");
-	var iconPixelData = ctx.getImageData(0, 0, 19, 19);
-	chrome.browserAction.setIcon({imageData:iconPixelData});
-    
-	//document.getElementById("iconCanvas").getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
+		//Setup object
+		var iconSetup = {}; //new Object();
+		
+		iconSetup.textColor = settings.iconTextColor;
+		iconSetup.topColor = settings.iconTopColor;
+		iconSetup.showNumbers = settings.iconShowText;
+		
+		if(iconSetup.showNumbers == "1") iconSetup.fillText = new Date().getDate(); //Today
+		else if (iconSetup.showNumbers == "2") iconSetup.fillText = getDistanceInDays(); //Countdown
+	    else  iconSetup.fillText = 0; //Nothing, so why bother
+		
+	    var tmpIconCanvas = document.createElement("canvas");
+	    
+	    tmpIconCanvas.getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
+	    
+	    var ctx = tmpIconCanvas.getContext("2d");
+		var iconPixelData = ctx.getImageData(0, 0, 19, 19);
+		chrome.browserAction.setIcon({imageData:iconPixelData});
 
-	//setIcon();
-	
 	}
 	catch(e)
 	{
@@ -526,25 +464,27 @@ function setupMaintainLoop()
 {
 	
 	try{
-	
-	//d = Now, ad = next full hour.
-	var d = new Date();
-	var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+5, 0);
-	
-	//Version for tracking
-	var version = getVersion();
-	
-	var aInfo = {}; //new Object();
-	aInfo.when = ad.getTime();
-	aInfo.periodInMinutes = 5;
-	
-	//var trackAlarmInfo = new Object();
-	//trackAlarmInfo.delayInMinutes  = 5;
-	
-	chrome.alarms.create("MaintainAlarm", aInfo);
-	//chrome.alarms.create("TrackingAlarm", trackAlarmInfo);
-	
-	log("Startup", "Maintenance alarm added");
+		
+		maintain();
+		
+		//d = Now, ad = next full hour.
+		var d = new Date();
+		var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+5, 0);
+		
+		//Version for tracking
+		var version = getVersion();
+		
+		var aInfo = {}; //new Object();
+		aInfo.when = ad.getTime();
+		aInfo.periodInMinutes = 5;
+		
+		//var trackAlarmInfo = new Object();
+		//trackAlarmInfo.delayInMinutes  = 5;
+		
+		chrome.alarms.create("MaintainAlarm", aInfo);
+		//chrome.alarms.create("TrackingAlarm", trackAlarmInfo);
+		
+		log("Startup", "Maintenance alarm added");
 	
 	chrome.alarms.onAlarm.addListener(function(alarm){
 		if(alarm.name == "MaintainAlarm")
@@ -642,11 +582,13 @@ function initDateArrays()
 /**
 Set settings object to stored settings
 */
-function getSettingsFromStorage(initAfter)
+function getSettingsFromStorage(previous, baton)
 {
 	
 	try{
 	
+		baton.take(); // Block further progress until we pass the baton
+		
         settings = getDefaultSettings();
         
 		settingsStorage.get("settings", function(items){
@@ -657,14 +599,10 @@ function getSettingsFromStorage(initAfter)
 				settings[i] = items.settings[i];
 			}
 			
-			log("Startup", "Settings has been read, initiating startup");
-            
-            if(initAfter)
-            {
-                doInitAfterSettingsLoad();
-            }
-            
-				
+			logger("info", "Startup", "Settings has been read, initiating startup");
+			
+			baton.pass(); //OK, pass the baton along
+           				
 		});
 	}
 	catch(e)
@@ -719,11 +657,12 @@ Push settings to google analytics
 function pushSettingsToGoogleTracker()
 {
 	try {
-            _gaq.push(['_setCustomVar', 1, "popup", settings.popup, 2]);
-            _gaq.push(['_setCustomVar', 2, "showWeek", settings.showWeek, 2]);
-            _gaq.push(['_setCustomVar', 3, "firstDay", settings.firstDay, 2]);
-            _gaq.push(['_setCustomVar', 4, "showBubbleOnStart", settings.showBubbleOnStart, 2]);
-            _gaq.push(['_setCustomVar', 5, "storeDataOnline", settings.storeDataOnline, 2]);
+		logger("info", "Startup", "Pushing settings to Google tracker");
+        _gaq.push(['_setCustomVar', 1, "popup", settings.popup, 2]);
+        _gaq.push(['_setCustomVar', 2, "showWeek", settings.showWeek, 2]);
+        _gaq.push(['_setCustomVar', 3, "firstDay", settings.firstDay, 2]);
+        _gaq.push(['_setCustomVar', 4, "showBubbleOnStart", settings.showBubbleOnStart, 2]);
+        _gaq.push(['_setCustomVar', 5, "storeDataOnline", settings.storeDataOnline, 2]);
 	}
 	catch(e)
 	{
@@ -732,19 +671,13 @@ function pushSettingsToGoogleTracker()
 }
 
 /**
-Do init after settings have been successfully loaded
-*/
-function doInitAfterSettingsLoad()
-{
-    bginit();
-}
-
-/**
 Bootstrap background on page load finished
 */
 $(document).ready(function() {	
 	
-    getSettingsFromStorage(true);
-    
-    //bginit();	
+	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
+	var startupSequence = jWorkflow.order(getSettingsFromStorage).andThen(initDateArrays).andThen(bginit).andThen(setupMaintainLoop).andThen(pushSettingsToGoogleTracker);
+	
+	startupSequence.start();
+	
 });
