@@ -237,6 +237,8 @@ function changeSetting(key, value, persist)
 		{
 			bg.persistSettingsToStorage();
 			bg.maintain();
+            bg.pushSettingsToGoogleTracker();
+            trackEvent("Setting change", key, value);
 		}
 	}
 	catch(e)

@@ -1,7 +1,7 @@
 
 //New date and settings objects to persist to synced storage
-var settings = new Object();
-var dates = new Object();
+var settings = {}; //new Object();
+var dates = {}; //new Object();
 
 //Set storage area for settings and dates. Not yet functional.
 //var settingsStorage = chrome.storage.local; 
@@ -9,16 +9,20 @@ var dates = new Object();
 var settingsStorage = chrome.storage.local;
 var dateStorage = chrome.storage.local;
 
-var dateArray; //Holds the dates we count down to
-var subDateArray;
+var dateArray = []; //Holds the dates we count down to
+var subDateArray = [];
 var newInstall; //Is this a first time install (ie: is the date array set?)
 var dateNoteArray; //Notes for dates
 var dateColorArray; //Colors for dates
 var maintainCycles = 0;
 
+//var iconCanvas = document.createElement("canvas"); //Create icon canvas. 
+
 //var doTrackNormalStart = true;
 
-var version = getVersion();
+
+//Set title
+document.title = "CC " + version.currVersion;
 
 //Init today time stamp
 var now = new Date();
@@ -31,13 +35,7 @@ function bginit()
 {	
 	try {
 	
-		//Create and add icon canvas to background document
-		var iconCanvas = document.createElement("canvas");
-		iconCanvas.setAttribute("id", "iconCanvas");
-		document.body.appendChild(iconCanvas);
-	
-		//Set title
-		document.title = "Calendar and Countdown";
+       // addIconCanvasToBGPage();
 		
 		//Do install stuff if installed, migration stuff if updated
 		chrome.runtime.onInstalled.addListener(function(details) {
@@ -45,12 +43,10 @@ function bginit()
 		});
 		
 		//Start with default settings
-		settings = getDefaultSettings();
+		//settings = getDefaultSettings();
+        
 		//Do the actual initialisation of settings
-		getSettingsFromStorage();
-		
-		//Call home with the settings.
-		pushSettingsToGoogleTracker();
+		//getSettingsFromStorage();
 		
 		//Init the data arrays
 		initDateArrays();
@@ -59,6 +55,9 @@ function bginit()
 		maintain();
 		setupMaintainLoop();
 		
+        //Call home with the settings.
+		pushSettingsToGoogleTracker();   
+        
 		//Track startup to Google
 		trackPageView('/start/'+version.currVersion);
 		
@@ -95,6 +94,14 @@ function maintain()
 	}
 	
 }
+
+//function addIconCanvasToBGPage()
+//{
+        //Create and add icon canvas to background document
+//		iconCanvas = document.createElement("canvas");
+		//iconCanvas.setAttribute("id", "iconCanvas");
+		//document.body.appendChild(iconCanvas); 
+//}
 
 /**
 Retrieve the dates in a JSON format
@@ -260,6 +267,7 @@ function toggleDate(timestamp, noCount)
 			}
 			
 			noCountDateArray.sort();
+            trackEvent("Date set", "Sub", timestamp);
 			setItem("noCountDateArray", JSON.stringify(noCountDateArray));
 			log("Sub date array changed", noCountDateArray);
 				
@@ -277,7 +285,8 @@ function toggleDate(timestamp, noCount)
 			{
 				dateArray = [timestamp]; //Set
 			}
-		
+		    
+            trackEvent("Date set", "Main", timestamp);
 			setItem("dateArray", JSON.stringify(dateArray)); //Store it
 			log("Date array changed", dateArray); //Log it	
 		}
@@ -300,7 +309,7 @@ function updateIconFromStored()
 	
 	try {
 	//Setup object
-	var iconSetup = new Object();
+	var iconSetup = {}; //new Object();
 	
 	iconSetup.textColor = settings.iconTextColor;
 	iconSetup.topColor = settings.iconTopColor;
@@ -308,11 +317,19 @@ function updateIconFromStored()
 	
 	if(iconSetup.showNumbers == "1") iconSetup.fillText = new Date().getDate(); //Today
 	else if (iconSetup.showNumbers == "2") iconSetup.fillText = getDistanceInDays(); //Countdown
-	else  iconSetup.fillText = 0; //Nothing, so why bother
+    else  iconSetup.fillText = 0; //Nothing, so why bother
 	
-	document.getElementById("iconCanvas").getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
+    var tmpIconCanvas = document.createElement("canvas");
+    
+    tmpIconCanvas.getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
+    
+    var ctx = tmpIconCanvas.getContext("2d");
+	var iconPixelData = ctx.getImageData(0, 0, 19, 19);
+	chrome.browserAction.setIcon({imageData:iconPixelData});
+    
+	//document.getElementById("iconCanvas").getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
 
-	setIcon();
+	//setIcon();
 	
 	}
 	catch(e)
@@ -406,7 +423,7 @@ function updateBadgeFromStored()
 		{
 			var count = getDistanceInDays();
 		
-			if(count != null)
+			if(count !== null)
 			{
 				setBadge(count);
 			}
@@ -499,27 +516,6 @@ function getDistanceInDays()
 	}
 }
 
-/**
-Get version of extension. 
-*/
-function getVersion() {
-
-	try {
-		var manifest = chrome.runtime.getManifest();
-		var version = manifest.version;
-		
-		//Create and set up object for returning
-		var returnObject = new Object();
-		
-		returnObject.currVersion = manifest.version;
-		
-		return returnObject;
-	}
-	catch(e)
-	{
-		handleError("getVersion", e);
-	}	
-}
 
 
 
@@ -538,7 +534,7 @@ function setupMaintainLoop()
 	//Version for tracking
 	var version = getVersion();
 	
-	var aInfo = new Object();
+	var aInfo = {}; //new Object();
 	aInfo.when = ad.getTime();
 	aInfo.periodInMinutes = 5;
 	
@@ -577,28 +573,29 @@ function initDateArrays()
 		if(dateArray === null && getItem("countto") != null )
 		{
 			//Transition to new solution for storing date.
-			dateArray = new Array();
+			dateArray = [];
 			var countTo = getItem("countto");
 			toggleDate(countTo);
 			log("Migrating date solution", countTo);
 		}
 		else if(dateArray === null)
 		{
-			dateArray = new Array();
+			dateArray = []; //new Array();
 			setItem("dateArray", JSON.stringify(dateArray));
 			log("Setting default (empty) date array", dateArray);
 		}
 		else
 		{
 			dateArray = JSON.parse(dateArray);
+          //  console.log("slo inn");
 		}
 		
 		
 		//Init date note array
 		dateNoteArray = getItem("dateNoteArray");
-		if(dateNoteArray == null)
+		if(dateNoteArray === null)
 		{
-			dateNoteArray = new Array();
+			dateNoteArray = [] //new Array();
 			setItem("dateNoteArray", JSON.stringify(dateNoteArray));
 			
 		}
@@ -609,9 +606,9 @@ function initDateArrays()
 		
 		//Init date color array
 		dateColorArray = getItem("dateColorArray");
-		if(dateColorArray == null)
+		if(dateColorArray === null)
 		{
-			dateColorArray = new Array();
+			dateColorArray = []; // new Array();
 			setItem("dateColorArray", JSON.stringify(dateColorArray));
 		}
 		else {
@@ -622,7 +619,7 @@ function initDateArrays()
 		noCountDateArray = getItem("noCountDateArray");
 		if(noCountDateArray === null)
 		{
-			noCountDateArray = new Array();
+			noCountDateArray = []; //new Array();
 			setItem("noCountDateArray", JSON.stringify(noCountDateArray));
 		}
 		else
@@ -631,7 +628,7 @@ function initDateArrays()
 		}
 		
 		//Load default icon, autocreates new if not already set
-		var icon = new Icon(new Object());
+		var icon = new Icon({});
 		icon.getDefaultValues(true);
 	
 	}
@@ -645,11 +642,13 @@ function initDateArrays()
 /**
 Set settings object to stored settings
 */
-function getSettingsFromStorage()
+function getSettingsFromStorage(initAfter)
 {
 	
 	try{
 	
+        settings = getDefaultSettings();
+        
 		settingsStorage.get("settings", function(items){
 		
 			//Overwrite default settings with stored ones where applicable.
@@ -658,7 +657,13 @@ function getSettingsFromStorage()
 				settings[i] = items.settings[i];
 			}
 			
-			log("Settings", "Settings has been read");
+			log("Startup", "Settings has been read, initiating startup");
+            
+            if(initAfter)
+            {
+                doInitAfterSettingsLoad();
+            }
+            
 				
 		});
 	}
@@ -714,11 +719,11 @@ Push settings to google analytics
 function pushSettingsToGoogleTracker()
 {
 	try {
-		for (var setting in settings)
-		{
-		    log("Settings to google", setting + settings[setting]);
-            _gaq.push(['_setCustomVar', 1, setting, settings[setting], 1]);
-		} 
+            _gaq.push(['_setCustomVar', 1, "popup", settings.popup, 2]);
+            _gaq.push(['_setCustomVar', 2, "showWeek", settings.showWeek, 2]);
+            _gaq.push(['_setCustomVar', 3, "firstDay", settings.firstDay, 2]);
+            _gaq.push(['_setCustomVar', 4, "showBubbleOnStart", settings.showBubbleOnStart, 2]);
+            _gaq.push(['_setCustomVar', 5, "storeDataOnline", settings.storeDataOnline, 2]);
 	}
 	catch(e)
 	{
@@ -727,8 +732,19 @@ function pushSettingsToGoogleTracker()
 }
 
 /**
+Do init after settings have been successfully loaded
+*/
+function doInitAfterSettingsLoad()
+{
+    bginit();
+}
+
+/**
 Bootstrap background on page load finished
 */
 $(document).ready(function() {	
-	bginit();	
+	
+    getSettingsFromStorage(true);
+    
+    //bginit();	
 });

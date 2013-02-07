@@ -5,25 +5,24 @@ FUNCTIONS RELATED TO INSTALLATION AND SETTINGS MIGRATION
 function doMigrationOrInstall(details)
 {
 	try{
-		
 		if(details.reason == "update" && details.previousVersion != version.currVersion)
 	 	{	
 			trackEvent("Update", version.currVersion, details.previousVersion);
 			
 			//UTC update if update from older version than august 2012
 			var prev = details.previousVersion.split(".");
-			if(prev[0] < 2013 && prev[1] < 8)
+			if(compareVersions(details.previousVersion, "2012.7") == -1) // prev[0] < 2013 && prev[1] < 8)
 			{	
 				trackEvent("Migration", "UTC" , details.previousVersion);
 				updateDatesToUtc();
 			}
 			//Do settings storage migration if version is 2012.11.22.5 or below
-			if(prev[0] < 2013 && prev[1] < 12 && prev[2] < 23 && prev[3] < 6)
+			if(compareVersions(details.previousVersion, "2012.11.22.5") == -1) //prev[0] < 2013 && prev[1] < 12 && prev[2] < 23 && prev[3] < 6)
 			{
 				trackEvent("Migration", "Settings storage" , details.previousVersion);
 				settings = doSettingsStorageMigration();
 			}
-			if(prev[0] < 2013 && prev[1] < 12 && prev[2] < 29)
+			if(compareVersions(details.previousVersion, "2012.11.28") == -1) //prev[0] < 2013 && prev[1] < 12 && prev[2] < 29)
 			{
 				trackEvent("Migration", "Icon colors" , details.previousVersion);
 				doIconColorMigration();
@@ -93,6 +92,7 @@ function getDefaultSettings()
 	tmpSettings.firstDay = "1";
 	tmpSettings.dateFormatShort = "dd.mm.yy"; //Also look for d/m/y due to my stupidity
 	tmpSettings.showBubbleOnStart = false;
+    tmpSettings.storeDataOnline = false;
 	
 	tmpSettings.showFrom = 1; //1 = current, 2 = current third, 3 = current month
 	
@@ -177,7 +177,7 @@ function updateDatesToUtc()
 		
 		var offsetMSec = new Date().getTimezoneOffset() * 60000;
 		
-		var subdateutc = new Array();
+		var subdateutc = [];
 		
 		var tDatetmpDateMain = new Date(tmpDateMain*1 + offsetMSec);
 		

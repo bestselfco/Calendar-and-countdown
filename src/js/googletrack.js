@@ -26,7 +26,7 @@ function trackPageView(pagetitle)
 		_gaq.push(['_trackPageview', pagetitle]);
 	}
 	else {
-		log("TrackPageview", pagetitle);
+		logger("debug", "TrackPageView", pagetitle);
 	}
 }
 
@@ -35,14 +35,18 @@ Track an error to Google Analytics, both immediately and in detail
 */
 function trackError(where, category, text)
 {
-	if(!debug)
-	{
-		_gaq.push(['_trackEvent', 'Error', where, category + " " + text]);
-		trackPageView("/error/" + where + "/" + category);
-	}
-	else {
-		log("TrackError", where + " / " + category + " / " + text);
-	}	
+    try {
+    	//if(!debug)
+    	//{
+    	//	_gaq.push(['_trackEvent', 'Error ' + version.currVersion, where, category + " - " + text]);
+    	    trackEvent("Error " + version.currVersion + ", " + where, category, text);
+            trackPageView("/error/" + version.currVersion + "/" + where + "/" + category);
+    	//}
+    }
+    catch (err)
+    {
+        console.error("Error tracking error. Goddamnit.")   
+    }
 }
 
 /**
@@ -55,7 +59,7 @@ function trackEvent(type, category, text)
 		_gaq.push(['_trackEvent', type, category, text]);
 	}
 	else {
-		log("TrackEvent",  type + " / " + category + " / " + text);
+		logger("info", "TrackEvent",  type + " / " + category + " / " + text);
 	}
 }
 

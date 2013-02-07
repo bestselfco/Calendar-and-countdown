@@ -122,7 +122,7 @@ function dump(arr,level) {
 //sets the item in the localstorage
 function setItem(key, value) {
 	try {
-		log("Set item to old storage", key);
+        logger("info", "Set old storage", key);
 		window.localStorage.removeItem(key);
 		window.localStorage.setItem(key, value);
 	}catch(e) {
@@ -138,7 +138,7 @@ function setItem(key, value) {
 function getItem(key) {
 	var value;
 	
-	log("Get item from old storage", key);
+	logger("info", "Get old storage", key);
 	
 	try {
 		value = window.localStorage.getItem(key);
@@ -164,5 +164,51 @@ function clearStrg() {
 function removeItem(itemName)
 {
 	window.localStorage.removeItem(itemName);
+}
+
+// Return 1 if a > b
+// Return -1 if a < b
+// Return 0 if a == b
+function compareVersions(a, b)
+{
+    if (a === b)
+    {
+       return 0;
+    }
+
+    var a_components = a.split(".");
+    var b_components = b.split(".");
+
+    var len = Math.min(a_components.length, b_components.length);
+
+    // loop while the components are equal
+    for (var i = 0; i < len; i++)
+    {
+        // A bigger than B
+        if (parseInt(a_components[i]) > parseInt(b_components[i]))
+        {
+            return 1;
+        }
+
+        // B bigger than A
+        if (parseInt(a_components[i]) < parseInt(b_components[i]))
+        {
+            return -1;
+        }
+    }
+
+    // If one's a prefix of the other, the longer one is greater.
+    if (a_components.length > b_components.length)
+    {
+        return 1;
+    }
+
+    if (a_components.length < b_components.length)
+    {
+        return -1;
+    }
+
+    // Otherwise they are the same.
+    return 0;
 }
 

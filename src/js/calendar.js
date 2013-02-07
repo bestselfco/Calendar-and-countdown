@@ -273,7 +273,7 @@ function setMainDate(timestamp)
 	}
 	catch(err)
 	{
-	handleError("Calendar.js setMainDate", err);
+	    handleError("Calendar.js setMainDate", err);
 	}	
 }	
 
@@ -301,7 +301,7 @@ function updateDatesStuff()
 {
 	try {
 		//Refresh backgroudn page
-		bg.maintain();
+	    //bg.maintain();
 		
 		//Update link to background page
 		bg = chrome.extension.getBackgroundPage();
@@ -586,7 +586,7 @@ New version when somebody has clicked a date. Uses attribute instead of passing 
 function dayClicked(event)
 {
 	var timestamp = event.target.attributes["datetimestamp"].value;
-	
+    
 	setMainDate(timestamp);
 		
 	return false; //Kill propagation	
@@ -603,7 +603,7 @@ function yearClicked(event){
 	try {
 		var year = $(event.target).attr("year");
 	
-		log("User event", "Year link clicked " + year); //Log
+		logger("info", "User event", "Year link clicked " + year); //Log
 		
 		currentYear = year*1; //Add offset to current year
 	
@@ -632,7 +632,7 @@ function highLightDay(timestamp, highlightClass)
 {	
 	var selectorString = '[dateTimestamp="'+timestamp+'"]';
 	$(selectorString).addClass(highlightClass); //.removeClass(normalClass);
-	log("Hightlight day", highlightClass + " : " +selectorString);
+	logger("info", "Hightlight day", highlightClass + " : " +selectorString);
 }
 
 /**
@@ -658,7 +658,7 @@ function highLightSelectedDates(){
 	{
 		var timestamp = customColors[i].timestamp;
 		var color = customColors[i].color;
-		log(timestamp,color);
+	//	log(timestamp,color);
 		var selectorString = '[dateTimestamp="'+timestamp+'"]';
 		$(selectorString).css("background-color", color);
 	}
@@ -677,7 +677,7 @@ function removeHighLights()
 	//Remove all modifications made by jQuery
 	$(daysSelectString).removeClass(selectedSubClass).removeClass(selectedClass).css("background-color", "");
 
-	log("Css change", "Removed highlights");
+	//log("Css change", "Removed highlights");
 }
 
 /**
