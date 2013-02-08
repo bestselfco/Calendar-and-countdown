@@ -9,6 +9,9 @@ var dateNoteArray; //Notes for dates
 var dateColorArray; //Colors for dates
 var maintainCycles = 0;
 
+var iHaveStarted = false;
+var lastResortBootTimeout = 1500;
+
 //Set title
 document.title = "CC " + version.currVersion;
 
@@ -663,10 +666,30 @@ function bgInit()
 
 //reload, update or install
 chrome.runtime.onInstalled.addListener(function(details) {
+	iHaveStarted = true;
 	doMigrationOrInstall(details);	//On reload or new install, run migration function (migrations.js)
 });
 
 //normal startup
 chrome.runtime.onStartup.addListener(function() {
+	iHaveStarted = true;
 	bgInit();
 });
+
+//Last resort startup
+$(document).ready(function() {
+	window.setTimeout(lastRestortBoot, lastResortBootTimeout);
+});
+
+//Perform the last restort boot.
+function lastRestortBoot()
+{
+	//logger("info", "Startup", "Last resort boot, already started: " + iHaveStarted);
+	
+	if(!iHaveStarted)
+	{	
+		trackEvent("Emergency boot", version.currVersion, "");
+		iHaveStarted = true;
+		bgInit();
+	}
+}
