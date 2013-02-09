@@ -686,7 +686,7 @@ function lastRestortBoot()
 {
 	//logger("info", "Startup", "Last resort boot, already started: " + iHaveStarted);
 	
-	if(!iHaveStarted)
+	if(!iHaveStarted && debug)
 	{	
 		trackEvent("Emergency boot", version.currVersion, "");
 		iHaveStarted = true;
