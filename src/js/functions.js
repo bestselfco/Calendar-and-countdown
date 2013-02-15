@@ -35,8 +35,12 @@ function logger(type, cat, text)
             if(debug) console.log(time.toLocaleTimeString(),"(info) ", cat, ":", text);
         break;
         
+        case "old": 
+        	if(debug) console.log(time.toLocaleTimeString(),"(old)  ", cat, ":", text);
+        break;
+        
         default: 
-            if(debug) console.log(time.toLocaleTimeString(), "(old)  ", cat, ":", text);
+            if(debug) console.log(time.toLocaleTimeString(), "(?)    ", cat, ":", text);
         break;
     }
     
