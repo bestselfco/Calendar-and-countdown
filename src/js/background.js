@@ -2,15 +2,17 @@
 var settings = {}; //new Object();
 var dates = {}; //new Object();
 
-var dateArray = []; //Holds the dates we count down to
-var subDateArray = [];
-var newInstall; //Is this a first time install (ie: is the date array set?)
-var dateNoteArray; //Notes for dates
-var dateColorArray; //Colors for dates
+//var dateArray = []; //Holds the dates we count down to
+//var subDateArray = [];
+//var newInstall; //Is this a first time install (ie: is the date array set?)
+
+//var dateNoteArray; //Notes for dates
+//var dateColorArray; //Colors for dates
+
 var maintainCycles = 0;
 
 var iHaveStarted = false;
-var lastResortBootTimeout = 1500;
+var lastResortBootTimeout = 1000;
 
 //Set title
 document.title = "CC " + version.currVersion;
@@ -30,13 +32,14 @@ function addListeners()
 		chrome.storage.onChanged.addListener(function(changes, namespace) {
 		  
 		  maintain(); //Run maintenance whenever storage has changed for some reason
+		  logger("debug", "Maintenance", "Run because of storage change");
 		  
 		});
 		
 		chrome.alarms.onAlarm.addListener(function(alarm){
 			if(alarm.name == "MaintainAlarm")
 			{
-				maintain(); //Add maintain function to loop
+				maintain(); //Add maintain function to loop'
 			}
 		});
 		
@@ -87,8 +90,8 @@ Get date array
 function getDates()
 {
 	try {
-		dateArray = JSON.parse(getItem("dateArray"));
-		return dateArray;
+		//dateArray = JSON.parse(getItem("dateArray"));
+		return dates.mainDateArray;
 	}
 	catch(e)
 	{
@@ -102,8 +105,8 @@ Get sub dates
 function getSubDates()
 {
 	try{
-		subDateArray = JSON.parse(getItem("noCountDateArray"));
-		return subDateArray;
+		//subDateArray = JSON.parse(getItem("noCountDateArray"));
+		return dates.subDateArray;
 	}
 	catch(e)
 	{
@@ -127,9 +130,9 @@ function setNoteForDate(timestamp, note, remove)
 		var newArray = [];
 		
 		//First, remove any references to the date, because we are either deleting or replacing
-		for(i=0; i<dateNoteArray.length; i++)
+		for(i=0; i < dates.dateNoteArray.length; i++)
 		{
-			var tempR = dateNoteArray[i];
+			var tempR = dates.dateNoteArray[i];
 			
 			if(tempR.timestamp.toString() !== timestamp.toString())
 			{
@@ -146,7 +149,12 @@ function setNoteForDate(timestamp, note, remove)
 			dateNoteArray.push(tmp);
 		}
 		
-		setItem("dateNoteArray", JSON.stringify(dateNoteArray));
+		//This is the new solution!
+		dates.dateNoteArray = dateNoteArray;
+		persistDatesToStorage(dates);
+		
+		//Old and stupid, to be removed.
+		//setItem("dateNoteArray", JSON.stringify(dateNoteArray));
 	
 	}
 	catch(e)
@@ -162,6 +170,8 @@ Add or remove a color mark for a date
 function setColorForDate(timestamp, color, remove)
 {
 		try {
+			
+			var dateColorArray = dates.dateColorArray;
 			
 			//Create new object
 			var tmp = {};
@@ -183,14 +193,18 @@ function setColorForDate(timestamp, color, remove)
 			
 			dateColorArray = newArray; //dateNoteArray is now cleaned
 		
-			
 			//Then, if not remove, add current
 			if(!remove)
 			{
 				dateColorArray.push(tmp);
 			}
 			
-			setItem("dateColorArray", JSON.stringify(dateColorArray));
+			//This is the new solution!
+			dates.dateColorArray = dateColorArray;
+			persistDatesToStorage(dates);
+			
+			//Old, to be removed
+			//setItem("dateColorArray", JSON.stringify(dateColorArray));
 			
 		}
 		catch(e)
@@ -207,6 +221,8 @@ function toggleDate(timestamp, noCount)
 	try {
 		if(noCount)
 		{
+			var noCountDateArray = getSubDates();
+		
 			//Secondary dates. Store many hooray
 			var idx = noCountDateArray.indexOf(timestamp);
 		
@@ -221,14 +237,24 @@ function toggleDate(timestamp, noCount)
 			}
 			
 			noCountDateArray.sort();
+			
             trackEvent("Date set", "Sub", timestamp);
-			setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+			
+			//This is the new solution!
+			dates.subDateArray = noCountDateArray;
+			persistDatesToStorage(dates);
+			
+			//Old, to be removed
+			//setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+			
 			log("Sub date array changed", noCountDateArray);
 				
 			
 		}
 		else //The main one. Store just that.
 		{
+			var dateArray = getDates();
+			
 			var idx = dateArray.indexOf(timestamp);
 			
 			if(idx != -1)
@@ -241,7 +267,14 @@ function toggleDate(timestamp, noCount)
 			}
 		    
             trackEvent("Date set", "Main", timestamp);
-			setItem("dateArray", JSON.stringify(dateArray)); //Store it
+			
+			//This is the new solution!
+			dates.mainDateArray = dateArray;
+			persistDatesToStorage(dates);
+			
+			//Old, to be removed
+			//setItem("dateArray", JSON.stringify(dateArray)); //Store it
+			
 			log("Date array changed", dateArray); //Log it	
 		}
 		
@@ -310,26 +343,6 @@ function updatePopupFromStored()
 	}
 }
 
-
-/**
-Set the icon in the browser bar
- 
-@param color The color of the icon.
- */
-function setIcon()
-{
-	try {
-		var canvas = document.getElementById("iconCanvas");	
-		var ctx = canvas.getContext("2d");
-		var iconPixelData = ctx.getImageData(0, 0, 19, 19);
-		chrome.browserAction.setIcon({imageData:iconPixelData});
-	}
-	catch(e)
-	{
-		handleError("setIcon" ,e);
-	}
-}
-
 /**
 Set the tooltip.
 @param text Tooltip text
@@ -351,12 +364,20 @@ Reset extension
 */
 function killEmAll()
 {
-	
 	trackEvent("Full reset", version.currVersion, "");
 	
+	//Old, to be removed
 	clearStrg();
+	
 	initialiseSettingsOnInstall();
+	
+	//Old, to be removed
 	initDateArrays();
+	
+	//NEW
+	initialiseSettingsOnInstall()
+	
+	//Old, to be removed
 	maintain();
 	
 	return true;
@@ -368,7 +389,8 @@ function killEmAll()
 function updateBadgeFromStored()
 {
 	try{
-		if(dateArray.length > 0)
+		var tmpDateArray = getDates();
+		if(tmpDateArray.length > 0)
 		{
 			var count = getDistanceInDays();
 		
@@ -431,7 +453,8 @@ function getDistanceInDays()
 {
 	
 	try {
-		var countto = dateArray[0];
+	
+		var countto = getDates()[0];
 		
 		if(countto !== null && countto !== undefined)
 		{
@@ -494,12 +517,57 @@ function setupMaintainLoop()
 }
 
 /**
-Initialise settings and/or reset everything to scratch
+* New function for reading dates from the storage
+*/
+function getDatesFromStorage(previous, baton)
+{
+		try{
+	
+			baton.take(); // Block further progress until we pass the baton
+			
+			var tmpDates = {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []}; //Empty date object
+			
+			dateStorage.get("dates", function(items){
+			
+				//Overwrite default dates with stored ones where applicable.
+				for (var i in items.dates)
+				{
+					tmpDates[i] = items.dates[i];
+				}
+				
+				dates = tmpDates;
+				
+				logger("info", "Startup", "Dates has been read, commencing startup");
+				
+				baton.pass(); //OK, pass the baton along
+           				
+		});
+	}
+	catch(e)
+	{
+		handleError("getSettingsFromStorage", e);
+	}
+}
+
+function debugNewDates()
+{
+
+	dateStorage.get("dates", function(items){
+		console.log(items.dates);
+	});
+
+}
+
+/**
+Initialise settings and/or reset everything to scratch from the old system.
 */ 
+
 function initDateArrays()
 {
-	
+/*
 	try {
+		
+		tmpDates = {}; //Stupid thing for new soluton
 		dateArray = getItem("dateArray");
 		if(dateArray === null && getItem("countto") != null )
 		{
@@ -508,17 +576,27 @@ function initDateArrays()
 			var countTo = getItem("countto");
 			toggleDate(countTo);
 			log("Migrating date solution", countTo);
+			
+			//New solution
+			tmpDates.mainDateArray = [];
 		}
 		else if(dateArray === null)
 		{
 			dateArray = []; //new Array();
 			setItem("dateArray", JSON.stringify(dateArray));
+			
+			//New solution
+			tmpDates.mainDateArray = [];
+			
 			log("Setting default (empty) date array", dateArray);
 		}
 		else
 		{
 			dateArray = JSON.parse(dateArray);
-          //  console.log("slo inn");
+			
+			//New solution
+			tmpDates.mainDateArray = dateArray;
+			
 		}
 		
 		
@@ -529,11 +607,17 @@ function initDateArrays()
 			dateNoteArray = [] //new Array();
 			setItem("dateNoteArray", JSON.stringify(dateNoteArray));
 			
+			//New solution
+			tmpDates.dateNoteArray = [];
 		}
 		else {
-			dateNoteArray = JSON.parse(dateNoteArray);
-		}
 		
+			dateNoteArray = JSON.parse(dateNoteArray);
+			
+			//New solution
+			tmpDates.dateNoteArray = dateNoteArray;
+			
+		}
 		
 		//Init date color array
 		dateColorArray = getItem("dateColorArray");
@@ -541,9 +625,17 @@ function initDateArrays()
 		{
 			dateColorArray = []; // new Array();
 			setItem("dateColorArray", JSON.stringify(dateColorArray));
+			
+			//New solution
+			tmpDates.dateColorArray = [];
+			
 		}
 		else {
 			dateColorArray = JSON.parse(dateColorArray);
+			
+			//New solution
+			tmpDates.dateColorArray = dateColorArray;
+			
 		}
 		
 		//Secondary dates
@@ -552,18 +644,27 @@ function initDateArrays()
 		{
 			noCountDateArray = []; //new Array();
 			setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+			
+			//New solution
+			tmpDates.subDateArray = [];
+			
 		}
 		else
 		{
 			noCountDateArray = JSON.parse(noCountDateArray);
+			
+			//New solution
+			tmpDates.subDateArray = noCountDateArray;
+			
 		}
 	}
 	catch(e)
 	{
 		handleError("initDateArrays", e);
 	}
-
+*/
 }
+
 
 /**
 Set settings object to stored settings
@@ -584,7 +685,7 @@ function getSettingsFromStorage(previous, baton)
 				settings[i] = items.settings[i];
 			}
 			
-			logger("info", "Startup", "Settings has been read, initiating startup");
+			logger("info", "Startup", "Settings has been read, commencing startup");
 			
 			baton.pass(); //OK, pass the baton along
            				
@@ -619,21 +720,27 @@ function persistSettingsToStorage() {
 }
 
 /**
-Send the stored data from the extension to the cloud. Not referenced yet.
+Persist the given dates object
 */
-function uploadDataToTheCloud()
-{
+function persistDatesToStorage(dateSet) {
+	
 	try {
-		// Save it using the Chrome extension storage API.
-		chrome.storage.sync.set({'settings': settings}, function() {
-		  // Notify that we saved.
-		  log("Storage", 'Settings saved to synced area');
-		});
+		if(dateSet.mainDateArray && dateSet.subDateArray && dateSet.dateNoteArray && dateSet.dateColorArray)
+		{
+			dateStorage.set({"dates": dateSet}, function(items){
+				logger("storage", "Stored dates", dateSet);
+			});
+		}
+		else
+		{
+			throw new Error("Date object malformed");
+		}
 	}
-	catch(err)
+	catch(e)
 	{
-		handleError("uploadDataToTheCloud", err);
+		handleError("persistDatesToStorage", e);
 	}
+	
 }
 
 /**
@@ -646,8 +753,8 @@ function pushSettingsToGoogleTracker()
         _gaq.push(['_setCustomVar', 1, "popup", settings.popup, 2]);
         _gaq.push(['_setCustomVar', 2, "showWeek", settings.showWeek, 2]);
         _gaq.push(['_setCustomVar', 3, "firstDay", settings.firstDay, 2]);
-        _gaq.push(['_setCustomVar', 4, "showBubbleOnStart", settings.showBubbleOnStart, 2]);
-        _gaq.push(['_setCustomVar', 5, "storeDataOnline", settings.storeDataOnline, 2]);
+        _gaq.push(['_setCustomVar', 4, "showBubble", settings.showBubbleOnStart, 2]);
+        _gaq.push(['_setCustomVar', 5, "dataOnline", settings.storeDataOnline, 2]);
 	}
 	catch(e)
 	{
@@ -655,10 +762,14 @@ function pushSettingsToGoogleTracker()
 	}
 }
 
+/**
+Everything from here down is the initiation code
+*/
+
 function bgInit()
 {
 	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(addListeners).andThen(getSettingsFromStorage).andThen(initDateArrays).andThen(setupMaintainLoop).andThen(maintain).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
+	var startupSequence = jWorkflow.order(addListeners).andThen(getSettingsFromStorage).andThen(getDatesFromStorage).andThen(initDateArrays).andThen(setupMaintainLoop).andThen(maintain).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
 	
 	//Up, Up and Away!
 	startupSequence.start();
@@ -686,7 +797,7 @@ function lastRestortBoot()
 {
 	//logger("info", "Startup", "Last resort boot, already started: " + iHaveStarted);
 	
-	if(!iHaveStarted && debug)
+	if(!iHaveStarted)
 	{	
 		trackEvent("Emergency boot", version.currVersion, "");
 		iHaveStarted = true;

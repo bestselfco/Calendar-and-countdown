@@ -369,7 +369,7 @@ Retrieve note for a given date from backend
 function getNoteArray()
 {
 	try {
-		var tmpNoteArray = bg.dateNoteArray;
+		var tmpNoteArray = bg.dates.dateNoteArray;
 		var outObj = new Object;
 		
 		for(i = 0; i < tmpNoteArray.length; i++)
@@ -653,7 +653,7 @@ function highLightSelectedDates(){
 	});
 	
 	// custom colors
-	customColors = bg.dateColorArray;
+	customColors = bg.dates.dateColorArray;
 	for(i=0;i<customColors.length;i++)
 	{
 		var timestamp = customColors[i].timestamp;

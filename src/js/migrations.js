@@ -22,16 +22,19 @@ function doMigrationOrInstall(details)
 				trackEvent("Migration", "Settings storage" , details.previousVersion);
 				settings = doSettingsStorageMigration();
 			}
+			//Do icon color migration from rgb to hex
 			if(compareVersions(details.previousVersion, "2012.11.28") == -1) //prev[0] < 2013 && prev[1] < 12 && prev[2] < 29)
 			{
 				trackEvent("Migration", "Icon colors" , details.previousVersion);
 				doIconColorMigration();
 			}
-			if(compareVersions(details.previousVersion, "2019.2.8.1") == -1)
+			//Switch date storage to new soluion
+			if(compareVersions(details.previousVersion, "2013.2.8.1") == -1)
 			{
-				//trackEvent("Migration", "Date storage" , details.previousVersion);
-				//doMigrateDatesToNewStorageAPI()
+				trackEvent("Migration", "Date storage" , details.previousVersion);
+				doMigrateDatesToNewStorageAPI();
 			}
+			
 			bgInit();
 			
 		}
@@ -72,8 +75,12 @@ function initialiseSettingsOnInstall()
 		//Store them
 		persistSettingsToStorage();
 		
+		//Setup dates object
+		var dateObject= {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
+		persistDatesToStorage(dateObject);
+		
 		//Re-do init.
-		maintain();
+		//maintain();
 	}
 	catch(e)
 	{
@@ -223,16 +230,15 @@ function doMigrateDatesToNewStorageAPI()
 	var tmpDateNoteArray = JSON.parse(getItem("dateNoteArray"));
 	var tmpDateColorArray = JSON.parse(getItem("dateColorArray"));
 	
-	var dateObject = {};
+	//Init object
+	var dateObject= {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
 	
 	dateObject.mainDateArray = tmpMainDateArray;
 	dateObject.subDateArray = tmpSubDateArray;
 	dateObject.dateNoteArray = tmpDateNoteArray;
 	dateObject.dateColorArray = tmpDateColorArray;
-	
-	dateStorage.set({"dates": dateObject}, function(items){
-		logger("migration", "Migrating dates", "Re-initiating");
-	});
+
+	persistDatesToStorage(dateObject);
 }
 
 
