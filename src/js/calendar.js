@@ -3,6 +3,10 @@ Front end variables
 */
 var bg = chrome.extension.getBackgroundPage();
 
+//Empty object for settings
+var settings = {};
+var dates = {};
+
 var now = new Date(); //Today
 var currentYear = now.getUTCFullYear(); //This year, now with more UTC
 var currentMonth = now.getUTCMonth() + 1;
@@ -42,6 +46,16 @@ Bootstrap page on load
 $(document).ready(function() {
 	
 	try {
+	
+		//var calStartup = jWorkflow.order(calendarGetSettings);
+		
+		//calStartup.start(); 
+		
+		settings = readSettingsFromStorage();
+		dates = readDatesFromStorage();
+		
+		//console.log(settings);
+	
 		//Find first month to show. Defaults to January
 		var startMonth = 1;	
 		if(showFromStart == 3 && bg.settings.popup == 12) { startMonth = currentMonth }

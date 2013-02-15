@@ -696,6 +696,8 @@ function getSettingsFromStorage(previous, baton)
 		
 }
 
+
+
 /**
 Push settings to Google Analytics
 */

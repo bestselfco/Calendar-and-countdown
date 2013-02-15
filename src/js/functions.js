@@ -148,3 +148,71 @@ function persistDatesToStorage(dateSet) {
 		handleError("persistDatesToStorage", e);
 	}
 }
+
+/**
+Get settings from storage
+*/
+function readSettingsFromStorage()
+{
+
+	var tmpSettings = getDefaultSettings();
+	
+	var doRead = function(previous, baton) {
+		
+		baton.take();
+		
+		settingsStorage.get("settings", function(items){
+		
+			//Overwrite default settings with stored ones where applicable.
+			for (var i in items.settings)
+			{
+				tmpSettings[i] = items.settings[i];
+			}
+			
+			logger("info", "Settings", "Settings has been read");
+			
+			baton.pass(); //OK, pass the baton along
+		   				
+		});
+	};
+	
+	var readSettingsOrder = jWorkflow.order(doRead);
+	
+	readSettingsOrder.start();
+	
+	return tmpSettings;
+}
+
+function readDatesFromStorage()
+{
+	var tmpDates = {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []}; 
+	
+	var doRead = function(previous, baton) {
+		
+		baton.take();
+		
+		dateStorage.get("dates", function(items){
+		
+			//Overwrite default settings with stored ones where applicable.
+			for (var i in items.dates)
+			{
+				//console.log(i);
+				tmpDates[i] = items.dates[i];
+				
+			}
+			
+			logger("info", "Dates", "Dates has been read");
+			
+			baton.pass(); //OK, pass the baton along
+		   				
+		});
+	};
+	
+	var readDatesOrder = jWorkflow.order(doRead);
+	
+	readDatesOrder.start();
+	
+	//console.log("before return", tmpDates);
+	
+	return tmpDates;
+}
