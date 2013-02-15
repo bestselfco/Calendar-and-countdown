@@ -104,3 +104,47 @@ function getDefaultSettings()
 	
 	return tmpSettings;
 }
+
+/**
+Persist the given settings object
+*/
+function persistSettingsToStorage(tmpSettings) {
+	
+	try {
+		if(tmpSettings.popup)
+		{
+			settingsStorage.set({"settings": tmpSettings}, function(items){
+			
+				logger("info", "Settings", "Settings has been written to storage");
+		
+			});
+		}
+	}
+	catch(e)
+	{
+		handleError("persistSettingsToStorage", e);
+	}
+}
+
+/**
+Persist the given dates object
+*/
+function persistDatesToStorage(dateSet) {
+	
+	try {
+		if(dateSet.mainDateArray && dateSet.subDateArray && dateSet.dateNoteArray && dateSet.dateColorArray)
+		{
+			dateStorage.set({"dates": dateSet}, function(items){
+				logger("storage", "Stored dates", dateSet);
+			});
+		}
+		else
+		{
+			throw new Error("Date object malformed");
+		}
+	}
+	catch(e)
+	{
+		handleError("persistDatesToStorage", e);
+	}
+}

@@ -537,7 +537,7 @@ function getDatesFromStorage(previous, baton)
 				
 				dates = tmpDates;
 				
-				logger("info", "Startup", "Dates has been read, commencing startup");
+				logger("info", "Startup", "Dates has been read");
 				
 				baton.pass(); //OK, pass the baton along
            				
@@ -551,11 +551,9 @@ function getDatesFromStorage(previous, baton)
 
 function debugNewDates()
 {
-
 	dateStorage.get("dates", function(items){
 		console.log(items.dates);
 	});
-
 }
 
 /**
@@ -685,7 +683,7 @@ function getSettingsFromStorage(previous, baton)
 				settings[i] = items.settings[i];
 			}
 			
-			logger("info", "Startup", "Settings has been read, commencing startup");
+			logger("info", "Startup", "Settings has been read");
 			
 			baton.pass(); //OK, pass the baton along
            				
@@ -696,51 +694,6 @@ function getSettingsFromStorage(previous, baton)
 		handleError("getSettingsFromStorage", e);
 	}
 		
-}
-
-/**
-Persist the current settings object
-*/
-function persistSettingsToStorage() {
-	
-	try {
-		if(settings.popup)
-		{
-			settingsStorage.set({"settings": settings}, function(items){
-			
-				log("Settings", "Settings has been written to storage");
-		
-			});
-		}
-	}
-	catch(e)
-	{
-		handleError("persistSettingsToStorage", e);
-	}
-}
-
-/**
-Persist the given dates object
-*/
-function persistDatesToStorage(dateSet) {
-	
-	try {
-		if(dateSet.mainDateArray && dateSet.subDateArray && dateSet.dateNoteArray && dateSet.dateColorArray)
-		{
-			dateStorage.set({"dates": dateSet}, function(items){
-				logger("storage", "Stored dates", dateSet);
-			});
-		}
-		else
-		{
-			throw new Error("Date object malformed");
-		}
-	}
-	catch(e)
-	{
-		handleError("persistDatesToStorage", e);
-	}
-	
 }
 
 /**
@@ -769,7 +722,7 @@ Everything from here down is the initiation code
 function bgInit()
 {
 	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(addListeners).andThen(getSettingsFromStorage).andThen(getDatesFromStorage).andThen(initDateArrays).andThen(setupMaintainLoop).andThen(maintain).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
+	var startupSequence = jWorkflow.order(addListeners).andThen(getSettingsFromStorage).andThen(getDatesFromStorage).andThen(setupMaintainLoop).andThen(maintain).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
 	
 	//Up, Up and Away!
 	startupSequence.start();
@@ -795,8 +748,6 @@ $(document).ready(function() {
 //Perform the last restort boot.
 function lastRestortBoot()
 {
-	//logger("info", "Startup", "Last resort boot, already started: " + iHaveStarted);
-	
 	if(!iHaveStarted)
 	{	
 		trackEvent("Emergency boot", version.currVersion, "");

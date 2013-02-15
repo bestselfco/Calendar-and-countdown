@@ -232,9 +232,11 @@ function changeSetting(key, value, persist)
 		
 		bg.settings[key] = value;
 		
+		settings = bg.settings;
+		
 		if(persist)
 		{
-			bg.persistSettingsToStorage();
+			persistSettingsToStorage(settings);
             trackEvent("Setting change", key, value);
 		}
 	}
