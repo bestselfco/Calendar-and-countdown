@@ -12,28 +12,55 @@ function doMigrationOrInstall(details)
 			//var prev = details.previousVersion.split(".");
 			
 			//UTC update if update from older version than august 2012	
-			if(compareVersions(details.previousVersion, "2012.7") == -1) // prev[0] < 2013 && prev[1] < 8)
-			{	
-				trackEvent("Migration", "UTC" , details.previousVersion);
-				updateDatesToUtc();
+			try {
+				if(compareVersions(details.previousVersion, "2012.7") == -1)
+				{	
+					trackEvent("Migration", "UTC" , details.previousVersion);
+					updateDatesToUtc();
+				}
 			}
+			catch(err)
+			{
+				handleError("doMigrationOrInstall utc", err);
+			}
+			
 			//Do settings storage migration if version is 2012.11.22.5 or below
-			if(compareVersions(details.previousVersion, "2012.11.22.5") == -1) //prev[0] < 2013 && prev[1] < 12 && prev[2] < 23 && prev[3] < 6)
-			{
-				trackEvent("Migration", "Settings storage" , details.previousVersion);
-				settings = doSettingsStorageMigration();
+			try {
+				if(compareVersions(details.previousVersion, "2012.11.22.5") == -1)
+				{
+					trackEvent("Migration", "Settings storage" , details.previousVersion);
+					settings = doSettingsStorageMigration();
+				}
 			}
+			catch (err)
+			{
+				handleError("doMigrationOrInstall settings storage", err);
+			}
+			
 			//Do icon color migration from rgb to hex
-			if(compareVersions(details.previousVersion, "2012.11.28") == -1) //prev[0] < 2013 && prev[1] < 12 && prev[2] < 29)
-			{
-				trackEvent("Migration", "Icon colors" , details.previousVersion);
-				doIconColorMigration();
+			try {
+				if(compareVersions(details.previousVersion, "2012.11.28") == -1) //prev[0] < 2013 && prev[1] < 12 && prev[2] < 29)
+				{
+					trackEvent("Migration", "Icon colors" , details.previousVersion);
+					doIconColorMigration();
+				}
 			}
-			//Switch date storage to new soluion
-			if(compareVersions(details.previousVersion, "2013.2.8.1") == -1)
+			catch (err) 
 			{
-				trackEvent("Migration", "Date storage" , details.previousVersion);
-				doMigrateDatesToNewStorageAPI();
+				handleError("doMigrationOrInstall icon color", err);
+			}
+			
+			try {
+				//Switch date storage to new soluion
+				if(compareVersions(details.previousVersion, "2013.2.8.1") == -1)
+				{
+					trackEvent("Migration", "Date storage" , details.previousVersion);
+					doMigrateDatesToNewStorageAPI();
+				}
+			}
+			catch (err) 
+			{
+				handleError("doMigrationOrInstall date storage", err);
 			}
 			
 			bgInit();
