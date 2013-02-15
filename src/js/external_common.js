@@ -135,6 +135,7 @@ function setItem(key, value) {
 //Gets the item from local storage with the specified
 //key
 
+/*
 function getItem(key) {
 	var value;
 	
@@ -151,6 +152,7 @@ function getItem(key) {
 
 	return value;
 }
+*/
 
 
 //Clears all the key value pairs in the local storage
