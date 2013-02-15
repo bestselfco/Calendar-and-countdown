@@ -75,3 +75,28 @@ function getVersion() {
 		handleError("getVersion", e);
 	}	
 }
+
+/**
+Return the default set of settings
+*/
+function getDefaultSettings()
+{
+	tmpSettings = new Object();
+	
+	tmpSettings.iconTopColor = "#1B8CA0";
+	tmpSettings.iconTextColor = "#323232";
+	tmpSettings.iconShowText = 0;
+	
+	tmpSettings.showBadge = "1";
+	tmpSettings.badgeColor = "#18CD32";
+	tmpSettings.popup = "12";
+	tmpSettings.showWeek = "1";
+	tmpSettings.firstDay = "1";
+	tmpSettings.dateFormatShort = "dd.mm.yy"; //Also look for d/m/y due to my stupidity
+	tmpSettings.showBubbleOnStart = false;
+    tmpSettings.storeDataOnline = false;
+	
+	tmpSettings.showFrom = 1; //1 = current, 2 = current third, 3 = current month
+	
+	return tmpSettings;
+}

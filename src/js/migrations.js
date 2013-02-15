@@ -9,8 +9,9 @@ function doMigrationOrInstall(details)
 	 	{	
 			trackEvent("Update", version.currVersion, details.previousVersion);
 			
-			//UTC update if update from older version than august 2012
-			var prev = details.previousVersion.split(".");
+			//var prev = details.previousVersion.split(".");
+			
+			//UTC update if update from older version than august 2012	
 			if(compareVersions(details.previousVersion, "2012.7") == -1) // prev[0] < 2013 && prev[1] < 8)
 			{	
 				trackEvent("Migration", "UTC" , details.previousVersion);
@@ -87,31 +88,6 @@ function initialiseSettingsOnInstall()
 		handleError("initialiseSettingsOnInstall", e);
 	}
 	
-}
-
-/**
-Return the default set of settings
-*/
-function getDefaultSettings()
-{
-	tmpSettings = new Object();
-	
-	tmpSettings.iconTopColor = "#1B8CA0";
-	tmpSettings.iconTextColor = "#323232";
-	tmpSettings.iconShowText = 0;
-	
-	tmpSettings.showBadge = "1";
-	tmpSettings.badgeColor = "#18CD32";
-	tmpSettings.popup = "12";
-	tmpSettings.showWeek = "1";
-	tmpSettings.firstDay = "1";
-	tmpSettings.dateFormatShort = "dd.mm.yy"; //Also look for d/m/y due to my stupidity
-	tmpSettings.showBubbleOnStart = false;
-    tmpSettings.storeDataOnline = false;
-	
-	tmpSettings.showFrom = 1; //1 = current, 2 = current third, 3 = current month
-	
-	return tmpSettings;
 }
 
 /**
@@ -221,24 +197,33 @@ function updateDatesToUtc()
 }
 
 /**
-Migrate dates to new storage solution
+Migrate dates to new storage solution. Write empty values if not.
 */
 function doMigrateDatesToNewStorageAPI()
 {
-	var tmpMainDateArray = JSON.parse(getItem("dateArray"));
-	var tmpSubDateArray = JSON.parse(getItem("noCountDateArray"));
-	var tmpDateNoteArray = JSON.parse(getItem("dateNoteArray"));
-	var tmpDateColorArray = JSON.parse(getItem("dateColorArray"));
+	try {
+		var tmpMainDateArray = JSON.parse(getItem("dateArray"));
+		var tmpSubDateArray = JSON.parse(getItem("noCountDateArray"));
+		var tmpDateNoteArray = JSON.parse(getItem("dateNoteArray"));
+		var tmpDateColorArray = JSON.parse(getItem("dateColorArray"));
+		
+		//Init object
+		var dateObject= {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
+		
+		if(tmpMainDateArray !== null) dateObject.mainDateArray = tmpMainDateArray;
+		if(tmpSubDateArray !== null) dateObject.subDateArray = tmpSubDateArray;
+		if(tmpDateNoteArray !== null) dateObject.dateNoteArray = tmpDateNoteArray;
+		if(tmpDateColorArray !== null) dateObject.dateColorArray = tmpDateColorArray;
 	
-	//Init object
-	var dateObject= {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
+		persistDatesToStorage(dateObject);
+	}
+	catch (err)
+	{
+		var errDateObject = {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
+		persistDatesToStorage(dateObject);
+		handleError("doMigrateDatesToNewStorageAPI", e);
+	}
 	
-	dateObject.mainDateArray = tmpMainDateArray;
-	dateObject.subDateArray = tmpSubDateArray;
-	dateObject.dateNoteArray = tmpDateNoteArray;
-	dateObject.dateColorArray = tmpDateColorArray;
-
-	persistDatesToStorage(dateObject);
 }
 
 
