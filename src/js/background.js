@@ -84,6 +84,22 @@ function maintain()
 	
 }
 
+function refresh()
+{
+	try {
+		if(iHaveStarted)
+		{
+			refresher = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(maintain);
+			refresher.start();
+		}
+	}
+	catch (err) 
+	{
+		handleError("Background Refresh", err); 
+	}
+}
+
+
 /**
 Get date array
 */
@@ -95,7 +111,7 @@ function getDates()
 	}
 	catch(e)
 	{
-		handleError("getDates", e);
+		handleError("Background getDates", e);
 	}
 }
 
@@ -110,7 +126,7 @@ function getSubDates()
 	}
 	catch(e)
 	{
-		handleError("getSubDates", e);
+		handleError("Background getSubDates", e);
 	}
 }
 
@@ -159,7 +175,7 @@ function setNoteForDate(timestamp, note, remove)
 	}
 	catch(e)
 	{
-		handleError("setNoteForDate",e);
+		handleError("Background setNoteForDate",e);
 	}
 	
 }
@@ -209,7 +225,7 @@ function setColorForDate(timestamp, color, remove)
 		}
 		catch(e)
 		{
-			handleError("setColorForDate", e);
+			handleError("Background setColorForDate", e);
 		}
 }
 
@@ -283,7 +299,7 @@ function toggleDate(timestamp, noCount)
 	}
 	catch(e)
 	{
-		handleError("toggleDate", e);
+		handleError("Background toggleDate", e);
 	}
 	
 }
@@ -695,8 +711,6 @@ function getSettingsFromStorage(previous, baton)
 	}
 		
 }
-
-
 
 /**
 Push settings to Google Analytics

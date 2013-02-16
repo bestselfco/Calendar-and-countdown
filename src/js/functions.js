@@ -2,6 +2,8 @@
 COMMON FUNCTIONS AND VARIABLES FOR ALL PARTS OF THE APPLICATION. 
 */
 
+
+
 //Set storage area for settings and dates. Not yet functional.
 var settingsStorage = chrome.storage.local;
 var dateStorage = chrome.storage.local;
@@ -150,14 +152,12 @@ function persistDatesToStorage(dateSet) {
 }
 
 /**
-Get settings from storage
+Get settings from storage. Assumes a "settings" object and jWorkorder already exists on page. 
 */
-function readSettingsFromStorage()
+function readSettingsFromStorage(previous, baton)
 {
 
 	var tmpSettings = getDefaultSettings();
-	
-	var doRead = function(previous, baton) {
 		
 		baton.take();
 		
@@ -169,26 +169,23 @@ function readSettingsFromStorage()
 				tmpSettings[i] = items.settings[i];
 			}
 			
+			settings = tmpSettings; 
+			
 			logger("info", "Settings", "Settings has been read");
 			
 			baton.pass(); //OK, pass the baton along
 		   				
 		});
-	};
-	
-	var readSettingsOrder = jWorkflow.order(doRead);
-	
-	readSettingsOrder.start();
-	
-	return tmpSettings;
+
 }
 
-function readDatesFromStorage()
+/**
+Get dates from storage. Assumes a "dates" object and jWorkorder already exists on page. 
+*/
+function readDatesFromStorage(previous, baton)
 {
-	var tmpDates = {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []}; 
-	
-	var doRead = function(previous, baton) {
-		
+	//var tmpDates = {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []}; 
+			
 		baton.take();
 		
 		dateStorage.get("dates", function(items){
@@ -197,7 +194,7 @@ function readDatesFromStorage()
 			for (var i in items.dates)
 			{
 				//console.log(i);
-				tmpDates[i] = items.dates[i];
+				dates[i] = items.dates[i];
 				
 			}
 			
@@ -206,13 +203,48 @@ function readDatesFromStorage()
 			baton.pass(); //OK, pass the baton along
 		   				
 		});
-	};
+}
+
+/**
+Persist the given settings object
+*/
+function persistSettingsToStorage(tmpSettings) {
 	
-	var readDatesOrder = jWorkflow.order(doRead);
+	try {
+		if(tmpSettings.popup)
+		{
+			settingsStorage.set({"settings": tmpSettings}, function(items){
+			
+				logger("info", "Settings", "Settings has been written to storage");
+		
+			});
+		}
+	}
+	catch(e)
+	{
+		handleError("persistSettingsToStorage", e);
+	}
+}
+
+/**
+Persist the given dates object
+*/
+function persistDatesToStorage(dateSet) {
 	
-	readDatesOrder.start();
-	
-	//console.log("before return", tmpDates);
-	
-	return tmpDates;
+	try {
+		if(dateSet.mainDateArray && dateSet.subDateArray && dateSet.dateNoteArray && dateSet.dateColorArray)
+		{
+			dateStorage.set({"dates": dateSet}, function(items){
+				logger("storage", "Stored dates", dateSet);
+			});
+		}
+		else
+		{
+			throw new Error("Date object malformed");
+		}
+	}
+	catch(e)
+	{
+		handleError("persistDatesToStorage", e);
+	}
 }

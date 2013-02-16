@@ -46,7 +46,25 @@ Bootstrap page on load
 $(document).ready(function() {
 	
 	try {
-		initCalendarPageStart();	
+	
+		//var calStartup = jWorkflow.order(calendarGetSettings);
+		
+		//calStartup.start(); 
+		
+		settings = readSettingsFromStorage();
+		dates = readDatesFromStorage();
+		
+		//console.log(settings);
+	
+		//Find first month to show. Defaults to January
+		var startMonth = 1;	
+		if(showFromStart == 3 && bg.settings.popup == 12) { startMonth = currentMonth }
+		else if(showFromStart == 2 && bg.settings.popup == 12) { startMonth = getStartMonthForQuarter(currentMonth);}
+		
+		initPopupPage(currentYear, startMonth);
+		
+		//Track a page view
+		bg.trackPageView("/calendar/"+bg.settings.popup);
 	}
 	catch(e)
 	{
@@ -55,25 +73,6 @@ $(document).ready(function() {
 	
 });
 
-function initCalendarPageStart()
-{
-	calStartup = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(initCalendarPage);
-	calStartup.start();		
-}
-
-function initCalendarPage() {
-	
-	//Find first month to show. Defaults to January
-	var startMonth = 1;	
-	if(showFromStart == 3 && settings.popup == 12) { startMonth = currentMonth }
-	else if(showFromStart == 2 && settings.popup == 12) { startMonth = getStartMonthForQuarter(currentMonth);}
-	
-	initPopupPage(currentYear, startMonth);
-	
-	//Track a page view
-	bg.trackPageView("/calendar/"+settings.popup);
-	
-}
 
 /**
 Initialize popup
@@ -90,7 +89,7 @@ function initPopupPage(year, month)
 		//Bind all events
 		bindEvents();
 	
-		if(settings.showBubbleOnStart)
+		if(bg.settings.showBubbleOnStart)
 		{
 			showBubbleForToday();
 		}
@@ -124,7 +123,7 @@ function bindEvents()
 		$("#yp1").off().on("click", function() { yearClicked(event); });
 		
 		//Test scroll wheel
-		if (settings.popup == 12) {
+		if (bg.settings.popup == 12) {
 			document.addEventListener("mousewheel", MouseWheelHandler, false);
 		}
 	}
@@ -251,10 +250,8 @@ Return the main date (the one we count down to)
 function getMainDate()
 {
 	try {
-		
-		if(dates.mainDateArray[0]) return dates.mainDateArray[0];
-		else return 0;
-
+		var tmp = bg.getDates();
+		return tmp[0];
 	}
 	catch(err)
 	{
@@ -268,7 +265,7 @@ Return the subsidiary dates (the ones we just show)
 function getSubDates()
 {
 	try {
-		return  dates.subDateArray;
+		return bg.getSubDates();
 	}
 	catch(err)
 	{
