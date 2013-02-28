@@ -248,3 +248,105 @@ function persistDatesToStorage(dateSet) {
 		handleError("persistDatesToStorage", e);
 	}
 }
+
+/**
+Toggle dates. "nocount" means secondary dates if true.
+*/
+function toggleDate(timestamp, noCount)
+{
+	try {
+		if(noCount)
+		{
+			var noCountDateArray = getSubDates();
+		
+			//Secondary dates. Store many hooray
+			var idx = noCountDateArray.indexOf(timestamp);
+		
+			if(idx != -1)
+			{
+				noCountDateArray.splice(idx, 1); //Remove if found
+			}
+			else
+			{
+				//...add if not found.
+				noCountDateArray.push(timestamp);
+			}
+			
+			noCountDateArray.sort();
+			
+            trackEvent("Date set", "Sub", timestamp);
+			
+			//This is the new solution!
+			dates.subDateArray = noCountDateArray;
+			persistDatesToStorage(dates);
+			
+			//Old, to be removed
+			//setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+			
+			log("Sub date array changed", noCountDateArray);
+				
+			
+		}
+		else //The main one. Store just that.
+		{
+			var dateArray = getDates();
+			
+			var idx = dateArray.indexOf(timestamp);
+			
+			if(idx != -1)
+			{
+				dateArray = []; // Clear out
+			}
+			else
+			{
+				dateArray = [timestamp]; //Set
+			}
+		    
+            trackEvent("Date set", "Main", timestamp);
+			
+			//This is the new solution!
+			dates.mainDateArray = dateArray;
+			persistDatesToStorage(dates);
+			
+			//Old, to be removed
+			//setItem("dateArray", JSON.stringify(dateArray)); //Store it
+			
+			log("Date array changed", dateArray); //Log it	
+		}
+		
+		maintain();
+	
+	}
+	catch(e)
+	{
+		handleError("Background toggleDate", e);
+	}
+	
+}
+
+function getDates()
+{
+	try {
+		//dateArray = JSON.parse(getItem("dateArray"));
+		return dates.mainDateArray;
+	}
+	catch(e)
+	{
+		handleError("Background getDates", e);
+	}
+}
+
+/**
+Get sub dates
+*/
+function getSubDates()
+{
+	try{
+		//subDateArray = JSON.parse(getItem("noCountDateArray"));
+		return dates.subDateArray;
+	}
+	catch(e)
+	{
+		handleError("Functions getSubDates", e);
+	}
+}

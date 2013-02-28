@@ -1,7 +1,7 @@
 /**
 Front end variables
 */
-var bg = chrome.extension.getBackgroundPage();
+//var bg = chrome.extension.getBackgroundPage();
 
 //Empty object for settings
 var settings = {};
@@ -25,7 +25,7 @@ var dynamicStartStamp = false;
 var dynamicDiff = false;
 var lastEventDate = "";
 
-var showFromStart = bg.settings.showFrom;
+var showFromStart; 
 
 var showingFromMonth;
 var showingFromYear; 
@@ -300,8 +300,8 @@ function setMainDate(timestamp)
 	try 
 	{
 		//Set date in background page	
-		bg.toggleDate(timestamp, false);
-		bg.maintain();
+		toggleDate(timestamp, false);
+		//bg.maintain();
 		//highLightSelectedDates();	
 
 		//updateCalendarPageStart();
@@ -320,8 +320,8 @@ function setSubDate(timestamp)
 {
 	//Set date in background page	
 	try {
-		bg.toggleDate(timestamp, true);
-		bg.maintain();
+		toggleDate(timestamp, true);
+		//bg.maintain();
 		
 		//updateCalendarPageStart();
 		//highLightSelectedDates();
@@ -342,7 +342,7 @@ function updateDatesStuff()
 	    //bg.maintain();
 		
 		//Update link to background page
-		bg = chrome.extension.getBackgroundPage();
+		//bg = chrome.extension.getBackgroundPage();
 		
 		//notesArray = getNoteArray();
 		
@@ -502,7 +502,7 @@ function getDateString(timestamp, long)
 		}
 		else {
 			
-			var dateTemplate = bg.settings.dateFormatShort;
+			var dateTemplate = settings.dateFormatShort;
 			//dateString = dateTemplate.replace("mm", (month+1 < 10) ? " " + month+1 : month+1).trim();
 			
 			var padding = true;
@@ -618,7 +618,7 @@ Add a note to a date via the BG page and reload stuff as usual.
 */
 function addNoteToDate(timestamp, note)
 {
-	bg.setNoteForDate(timestamp, note, false);
+	setNoteForDate(timestamp, note, false);
 	//updateCalendarPageStart();
 }
 
@@ -627,7 +627,7 @@ Clear a note from a date
 */
 function clearNoteFromDate(timestamp)
 {
-	bg.setNoteForDate(timestamp, "", true);
+	setNoteForDate(timestamp, "", true);
 	//updateCalendarPageStart();
 }
 
@@ -678,7 +678,7 @@ function setColorForDate(timestamp, color, remove)
 		}
 		catch(e)
 		{
-			handleError("setColorForDate", e);
+			handleError("Calendar.js setColorForDate", e);
 		}
 }
 
@@ -1002,12 +1002,11 @@ function showCal(year, month)
 		Tipped.hideAll();
 	
 		//Init and default for week start day
-		var firstDay = bg.settings.firstDay; //getItem("firstDay");
+		var firstDay = settings.firstDay; //getItem("firstDay");
 		if(firstDay != "1" && firstDay != "0")
 		{
-			firstDay = "1";
-			bg.settings.firstDay = firstDay; 
-			bg.persistSettingsToStorage();
+			settings.firstDay = "1";
+			firstDay = 1;
 		}
 	
 		firstDayOfWeek = firstDay;
@@ -1017,15 +1016,17 @@ function showCal(year, month)
 		populateYearLinks();
 	
 		//Initialize and default for showing week number
-		var showWeek = bg.settings.showWeek; //getItem("showWeek");
+		var showWeek = settings.showWeek; //getItem("showWeek");
 		if(showWeek != "1" && showWeek != "0"){
+			
 			showWeek = "1";
-			bg.settings.showWeek = showWeek; //setItem("showWeek", 1);
-			bg.persistSettingsToStorage();
+			settings.showWeek = showWeek; //setItem("showWeek", 1);
+			
 		}
 		if(showWeek == "0") $(".cal_weekblock").hide();
 	
 		updateDatesStuff();
+		
 	}
 	catch(e)
 	{
@@ -1124,7 +1125,7 @@ function keyPressed(key) {
 
 	try {
 		//Check if we are in 3 or 12 month calendar
-		var shifting = (bg.settings.popup == 12) ? true : false;
+		var shifting = (settings.popup == 12) ? true : false;
 			
 		//3 months and 
 		if(key == 37 || (key == 40 && !shifting)) { // down or right
@@ -1147,4 +1148,54 @@ function keyPressed(key) {
 	{
 		handleError("Calendar.js keyPressed", e);
 	}
+}
+
+/**
+Add or remove a note for a date. If "remove" is true, it is deleted no matter what the note. Otherwise, it is added or replaced based on whether or not the timestamp already has a note
+*/
+function setNoteForDate(timestamp, note, remove)
+{
+	
+	try {
+		
+		//Create new object
+		var tmp = {};
+		tmp.timestamp = timestamp;
+		tmp.note = note;
+		
+		var newArray = [];
+		
+		//First, remove any references to the date, because we are either deleting or replacing
+		for(i=0; i < dates.dateNoteArray.length; i++)
+		{
+			var tempR = dates.dateNoteArray[i];
+			
+			if(tempR.timestamp.toString() !== timestamp.toString())
+			{
+				newArray.push(tempR); //If not to be removed, add to next array.
+			}	
+		}
+		
+		dateNoteArray = newArray; //dateNoteArray is now cleaned
+	
+		
+		//Then, if not remove, add current
+		if(!remove)
+		{
+			dateNoteArray.push(tmp);
+		}
+		
+		//This is the new solution!
+		dates.dateNoteArray = dateNoteArray;
+		persistDatesToStorage(dates);
+		
+		//Old and stupid, to be removed.
+		//setItem("dateNoteArray", JSON.stringify(dateNoteArray));
+	
+	}
+	catch(e)
+	{
+		handleError("Calendar.js setNoteForDate",e);
+	}
+	
 }
