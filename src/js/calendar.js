@@ -480,9 +480,18 @@ function getDateString(timestamp, long)
 		else {
 			
 			var dateTemplate = bg.settings.dateFormatShort;
-			dateString = dateTemplate.replace("mm",month+1);
-			dateString = dateString.replace("yy",year);
-			dateString = dateString.replace("dd",mDay);
+			//dateString = dateTemplate.replace("mm", (month+1 < 10) ? " " + month+1 : month+1).trim();
+			
+			var padding = true;
+			
+			month++;
+			if(month < 10 && padding) month = "0" + month;
+			if(mDay < 10 && padding) mDay = "0" + mDay;
+			
+			dateString = dateTemplate.replace("mm", month);
+			
+			dateString = dateString.replace("yy", year);
+			dateString = dateString.replace("dd", mDay);
 		}
 	
 		return dateString;
