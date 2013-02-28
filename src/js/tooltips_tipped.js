@@ -211,17 +211,18 @@ function getToolTipNormal(timestamp){
 		}
 		
 		var subDates = getSubDates();
+		var numberOfSubdates = subDates.length;
+		
+		console.log(subDates,numberOfSubdates);
+		
 		if(showSubDates)
 		{	
-			for(i = 0; i < subDates.length; i++)
-			{
-				//log("Running "+i+" timestamp "+subDates[i]);
-				
-				if(timestamp.toString() !== subDates[i].toString())
+			for(k = 0; k < numberOfSubdates; k++)
+			{	
+				if(timestamp.toString() !== subDates[k].toString())
 				{
 					var outString = "";
-					outString = getCountDownDiffString(new Date(timestamp*1), subDates[i]);
-					//console.log("Return: "+outString);
+					outString = getCountDownDiffString(new Date(timestamp), subDates[k]*1);
 					outArray.push(outString);
 				}
 			}
