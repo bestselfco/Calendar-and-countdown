@@ -52,7 +52,7 @@ function doMigrationOrInstall(details)
 			
 			try {
 				//Switch date storage to new soluion
-				if(compareVersions(details.previousVersion, "2013.2.8.1") == -1)
+				if(compareVersions(details.previousVersion, "2013.2.28.3") == -1)
 				{
 					trackEvent("Migration", "Date storage" , details.previousVersion);
 					doMigrateDatesToNewStorageAPI();
@@ -101,7 +101,7 @@ function initialiseSettingsOnInstall()
 		settings = getDefaultSettings();
 		
 		//Store them
-		persistSettingsToStorage();
+		persistSettingsToStorage(settings);
 		
 		//Setup dates object
 		var dateObject= {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
