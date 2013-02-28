@@ -399,60 +399,7 @@ function dayRightClickedDialog(event)
 
 }
 
-/**
-Retrieve note for a given date from backend
-*/
-function getNoteArray()
-{
-	try {
-	
-		var tmpNoteArray = dates.dateNoteArray;
-		var outObj = {};
-		
-		for(i = 0; i < tmpNoteArray.length; i++)
-		{
-			var thekey = tmpNoteArray[i].timestamp.toString();
-			var nota = tmpNoteArray[i].note;
-	
-			outObj[thekey] = nota;
-		}
-	
-		return outObj;
-	}
-	catch(e)
-	{
-		handleError("Calendar.js getNoteArray", e);
-	}
-}
 
-
-/**
-Get note for a specific date
-*/
-function getNoteForDate(timestampNote)
-{
-	try{
-	
-		var tmpNotes = getNoteArray();
-		var output = "";
-		
-		if(tmpNotes[timestampNote] != undefined)
-		{
-			output = tmpNotes[timestampNote];
-		}
-		else {
-			output = "";
-		}
-		
-		return output;
-	
-	}
-	catch(e)
-	{
-		handleError("Calendar.js getNoteForDate", e);
-	}
-	
-}
 
 /**
 Return date as a localised string
@@ -622,6 +569,109 @@ Clear a note from a date
 function clearNoteFromDate(timestamp)
 {
 	setNoteForDate(timestamp, "", true);
+}
+
+/**
+Add or remove a note for a date. If "remove" is true, it is deleted no matter what the note. Otherwise, it is added or replaced based on whether or not the timestamp already has a note
+*/
+function setNoteForDate(timestamp, note, remove)
+{
+	
+	try {
+		
+		//Create new object
+		var tmp = {};
+		tmp.timestamp = timestamp;
+		tmp.note = note;
+		
+		var newArray = [];
+		
+		//First, remove any references to the date, because we are either deleting or replacing
+		for(i=0; i < dates.dateNoteArray.length; i++)
+		{
+			var tempR = dates.dateNoteArray[i];
+			
+			if(tempR.timestamp.toString() !== timestamp.toString())
+			{
+				newArray.push(tempR); //If not to be removed, add to next array.
+			}	
+		}
+		
+		dateNoteArray = newArray; //dateNoteArray is now cleaned
+	
+		
+		//Then, if not remove, add current
+		if(!remove)
+		{
+			dateNoteArray.push(tmp);
+		}
+		
+		//This is the new solution!
+		dates.dateNoteArray = dateNoteArray;
+		persistDatesToStorage(dates);
+		
+	
+	}
+	catch(e)
+	{
+		handleError("Calendar.js setNoteForDate",e);
+	}
+	
+}
+
+/**
+Retrieve note for a given date from backend
+*/
+function getNoteArray()
+{
+	try {
+	
+		var tmpNoteArray = dates.dateNoteArray;
+		var outObj = {};
+		
+		for(i = 0; i < tmpNoteArray.length; i++)
+		{
+			var thekey = tmpNoteArray[i].timestamp.toString();
+			var nota = tmpNoteArray[i].note;
+	
+			outObj[thekey] = nota;
+		}
+	
+		return outObj;
+	}
+	catch(e)
+	{
+		handleError("Calendar.js getNoteArray", e);
+	}
+}
+
+
+/**
+Get note for a specific date
+*/
+function getNoteForDate(timestampNote)
+{
+	try{
+	
+		var tmpNotes = getNoteArray();
+		var output = "";
+		
+		if(tmpNotes[timestampNote] != undefined)
+		{
+			output = tmpNotes[timestampNote];
+		}
+		else {
+			output = "";
+		}
+		
+		return output;
+	
+	}
+	catch(e)
+	{
+		handleError("Calendar.js getNoteForDate", e);
+	}
+	
 }
 
 /**
@@ -1136,50 +1186,3 @@ function keyPressed(key) {
 	}
 }
 
-/**
-Add or remove a note for a date. If "remove" is true, it is deleted no matter what the note. Otherwise, it is added or replaced based on whether or not the timestamp already has a note
-*/
-function setNoteForDate(timestamp, note, remove)
-{
-	
-	try {
-		
-		//Create new object
-		var tmp = {};
-		tmp.timestamp = timestamp;
-		tmp.note = note;
-		
-		var newArray = [];
-		
-		//First, remove any references to the date, because we are either deleting or replacing
-		for(i=0; i < dates.dateNoteArray.length; i++)
-		{
-			var tempR = dates.dateNoteArray[i];
-			
-			if(tempR.timestamp.toString() !== timestamp.toString())
-			{
-				newArray.push(tempR); //If not to be removed, add to next array.
-			}	
-		}
-		
-		dateNoteArray = newArray; //dateNoteArray is now cleaned
-	
-		
-		//Then, if not remove, add current
-		if(!remove)
-		{
-			dateNoteArray.push(tmp);
-		}
-		
-		//This is the new solution!
-		dates.dateNoteArray = dateNoteArray;
-		persistDatesToStorage(dates);
-		
-	
-	}
-	catch(e)
-	{
-		handleError("Calendar.js setNoteForDate",e);
-	}
-	
-}
