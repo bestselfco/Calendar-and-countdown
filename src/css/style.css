@@ -41,7 +41,7 @@ body {
 
 #topbar {
 	position: absolute;
-	/*font-family: Helvetica, arial, serif;*/
+	
 	top: 10px;
 	left: 10px;
 	
@@ -62,7 +62,7 @@ body {
 .cal_month {
 	display: block;
 	vertical-align: top;
-	height: 150px;
+	/*height: 80px;*/
 	overflow: hidden;
 }
 
