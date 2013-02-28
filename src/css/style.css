@@ -1,3 +1,16 @@
+@font-face
+{
+	font-family: "calendarfont";
+	src: url("../fonts/red-hat-inc_liberation-sans/LiberationSans-Regular.ttf");
+}
+
+@font-face
+{
+	font-family: "calendarfont";
+	src: url("../fonts/red-hat-inc_liberation-sans/LiberationSans-Bold.ttf");
+	font-weight: bold;
+}
+
 html {
 	overflow: hidden;
 	-webkit-touch-callout: none;
@@ -6,10 +19,11 @@ html {
 	user-select: none;
 }
 
+
 body {
 	display: block;
 	overflow: hidden;
-	font-family: “helvetica neue”, helvetica, arial, sans-serif;
+	font-family: calendarfont;/*, “helvetica neue”, helvetica, arial, sans-serif; */
 	margin: 0px 8px 0px 8px;
 	cursor: default;
 }
@@ -73,7 +87,7 @@ body {
 	padding: 2px;
 	padding-top: 1px;
 	padding-bottom: 1px;
-	font-family: 'Droid Sans Mono', arial, serif;
+	/*font-family: 'Droid Sans Mono', arial, serif;*/
 }
 
 .cal_tr_monthname
