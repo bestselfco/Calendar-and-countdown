@@ -2,20 +2,13 @@
 var settings = {}; //new Object();
 var dates = {}; //new Object();
 
-//var dateArray = []; //Holds the dates we count down to
-//var subDateArray = [];
-//var newInstall; //Is this a first time install (ie: is the date array set?)
-
-//var dateNoteArray; //Notes for dates
-//var dateColorArray; //Colors for dates
-
 var maintainCycles = 0;
 
 var iHaveStarted = false;
 var lastResortBootTimeout = 1000;
 
 //Set title
-document.title = "CC " + version.currVersion;
+document.title = version.currVersion;
 
 //Init today time stamp
 var now = new Date();
@@ -69,7 +62,7 @@ function maintain()
 		var nowNew = new Date();
 		todayStamp = Date.UTC(nowNew.getFullYear(),nowNew.getMonth(), nowNew.getDate());
 	
-		maintainChain = jWorkflow.order(getSettingsFromStorage).andThen(getDatesFromStorage).andThen([updateBadgeFromStored, updatePopupFromStored, updateIconFromStored]);
+		maintainChain = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen([updateBadgeFromStored, updatePopupFromStored, updateIconFromStored]);
 		
 		maintainChain.start();
 			
@@ -84,28 +77,6 @@ function maintain()
 	}
 	
 }
-
-function refresh()
-{
-	try {
-		if(iHaveStarted)
-		{
-			refresher = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(maintain);
-			refresher.start();
-		}
-	}
-	catch (err) 
-	{
-		handleError("Background Refresh", err); 
-	}
-}
-
-
-/**
-Get date array
-*/
-
-
 
 /**
 Update the icon from the stored values
@@ -313,78 +284,6 @@ function setupMaintainLoop()
 }
 
 /**
-* New function for reading dates from the storage
-*/
-function getDatesFromStorage(previous, baton)
-{
-		try{
-	
-			baton.take(); // Block further progress until we pass the baton
-			
-			var tmpDates = {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []}; //Empty date object
-			
-			dateStorage.get("dates", function(items){
-			
-				//Overwrite default dates with stored ones where applicable.
-				for (var i in items.dates)
-				{
-					tmpDates[i] = items.dates[i];
-				}
-				
-				dates = tmpDates;
-				
-				logger("info", "Startup", "Dates has been read");
-				
-				baton.pass(); //OK, pass the baton along
-           				
-		});
-	}
-	catch(e)
-	{
-		handleError("getSettingsFromStorage", e);
-	}
-}
-
-function debugNewDates()
-{
-	dateStorage.get("dates", function(items){
-		console.log(items.dates);
-	});
-}
-
-/**
-Set settings object to stored settings
-*/
-function getSettingsFromStorage(previous, baton)
-{
-	try{
-	
-		baton.take(); // Block further progress until we pass the baton
-		
-        settings = getDefaultSettings();
-        
-		settingsStorage.get("settings", function(items){
-		
-			//Overwrite default settings with stored ones where applicable.
-			for (var i in items.settings)
-			{
-				settings[i] = items.settings[i];
-			}
-			
-			logger("info", "Startup", "Settings has been read");
-			
-			baton.pass(); //OK, pass the baton along
-           				
-		});
-	}
-	catch(e)
-	{
-		handleError("getSettingsFromStorage", e);
-	}
-		
-}
-
-/**
 Push settings to Google Analytics
 */
 function pushSettingsToGoogleTracker()
@@ -410,7 +309,7 @@ Everything from here down is the initiation code
 function bgInit()
 {
 	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(addListeners).andThen(getSettingsFromStorage).andThen(getDatesFromStorage).andThen(setupMaintainLoop).andThen(maintain).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
+	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
 	
 	//Up, Up and Away!
 	startupSequence.start();

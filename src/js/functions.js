@@ -2,8 +2,6 @@
 COMMON FUNCTIONS AND VARIABLES FOR ALL PARTS OF THE APPLICATION. 
 */
 
-
-
 //Set storage area for settings and dates. Not yet functional.
 var settingsStorage = chrome.storage.local;
 var dateStorage = chrome.storage.local;
@@ -184,7 +182,7 @@ Get dates from storage. Assumes a "dates" object and jWorkorder already exists o
 */
 function readDatesFromStorage(previous, baton)
 {
-	//var tmpDates = {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []}; 
+		var tmpDates = {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []}; 
 			
 		baton.take();
 		
@@ -194,9 +192,11 @@ function readDatesFromStorage(previous, baton)
 			for (var i in items.dates)
 			{
 				//console.log(i);
-				dates[i] = items.dates[i];
+				tmpDates[i] = items.dates[i];
 				
 			}
+			
+			dates = tmpDates;
 			
 			logger("info", "Dates", "Dates has been read");
 			
