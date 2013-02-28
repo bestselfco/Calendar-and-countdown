@@ -180,54 +180,6 @@ function setNoteForDate(timestamp, note, remove)
 	
 }
 
-/**
-Add or remove a color mark for a date
-*/
-function setColorForDate(timestamp, color, remove)
-{
-		try {
-			
-			var dateColorArray = dates.dateColorArray;
-			
-			//Create new object
-			var tmp = {};
-			tmp.timestamp = timestamp;
-			tmp.color = color;
-			
-			var newArray = [];
-			
-			//First, remove any references to the date, because we are either deleting or replacing
-			for(i=0; i<dateColorArray.length; i++)
-			{
-				var tempR = dateColorArray[i];
-				
-				if(tempR.timestamp.toString() !== timestamp.toString())
-				{
-					newArray.push(tempR); //If not to be removed, add to next array.
-				}	
-			}
-			
-			dateColorArray = newArray; //dateNoteArray is now cleaned
-		
-			//Then, if not remove, add current
-			if(!remove)
-			{
-				dateColorArray.push(tmp);
-			}
-			
-			//This is the new solution!
-			dates.dateColorArray = dateColorArray;
-			persistDatesToStorage(dates);
-			
-			//Old, to be removed
-			//setItem("dateColorArray", JSON.stringify(dateColorArray));
-			
-		}
-		catch(e)
-		{
-			handleError("Background setColorForDate", e);
-		}
-}
 
 /**
 Toggle dates. "nocount" means secondary dates if true.

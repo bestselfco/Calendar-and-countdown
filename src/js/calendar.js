@@ -61,6 +61,12 @@ function initCalendarPageStart()
 	calStartup.start();		
 }
 
+function updateCalendarPageStart()
+{
+	calUpdate = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(updateDatesStuff);
+	calUpdate.start();
+}
+
 function initCalendarPage() {
 	
 	//Find first month to show. Defaults to January
@@ -129,6 +135,14 @@ function bindEvents()
 		if (settings.popup == 12) {
 			document.addEventListener("mousewheel", MouseWheelHandler, false);
 		}
+		
+		chrome.storage.onChanged.addListener(function(changes, namespace) {
+		  
+		  updateCalendarPageStart(); //Run maintenance whenever storage has changed for some reason
+		  logger("info", "Cal maintenance", "Run because of storage change");
+		  
+		});
+		
 	}
 	catch(e)
 	{
@@ -290,7 +304,7 @@ function setMainDate(timestamp)
 		bg.maintain();
 		//highLightSelectedDates();	
 
-		initCalendarPageStart();
+		//updateCalendarPageStart();
 			
 	}
 	catch(err)
@@ -309,7 +323,7 @@ function setSubDate(timestamp)
 		bg.toggleDate(timestamp, true);
 		bg.maintain();
 		
-		initCalendarPageStart();
+		//updateCalendarPageStart();
 		//highLightSelectedDates();
 	}
 	catch(e)
@@ -605,6 +619,7 @@ Add a note to a date via the BG page and reload stuff as usual.
 function addNoteToDate(timestamp, note)
 {
 	bg.setNoteForDate(timestamp, note, false);
+	//updateCalendarPageStart();
 }
 
 /**
@@ -613,7 +628,60 @@ Clear a note from a date
 function clearNoteFromDate(timestamp)
 {
 	bg.setNoteForDate(timestamp, "", true);
+	//updateCalendarPageStart();
 }
+
+/**
+Add or remove a color mark for a date
+*/
+function setColorForDate(timestamp, color, remove)
+{
+		try {
+			
+			var dateColorArray = dates.dateColorArray;
+			
+			//Create new object
+			var tmp = {};
+			tmp.timestamp = timestamp;
+			tmp.color = color;
+			
+			var newArray = [];
+			
+			//First, remove any references to the date, because we are either deleting or replacing
+			for(i=0; i<dateColorArray.length; i++)
+			{
+				var tempR = dateColorArray[i];
+				
+				if(tempR.timestamp.toString() !== timestamp.toString())
+				{
+					newArray.push(tempR); //If not to be removed, add to next array.
+				}	
+			}
+			
+			dateColorArray = newArray; //dateNoteArray is now cleaned
+		
+			//Then, if not remove, add current
+			if(!remove)
+			{
+				dateColorArray.push(tmp);
+			}
+			
+			//This is the new solution!
+			dates.dateColorArray = dateColorArray;
+			persistDatesToStorage(dates);
+			
+			
+			
+			//Old, to be removed
+			//setItem("dateColorArray", JSON.stringify(dateColorArray));
+			
+		}
+		catch(e)
+		{
+			handleError("setColorForDate", e);
+		}
+}
+
 
 /**
 New version when somebody has clicked a date. Uses attribute instead of passing value by function.

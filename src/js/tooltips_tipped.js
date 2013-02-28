@@ -43,13 +43,13 @@ function updateRightClickToolTipMenu(content, event)
 		
 		$(".colorButton").on("click", function(event){
 			var col = $(event.target).css("background-color");
-			bg.setColorForDate(timestamp, col, false);
-			highLightSelectedDates();
+			setColorForDate(timestamp, col, false);
+			//highLightSelectedDates();
 		});
 		
 		$("#resetColorButton").on("click", function(event){
-			bg.setColorForDate(timestamp, "", true);
-			highLightSelectedDates();
+			setColorForDate(timestamp, "", true);
+			//highLightSelectedDates();
 		});
 		
 		$("#popupButtonSetMain").on("click", function(event){
@@ -105,7 +105,7 @@ function resetRightClickToolTipMenu(content, event)
 	
 	Tipped.remove(daysSelectString);
 	
-	initCalendarPageStart();
+	updateCalendarPageStart();
 	
 }
 

@@ -137,7 +137,7 @@ function persistDatesToStorage(dateSet) {
 		if(dateSet.mainDateArray && dateSet.subDateArray && dateSet.dateNoteArray && dateSet.dateColorArray)
 		{
 			dateStorage.set({"dates": dateSet}, function(items){
-				logger("storage", "Stored dates", dateSet);
+				logger("info", "Stored dates", dateSet);
 			});
 		}
 		else
