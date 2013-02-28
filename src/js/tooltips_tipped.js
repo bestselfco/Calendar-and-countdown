@@ -213,7 +213,7 @@ function getToolTipNormal(timestamp){
 		var subDates = getSubDates();
 		var numberOfSubdates = subDates.length;
 		
-		console.log(subDates,numberOfSubdates);
+		//console.log(subDates,numberOfSubdates);
 		
 		if(showSubDates)
 		{	
