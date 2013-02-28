@@ -279,10 +279,7 @@ function toggleDate(timestamp, noCount)
 			//This is the new solution!
 			dates.subDateArray = noCountDateArray;
 			persistDatesToStorage(dates);
-			
-			//Old, to be removed
-			//setItem("noCountDateArray", JSON.stringify(noCountDateArray));
-			
+						
 			log("Sub date array changed", noCountDateArray);
 				
 			
@@ -308,14 +305,10 @@ function toggleDate(timestamp, noCount)
 			dates.mainDateArray = dateArray;
 			persistDatesToStorage(dates);
 			
-			//Old, to be removed
-			//setItem("dateArray", JSON.stringify(dateArray)); //Store it
 			
 			log("Date array changed", dateArray); //Log it	
 		}
-		
-		//maintain();
-	
+			
 	}
 	catch(e)
 	{
