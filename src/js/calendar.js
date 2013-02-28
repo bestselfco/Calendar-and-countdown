@@ -1,9 +1,8 @@
 /**
 Front end variables
 */
-//var bg = chrome.extension.getBackgroundPage();
 
-//Empty object for settings
+//Empty objects for settings and dates
 var settings = {};
 var dates = {};
 
@@ -38,7 +37,6 @@ var currentTodayTip;
 //Init today time stamp
 var todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 
-//var notesArray = getNoteArray();
 
 /**
 Bootstrap page on load
@@ -55,16 +53,32 @@ $(document).ready(function() {
 	
 });
 
+/*
+* First init
+*/ 
 function initCalendarPageStart()
 {
-	calStartup = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(initCalendarPage).andThen(trackCalendarStart);
-	calStartup.start();		
+	try {
+		calStartup = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(initCalendarPage).andThen(trackCalendarStart);
+		calStartup.start();		
+	}
+	catch (err) {
+		handleError("Calendar, initCalendarPageStart", err);
+	}
 }
 
+/*
+* Update colors and stuff
+*/ 
 function updateCalendarPageStart()
 {
-	calUpdate = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(updateDatesStuff);
-	calUpdate.start();
+	try {
+		calUpdate = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(updateDatesStuff);
+		calUpdate.start();
+	}
+	catch (err) {
+		handleError("Calendar, updateCalendarPageStart", err);
+	}
 }
 
 function initCalendarPage() {
@@ -212,7 +226,7 @@ Briefly show info box for today
 */
 function showBubbleForToday()
 {
-		try {
+	try {
 		var selectorString = '[dateTimestamp="'+todayStamp+'"]';
 		
 		var options = new Object();
@@ -301,11 +315,6 @@ function setMainDate(timestamp)
 	{
 		//Set date in background page	
 		toggleDate(timestamp, false);
-		//bg.maintain();
-		//highLightSelectedDates();	
-
-		//updateCalendarPageStart();
-			
 	}
 	catch(err)
 	{
@@ -321,10 +330,6 @@ function setSubDate(timestamp)
 	//Set date in background page	
 	try {
 		toggleDate(timestamp, true);
-		//bg.maintain();
-		
-		//updateCalendarPageStart();
-		//highLightSelectedDates();
 	}
 	catch(e)
 	{
@@ -338,14 +343,7 @@ Update date set from back end and start update of content when done
 function updateDatesStuff()
 {
 	try {
-		//Refresh backgroudn page
-	    //bg.maintain();
-		
-		//Update link to background page
-		//bg = chrome.extension.getBackgroundPage();
-		
-		//notesArray = getNoteArray();
-		
+			
 		//Bind clicks and mouseovers for dates - dialog on right click!
 		$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);	
 	
@@ -440,11 +438,9 @@ function getNoteForDate(timestampNote)
 		
 		if(tmpNotes[timestampNote] != undefined)
 		{
-			//console.log("Note found "+timestampNote);
 			output = tmpNotes[timestampNote];
 		}
 		else {
-			//console.log("Note not found" + timestampNote);
 			output = "";
 		}
 		
@@ -503,7 +499,6 @@ function getDateString(timestamp, long)
 		else {
 			
 			var dateTemplate = settings.dateFormatShort;
-			//dateString = dateTemplate.replace("mm", (month+1 < 10) ? " " + month+1 : month+1).trim();
 			
 			var padding = true;
 			
@@ -619,7 +614,6 @@ Add a note to a date via the BG page and reload stuff as usual.
 function addNoteToDate(timestamp, note)
 {
 	setNoteForDate(timestamp, note, false);
-	//updateCalendarPageStart();
 }
 
 /**
@@ -628,7 +622,6 @@ Clear a note from a date
 function clearNoteFromDate(timestamp)
 {
 	setNoteForDate(timestamp, "", true);
-	//updateCalendarPageStart();
 }
 
 /**
@@ -669,12 +662,7 @@ function setColorForDate(timestamp, color, remove)
 			//This is the new solution!
 			dates.dateColorArray = dateColorArray;
 			persistDatesToStorage(dates);
-			
-			
-			
-			//Old, to be removed
-			//setItem("dateColorArray", JSON.stringify(dateColorArray));
-			
+						
 		}
 		catch(e)
 		{
@@ -710,7 +698,6 @@ function yearClicked(event){
 		
 		currentYear = year*1; //Add offset to current year
 	
-		//initPopupPage(currentYear, 1);
 		showCal(currentYear, 1);
 	}
 	catch(e)
@@ -762,7 +749,7 @@ function highLightSelectedDates(){
 	{
 		var timestamp = customColors[i].timestamp;
 		var color = customColors[i].color;
-	//	log(timestamp,color);
+
 		var selectorString = '[dateTimestamp="'+timestamp+'"]';
 		$(selectorString).css("background-color", color);
 	}
@@ -781,7 +768,6 @@ function removeHighLights()
 	//Remove all modifications made by jQuery
 	$(daysSelectString).removeClass(selectedSubClass).removeClass(selectedClass).css("background-color", "");
 
-	//log("Css change", "Removed highlights");
 }
 
 /**
@@ -1189,8 +1175,6 @@ function setNoteForDate(timestamp, note, remove)
 		dates.dateNoteArray = dateNoteArray;
 		persistDatesToStorage(dates);
 		
-		//Old and stupid, to be removed.
-		//setItem("dateNoteArray", JSON.stringify(dateNoteArray));
 	
 	}
 	catch(e)

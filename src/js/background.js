@@ -46,7 +46,7 @@ function addListeners()
 	}
 	catch(e)
 	{
-		handleError("migrate", e);
+		handleError("Background addListeners", e);
 	}		
 }
 
@@ -69,17 +69,18 @@ function maintain()
 		var nowNew = new Date();
 		todayStamp = Date.UTC(nowNew.getFullYear(),nowNew.getMonth(), nowNew.getDate());
 	
-		updateBadgeFromStored();
-		updatePopupFromStored();
-		updateIconFromStored();
-	
-		//setToolTip(new Date().toLocaleDateString());
+		maintainChain = jWorkflow.order(getSettingsFromStorage).andThen(getDatesFromStorage).andThen([updateBadgeFromStored, updatePopupFromStored, updateIconFromStored]);
 		
+		maintainChain.start();
+			
 		logger("info", "Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
+		
+		return true;
 	}
 	catch(e)
 	{
-		handleError("maintain", e);
+		handleError("Background maintain", e);
+		return false;
 	}
 	
 }
@@ -135,7 +136,7 @@ function updateIconFromStored()
 	}
 	catch(e)
 	{
-		handleError("updateIconFromStored", e);
+		handleError("Background updateIconFromStored", e);
 	}
 	
 }
@@ -157,7 +158,7 @@ function updatePopupFromStored()
 	}
 	catch(e)
 	{
-		handleError("updatePopupFromStored",e);
+		handleError("Background updatePopupFromStored",e);
 	}
 }
 
@@ -173,33 +174,10 @@ function setToolTip(text)
 	}
 	catch(e)
 	{
-		handleError("setToolTip", e);
+		handleError("Background setToolTip", e);
 	}
 }
 
-/**
-Reset extension
-*/
-function killEmAll()
-{
-	trackEvent("Full reset", version.currVersion, "");
-	
-	//Old, to be removed
-	clearStrg();
-	
-	initialiseSettingsOnInstall();
-	
-	//Old, to be removed
-	initDateArrays();
-	
-	//NEW
-	initialiseSettingsOnInstall()
-	
-	//Old, to be removed
-	maintain();
-	
-	return true;
-}
 
 /**
 *Update the badge from the stored countdown date
@@ -373,114 +351,6 @@ function debugNewDates()
 		console.log(items.dates);
 	});
 }
-
-/**
-Initialise settings and/or reset everything to scratch from the old system.
-*/ 
-
-function initDateArrays()
-{
-/*
-	try {
-		
-		tmpDates = {}; //Stupid thing for new soluton
-		dateArray = getItem("dateArray");
-		if(dateArray === null && getItem("countto") != null )
-		{
-			//Transition to new solution for storing date.
-			dateArray = [];
-			var countTo = getItem("countto");
-			toggleDate(countTo);
-			log("Migrating date solution", countTo);
-			
-			//New solution
-			tmpDates.mainDateArray = [];
-		}
-		else if(dateArray === null)
-		{
-			dateArray = []; //new Array();
-			setItem("dateArray", JSON.stringify(dateArray));
-			
-			//New solution
-			tmpDates.mainDateArray = [];
-			
-			log("Setting default (empty) date array", dateArray);
-		}
-		else
-		{
-			dateArray = JSON.parse(dateArray);
-			
-			//New solution
-			tmpDates.mainDateArray = dateArray;
-			
-		}
-		
-		
-		//Init date note array
-		dateNoteArray = getItem("dateNoteArray");
-		if(dateNoteArray === null)
-		{
-			dateNoteArray = [] //new Array();
-			setItem("dateNoteArray", JSON.stringify(dateNoteArray));
-			
-			//New solution
-			tmpDates.dateNoteArray = [];
-		}
-		else {
-		
-			dateNoteArray = JSON.parse(dateNoteArray);
-			
-			//New solution
-			tmpDates.dateNoteArray = dateNoteArray;
-			
-		}
-		
-		//Init date color array
-		dateColorArray = getItem("dateColorArray");
-		if(dateColorArray === null)
-		{
-			dateColorArray = []; // new Array();
-			setItem("dateColorArray", JSON.stringify(dateColorArray));
-			
-			//New solution
-			tmpDates.dateColorArray = [];
-			
-		}
-		else {
-			dateColorArray = JSON.parse(dateColorArray);
-			
-			//New solution
-			tmpDates.dateColorArray = dateColorArray;
-			
-		}
-		
-		//Secondary dates
-		noCountDateArray = getItem("noCountDateArray");
-		if(noCountDateArray === null)
-		{
-			noCountDateArray = []; //new Array();
-			setItem("noCountDateArray", JSON.stringify(noCountDateArray));
-			
-			//New solution
-			tmpDates.subDateArray = [];
-			
-		}
-		else
-		{
-			noCountDateArray = JSON.parse(noCountDateArray);
-			
-			//New solution
-			tmpDates.subDateArray = noCountDateArray;
-			
-		}
-	}
-	catch(e)
-	{
-		handleError("initDateArrays", e);
-	}
-*/
-}
-
 
 /**
 Set settings object to stored settings
