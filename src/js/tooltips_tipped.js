@@ -251,9 +251,11 @@ function getCountDownDiffString(ndate, countToDate)
 		
 		var customNote = null;
 		
-		if(notesArray[countToDate] !== undefined)
+		var notes = getNoteArray()
+		
+		if(notes[countToDate] !== undefined)
 		{
-			customNote = notesArray[countToDate];
+			customNote = notes[countToDate];
 		}
 		
 		//Should we count up/down to date in popup?

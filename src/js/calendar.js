@@ -38,7 +38,7 @@ var currentTodayTip;
 //Init today time stamp
 var todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 
-var notesArray = getNoteArray();
+//var notesArray = getNoteArray();
 
 /**
 Bootstrap page on load
@@ -59,6 +59,10 @@ function initCalendarPageStart()
 {
 	calStartup = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(initCalendarPage);
 	calStartup.start();		
+	
+	//Track a page view
+	trackPageView("/calendar/"+settings.popup);
+	
 }
 
 function initCalendarPage() {
@@ -70,9 +74,7 @@ function initCalendarPage() {
 	
 	initPopupPage(currentYear, startMonth);
 	
-	//Track a page view
-	bg.trackPageView("/calendar/"+settings.popup);
-	
+
 }
 
 /**
@@ -286,7 +288,10 @@ function setMainDate(timestamp)
 		//Set date in background page	
 		bg.toggleDate(timestamp, false);
 		bg.maintain();
-		highLightSelectedDates();		
+		//highLightSelectedDates();	
+
+		initCalendarPageStart();
+			
 	}
 	catch(err)
 	{
@@ -303,7 +308,9 @@ function setSubDate(timestamp)
 	try {
 		bg.toggleDate(timestamp, true);
 		bg.maintain();
-		highLightSelectedDates();
+		
+		initCalendarPageStart();
+		//highLightSelectedDates();
 	}
 	catch(e)
 	{
@@ -323,7 +330,7 @@ function updateDatesStuff()
 		//Update link to background page
 		bg = chrome.extension.getBackgroundPage();
 		
-		notesArray = getNoteArray();
+		//notesArray = getNoteArray();
 		
 		//Bind clicks and mouseovers for dates - dialog on right click!
 		$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);	
@@ -386,8 +393,9 @@ Retrieve note for a given date from backend
 function getNoteArray()
 {
 	try {
-		var tmpNoteArray = bg.dates.dateNoteArray;
-		var outObj = new Object;
+	
+		var tmpNoteArray = dates.dateNoteArray;
+		var outObj = {};
 		
 		for(i = 0; i < tmpNoteArray.length; i++)
 		{
@@ -405,13 +413,14 @@ function getNoteArray()
 	}
 }
 
+
 /**
 Get note for a specific date
 */
 function getNoteForDate(timestampNote)
 {
 	try{
-		
+	
 		var tmpNotes = getNoteArray();
 		var output = "";
 		
@@ -430,7 +439,7 @@ function getNoteForDate(timestampNote)
 	}
 	catch(e)
 	{
-		handleError("Calendar.js getNoteArray", e);
+		handleError("Calendar.js getNoteForDate", e);
 	}
 	
 }
@@ -679,7 +688,8 @@ function highLightSelectedDates(){
 	});
 	
 	// custom colors
-	customColors = bg.dates.dateColorArray;
+	customColors = dates.dateColorArray;
+	
 	for(i=0;i<customColors.length;i++)
 	{
 		var timestamp = customColors[i].timestamp;
