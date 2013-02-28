@@ -314,7 +314,7 @@ function toggleDate(timestamp, noCount)
 			log("Date array changed", dateArray); //Log it	
 		}
 		
-		maintain();
+		//maintain();
 	
 	}
 	catch(e)
