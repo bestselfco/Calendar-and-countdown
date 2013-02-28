@@ -105,6 +105,8 @@ function resetRightClickToolTipMenu(content, event)
 	
 	Tipped.remove(daysSelectString);
 	
+	initCalendarPageStart();
+	
 }
 
 

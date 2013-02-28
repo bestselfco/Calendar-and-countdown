@@ -170,7 +170,7 @@ function setNoteForDate(timestamp, note, remove)
 		persistDatesToStorage(dates);
 		
 		//Old and stupid, to be removed.
-		setItem("dateNoteArray", JSON.stringify(dateNoteArray));
+		//setItem("dateNoteArray", JSON.stringify(dateNoteArray));
 	
 	}
 	catch(e)
@@ -220,7 +220,7 @@ function setColorForDate(timestamp, color, remove)
 			persistDatesToStorage(dates);
 			
 			//Old, to be removed
-			setItem("dateColorArray", JSON.stringify(dateColorArray));
+			//setItem("dateColorArray", JSON.stringify(dateColorArray));
 			
 		}
 		catch(e)
@@ -261,7 +261,7 @@ function toggleDate(timestamp, noCount)
 			persistDatesToStorage(dates);
 			
 			//Old, to be removed
-			setItem("noCountDateArray", JSON.stringify(noCountDateArray));
+			//setItem("noCountDateArray", JSON.stringify(noCountDateArray));
 			
 			log("Sub date array changed", noCountDateArray);
 				
@@ -289,7 +289,7 @@ function toggleDate(timestamp, noCount)
 			persistDatesToStorage(dates);
 			
 			//Old, to be removed
-			setItem("dateArray", JSON.stringify(dateArray)); //Store it
+			//setItem("dateArray", JSON.stringify(dateArray)); //Store it
 			
 			log("Date array changed", dateArray); //Log it	
 		}

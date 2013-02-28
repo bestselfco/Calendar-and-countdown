@@ -234,7 +234,7 @@ function doMigrateDatesToNewStorageAPI()
 		var tmpDateNoteArray = JSON.parse(getItem("dateNoteArray"));
 		var tmpDateColorArray = JSON.parse(getItem("dateColorArray"));
 		
-		//Init object
+		//Init object with empty data
 		var dateObject= {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
 		
 		if(tmpMainDateArray !== null) dateObject.mainDateArray = tmpMainDateArray;

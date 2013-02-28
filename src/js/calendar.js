@@ -57,12 +57,8 @@ $(document).ready(function() {
 
 function initCalendarPageStart()
 {
-	calStartup = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(initCalendarPage);
+	calStartup = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(initCalendarPage).andThen(trackCalendarStart);
 	calStartup.start();		
-	
-	//Track a page view
-	trackPageView("/calendar/"+settings.popup);
-	
 }
 
 function initCalendarPage() {
@@ -74,7 +70,11 @@ function initCalendarPage() {
 	
 	initPopupPage(currentYear, startMonth);
 	
+}
 
+function trackCalendarStart() {
+	//Track a page view
+	trackPageView("/calendar/"+settings.popup);
 }
 
 /**
@@ -270,7 +270,7 @@ Return the subsidiary dates (the ones we just show)
 function getSubDates()
 {
 	try {
-		return  dates.subDateArray;
+		return dates.subDateArray;
 	}
 	catch(err)
 	{
