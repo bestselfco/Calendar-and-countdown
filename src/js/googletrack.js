@@ -36,12 +36,8 @@ Track an error to Google Analytics, both immediately and in detail
 function trackError(where, category, text)
 {
     try {
-    	//if(!debug)
-    	//{
-    	//	_gaq.push(['_trackEvent', 'Error ' + version.currVersion, where, category + " - " + text]);
-    	    trackEvent("Error " + version.currVersion + ", " + where, category, text);
-            trackPageView("/error/" + version.currVersion + "/" + where + "/" + category);
-    	//}
+       	    trackEvent("Error " + version.currVersion, where, category + " - " + text);
+            trackPageView("/error/" + version.currVersion + "/" + where + "/" + category + "/" + text);
     }
     catch (err)
     {

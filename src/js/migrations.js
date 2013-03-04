@@ -5,12 +5,18 @@ FUNCTIONS RELATED TO INSTALLATION AND SETTINGS MIGRATION
 function doMigrationOrInstall(details)
 {
 	try{
-		if(details.reason == "update" && details.previousVersion != version.currVersion)
+	
+		//Failure safe reason check
+		var reason = "undefined";
+		if(typeof(details.reason) != 'undefined') 
+		{	
+			reason = details.reason;
+		}
+	
+		if(reason === "update" && details.previousVersion != version.currVersion)
 	 	{	
 			trackEvent("Update", version.currVersion, details.previousVersion);
-			
-			//var prev = details.previousVersion.split(".");
-			
+						
 			//UTC update if update from older version than august 2012	
 			try {
 				if(compareVersions(details.previousVersion, "2012.7") == -1)
@@ -66,7 +72,7 @@ function doMigrationOrInstall(details)
 			bgInit();
 			
 		}
-		else if(details.reason == "install")
+		else if(reason === "install")
 		{
 			trackPageView('/new');
 			trackEvent("New install", version.currVersion, "");	
@@ -79,6 +85,10 @@ function doMigrationOrInstall(details)
 			trackPageView('/reload/'+version.currVersion);
 			trackEvent("Reloaded", version.currVersion, "");
 			bgInit();
+		}
+		else if(reason === "undefined")
+		{
+			throw new Error("details.reason undefined");
 		}
 	}
 	catch(e)

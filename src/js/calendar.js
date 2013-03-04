@@ -106,6 +106,9 @@ function initPopupPage(year, month)
 		//Load CSS
 		loadjscssfile("css/colors.css", "css");
 	
+		//Set page title for tracking
+		document.title = version.currVersion;
+	
 		//Display the calendar
 		showCal(year, month);
 	
