@@ -211,7 +211,17 @@ Persist the given settings object
 function persistSettingsToStorage(tmpSettings) {
 	
 	try {
-		if(tmpSettings.popup)
+	
+		var popupSet = false;
+		if(typeof(tmpSettings.popup) !== 'undefined') 
+		{	
+			popupSet = true;
+		}
+		else {
+			throw new Error("Settings persisted without being set.")
+		}
+	
+		if(popup === true)
 		{
 			settingsStorage.set({"settings": tmpSettings}, function(items){
 			
