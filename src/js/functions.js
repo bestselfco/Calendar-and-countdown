@@ -221,7 +221,7 @@ function persistSettingsToStorage(tmpSettings) {
 			throw new Error("Settings persisted without being set.")
 		}
 	
-		if(popup === true)
+		if(popupSet === true)
 		{
 			settingsStorage.set({"settings": tmpSettings}, function(items){
 			
