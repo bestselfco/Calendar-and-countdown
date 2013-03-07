@@ -337,7 +337,7 @@ function lastRestortBoot()
 {
 	if(!iHaveStarted)
 	{	
-		trackEvent("Emergency boot", version.currVersion, "");
+		trackEvent("Timed boot", version.currVersion, "");
 		iHaveStarted = true;
 		bgInit();
 	}
