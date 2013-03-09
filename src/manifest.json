@@ -1,9 +1,9 @@
 {
   "name": "Calendar and Countdown",
   "default_locale": "en",
-  "version": "2013.3.4.2",
+  "version": "2013.3.9.1",
   "minimum_chrome_version": "22",
-  "description": "Show a full year calendar in a single window and count down to any date. Create notes and colors and check the distance between days.",
+  "description": "Show a full year calendar in a single window and count down to any date. Create notes and colors, and check the distance between days.",
   "options_page": "options.html",
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://apis.google.com; object-src 'self'",
