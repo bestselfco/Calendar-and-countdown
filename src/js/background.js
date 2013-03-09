@@ -44,14 +44,6 @@ function addListeners()
 }
 
 /**
-Do a call to Google Analytics whenever exension has finished loading. 
-*/
-function trackExtensionStart()
-{
-	trackPageView('/start/'+version.currVersion);
-}
-
-/**
 Maintain data
 */
 function maintain()
@@ -309,7 +301,7 @@ Everything from here down is the initiation code
 function bgInit()
 {
 	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(maintain).andThen(pushSettingsToGoogleTracker).andThen(trackExtensionStart);
+	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(maintain).andThen(pushSettingsToGoogleTracker);
 	
 	//Up, Up and Away!
 	startupSequence.start();
@@ -323,8 +315,16 @@ chrome.runtime.onInstalled.addListener(function(details) {
 
 //normal startup
 chrome.runtime.onStartup.addListener(function() {
+	
 	iHaveStarted = true;
+	
 	bgInit();
+	
+	trackEvent("Event startup", version.currVersion, "");
+	
+	trackPageView('/start/normal/'+version.currVersion);
+	
+	
 });
 
 //Last resort startup
@@ -338,6 +338,7 @@ function lastRestortBoot()
 	if(!iHaveStarted)
 	{	
 		trackEvent("Timed boot", version.currVersion, "");
+		trackPageView('/start/timed/'+version.currVersion);
 		iHaveStarted = true;
 		bgInit();
 	}

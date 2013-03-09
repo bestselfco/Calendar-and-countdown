@@ -20,7 +20,7 @@
     	"js/googletrack.js",
 		"js/background.js"
     	],
-		"persistent": true
+		"persistent": false
   },
   "browser_action": 
   {
