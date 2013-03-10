@@ -85,8 +85,8 @@ function initCalendarPage() {
 	
 	//Find first month to show. Defaults to January
 	var startMonth = 1;	
-	if(showFromStart == 3 && settings.popup == 12) { startMonth = currentMonth }
-	else if(showFromStart == 2 && settings.popup == 12) { startMonth = getStartMonthForQuarter(currentMonth);}
+	if(settings.showFrom == 3 && settings.popup == 12) { startMonth = currentMonth }
+	else if(settings.showFrom == 2 && settings.popup == 12) { startMonth = getStartMonthForQuarter(currentMonth);}
 	
 	initPopupPage(currentYear, startMonth);
 	
