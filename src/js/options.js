@@ -1,5 +1,11 @@
-//Get background page and settings object
-var bg = chrome.extension.getBackgroundPage();
+//var settings = {};
+//var dates = {};
+
+function initOptionsDo()
+{
+	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(init);
+	initOptionsChain.start();
+}
 
 function init()
 {
@@ -8,7 +14,7 @@ function init()
 		var dd = new Date();
 		$(".copyyear").html(dd.getFullYear());
 	
-		var firstDay = bg.settings.firstDay;
+		var firstDay = settings.firstDay;
 		if(firstDay == "0")
 		{
 			document.getElementById("firstday0").checked = true;
@@ -18,7 +24,7 @@ function init()
 			document.getElementById("firstday1").checked = true;
 		}
 	
-		var showFrom = bg.settings.showFrom;
+		var showFrom = settings.showFrom;
 		if(showFrom == 3)
 		{
 			document.getElementById("firstMonth3").checked = true;
@@ -31,7 +37,7 @@ function init()
 			document.getElementById("firstMonth1").checked = true;
 		}
 	
-		var showBadge = bg.settings.showBadge;
+		var showBadge = settings.showBadge;
 		if(showBadge == "0")
 		{
 			document.getElementById("showBadge0").checked = true;
@@ -41,7 +47,7 @@ function init()
 			document.getElementById("showBadge1").checked = true;
 		}
 		
-		var popup = bg.settings.popup;
+		var popup = settings.popup;
 		if(popup == "3")
 		{
 			document.getElementById("show31203").checked = true;
@@ -51,7 +57,7 @@ function init()
 			document.getElementById("show31212").checked = true;
 		}
 	
-		var showweek = bg.settings.showWeek;
+		var showweek = settings.showWeek;
 		if(showweek == "0")
 		{
 			document.getElementById("showweek0").checked = true;
@@ -61,7 +67,7 @@ function init()
 			document.getElementById("showweek1").checked = true;
 		}
 		
-		var showStartBubble = bg.settings.showBubbleOnStart;
+		var showStartBubble = settings.showBubbleOnStart;
 		if(showStartBubble === true)
 		{	
 			document.getElementById("showBubbleOnStart1").checked = true;
@@ -71,7 +77,7 @@ function init()
 			document.getElementById("showBubbleOnStart0").checked = true;
 		}
 		
-		var dateFormatShort = bg.settings.dateFormatShort;
+		var dateFormatShort = settings.dateFormatShort;
 		if(dateFormatShort == "yy-mm-dd")
 		{
 			document.getElementById("dateShort2").checked = true;
@@ -90,7 +96,7 @@ function init()
 			document.getElementById("dateShort0").checked = true;
 		}
 		
-		var iconTextStyle = bg.settings.iconShowText;
+		var iconTextStyle = settings.iconShowText;
 		if(iconTextStyle == 2)
 		{
 			document.getElementById("setIconText2").checked = true;
@@ -168,7 +174,7 @@ function init()
 		
 		$("#reseteverything").on("click", function() { resetEverything(); });
 			
-		$("#ccversion").html(bg.getVersion().currVersion);
+		$("#ccversion").html(version.currVersion);
 	}
 	catch(e)
 	{
@@ -202,7 +208,7 @@ function createIconPreview(topColor, targetCanvas)
 	iconSetup.showNumbers = "0";
 	iconSetup.fillText = "0";
 	iconSetup.topColor = topColor;
-	iconSetup.textColor = bg.settings.iconTextColor;
+	iconSetup.textColor = settings.iconTextColor;
 	
 	//Bind event
 	var selectString = "#"+targetCanvas;
@@ -230,9 +236,9 @@ function changeSetting(key, value, persist)
 	try {
 		log("Setting changed", key+": "+value+ " - persist: " + persist);
 		
-		bg.settings[key] = value;
+		settings[key] = value;
 		
-		settings = bg.settings;
+		//settings = bg.settings;
 		
 		if(persist)
 		{
@@ -251,7 +257,7 @@ function resetEverything()
 {	
 	try {
 		bg.killEmAll();
-		window.location.reload();
+		chrome.runtime.reload();
 	}
 	catch(e)
 	{
@@ -260,6 +266,6 @@ function resetEverything()
 }
 
 $(document).ready(function() {
-  init();
+  initOptionsDo();
 });
 

@@ -1,6 +1,6 @@
 //New date and settings objects to persist to synced storage
-var settings = {}; //new Object();
-var dates = {}; //new Object();
+//var settings = {}; //new Object();
+//var dates = {}; //new Object();
 
 var maintainCycles = 0;
 

@@ -3,8 +3,8 @@ Front end variables
 */
 
 //Empty objects for settings and dates
-var settings = {};
-var dates = {};
+//var settings = {};
+//var dates = {};
 
 var now = new Date(); //Today
 var currentYear = now.getUTCFullYear(); //This year, now with more UTC

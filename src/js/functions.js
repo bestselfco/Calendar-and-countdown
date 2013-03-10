@@ -10,6 +10,10 @@ var dateStorage = chrome.storage.local;
 var debug = (location.hostname == "caplfhpahpkhhckglldpmdmjclabckhc") ? false : true;
 var version = getVersion();
 
+//New date and settings objects to persist to synced storage
+var settings = {}; //new Object();
+var dates = {}; //new Object();
+
 /**
  * Output to log if "debug" is true
  * 
@@ -155,25 +159,37 @@ Get settings from storage. Assumes a "settings" object and jWorkorder already ex
 function readSettingsFromStorage(previous, baton)
 {
 
-	var tmpSettings = getDefaultSettings();
-		
-		baton.take();
-		
-		settingsStorage.get("settings", function(items){
-		
-			//Overwrite default settings with stored ones where applicable.
-			for (var i in items.settings)
-			{
-				tmpSettings[i] = items.settings[i];
-			}
+	try {
+	
+		if(typeof(settings) === "undefined")
+		{
+			throw new Error("Settings object does not exist");
+		}
+	
+		var tmpSettings = getDefaultSettings();
 			
-			settings = tmpSettings; 
+			baton.take();
 			
-			logger("info", "Settings", "Settings has been read");
+			settingsStorage.get("settings", function(items){
 			
-			baton.pass(); //OK, pass the baton along
-		   				
-		});
+				//Overwrite default settings with stored ones where applicable.
+				for (var i in items.settings)
+				{
+					tmpSettings[i] = items.settings[i];
+				}
+				
+				settings = tmpSettings; 
+				
+				logger("info", "Settings", "Settings has been read");
+				
+				baton.pass(); //OK, pass the baton along
+			   				
+			});
+	}
+	catch(err)
+	{
+		handleError("readSettingsFromStorage", err);
+	}
 
 }
 
