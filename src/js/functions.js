@@ -369,17 +369,3 @@ function getSubDates()
 		handleError("Functions getSubDates", e);
 	}
 }
-
-
-/**
-Reset extension
-*/
-function killEmAll()
-{
-	trackEvent("Full reset", version.currVersion, "");
-	
-	settingsStorage.remove("settings");
-	dateStorage.remove("dates");
-	
-	return true;
-}

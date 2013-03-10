@@ -12,7 +12,7 @@ function init()
 	try {
 		//Copyright year
 		var dd = new Date();
-		$(".copyyear").html(dd.getFullYear());
+		$(".copyyear").html(dd.getUTCFullYear());
 	
 		var firstDay = settings.firstDay;
 		if(firstDay == "0")
@@ -253,10 +253,17 @@ function changeSetting(key, value, persist)
 		
 }
 
+/*
+Reset extension
+*/
 function resetEverything()
 {	
 	try {
-		bg.killEmAll();
+		trackEvent("Full reset", version.currVersion, "");
+		
+		settingsStorage.remove("settings");
+		dateStorage.remove("dates");
+		
 		chrome.runtime.reload();
 	}
 	catch(e)
