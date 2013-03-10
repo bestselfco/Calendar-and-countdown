@@ -36,6 +36,14 @@ function addListeners()
 			}
 		});
 		
+		//Force update at once it is released. Because!
+		chrome.runtime.onUpdateAvailable.addListener(function(details) {
+			
+			trackEvent("Event upgrade", version.currVersion, "");
+			chrome.runtime.reload();
+			
+		});
+		
 	}
 	catch(e)
 	{

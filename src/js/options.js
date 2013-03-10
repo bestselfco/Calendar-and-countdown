@@ -175,6 +175,8 @@ function init()
 		$("#reseteverything").on("click", function() { resetEverything(); });
 			
 		$("#ccversion").html(version.currVersion);
+		
+		
 	}
 	catch(e)
 	{
