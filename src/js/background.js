@@ -5,7 +5,7 @@
 var maintainCycles = 0;
 
 var iHaveStarted = false;
-var lastResortBootTimeout = 1000;
+var lastResortBootTimeout = 500;
 
 //Set title
 document.title = version.currVersion;
@@ -330,8 +330,6 @@ chrome.runtime.onStartup.addListener(function() {
 	
 	bgInit();
 	
-	trackEvent("Event startup", version.currVersion, "");
-	
 	trackPageView('/start/normal/'+version.currVersion);
 	
 	
@@ -347,8 +345,6 @@ function lastRestortBoot()
 {
 	if(!iHaveStarted)
 	{	
-		//trackEvent("Timed boot", version.currVersion, "");
-		//trackPageView('/start/timed/'+version.currVersion);
 		iHaveStarted = true;
 		bgInit();
 	}
