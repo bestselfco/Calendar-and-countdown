@@ -5,7 +5,7 @@
 var maintainCycles = 0;
 
 var iHaveStarted = false;
-var lastResortBootTimeout = 500;
+var bgBootTimeOut = 0;
 
 //Set title
 document.title = version.currVersion;
@@ -37,14 +37,16 @@ function addListeners()
 		});
 		
 		//Force update at once it is released. Because!
-		/*
-		chrome.runtime.onUpdateAvailable.addListener(function(details) {
+		if(typeof(chrome.runtime.onUpdateAvailable) !== "undefined") 
+		{	
+			chrome.runtime.onUpdateAvailable.addListener(function(details) {
 			
-			trackEvent("Event upgrade", version.currVersion, "");
-			chrome.runtime.reload();
+				trackEvent("Event upgrade", version.currVersion, "");
+				chrome.runtime.reload();
 			
-		});
-		*/
+			});
+		}
+		
 		
 	}
 	catch(e)
@@ -311,7 +313,7 @@ Everything from here down is the initiation code
 function bgInit()
 {
 	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(maintain).andThen(pushSettingsToGoogleTracker);
+	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(maintain); 
 	
 	//Up, Up and Away!
 	startupSequence.start();
@@ -319,29 +321,38 @@ function bgInit()
 
 //reload, update or install
 chrome.runtime.onInstalled.addListener(function(details) {
-	iHaveStarted = true;
+	
 	doMigrationOrInstall(details);	//On reload or new install, run migration function (migrations.js)
+	
 });
 
-//normal startup
+//Log normal startup
 chrome.runtime.onStartup.addListener(function() {
 	
-	iHaveStarted = true;
-	
-	bgInit();
-	
-	trackPageView('/start/normal/'+version.currVersion);
-	
-	
+	window.setTimeout(trackStartup, 1000);
+		
 });
 
-//Last resort startup
+//Do the actual bootup routine
 $(document).ready(function() {
-	window.setTimeout(lastRestortBoot, lastResortBootTimeout);
+	window.setTimeout(bgBoot, bgBootTimeOut);
 });
+
+function trackStartup()
+{
+	if(typeof(settings.popup) !== "undefined")
+	{
+		pushSettingsToGoogleTracker();
+		trackPageView('/start/normal/'+version.currVersion);
+	}
+	else {
+		logger("info", "Startup", "Retrying startup logging"); 
+		window.setTimeout(trackStartup, 1000);
+	}
+}
 
 //Perform the last restort boot.
-function lastRestortBoot()
+function bgBoot()
 {
 	if(!iHaveStarted)
 	{	

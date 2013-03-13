@@ -8,7 +8,7 @@ function doMigrationOrInstall(details)
 	
 		//Failure safe reason check
 		var reason = "undefined";
-		if(typeof(details.reason) != 'undefined') 
+		if(typeof(details.reason) !== 'undefined') 
 		{	
 			reason = details.reason;
 		}
@@ -36,7 +36,8 @@ function doMigrationOrInstall(details)
 				if(compareVersions(details.previousVersion, "2012.11.22.5") == -1)
 				{
 					trackEvent("Migration", "Settings storage" , details.previousVersion);
-					settings = doSettingsStorageMigration();
+					//settings = 
+					doSettingsStorageMigration();
 				}
 			}
 			catch (err)
@@ -70,22 +71,22 @@ function doMigrationOrInstall(details)
 				handleError("doMigrationOrInstall date storage", err);
 			}
 			
-			bgInit();
+			//bgInit();
 			
 		}
 		else if(reason === "install")
 		{
-			trackPageView('/new');
+			trackPageView('/new/'+version.currVersion);
 			trackEvent("New install", version.currVersion, "");	
 			initialiseSettingsOnInstall();
-			bgInit();
+			//bgInit();
 			
 		}
 		else if(details.previousVersion === version.currVersion)
 		{
 			trackPageView('/reload/'+version.currVersion);
 			trackEvent("Reloaded", version.currVersion, "");
-			bgInit();
+			//bgInit();
 		}
 		else if(reason === "undefined")
 		{
@@ -166,16 +167,16 @@ function doSettingsStorageMigration()
 		removeItem("shouldIUpdateDates");
 		removeItem("showMoon");
 		
-		persistSettingsToStorage();
+		persistSettingsToStorage(settings);
 		
-		maintain();
+		//maintain();
 		
-		return settings;
+		//return settings;
 	}
 	catch(e)
 	{
 		handleError("doSettingsStorageMigration", e);
-		return getDefaultSettings();
+		//return getDefaultSettings();
 	}
 }
 
@@ -185,8 +186,8 @@ function doIconColorMigration()
 	{
 		settings.iconTopColor = colorToHex(settings.iconTopColor);
 		settings.iconTextColor = "#323232";
-		persistSettingsToStorage();
-		maintain();
+		persistSettingsToStorage(settings);
+		//maintain();
 	}
 	catch(e)
 	{
