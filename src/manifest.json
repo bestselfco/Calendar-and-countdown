@@ -18,7 +18,8 @@
     	"js/icons.js",
     	"js/migrations.js",
     	"js/googletrack.js",
-		"js/background.js"
+		"js/background.js",
+		"js/debug.js"
     	],
 		"persistent": false
   },

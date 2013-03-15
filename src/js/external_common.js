@@ -129,12 +129,7 @@ function setItem(key, value) {
 		log("Ajax","Error inside setItem");
 		log(e);
 	}
-	//log("Ajax","Return from setItem" + key);
 }
-
-//Gets the item from local storage with the specified
-//key
-
 
 function getItem(key) {
 	var value;

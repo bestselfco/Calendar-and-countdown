@@ -1,9 +1,4 @@
-//New date and settings objects to persist to synced storage
-//var settings = {}; //new Object();
-//var dates = {}; //new Object();
-
 var maintainCycles = 0;
-
 var iHaveStarted = false;
 var bgBootTimeOut = 0;
 
@@ -340,14 +335,19 @@ $(document).ready(function() {
 
 function trackStartup()
 {
-	if(typeof(settings.popup) !== "undefined")
-	{
-		pushSettingsToGoogleTracker();
-		trackPageView('/start/normal/'+version.currVersion);
+	try {if(typeof(settings.popup) !== "undefined")
+		{
+			pushSettingsToGoogleTracker();
+			trackPageView('/start/'+version.currVersion);
+		}
+		else {
+			logger("info", "Startup", "Retrying startup logging"); 
+			window.setTimeout(trackStartup, 1000);
+		}
 	}
-	else {
-		logger("info", "Startup", "Retrying startup logging"); 
-		window.setTimeout(trackStartup, 1000);
+	catch (err)
+	{
+		handleError("trackStartup", err);
 	}
 }
 

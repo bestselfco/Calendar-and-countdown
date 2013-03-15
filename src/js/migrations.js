@@ -16,7 +16,7 @@ function doMigrationOrInstall(details)
 		if(reason === "update" && details.previousVersion != version.currVersion)
 	 	{	
 			trackEvent("Update", version.currVersion, details.previousVersion);
-			trackPageView('/update/'+details.previousVersion+"/"+version.currVersion);			
+			trackPageView('/update/'+details.previousVersion);			
 						
 			//UTC update if update from older version than august 2012	
 			try {
@@ -168,15 +168,10 @@ function doSettingsStorageMigration()
 		removeItem("showMoon");
 		
 		persistSettingsToStorage(settings);
-		
-		//maintain();
-		
-		//return settings;
 	}
 	catch(e)
 	{
 		handleError("doSettingsStorageMigration", e);
-		//return getDefaultSettings();
 	}
 }
 
@@ -187,7 +182,6 @@ function doIconColorMigration()
 		settings.iconTopColor = colorToHex(settings.iconTopColor);
 		settings.iconTextColor = "#323232";
 		persistSettingsToStorage(settings);
-		//maintain();
 	}
 	catch(e)
 	{
