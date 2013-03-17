@@ -1,6 +1,6 @@
 var maintainCycles = 0;
 var iHaveStarted = false;
-var bgBootTimeOut = 0;
+var bgBootTimeOut = 500;
 
 //Set title
 document.title = version.currVersion;
