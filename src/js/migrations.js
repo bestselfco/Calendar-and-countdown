@@ -6,9 +6,9 @@ function doMigrationOrInstall(details)
 {
 	try{
 	
-		//Failure safe reason check
+		//Fail safe reason check that still manages to fail
 		var reason = "undefined";
-		if(typeof(details.reason) !== 'undefined') 
+		if(typeof(details) !== 'undefined' && typeof(details.reason) !== 'undefined') 
 		{	
 			reason = details.reason;
 		}
@@ -36,7 +36,6 @@ function doMigrationOrInstall(details)
 				if(compareVersions(details.previousVersion, "2012.11.22.5") == -1)
 				{
 					trackEvent("Migration", "Settings storage" , details.previousVersion);
-					//settings = 
 					doSettingsStorageMigration();
 				}
 			}
@@ -76,17 +75,14 @@ function doMigrationOrInstall(details)
 		}
 		else if(reason === "install")
 		{
-			trackPageView('/new/'+version.currVersion);
+			trackPageView('/new');
 			trackEvent("New install", version.currVersion, "");	
 			initialiseSettingsOnInstall();
-			//bgInit();
-			
 		}
 		else if(details.previousVersion === version.currVersion)
 		{
 			trackPageView('/reload/'+version.currVersion);
 			trackEvent("Reloaded", version.currVersion, "");
-			//bgInit();
 		}
 		else if(reason === "undefined")
 		{
@@ -98,8 +94,6 @@ function doMigrationOrInstall(details)
 		handleError("doMigrationOrInstall", e);
 	}
 }
-
-
 
 /**
 Initialise default settings and store them
@@ -118,9 +112,6 @@ function initialiseSettingsOnInstall()
 		//Setup dates object
 		var dateObject= {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
 		persistDatesToStorage(dateObject);
-		
-		//Re-do init.
-		//maintain();
 	}
 	catch(e)
 	{
@@ -149,6 +140,7 @@ function doSettingsStorageMigration()
 		if(getItem("badgeColor") !== null) tmpSettings.badgeColor = getItem("badgeColor");
 		if(getItem("popup") !== null) tmpSettings.popup = getItem("popup");
 		if(getItem("showWeek") !== null) tmpSettings.showWeek = getItem("showWeek");
+		
 		if(getItem("firstDay") !== null) tmpSettings.firstDay = getItem("firstDay");
 		
 		settings = tmpSettings;
@@ -175,6 +167,9 @@ function doSettingsStorageMigration()
 	}
 }
 
+/**
+Migrate icon colors to hex
+*/
 function doIconColorMigration()
 {
 	try 

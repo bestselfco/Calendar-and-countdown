@@ -7,7 +7,7 @@ var settingsStorage = chrome.storage.local;
 var dateStorage = chrome.storage.local;
 
 //Debug object. If true, we are in debug mode. Checks if ID is the official Google ID or not.
-var debug = (location.hostname == "caplfhpahpkhhckglldpmdmjclabckhc") ? false : true;
+var debug = (chrome.runtime.id == "caplfhpahpkhhckglldpmdmjclabckhc") ? false : true;
 var version = getVersion();
 
 //New date and settings objects to persist to synced storage
@@ -71,10 +71,7 @@ function getVersion() {
 		var returnObject = {}; //new Object();
 		
 		returnObject.currVersion = manifest.version;
-		
-		var intVer = version.replace(/\./g,'');
-		
-		returnObject.intVer = intVer;
+		returnObject.manifest = manifest;
 		
 		return returnObject;
 	}
@@ -103,6 +100,8 @@ function getDefaultSettings()
 	tmpSettings.dateFormatShort = "dd.mm.yy"; //Also look for d/m/y due to my stupidity
 	tmpSettings.showBubbleOnStart = false;
     tmpSettings.storeDataOnline = false;
+	
+	tmpSettings.maxNumberOfSecondaryDaysInPopup = 15;
 	
 	tmpSettings.showFrom = 1; //1 = current, 2 = current third, 3 = current month
 	

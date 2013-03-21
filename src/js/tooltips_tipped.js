@@ -212,12 +212,10 @@ function getToolTipNormal(timestamp){
 		
 		var subDates = getSubDates();
 		var numberOfSubdates = subDates.length;
-		
-		//console.log(subDates,numberOfSubdates);
-		
+				
 		if(showSubDates)
 		{	
-			for(k = 0; k < numberOfSubdates; k++)
+			for(k = 0; k < Math.min(numberOfSubdates, settings.maxNumberOfSecondaryDaysInPopup); k++)
 			{	
 				if(timestamp.toString() !== subDates[k].toString())
 				{
@@ -226,6 +224,12 @@ function getToolTipNormal(timestamp){
 					outArray.push(outString);
 				}
 			}
+			//Add ... to end
+			if(numberOfSubdates > settings.maxNumberOfSecondaryDaysInPopup)
+			{
+				outArray.push("...");
+			}
+			
 		}
 		
 		//Clean out "null" and return result

@@ -3,7 +3,7 @@
 
 function initOptionsDo()
 {
-	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(init);
+	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(init).andThen(checkOnlineStorageContent);
 	initOptionsChain.start();
 }
 
@@ -273,6 +273,86 @@ function resetEverything()
 		handleError("Options, resetEverything", e);
 	}
 }
+
+function checkOnlineStorageContent()
+{
+	chrome.storage.sync.get("settings", function(items){
+		var type = typeof(items.settings)
+		if(type === "object")
+		{
+			logger("info", "Storage", "Settings exists in synced storage");
+		}
+		else
+		{
+			logger("info", "Storage", "Settings does not exist in synced storage");
+		}
+	});
+	
+	chrome.storage.sync.get("dates", function(items){
+			
+	});
+}
+
+/**
+Copy a local storage item from localstorage to synced storage
+*/
+function copyLocalStorageToSyncedStorage(whatToCopy)
+{
+	try {
+		chrome.storage.local.get(whatToCopy, function(items){
+			var type = typeof(items[whatToCopy]);
+			if(type === "object")
+			{
+				var toStore = {};
+				toStore[whatToCopy] = items["settings"];
+				//console.log(toStore);
+				chrome.storage.sync.set(toStore, function(){
+					logger("info", "Storage", whatToCopy+" has been copied to synced storage");
+				});
+			}
+			else
+			{
+				logger("info", "Storage", whatToCopy+" was not found in local storage");
+				handleError("Options, copyLocalStorageToSyncedStorage", new Error("Tried to copy non-existing item to synced storage: "+whatToCopy));
+			}
+		});
+	}
+	catch(err)
+	{
+		handleError("options, copyLocalStorageToSyncedStorage", e);
+	}
+}
+
+/**
+Copy a synced storage item from synclstorage to local storage
+*/
+function copySyncedStorageToLocalStorage(whatToCopy)
+{
+	try {
+		chrome.storage.sync.get(whatToCopy, function(items){
+			var type = typeof(items[whatToCopy]);
+			if(type === "object")
+			{
+				var toStore = {};
+				toStore[whatToCopy] = items["settings"];
+				//console.log(toStore);
+				chrome.storage.local.set(toStore, function(){
+					logger("info", "Storage", whatToCopy+" has been copied to local storage");
+				});
+			}
+			else
+			{
+				logger("info", "Storage", whatToCopy+" was not found in synced storage");
+				handleError("Options, copySyncedStorageToLocalStorage", new Error("Tried to copy non-existing item to local storage: "+whatToCopy));
+			}
+		});
+	}
+	catch(err)
+	{
+		handleError("options, copySyncedStorageToLocalStorage", e);
+	}
+}
+
 
 $(document).ready(function() {
   initOptionsDo();

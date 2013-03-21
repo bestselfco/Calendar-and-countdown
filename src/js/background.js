@@ -312,6 +312,13 @@ function bgInit()
 	
 	//Up, Up and Away!
 	startupSequence.start();
+	
+	//Debug settings
+	if(debug)
+	{
+		setToolTip("Debug "+version.currVersion);
+	}
+	
 }
 
 //reload, update or install
@@ -338,7 +345,7 @@ function trackStartup()
 	try {if(typeof(settings.popup) !== "undefined")
 		{
 			pushSettingsToGoogleTracker();
-			trackPageView('/start/'+version.currVersion);
+			trackPageView('/start');
 		}
 		else {
 			logger("info", "Startup", "Retrying startup logging"); 
