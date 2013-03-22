@@ -70,7 +70,19 @@ function doMigrationOrInstall(details)
 				handleError("doMigrationOrInstall date storage", err);
 			}
 			
-			//bgInit();
+			try {
+				//Default to online storage if not set
+				if(compareVersions(details.previousVersion, "2013.3.22.1") == -1)
+				{
+					trackEvent("Migration", "Storage location" , details.previousVersion);
+					doMigrateStorageLocation();
+				}
+			}
+			catch (err) 
+			{
+				handleError("doMigrationOrInstall date storage", err);
+			}
+
 			
 		}
 		else if(reason === "install")
@@ -102,6 +114,9 @@ function initialiseSettingsOnInstall()
 {
 	try{
 		log("Install/Migrate", "initialiseSettings");
+	
+		//Set storage location
+		doMigrateStorageLocation();
 	
 		//Read default settings
 		settings = getDefaultSettings();
@@ -247,13 +262,27 @@ function doMigrateDatesToNewStorageAPI()
 	}
 	catch (err)
 	{
-		var errDateObject = {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
+		var errDateObject = {mainDateArray: [], subDateArray: [], dateNoteArray: [], dateColorArray: []};
 		persistDatesToStorage(dateObject);
 		handleError("doMigrateDatesToNewStorageAPI", e);
 	}
 	
 }
 
+/**
+Init data storage to be local, and save it to localstorage
+*/
+function doMigrateStorageLocation()
+{
+	settingsStorage = chrome.storage.local;
+	dateStorage = chrome.storage.local;
+	
+	var tmpsettingsstorage = {"datestorage": "local"};
+	var tmpdatestorage = {"settingstorage": "local"};
+	
+	chrome.storage.local.set(tmpsettingsstorage);
+	chrome.storage.local.set(tmpdatestorage);	
+}
 
 
 

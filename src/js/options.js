@@ -3,7 +3,7 @@
 
 function initOptionsDo()
 {
-	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(init).andThen(checkOnlineStorageContent);
+	var initOptionsChain = jWorkflow.order(getSettingsStorage).andThen(getDateStorage).andThen(readSettingsFromStorage).andThen(init).andThen(checkOnlineStorageContent);
 	initOptionsChain.start();
 }
 

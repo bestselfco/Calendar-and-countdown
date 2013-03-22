@@ -9,3 +9,13 @@ d.checkUpdate = function() {
 d.reload = function() {
 	chrome.runtime.reload();
 }
+
+d.setSyncStorage = function() {
+
+	var tmpsettingsstorage = {"datestorage": "sync"};
+	var tmpdatestorage = {"settingstorage": "sync"};
+	
+	chrome.storage.local.set(tmpsettingsstorage);
+	chrome.storage.local.set(tmpdatestorage);	
+	
+}	

@@ -3,8 +3,8 @@ COMMON FUNCTIONS AND VARIABLES FOR ALL PARTS OF THE APPLICATION.
 */
 
 //Set storage area for settings and dates. Not yet functional.
-var settingsStorage = chrome.storage.local;
-var dateStorage = chrome.storage.local;
+var settingsStorage; // = chrome.storage.local;
+var dateStorage; // = chrome.storage.local;
 
 //Debug object. If true, we are in debug mode. Checks if ID is the official Google ID or not.
 var debug = (chrome.runtime.id == "caplfhpahpkhhckglldpmdmjclabckhc") ? false : true;
@@ -13,6 +13,55 @@ var version = getVersion();
 //New date and settings objects to persist to synced storage
 var settings = {}; //new Object();
 var dates = {}; //new Object();
+
+/**
+Read and set storage location for settings
+*/
+function getSettingsStorage(previous, baton)
+{
+	baton.take;
+	
+	settingsStorage = chrome.storage.local;
+	
+	logger("info", "Storage", "Finding storage location for settings");
+	
+	chrome.storage.local.get("settingstorage", function(data){
+	
+		if(typeof(data.settingstorage) !== undefined && data.settingstorage == "sync")
+		{
+			logger("info", "Storage", "Using synced storage for settings");
+			settingsStorage = chrome.storage.sync;
+		}
+		
+		baton.pass;
+	});
+
+}
+
+/**
+Read and set storage location for dates
+*/
+function getDateStorage(previous, baton)
+{
+	baton.take;
+	
+	dateStorage = chrome.storage.local;
+	
+	logger("info", "Storage", "Finding storage location for dates");
+	
+	chrome.storage.local.get("datestorage", function(data){
+		
+		if(typeof(data.datestorage) !== undefined && data.datestorage == "sync")
+		{
+			logger("info", "Storage", "Using synced storage for dates");
+			settingsStorage = chrome.storage.sync;
+		}
+		
+		baton.pass;
+		
+	});
+	
+}
 
 /**
  * Output to log if "debug" is true
