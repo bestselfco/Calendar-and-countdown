@@ -240,12 +240,12 @@ function changeSetting(key, value, persist)
 		
 		settings[key] = value;
 		
-		//settings = bg.settings;
+        trackEvent("Setting change", key, value);
 		
 		if(persist)
 		{
 			persistSettingsToStorage(settings);
-            trackEvent("Setting change", key, value);
+            
 		}
 	}
 	catch(e)

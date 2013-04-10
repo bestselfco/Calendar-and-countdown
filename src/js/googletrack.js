@@ -37,7 +37,7 @@ function trackError(where, category, text)
 {
     try {
 		trackEvent("Error " + version.currVersion, where, category + " - " + text);
-		trackPageView("/error/" + where + "/" + category + "/" + text);
+	//	trackPageView("/error/" + where + "/" + category + "/" + text);
     }
     catch (err)
     {

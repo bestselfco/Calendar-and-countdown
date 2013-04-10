@@ -345,6 +345,7 @@ function trackStartup()
 	try {if(typeof(settings.popup) !== "undefined")
 		{
 			pushSettingsToGoogleTracker();
+            //trackEvent("Startup", version.currVersion, "");
 			trackPageView('/start');
 		}
 		else {

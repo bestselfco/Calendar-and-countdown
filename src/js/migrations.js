@@ -13,7 +13,7 @@ function doMigrationOrInstall(details)
 			reason = details.reason;
 		}
 	
-		if(reason === "update" && details.previousVersion != version.currVersion)
+		if(reason === "update" && details.previousVersion !== version.currVersion)
 	 	{	
 			trackEvent("Update", version.currVersion, details.previousVersion);
 			trackPageView('/update/'+details.previousVersion);			
@@ -72,7 +72,7 @@ function doMigrationOrInstall(details)
 			
 			try {
 				//Default to online storage if not set
-				if(compareVersions(details.previousVersion, "2013.3.22.1") == -1)
+				if(false && compareVersions(details.previousVersion, "2013.3.15.2") == -1)
 				{
 					trackEvent("Migration", "Storage location" , details.previousVersion);
 					doMigrateStorageLocation();
