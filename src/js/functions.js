@@ -147,8 +147,7 @@ function getDefaultSettings()
 	tmpSettings.showWeek = "1";
 	tmpSettings.firstDay = "1";
 	tmpSettings.dateFormatShort = "dd.mm.yy"; //Also look for d/m/y due to my stupidity
-	tmpSettings.showBubbleOnStart = false;
-    tmpSettings.storeDataOnline = false;
+	tmpSettings.showBubbleOnStart = true;
 	
 	tmpSettings.maxNumberOfSecondaryDaysInPopup = 15;
 	
