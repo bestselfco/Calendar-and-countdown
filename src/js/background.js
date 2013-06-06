@@ -36,7 +36,7 @@ function addListeners()
 		{	
 			chrome.runtime.onUpdateAvailable.addListener(function(details) {
 			
-				trackEvent("Event upgrade", version.currVersion, "");
+				//trackEvent("Event upgrade", version.currVersion, "");
 				chrome.runtime.reload();
 			
 			});
