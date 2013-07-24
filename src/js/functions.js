@@ -23,15 +23,15 @@ function getSettingsStorage(previous, baton)
 	
 	settingsStorage = chrome.storage.local;
 	
-	baton.pass;
+	//baton.pass;
 	
 	logger("info", "Storage", "Finding storage location for settings");
 	
-	/*
+	
 	
 	chrome.storage.local.get("settingstorage", function(data){
 	
-		if(typeof(data.settingstorage) !== undefined && data.settingstorage == "sync")
+		if(typeof(data.settingstorage) !== "undefined" && data.settingstorage == "sync")
 		{
 			logger("info", "Storage", "Using synced storage for settings");
 			settingsStorage = chrome.storage.sync;
@@ -40,7 +40,7 @@ function getSettingsStorage(previous, baton)
 		baton.pass;
 	});
 	
-	*/
+	
 
 }
 
@@ -53,15 +53,15 @@ function getDateStorage(previous, baton)
 	
 	dateStorage = chrome.storage.local;
 	
-	baton.pass;
+	//baton.pass;
 	
-	/*
+	
 	
 	logger("info", "Storage", "Finding storage location for dates");
 	
 	chrome.storage.local.get("datestorage", function(data){
 		
-		if(typeof(data.datestorage) !== undefined && data.datestorage == "sync")
+		if(typeof(data.datestorage) !== "undefined" && data.datestorage == "sync")
 		{
 			logger("info", "Storage", "Using synced storage for dates");
 			settingsStorage = chrome.storage.sync;
@@ -71,7 +71,7 @@ function getDateStorage(previous, baton)
 		
 	});
 	
- 	*/
+ 	
 	
 }
 
