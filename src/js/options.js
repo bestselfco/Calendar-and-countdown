@@ -47,6 +47,16 @@ function init()
 			document.getElementById("showBadge1").checked = true;
 		}
 		
+		var showWorkDays = settings.showWorkDays;
+		if(showWorkDays == true)
+		{
+			document.getElementById("showWorkDays1").checked = true;
+		}
+		else 
+		{
+			document.getElementById("showWorkDays0").checked = true;
+		}
+		
 		var popup = settings.popup;
 		if(popup == "3")
 		{
@@ -56,6 +66,8 @@ function init()
 		{
 			document.getElementById("show31212").checked = true;
 		}
+		
+		
 	
 		var showweek = settings.showWeek;
 		if(showweek == "0")
@@ -129,18 +141,9 @@ function init()
 		$("#badge_color_6").css("background-color", "#1BA032").attr("colorval", "#1BA032");
 		$("#badge_color_7").css("background-color", "#1B4AA0").attr("colorval", "#1B4AA0");
 		$("#badge_color_8").css("background-color", "#0000FF").attr("colorval", "#0000FF");
-	
-		
-		$("#div_show312").buttonset();
-		$("#divOptionWeek").buttonset();
-		$("#divOptionWeekNumbers").buttonset();
-		$("#divOptionMoonPhase").buttonset();
-		$("#optionsShowBadge").buttonset();
-		$("#divShowBubbleOnStart").buttonset();
-		$("#optionsDateFormatShort").buttonset();
-		$("#optionsDateFormatLong").buttonset();
-		$("#div_firstMonth").buttonset();
-		$("#divSetIconTest").buttonset();
+
+		//Add button sets		
+		$(".optionButtons").buttonset();
 		
 		$("#reseteverything a").button();
 		$("#resettext a").button();
@@ -154,6 +157,8 @@ function init()
 		$("#showweek1").on("click", function() { changeSetting("showWeek", '1', true); });
 		$("#showBadge0").on("click", function() { changeSetting("showBadge", 0, true); });
 		$("#showBadge1").on("click", function() { changeSetting("showBadge", 1, true); });
+		$("#showWorkDays0").on("click", function() { changeSetting("showWorkDays", false, true); });
+		$("#showWorkDays1").on("click", function() { changeSetting("showWorkDays", true, true); });
 		$("#showBubbleOnStart0").on("click", function() { changeSetting("showBubbleOnStart", false, true); });
 		$("#showBubbleOnStart1").on("click", function() { changeSetting("showBubbleOnStart", true, true); });
 		

@@ -8,7 +8,7 @@ function getToolTip(timestamp)
 			return getToolTipNormal(timestamp);
 		}
 		else {
-			return getToolTipDynamic();
+			return getToolTipDynamic(dynamicStartStamp, dynamicStopStamp);
 		}
 	}
 	catch (e)
@@ -113,19 +113,31 @@ function resetRightClickToolTipMenu(content, event)
 /**
 Get the dynamic tool tip
 */
-function getToolTipDynamic()
+function getToolTipDynamic(fromStamp, toStamp)
 {
 	try {
 		var output = "";
-	
-		var days = Math.abs(dynamicDiff / 86400000) + 1;  
+
+		var from = new Date(fromStamp);
+		var to = new Date(toStamp)
+
+		var days = Math.abs(to.getDistanceInDays(from)) + 1;
+		var wDays = Math.abs(from.getDistanceInWeekDays(to)); 
 	
 		//(Day/day_s_)
 		var suffix = "";
 		if(days == 0 || days > 1) suffix = chrome.i18n.getMessage("several_suffix");
 		var daysword = chrome.i18n.getMessage("day");
 	
-		output += days + " " + daysword + suffix + " " + chrome.i18n.getMessage("selected");
+		output += days;
+		
+		//add work days
+		if(settings.showWorkDays)
+		{
+			output += " (" + wDays + ")";
+		}
+		
+		output += " " + daysword + suffix + " " + chrome.i18n.getMessage("selected");
 	
 		return output;
 	}

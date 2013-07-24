@@ -84,14 +84,6 @@ Date.prototype.getDaysInMonth = function()
 
 };
 
-/*
-Date.prototype.getUTCMidnight = function() 
-{
-	var utcMidnight = Date.UTC(this.getUTCFullYear(),this.getUTCMonth(), this.getUTCDate(),0,0,0);
-	
-	return utcMidnight;
-}
-*/
 
 //Get day of the year
 Date.prototype.getDayOfYear = function() {
@@ -120,3 +112,75 @@ Date.prototype.getDaysFromToday = function () {
 	var diff = this.getDistanceInDays(nowUtc);	
 	return diff;
 };
+
+//Get workdays distance.
+Date.prototype.getDistanceInWeekDays = function(timestamp)
+{
+
+	try {
+		var stop = new Date(timestamp);
+		var start = this;
+		var swapped = false;
+		
+		//console.log(start, stop);
+		
+		if(start > stop)
+		{
+			var tmp = stop; 
+			stop = start;
+			start = tmp;
+			swapped = true;
+		}
+		
+		//console.log(start, stop);
+		
+		//Get total distance in days.
+		var diff = Math.abs(start.getDistanceInDays(stop));
+		
+		//logger("Debug", "Original days", diff);
+		
+		var numberOfWeeks = Math.floor(diff / 7);
+		
+		//logger("Debug", "Number of weeks", numberOfWeeks);
+		
+		days = diff - (numberOfWeeks * 2); //Taken out weekends for all full weeks.
+		
+		//logger("Debug", "Days before fix", days);
+		
+		var startDay = start.getDay();
+		var endDay = stop.getDay();
+		
+		//logger("Debug", "Start day", startDay);
+		
+		//logger("Debug", "End day", endDay);
+		
+		//add current day
+		days = days + 1;
+		
+		//logger("Debug", "w/today", days);
+		
+		if(endDay == 0) days = days - 2;
+		if(endDay == 6) days = days - 1;
+		if(startDay == 6) days = days - 2; 
+		if(startDay == 0) days = days - 1;
+		
+		//logger("Debug", "Fixed", days);
+		
+		//Just a weekend selected means 0
+		if(days < 3 && startDay == 6)
+		{
+			days = 0;
+		} 
+		
+		//invert if inverted
+		if(swapped)
+		days = days * -1;
+		
+		return days;
+	}
+	catch(ex)
+	{
+		handleError("date.extend.js Date.prototype.getDistanceInWeekDays", e);
+		return 0;
+	}
+}

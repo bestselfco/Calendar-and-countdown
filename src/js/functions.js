@@ -148,6 +148,7 @@ function getDefaultSettings()
 	tmpSettings.firstDay = "1";
 	tmpSettings.dateFormatShort = "dd.mm.yy"; //Also look for d/m/y due to my stupidity
 	tmpSettings.showBubbleOnStart = true;
+	tmpSettings.showWorkDays = true;
 	
 	tmpSettings.maxNumberOfSecondaryDaysInPopup = 15;
 	

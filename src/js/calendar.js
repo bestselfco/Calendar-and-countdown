@@ -20,8 +20,11 @@ var yearButtonHalfClass = "thisyearhalf";
 var yearButtonThirdClass = "thisyearthird";
 
 var daysSelectString = "."+normalClass+",."+selectedClass+",."+selectedSubClass;
+
 var dynamicStartStamp = false;
+var dynamicStopStamp = false;
 var dynamicDiff = false;
+
 var lastEventDate = "";
 
 var showFromStart; 
@@ -502,8 +505,15 @@ function updateDynamic(event){
 		{
 			var currentStamp = event.target.attributes["datetimestamp"].value * 1;
 		
+			dynamicStopStamp = currentStamp;
+		
+			//var currentDate = new Date(currentStamp);
+			//var otherDate = new Date(dynamicStartStamp);
+		
 			//Get diff
 			dynamicDiff = currentStamp - dynamicStartStamp;
+			//dynamic
+			
 			
 			//Find increment: minus or plus
 			var increment = (dynamicDiff > 0) ? 86400000 : -86400000;
@@ -549,6 +559,7 @@ function endDynamic(event){
 		
 		//Unset start point for dynamic counter
 		dynamicStartStamp = false;
+		dynamicStopStamp = false;
 		dynamicDiff = false;
 	}
 	catch(e)

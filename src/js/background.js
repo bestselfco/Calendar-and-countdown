@@ -64,7 +64,11 @@ function maintain()
 		maintainChain = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen([updateBadgeFromStored, updatePopupFromStored, updateIconFromStored]);
 		
 		maintainChain.start();
-			
+		
+		//Reset the backup timer
+		window.clearTimeout(backupTimer)
+		backupTimer = window.setTimeout(emergencyMaintain, 3600000);
+		
 		logger("info", "Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
 		
 		return true;
@@ -75,6 +79,13 @@ function maintain()
 		return false;
 	}
 	
+}
+
+//If alarm does not work, perform emergency maintainance
+function emergencyMaintain()
+{
+	trackEvent("Emergency maintenance", version.currVersion, "");
+	maintain();
 }
 
 /**
@@ -335,9 +346,12 @@ chrome.runtime.onStartup.addListener(function() {
 		
 });
 
+var backupTimer;
+
 //Do the actual bootup routine
 $(document).ready(function() {
 	window.setTimeout(bgBoot, bgBootTimeOut);
+	backupTimer = window.setTimeout(emergencyMaintain, 7200000); //Emergency maintenance
 });
 
 function trackStartup()

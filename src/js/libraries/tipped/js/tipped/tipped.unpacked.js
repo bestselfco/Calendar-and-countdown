@@ -1,12 +1,12 @@
 /*!
- * Tipped - The jQuery Tooltip - v3.1.7
+ * Tipped - The jQuery Tooltip - v3.1.8
  * (c) 2010-2013 Nick Stakenburg
  *
  * http://projects.nickstakenburg.com/tipped
  *
  * License: http://projects.nickstakenburg.com/tipped/license
  */
-;var Tipped = { version: '3.1.7' };
+;var Tipped = { version: '3.1.8' };
 
 Tipped.Skins = {
   // base skin, don't modify! (create custom skins in a separate file)
@@ -3351,9 +3351,9 @@ Tipped.Skins.CloseButtons = {
 			})
 		}
 		function n() {
-			this.setEvent(this.container, "mouseenter", this.setActive),
+			this.setEvent(this.container, Tipped.support.touch ? "touchmove": "mouseenter", this.setActive),
 			this.setEvent(this.container, "mouseleave", this.setIdle),
-			this.setEvent(this.container, "mouseenter", a.proxy(function () {
+			this.setEvent(this.container, Tipped.support.touch ? "touchmove": "mouseenter", a.proxy(function () {
 				this.getTimer("fadeTransition") || this.show()
 			},
 			this)),
