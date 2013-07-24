@@ -31,18 +31,11 @@ function trackPageView(pagetitle)
 }
 
 /**
-Track an error to Google Analytics, both immediately and in detail
+Generic error handling for all errors
 */
-function trackError(where, category, text)
-{
-    try {
-		trackEvent("Error " + version.currVersion, where, category + " - " + text);
-	//	trackPageView("/error/" + where + "/" + category + "/" + text);
-    }
-    catch (err)
-    {
-        console.error("Error tracking error. Goddamnit.")   
-    }
+window.onerror = function(message, url, linenumber) {
+ // alert("JavaScript error: " + message + " on line " + linenumber + " for " + url);
+ 	trackError(url + ":" + linenumber, "Uncaught", message);
 }
 
 /**

@@ -417,3 +417,17 @@ function getSubDates()
 		handleError("Functions getSubDates", e);
 	}
 }
+
+/**
+Track an error to Google Analytics, both immediately and in detail
+*/
+function trackError(where, category, text)
+{
+    try {
+		trackEvent("Error " + version.currVersion, where, category + " - " + text);
+    }
+    catch (err)
+    {
+        console.error("Error tracking error. Goddamnit.")   
+    }
+}
