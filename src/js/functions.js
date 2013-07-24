@@ -23,7 +23,11 @@ function getSettingsStorage(previous, baton)
 	
 	settingsStorage = chrome.storage.local;
 	
+	baton.pass;
+	
 	logger("info", "Storage", "Finding storage location for settings");
+	
+	/*
 	
 	chrome.storage.local.get("settingstorage", function(data){
 	
@@ -35,6 +39,8 @@ function getSettingsStorage(previous, baton)
 		
 		baton.pass;
 	});
+	
+	*/
 
 }
 
@@ -46,6 +52,10 @@ function getDateStorage(previous, baton)
 	baton.take;
 	
 	dateStorage = chrome.storage.local;
+	
+	baton.pass;
+	
+	/*
 	
 	logger("info", "Storage", "Finding storage location for dates");
 	
@@ -60,6 +70,8 @@ function getDateStorage(previous, baton)
 		baton.pass;
 		
 	});
+	
+ 	*/
 	
 }
 
@@ -423,5 +435,5 @@ function getSubDates()
 Generic error handling for all errors
 */
 window.onerror = function(message, url, linenumber) {
- 	trackError(url + ":" + linenumber, "Uncaught", message);
+ 	trackError(url + ":" + linenumber, "Generic", message);
 }
