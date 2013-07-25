@@ -2,9 +2,10 @@
 COMMON FUNCTIONS AND VARIABLES FOR ALL PARTS OF THE APPLICATION. 
 */
 
-//Set storage area for settings and dates. Setting defaults.
-var settingsStorage = chrome.storage.local;
-var dateStorage = chrome.storage.local;
+
+//Data store
+var dataStore = chrome.storage.local;
+var dataStoreLoc = "local";
 
 //Debug object. If true, we are in debug mode. Checks if ID is the official Google ID or not.
 var debug = (chrome.runtime.id == "caplfhpahpkhhckglldpmdmjclabckhc") ? false : true;
@@ -15,63 +16,33 @@ var settings = {}; //new Object();
 var dates = {}; //new Object();
 
 /**
-Read and set storage location for settings
+Read and set storage location for data
 */
-function getSettingsStorage(previous, baton)
+function getStorageLocation(previous, baton)
 {
 	baton.take;
 	
-	settingsStorage = chrome.storage.local;
+	dataStore = chrome.storage.local;
 	
-	//baton.pass;
+	logger("info", "Storage", "Finding storage location");
 	
-	logger("info", "Storage", "Finding storage location for settings");
+	chrome.storage.local.get("dataStore", function(data) {
 	
-	
-	
-	chrome.storage.local.get("settingstorage", function(data){
-	
-		if(typeof(data.settingstorage) !== "undefined" && data.settingstorage == "sync")
+		if(typeof(data.dataStore) !== "undefined" && data.dataStore == "sync")
 		{
-			logger("info", "Storage", "Using synced storage for settings");
-			settingsStorage = chrome.storage.sync;
+			logger("info", "Storage", "Using synced storage");
+			dataStore = chrome.storage.sync;
+			dataStoreLoc = data.dataStore;
 		}
-		
-		baton.pass;
-	});
-	
-	
-
-}
-
-/**
-Read and set storage location for dates
-*/
-function getDateStorage(previous, baton)
-{
-	baton.take;
-	
-	dateStorage = chrome.storage.local;
-	
-	//baton.pass;
-	
-	
-	
-	logger("info", "Storage", "Finding storage location for dates");
-	
-	chrome.storage.local.get("datestorage", function(data){
-		
-		if(typeof(data.datestorage) !== "undefined" && data.datestorage == "sync")
+		else if (typeof(data.dataStore) === "undefined")
 		{
-			logger("info", "Storage", "Using synced storage for dates");
-			settingsStorage = chrome.storage.sync;
+			//chrome.storage.local.set({"dataStore": "sync"});
+			//dataStore = chrome.storage.sync;
 		}
 		
 		baton.pass;
 		
 	});
-	
- 	
 	
 }
 
@@ -177,7 +148,7 @@ function persistSettingsToStorage(tmpSettings) {
 	try {
 		if(tmpSettings.popup)
 		{
-			settingsStorage.set({"settings": tmpSettings}, function(items){
+			dataStore.set({"settings": tmpSettings}, function(items){
 			
 				logger("info", "Settings", "Settings has been written to storage");
 		
@@ -198,7 +169,7 @@ function persistDatesToStorage(dateSet) {
 	try {
 		if(dateSet.mainDateArray && dateSet.subDateArray && dateSet.dateNoteArray && dateSet.dateColorArray)
 		{
-			dateStorage.set({"dates": dateSet}, function(items){
+			dataStore.set({"dates": dateSet}, function(items){
 				logger("info", "Stored dates", dateSet);
 			});
 		}
@@ -230,7 +201,7 @@ function readSettingsFromStorage(previous, baton)
 			
 			baton.take();
 			
-			settingsStorage.get("settings", function(items){
+			dataStore.get("settings", function(items){
 			
 				//Overwrite default settings with stored ones where applicable.
 				for (var i in items.settings)
@@ -262,7 +233,7 @@ function readDatesFromStorage(previous, baton)
 			
 		baton.take();
 		
-		dateStorage.get("dates", function(items){
+		dataStore.get("dates", function(items){
 		
 			//Overwrite default settings with stored ones where applicable.
 			for (var i in items.dates)
@@ -299,7 +270,7 @@ function persistSettingsToStorage(tmpSettings) {
 	
 		if(popupSet === true)
 		{
-			settingsStorage.set({"settings": tmpSettings}, function(items){
+			dataStore.set({"settings": tmpSettings}, function(items){
 			
 				logger("info", "Settings", "Settings has been written to storage");
 		
@@ -320,7 +291,7 @@ function persistDatesToStorage(dateSet) {
 	try {
 		if(dateSet.mainDateArray && dateSet.subDateArray && dateSet.dateNoteArray && dateSet.dateColorArray)
 		{
-			dateStorage.set({"dates": dateSet}, function(items){
+			dataStore.set({"dates": dateSet}, function(items){
 				logger("storage", "Stored dates", dateSet);
 			});
 		}

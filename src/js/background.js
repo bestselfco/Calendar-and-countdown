@@ -61,7 +61,7 @@ function maintain()
 		var nowNew = new Date();
 		todayStamp = Date.UTC(nowNew.getFullYear(),nowNew.getMonth(), nowNew.getDate());
 	
-		maintainChain = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen([updateBadgeFromStored, updatePopupFromStored, updateIconFromStored]);
+		maintainChain = jWorkflow.order(getStorageLocation).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen([updateBadgeFromStored, updatePopupFromStored, updateIconFromStored]);
 		
 		maintainChain.start();
 		
@@ -319,7 +319,7 @@ Everything from here down is the initiation code
 function bgInit()
 {
 	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(addListeners).andThen(getSettingsStorage).andThen(getDateStorage).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(maintain); 
+	var startupSequence = jWorkflow.order(addListeners).andThen(getStorageLocation).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(maintain); 
 	
 	//Up, Up and Away!
 	startupSequence.start();

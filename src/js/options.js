@@ -3,7 +3,7 @@
 
 function initOptionsDo()
 {
-	var initOptionsChain = jWorkflow.order(getSettingsStorage).andThen(getDateStorage).andThen(readSettingsFromStorage).andThen(init).andThen(checkOnlineStorageContent);
+	var initOptionsChain = jWorkflow.order(getStorageLocation).andThen(readSettingsFromStorage).andThen(init);
 	initOptionsChain.start();
 }
 
@@ -121,7 +121,10 @@ function init()
 		{
 			document.getElementById("setIconText0").checked = true;
 		}
-	
+		
+		if(dataStoreLoc == "local") document.getElementById("sync0").checked = true;
+		if(dataStoreLoc == "sync") document.getElementById("sync1").checked = true;
+				
 		//Setup Icon selector Colors
 		createIconPreview('#A0391B', "canvas_icon_9");
 		createIconPreview('#FF0000', "canvas_icon_10");
@@ -149,35 +152,41 @@ function init()
 		$("#resettext a").button();
 		
 		//Bind events
-		$("#show31203").on("click", function() { changeSetting("popup", 3, true); });
-		$("#show31212").on("click", function() { changeSetting("popup", 12, true); });
-		$("#firstday0").on("click", function() { changeSetting("firstDay", 0, true); });
-		$("#firstday1").on("click", function() { changeSetting("firstDay", 1, true); });
-		$("#showweek0").on("click", function() { changeSetting("showWeek", '0', true); });
-		$("#showweek1").on("click", function() { changeSetting("showWeek", '1', true); });
-		$("#showBadge0").on("click", function() { changeSetting("showBadge", 0, true); });
-		$("#showBadge1").on("click", function() { changeSetting("showBadge", 1, true); });
-		$("#showWorkDays0").on("click", function() { changeSetting("showWorkDays", false, true); });
-		$("#showWorkDays1").on("click", function() { changeSetting("showWorkDays", true, true); });
-		$("#showBubbleOnStart0").on("click", function() { changeSetting("showBubbleOnStart", false, true); });
-		$("#showBubbleOnStart1").on("click", function() { changeSetting("showBubbleOnStart", true, true); });
+		$("#sync0").off().on("click", function() { doMigrateStorageLocationToLocal(); location.reload(); });
+		$("#sync1").off().on("click", function() { doMigrateStorageLocationToCloud(); location.reload(); });
 		
-		$("#dateShort0").on("click", function() { changeSetting("dateFormatShort", "dd.mm.yy", true); });
-		$("#dateShort1").on("click", function() { changeSetting("dateFormatShort", "mm-dd-yy", true); });
-		$("#dateShort2").on("click", function() { changeSetting("dateFormatShort", "yy-mm-dd", true); });
+		$("#copyLocalCloud").off().on("click", function() { doOverwriteCloudWithLocal(); });
+		$("#copyCloudLocal").off().on("click", function() { doOverwriteLocalWithCloud(); });
 		
-		$("#setIconText0").on("click", function() { changeSetting("iconShowText", 0, true); });
-		$("#setIconText1").on("click", function() { changeSetting("iconShowText", 1, true); });	
-		$("#setIconText2").on("click", function() { changeSetting("iconShowText", 2, true); });
+		$("#show31203").off().on("click", function() { changeSetting("popup", 3, true); });
+		$("#show31212").off().on("click", function() { changeSetting("popup", 12, true); });
+		$("#firstday0").off().on("click", function() { changeSetting("firstDay", 0, true); });
+		$("#firstday1").off().on("click", function() { changeSetting("firstDay", 1, true); });
+		$("#showweek0").off().on("click", function() { changeSetting("showWeek", '0', true); });
+		$("#showweek1").off().on("click", function() { changeSetting("showWeek", '1', true); });
+		$("#showBadge0").off().on("click", function() { changeSetting("showBadge", 0, true); });
+		$("#showBadge1").off().on("click", function() { changeSetting("showBadge", 1, true); });
+		$("#showWorkDays0").off().on("click", function() { changeSetting("showWorkDays", false, true); });
+		$("#showWorkDays1").off().on("click", function() { changeSetting("showWorkDays", true, true); });
+		$("#showBubbleOnStart0").off().on("click", function() { changeSetting("showBubbleOnStart", false, true); });
+		$("#showBubbleOnStart1").off().on("click", function() { changeSetting("showBubbleOnStart", true, true); });
+		
+		$("#dateShort0").off().on("click", function() { changeSetting("dateFormatShort", "dd.mm.yy", true); });
+		$("#dateShort1").off().on("click", function() { changeSetting("dateFormatShort", "mm-dd-yy", true); });
+		$("#dateShort2").off().on("click", function() { changeSetting("dateFormatShort", "yy-mm-dd", true); });
+		
+		$("#setIconText0").off().on("click", function() { changeSetting("iconShowText", 0, true); });
+		$("#setIconText1").off().on("click", function() { changeSetting("iconShowText", 1, true); });	
+		$("#setIconText2").off().on("click", function() { changeSetting("iconShowText", 2, true); });
 		
 		
-		$("#firstMonth1").on("click", function() { changeSetting("showFrom", 1, true); });
-		$("#firstMonth2").on("click", function() { changeSetting("showFrom", 2, true); });
-		$("#firstMonth3").on("click", function() { changeSetting("showFrom", 3, true); });
+		$("#firstMonth1").off().on("click", function() { changeSetting("showFrom", 1, true); });
+		$("#firstMonth2").off().on("click", function() { changeSetting("showFrom", 2, true); });
+		$("#firstMonth3").off().on("click", function() { changeSetting("showFrom", 3, true); });
 		
-		$(".badgeColorSelector").on("click", function () { changeBadgeColor(this); });
+		$(".badgeColorSelector").off().on("click", function () { changeBadgeColor(this); });
 		
-		$("#reseteverything").on("click", function() { resetEverything(); });
+		$("#reseteverything").off().on("click", function() { resetEverything(); });
 			
 		$("#ccversion").html(version.currVersion);
 		
@@ -268,93 +277,14 @@ function resetEverything()
 	try {
 		trackEvent("Full reset", version.currVersion, "");
 		
-		settingsStorage.remove("settings");
-		dateStorage.remove("dates");
+		dataStore.remove("settings");
+		dataStore.remove("dates");
 		
 		chrome.runtime.reload();
 	}
 	catch(e)
 	{
 		handleError("Options, resetEverything", e);
-	}
-}
-
-function checkOnlineStorageContent()
-{
-	chrome.storage.sync.get("settings", function(items){
-		var type = typeof(items.settings)
-		if(type === "object")
-		{
-			logger("info", "Storage", "Settings exists in synced storage");
-		}
-		else
-		{
-			logger("info", "Storage", "Settings does not exist in synced storage");
-		}
-	});
-	
-	chrome.storage.sync.get("dates", function(items){
-			
-	});
-}
-
-/**
-Copy a local storage item from localstorage to synced storage
-*/
-function copyLocalStorageToSyncedStorage(whatToCopy)
-{
-	try {
-		chrome.storage.local.get(whatToCopy, function(items){
-			var type = typeof(items[whatToCopy]);
-			if(type === "object")
-			{
-				var toStore = {};
-				toStore[whatToCopy] = items["settings"];
-				//console.log(toStore);
-				chrome.storage.sync.set(toStore, function(){
-					logger("info", "Storage", whatToCopy+" has been copied to synced storage");
-				});
-			}
-			else
-			{
-				logger("info", "Storage", whatToCopy+" was not found in local storage");
-				handleError("Options, copyLocalStorageToSyncedStorage", new Error("Tried to copy non-existing item to synced storage: "+whatToCopy));
-			}
-		});
-	}
-	catch(err)
-	{
-		handleError("options, copyLocalStorageToSyncedStorage", e);
-	}
-}
-
-/**
-Copy a synced storage item from synclstorage to local storage
-*/
-function copySyncedStorageToLocalStorage(whatToCopy)
-{
-	try {
-		chrome.storage.sync.get(whatToCopy, function(items){
-			var type = typeof(items[whatToCopy]);
-			if(type === "object")
-			{
-				var toStore = {};
-				toStore[whatToCopy] = items["settings"];
-				//console.log(toStore);
-				chrome.storage.local.set(toStore, function(){
-					logger("info", "Storage", whatToCopy+" has been copied to local storage");
-				});
-			}
-			else
-			{
-				logger("info", "Storage", whatToCopy+" was not found in synced storage");
-				handleError("Options, copySyncedStorageToLocalStorage", new Error("Tried to copy non-existing item to local storage: "+whatToCopy));
-			}
-		});
-	}
-	catch(err)
-	{
-		handleError("options, copySyncedStorageToLocalStorage", e);
 	}
 }
 

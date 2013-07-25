@@ -62,7 +62,7 @@ $(document).ready(function() {
 function initCalendarPageStart()
 {
 	try {
-		calStartup = jWorkflow.order(getSettingsStorage).andThen(getDateStorage).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(initCalendarPage).andThen(trackCalendarStart);
+		calStartup = jWorkflow.order(getStorageLocation).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(initCalendarPage).andThen(trackCalendarStart);
 		calStartup.start();		
 	}
 	catch (err) {
