@@ -196,6 +196,7 @@ function readSettingsFromStorage(previous, baton)
 		if(typeof(settings) === "undefined")
 		{
 			throw new Error("Settings object does not exist");
+			settings = getDefaultSettings();
 		}
 	
 		var tmpSettings = getDefaultSettings();
