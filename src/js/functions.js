@@ -16,7 +16,7 @@ var settings = {}; //new Object();
 var dates = {}; //new Object();
 
 /**
-Read and set storage location for data
+Read and set storage location for data. NOT ACTIVE!
 */
 function getStorageLocation(previous, baton)
 {
@@ -30,9 +30,9 @@ function getStorageLocation(previous, baton)
 	
 		if(typeof(data.dataStore) !== "undefined" && data.dataStore == "sync")
 		{
-			logger("info", "Storage", "Using synced storage");
-			dataStore = chrome.storage.sync;
-			dataStoreLoc = data.dataStore;
+			//logger("info", "Storage", "Using synced storage");
+			//dataStore = chrome.storage.sync;
+			//dataStoreLoc = data.dataStore;
 		}
 		else if (typeof(data.dataStore) === "undefined")
 		{

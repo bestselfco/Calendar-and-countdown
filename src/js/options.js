@@ -122,8 +122,8 @@ function init()
 			document.getElementById("setIconText0").checked = true;
 		}
 		
-		if(dataStoreLoc == "local") document.getElementById("sync0").checked = true;
-		if(dataStoreLoc == "sync") document.getElementById("sync1").checked = true;
+		//if(dataStoreLoc == "local") document.getElementById("sync0").checked = true;
+		//if(dataStoreLoc == "sync") document.getElementById("sync1").checked = true;
 				
 		//Setup Icon selector Colors
 		createIconPreview('#A0391B', "canvas_icon_9");
@@ -254,7 +254,7 @@ function changeSetting(key, value, persist)
 		
 		settings[key] = value;
 		
-        trackEvent("Setting change", key, value);
+        trackEvent("Interaction", "Setting " + key, value);
 		
 		if(persist)
 		{
@@ -275,7 +275,7 @@ Reset extension
 function resetEverything()
 {	
 	try {
-		trackEvent("Full reset", version.currVersion, "");
+		trackEvent("Interaction", "Options", "Reset everything");
 		
 		dataStore.remove("settings");
 		dataStore.remove("dates");

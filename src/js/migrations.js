@@ -114,7 +114,7 @@ function initialiseSettingsOnInstall()
 		log("Install/Migrate", "initialiseSettings");
 	
 		//Set storage location
-		doMigrateStorageLocation();
+		//doMigrateStorageLocation();
 	
 		//Read default settings
 		settings = getDefaultSettings();

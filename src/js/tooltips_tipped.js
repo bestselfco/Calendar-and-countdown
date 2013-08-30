@@ -6,9 +6,11 @@ function getToolTip(timestamp)
 	try {
 		if(dynamicStartStamp === false && dynamicDiff === false){
 			return getToolTipNormal(timestamp);
+			trackEvent("Interaction", "Calendar", "Popup shown");
 		}
 		else {
 			return getToolTipDynamic(dynamicStartStamp, dynamicStopStamp);
+			trackEvent("Interaction", "Calendar", "Dynamic date count");
 		}
 	}
 	catch (e)
@@ -34,32 +36,38 @@ function updateRightClickToolTipMenu(content, event)
 	
 		$("#dayNoteInput").on("change", function(event){
 			addNoteToDate(timestamp, event.target.value);
+			trackEvent("Interaction", "Popup - right", "Note created");
 		});
 		
 		$("#resetNoteButton").on("click", function(event){
 			$("#dayNoteInput").val("");
 			clearNoteFromDate(timestamp);	
+			trackEvent("Interaction", "Popup - right", "Clear note");
 		});
 		
 		$(".colorButton").on("click", function(event){
 			var col = $(event.target).css("background-color");
 			setColorForDate(timestamp, col, false);
+			trackEvent("Interaction", "Popup - right", "Color set");
 			//highLightSelectedDates();
 		});
 		
 		$("#resetColorButton").on("click", function(event){
 			setColorForDate(timestamp, "", true);
+			trackEvent("Interaction", "Popup - right", "Color reset");
 			//highLightSelectedDates();
 		});
 		
 		$("#popupButtonSetMain").on("click", function(event){
 			setMainDate(timestamp);
 			$("#popupButtonSetMain").toggleClass("popupButtonSelected");
+			trackEvent("Interaction", "Popup - right", "Main date set");
 		});
 		
 		$("#popupButtonSetSecondary").on("click", function(event){
 			setSubDate(timestamp);
 			$("#popupButtonSetSecondary").toggleClass("popupButtonSelected");
+			trackEvent("Interaction", "Popup - right", "Secondary date set");
 		});
 	
 		//Is selected day main date?	

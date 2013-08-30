@@ -98,6 +98,7 @@ function initCalendarPage() {
 function trackCalendarStart() {
 	//Track a page view
 	trackPageView("/calendar/"+settings.popup);
+	trackEvent("Calendar", "Open", settings.popup);
 }
 
 /**
@@ -207,6 +208,8 @@ function MouseWheelHandler(e)
 		}
 		
 		//log("Mousewheel", delta + " " + runningMouseWheelCounter);
+		
+		trackEvent("Interaction", "Calendar", "Mouse wheel");
 		
 		return false;
 	
@@ -397,6 +400,9 @@ function dayRightClickedDialog(event)
 		var tip = Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: 'click-outside', closeButton: true, showOn: false, onShow: updateRightClickToolTipMenu, onHide: resetRightClickToolTipMenu});
 		
 		tip.show();
+		
+		trackEvent("Interaction", "Calendar", "Right click menu");
+		
 	}
 	catch(e)
 	{
@@ -726,6 +732,9 @@ function setColorForDate(timestamp, color, remove)
 			//This is the new solution!
 			dates.dateColorArray = dateColorArray;
 			persistDatesToStorage(dates);
+			
+			trackEvent("Interaction", "Calendar", "Color change");
+			
 						
 		}
 		catch(e)
@@ -743,6 +752,8 @@ function dayClicked(event)
 	var timestamp = event.target.attributes["datetimestamp"].value;
     
 	setMainDate(timestamp);
+	
+	trackEvent("Interaction", "Calendar", "Main date set");
 		
 	return false; //Kill propagation	
 }
@@ -763,6 +774,9 @@ function yearClicked(event){
 		currentYear = year*1; //Add offset to current year
 	
 		showCal(currentYear, 1);
+		
+		trackEvent("Interaction", "Calendar", "Year selection");
+		
 	}
 	catch(e)
 	{
@@ -1193,6 +1207,9 @@ function keyPressed(key) {
 		{
 			shiftCalendarByMonths(4);
 		}
+		
+		trackEvent("Interaction", "Calendar", "Keypress");
+		
 	}
 	catch(e)
 	{
