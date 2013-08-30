@@ -132,6 +132,7 @@ function getDefaultSettings()
 	tmpSettings.dateFormatShort = "dd.mm.yy"; //Also look for d/m/y due to my stupidity
 	tmpSettings.showBubbleOnStart = true;
 	tmpSettings.showWorkDays = true;
+	tmpSettings.showPastDays = true;
 	
 	tmpSettings.maxNumberOfSecondaryDaysInPopup = 15;
 	
@@ -235,7 +236,6 @@ function readDatesFromStorage(previous, baton)
 		
 		dataStore.get("dates", function(items){
 		
-			//Overwrite default settings with stored ones where applicable.
 			for (var i in items.dates)
 			{
 				//console.log(i);
