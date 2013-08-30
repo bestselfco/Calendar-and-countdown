@@ -294,25 +294,6 @@ function setupMaintainLoop()
 }
 
 /**
-Push settings to Google Analytics
-*/
-function pushSettingsToGoogleTracker()
-{
-	try {
-		logger("info", "Startup", "Pushing settings to Google tracker");
-        _gaq.push(['_setCustomVar', 1, "popup", settings.popup, 2]);
-        _gaq.push(['_setCustomVar', 2, "showWeek", settings.showWeek, 2]);
-        _gaq.push(['_setCustomVar', 3, "firstDay", settings.firstDay, 2]);
-        _gaq.push(['_setCustomVar', 4, "showBubble", settings.showBubbleOnStart, 2]);
-        _gaq.push(['_setCustomVar', 5, "dataOnline", settings.storeDataOnline, 2]);
-	}
-	catch(e)
-	{
-		handleError("pushSettingsToGoogleTracker", e);
-	}
-}
-
-/**
 Everything from here down is the initiation code
 */
 
@@ -356,16 +337,16 @@ $(document).ready(function() {
 
 function trackStartup()
 {
-	try {if(typeof(settings.popup) !== "undefined")
-		{
-			pushSettingsToGoogleTracker();
-            //trackEvent("Startup", version.currVersion, "");
-			trackPageView('/start');
-		}
-		else {
-			logger("info", "Startup", "Retrying startup logging"); 
-			window.setTimeout(trackStartup, 1000);
-		}
+	try {
+			if(typeof(settings.popup) !== "undefined")
+			{
+				pushSettingsToGoogleTracker();
+	            trackEvent("Extension", "Start", version.currVersion);
+			}
+			else {
+				logger("info", "Startup", "Retrying startup logging"); 
+				window.setTimeout(trackStartup, 1000);
+			}
 	}
 	catch (err)
 	{

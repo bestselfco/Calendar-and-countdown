@@ -86,13 +86,13 @@ function doMigrationOrInstall(details)
 		else if(reason === "install")
 		{
 			trackPageView('/new');
-			trackEvent("New install", version.currVersion, "");	
+			trackEvent("Extension", "Install", version.currVersion);	
 			initialiseSettingsOnInstall();
 		}
 		else if(details.previousVersion === version.currVersion)
 		{
 			trackPageView('/reload/'+version.currVersion);
-			trackEvent("Reloaded", version.currVersion, "");
+			trackEvent("Extension", "Reload",  version.currVersion);
 		}
 		else if(reason === "undefined")
 		{
