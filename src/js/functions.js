@@ -43,8 +43,8 @@ function getStorageLocation(previous, baton)
 		baton.pass;
 		
 	});
-	
 }
+
 
 /**
  * Output to log if "debug" is true
@@ -332,7 +332,7 @@ function toggleDate(timestamp, noCount)
 			
 			noCountDateArray.sort();
 			
-            trackEvent("Date set", "Sub", timestamp);
+            //trackEvent("Interaction", "Sub date changed", timestamp);
 			
 			//This is the new solution!
 			dates.subDateArray = noCountDateArray;
@@ -357,7 +357,7 @@ function toggleDate(timestamp, noCount)
 				dateArray = [timestamp]; //Set
 			}
 		    
-            trackEvent("Date set", "Main", timestamp);
+            //trackEvent("Interaction", "Main date changed", timestamp);
 			
 			//This is the new solution!
 			dates.mainDateArray = dateArray;

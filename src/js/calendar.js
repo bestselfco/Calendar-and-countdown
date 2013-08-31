@@ -37,6 +37,8 @@ var runningMouseWheelTimer;
 
 var currentTodayTip;
 
+var startupDeferred;
+
 //Init today time stamp
 var todayStamp = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 
@@ -61,7 +63,8 @@ $(document).ready(function() {
 */ 
 function initCalendarPageStart()
 {
-	try {
+	
+	try {	
 		calStartup = jWorkflow.order(getStorageLocation).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(initCalendarPage).andThen(trackCalendarStart);
 		calStartup.start();		
 	}
