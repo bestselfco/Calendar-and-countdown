@@ -410,7 +410,7 @@ window.onerror = function(message, url, linenumber) {
 	try {
 		var whereA = url.split("/");
 		var where = whereA[whereA.length-1];
- 		trackError(where + ":" + linenumber, "window.onerror", message);
+ 		trackError("window.onerror", where + ":" + linenumber, message);
  	}
  	catch(e)
  	{
