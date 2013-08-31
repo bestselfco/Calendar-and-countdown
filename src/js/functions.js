@@ -370,7 +370,7 @@ function toggleDate(timestamp, noCount)
 	}
 	catch(e)
 	{
-		handleError("Background toggleDate", e);
+		handleError("Functions toggleDate", e);
 	}
 	
 }
@@ -383,7 +383,7 @@ function getDates()
 	}
 	catch(e)
 	{
-		handleError("Background getDates", e);
+		handleError("Functions getDates", e);
 	}
 }
 
@@ -407,5 +407,13 @@ function getSubDates()
 Generic error handling for all errors
 */
 window.onerror = function(message, url, linenumber) {
- 	trackError(url + ":" + linenumber, "Generic", message);
+	try {
+		var whereA = url.split("/");
+		var where = whereA[whereA.length-1];
+ 		trackError(where + ":" + linenumber, "window.onerror", message);
+ 	}
+ 	catch(e)
+ 	{
+ 		handleError("Functions window.onerror", e);
+ 	}
 }
