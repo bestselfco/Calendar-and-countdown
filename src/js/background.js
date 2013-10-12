@@ -84,7 +84,7 @@ function maintain()
 //If alarm does not work, perform emergency maintainance
 function emergencyMaintain()
 {
-	trackEvent("Extension", "Emergency maintenance", "");
+	trackEvent("Background", "Emergency maintenance", version.currVersion);
 	maintain();
 }
 
@@ -341,7 +341,7 @@ function trackStartup()
 			if(typeof(settings.popup) !== "undefined")
 			{
 				pushSettingsToGoogleTracker();
-	            trackEvent("Extension", "Start", version.currVersion);
+	            trackEvent("Start", version.currVersion, "");
 			}
 			else {
 				logger("info", "Startup", "Retrying startup logging"); 

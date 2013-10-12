@@ -101,7 +101,7 @@ function initCalendarPage() {
 function trackCalendarStart() {
 	//Track a page view
 	trackPageView("/calendar/"+settings.popup);
-	trackEvent("Calendar", "Open", settings.popup);
+	trackEvent("Interaction", "Open", settings.popup);
 }
 
 /**
@@ -1198,20 +1198,23 @@ function keyPressed(key) {
 		if(key == 37 || (key == 40 && !shifting)) { // down or right
 			
 			shiftCalendarByMonths(-12);
+			trackEvent("Interaction", "Keypress", "Year back");
 		}
 		else if(key == 39 || (key == 38 && !shifting)) { // up or left
 			shiftCalendarByMonths(12);
+			trackEvent("Interaction", "Keypress", "Year forward");
 		}
 		else if(key == 38)
 		{
 			shiftCalendarByMonths(-4);
+			trackEvent("Interaction", "Keypress", "4m back");
 		}
 		else if(key == 40)
 		{
 			shiftCalendarByMonths(4);
+			trackEvent("Interaction", "Keypress", "4m forward");
+			
 		}
-		
-		trackEvent("Interaction", "Calendar", "Keypress");
 		
 	}
 	catch(e)

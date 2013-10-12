@@ -15,7 +15,7 @@ function doMigrationOrInstall(details)
 	
 		if(reason === "update" && details.previousVersion !== version.currVersion)
 	 	{	
-			trackEvent("Extension", "Update", details.previousVersion);
+			trackEvent("Update", version.currVersion, details.previousVersion);
 			//trackPageView('/update/'+details.previousVersion);			
 						
 			//UTC update if update from older version than august 2012	
@@ -86,7 +86,7 @@ function doMigrationOrInstall(details)
 		else if(reason === "install")
 		{
 			//trackPageView('/new');
-			trackEvent("Extension", "Install", version.currVersion);	
+			trackEvent("Install", version.currVersion, "");	
 			initialiseSettingsOnInstall();
 		}
 		else if(details.previousVersion === version.currVersion)
