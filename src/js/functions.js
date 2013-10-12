@@ -248,7 +248,7 @@ function readDatesFromStorage(previous, baton)
 			
 			dates = tmpDates;
 			
-			//ccDates = convertToDateObjects();
+			ccDates = convertToDateObjects();
 			
 			logger("info", "Dates", "Dates has been read");
 			

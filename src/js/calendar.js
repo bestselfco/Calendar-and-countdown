@@ -802,7 +802,7 @@ Highlight a specific day, remove other hightlights
 function highLightDay(timestamp, highlightClass)
 {	
 	var selectorString = '[dateTimestamp="'+timestamp+'"]';
-	$(selectorString).addClass(highlightClass); //.removeClass(normalClass);
+	$(selectorString).addClass(highlightClass);
 	logger("info", "Hightlight day", highlightClass + " : " +selectorString);
 }
 
@@ -814,30 +814,19 @@ function highLightSelectedDates(){
 	//Remove all highlighted days
 	removeHighLights();
 
-	var subdates = getSubDates()
-	
-	//Sub days
-	$.each(subdates, function(key, value){
-		
-		highLightDay(value, selectedSubClass);
-		
-	});
-	
-	// custom colors
-	customColors = dates.dateColorArray;
-	
-	for(i=0;i<customColors.length;i++)
+	for (dt in ccDates)
 	{
-		var timestamp = customColors[i].timestamp;
-		var color = customColors[i].color;
+		var d = ccDates[dt];
+		var selectorString = '[dateTimestamp="'+d.timestamp+'"]';
 
-		var selectorString = '[dateTimestamp="'+timestamp+'"]';
-		$(selectorString).css("background-color", color);
+		//Secondary dates
+		if(d.isSecondary) { highLightDay(d.timestamp, selectedSubClass) };	
+		
+		//Custom colors
+		if(d.color !== null) {$(selectorString).css("background-color", d.color);}
+		
+		if(d.isPrimary) {highLightDay(d.timestamp, selectedClass);}
 	}
-	
-	//Main date (last, to be the most important!
-	var mainDate = getMainDate();
-	highLightDay(mainDate, selectedClass);
 		
 }
 
