@@ -15,6 +15,8 @@ var version = getVersion();
 var settings = {}; //new Object();
 var dates = {}; //new Object();
 
+var ccDates = [];
+
 /**
 Read and set storage location for data. NOT ACTIVE!
 */
@@ -246,6 +248,8 @@ function readDatesFromStorage(previous, baton)
 			
 			dates = tmpDates;
 			
+			ccDates = convertToDateObjects();
+			
 			logger("info", "Dates", "Dates has been read");
 			
 			baton.pass(); //OK, pass the baton along
@@ -376,57 +380,6 @@ function toggleDate(timestamp, noCount)
 }
 
 
-//Get full set of dates 
-function convertToDateObjects()
-{
-	
-	var m = dates.mainDateArray;
-	var s = dates.subDateArray;
-	var n = dates.dateNoteArray;
-	var c = dates.dateColorArray;
-	
-	var datesTmp = {};
-	var out = {}
-	
-	//Add primary date to array		
-	for(i=0;i<m.length;i++)
-	{
-		datesTmp[m[i]] = "main";
-	}
-	
-	//Add secondary dates to array
-	for(i=0;i<s.length;i++)
-	{
-		datesTmp[s[i]] += "sub";
-	}
-	
-	//Add notes dates to array
-	for(i=0;i<n.length;i++)
-	{
-		datesTmp[n[i].timestamp] += "note";
-	}
-	
-	//Add notes dates to array
-	for(i=0;i<c.length;i++)
-	{
-		datesTmp[c[i].timestamp] += "color";
-	}
-	
-	console.log("dates ",datesTmp);
-	
-	//Get additional data
-	for (var d in datesTmp)
-	{
-		var tm = new ccDateConv(d);
-		tm.init();
-		out[d] = tm;
-	}
-		
-	//console.log(datesTmp);
-	
-	return out;
-}
-
 function getDates()
 {
 	try {
@@ -470,8 +423,8 @@ window.onerror = function(message, url, linenumber) {
  	}
 }
 
-//Date holding object for new date handling functionality, can be called directly or via ccDateFull
-function ccDateConv(timestamp)
+//Object to hold date. Shall be extended wildly.
+function ccDate(timestamp)
 {
 	this.timestamp = timestamp;
 	
@@ -479,64 +432,4 @@ function ccDateConv(timestamp)
 	this.note = null;
 	this.isPrimary = false;
 	this.isSecondary = false;
-	
-	this.init = function() {
-		
-		try 
-		{
-			if(typeof(dates.dateNoteArray) !== "undefined")
-			{
-				for(xi=0; xi < dates.dateNoteArray.length; xi++)
-				{
-					if(dates.dateNoteArray[xi].timestamp == this.timestamp)
-					{
-						if(typeof(dates.dateNoteArray[xi].note) !== "undefined")
-						{
-							this.note = dates.dateNoteArray[xi].note.toString();
-						}
-					}
-				}
-			}
-		}
-		catch(e)
-		{
-			handleError("Functions ccDate init note", e);
-		}
-		
-		try 
-		{
-			if(typeof(dates.dateColorArray) !== "undefined")
-			{
-				for(yi=0; yi < dates.dateNoteArray.length; yi++)
-				{
-					if(dates.dateColorArray[yi].timestamp == this.timestamp)
-					{
-						if(typeof(dates.dateColorArray[yi].color) !== "undefined")
-						{
-							this.color = dates.dateColorArray[yi].color.toString();
-						}
-					}
-				}
-			}
-		}
-		catch(e)
-		{
-			handleError("Functions ccDate init color", e);
-		}
-		
-	}
-	
-	this.getDate = function() {
-		return new Date(this.timestamp);
-	}
-	
-	this.setColor = function(color) {
-		this.color = color;
-	}
-	
-	this.setNote = function(note) {
-		this.note = note;
-	}
-	
-	return this;
 }
