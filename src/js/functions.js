@@ -248,7 +248,7 @@ function readDatesFromStorage(previous, baton)
 			
 			dates = tmpDates;
 			
-			ccDates = convertToDateObjects();
+			//ccDates = convertToDateObjects();
 			
 			logger("info", "Dates", "Dates has been read");
 			
@@ -432,4 +432,155 @@ function ccDate(timestamp)
 	this.note = null;
 	this.isPrimary = false;
 	this.isSecondary = false;
+}
+
+//Get full set of dates 
+function convertToDateObjects()
+{
+	
+	var m = dates.mainDateArray;
+	var s = dates.subDateArray;
+	var n = dates.dateNoteArray;
+	var c = dates.dateColorArray;
+	
+	var datesTmp = {};
+	var out = {}
+	
+	//Add primary date to array		
+	for(i=0;i<m.length;i++)
+	{
+		datesTmp[m[i]] = "main";
+	}
+	
+	//Add secondary dates to array
+	for(i=0;i<s.length;i++)
+	{
+		datesTmp[s[i]] += "sub";
+	}
+	
+	//Add notes dates to array
+	for(i=0;i<n.length;i++)
+	{
+		datesTmp[n[i].timestamp] += "note";
+	}
+	
+	//Add notes dates to array
+	for(i=0;i<c.length;i++)
+	{
+		datesTmp[c[i].timestamp] += "color";
+	}
+		
+	//Get additional data
+	for (var d in datesTmp)
+	{
+		var tm = new ccDateConv(d);
+		tm.init();
+		delete tm.init;
+		out[d] = tm;
+	}
+		
+	for (var d in out)
+	{
+		var tmpCC = new ccDate(out[d].timestamp);
+		tmpCC.color = out[d].color;
+		tmpCC.note = out[d].note;
+		tmpCC.isPrimary =  out[d].isPrimary;
+		tmpCC.isSecondary = out[d].isSecondary;
+		out[d] = tmpCC;
+	}
+	
+	return out;
+}
+
+//Date holding object for new date handling functionality conversion. Should not be used directly, use ccDate instead.
+function ccDateConv(timestamp)
+{
+	this.timestamp = timestamp;
+	
+	this.color = null;
+	this.note = null;
+	this.isPrimary = false;
+	this.isSecondary = false;
+	
+	this.init = function() {
+		
+		try 
+		{
+			if(typeof(dates.dateNoteArray) !== "undefined")
+			{
+				for(xi=0; xi < dates.dateNoteArray.length; xi++)
+				{
+					if(dates.dateNoteArray[xi].timestamp == this.timestamp)
+					{
+						if(typeof(dates.dateNoteArray[xi].note) !== "undefined")
+						{
+							this.note = dates.dateNoteArray[xi].note.toString();
+						}
+					}
+				}
+			}
+		}
+		catch(e)
+		{
+			handleError("Functions ccDate init note", e);
+		}
+		
+		try 
+		{
+			if(typeof(dates.dateColorArray) !== "undefined")
+			{
+				for(yi=0; yi < dates.dateColorArray.length; yi++)
+				{
+					if(dates.dateColorArray[yi].timestamp == this.timestamp)
+					{
+						if(typeof(dates.dateColorArray[yi].color) !== "undefined")
+						{
+							this.color = dates.dateColorArray[yi].color.toString();
+						}
+					}
+				}
+			}
+		}
+		catch(e)
+		{
+			handleError("Functions ccDate init color", e);
+		}
+		
+		try {
+			if(typeof(dates.mainDateArray) !== "undefined")
+			{
+				for(yi=0; yi < dates.mainDateArray.length; yi++)
+				{
+					if(dates.mainDateArray[yi] == this.timestamp)
+					{
+						this.isPrimary = true;
+					}
+				}
+			}
+		}
+		catch(e)
+		{
+			handleError("Functions ccDate init maindate", e);
+		}
+		
+		try {
+			if(typeof(dates.subDateArray) !== "undefined")
+			{
+				for(yi=0; yi < dates.subDateArray.length; yi++)
+				{
+					if(dates.subDateArray[yi] == this.timestamp)
+					{
+						this.isSecondary = true;
+					}
+				}
+			}
+		}
+		catch(e)
+		{
+			handleError("Functions ccDate init maindate", e);
+		}
+		
+	}
+	
+	return this;
 }

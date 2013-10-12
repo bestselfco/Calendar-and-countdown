@@ -1213,7 +1213,6 @@ function keyPressed(key) {
 		{
 			shiftCalendarByMonths(4);
 			trackEvent("Interaction", "Keypress", "4m forward");
-			
 		}
 		
 	}
