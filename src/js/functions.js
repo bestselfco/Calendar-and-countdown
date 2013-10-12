@@ -432,6 +432,7 @@ function ccDate(timestamp)
 	this.note = null;
 	this.isPrimary = false;
 	this.isSecondary = false;
+	
 }
 
 //Get full set of dates 
@@ -488,6 +489,8 @@ function convertToDateObjects()
 		tmpCC.isSecondary = out[d].isSecondary;
 		out[d] = tmpCC;
 	}
+	
+	out = sortObjectByKey(out);
 	
 	return out;
 }
