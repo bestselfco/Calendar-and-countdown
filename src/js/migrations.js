@@ -105,7 +105,7 @@ function doMigrationOrInstall(details)
 		else if(details.previousVersion === version.currVersion)
 		{
 			//trackPageView('/reload/'+version.currVersion);
-			trackEvent("Extension", "Reload",  version.currVersion);
+			trackEvent("Reload", version.currVersion, "");
 		}
 		else if(reason === "undefined")
 		{
