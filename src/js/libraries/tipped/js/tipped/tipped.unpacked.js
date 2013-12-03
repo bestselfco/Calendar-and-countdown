@@ -1,12 +1,12 @@
 /*!
- * Tipped - The jQuery Tooltip - v3.1.8
+ * Tipped - The jQuery Tooltip - v3.2.0
  * (c) 2010-2013 Nick Stakenburg
  *
  * http://projects.nickstakenburg.com/tipped
  *
  * License: http://projects.nickstakenburg.com/tipped/license
  */
-;var Tipped = { version: '3.1.8' };
+;var Tipped = { version: '3.2.0' };
 
 Tipped.Skins = {
   // base skin, don't modify! (create custom skins in a separate file)
@@ -242,8 +242,8 @@ Tipped.Skins.CloseButtons = {
   }
 };
 
-
-(function (a) {
+!
+function (a) {
 	function c(a, b) {
 		var c = [a, b];
 		return c.left = a,
@@ -438,7 +438,7 @@ Tipped.Skins.CloseButtons = {
 	},
 	e = function (a) {
 		function b(b) {
-			var c = RegExp(b + "([\\d.]+)").exec(a);
+			var c = new RegExp(b + "([\\d.]+)").exec(a);
 			return c ? parseFloat(c[1]) : !0
 		}
 		return {
@@ -480,7 +480,7 @@ Tipped.Skins.CloseButtons = {
 		var b = [];
 		return {
 			get: function (c) {
-				for (var d = null, e = 0; b.length > e; e++) b[e] && b[e].url == c.url && b[e].type.toUpperCase() == c.type.toUpperCase() && a.param(b[e].data || {}) == a.param(c.data || {}) && (d = b[e].responseText);
+				for (var d = null, e = 0; e < b.length; e++) b[e] && b[e].url == c.url && b[e].type.toUpperCase() == c.type.toUpperCase() && a.param(b[e].data || {}) == a.param(c.data || {}) && (d = b[e].responseText);
 				return d
 			},
 			set: function (c, d) {
@@ -491,7 +491,7 @@ Tipped.Skins.CloseButtons = {
 				}))
 			},
 			remove: function (a) {
-				for (var c = 0; b.length > c; c++) b[c] && b[c].url == a && delete b[c]
+				for (var c = 0; c < b.length; c++) b[c] && b[c].url == a && delete b[c]
 			},
 			clear: function () {
 				b = []
@@ -514,7 +514,7 @@ Tipped.Skins.CloseButtons = {
 				} (),
 				cssTransitions: function () {
 					var b = ["WebKitTransitionEvent", "TransitionEvent", "OTransitionEvent"],
-					c = !1;
+					c = !!window.TransitionEvent;
 					return a.each(b, function (a, b) {
 						try {
 							document.createEvent(b),
@@ -524,7 +524,8 @@ Tipped.Skins.CloseButtons = {
 					c
 				} ()
 			},
-			init: function () { (this.support.canvas || e.IE) && (g.check("jQuery"), a(document).ready(function () {
+			init: function () { (this.support.canvas || e.IE) && (g.check("jQuery"), B.UpdateQueue.container && (B.UpdateQueue.container.remove(), B.UpdateQueue.container = null), a(document).ready(function () {
+					B.removeAll(),
 					B.startDelegating()
 				}))
 			},
@@ -984,10 +985,10 @@ Tipped.Skins.CloseButtons = {
 			return parseInt(a, 16)
 		}
 		function f(a) {
-			var b = Array(3);
+			var b = new Array(3);
 			if (0 == a.indexOf("#") && (a = a.substring(1)), a = a.toLowerCase(), "" != a.replace(c, "")) return null;
 			3 == a.length ? (b[0] = a.charAt(0) + a.charAt(0), b[1] = a.charAt(1) + a.charAt(1), b[2] = a.charAt(2) + a.charAt(2)) : (b[0] = a.substring(0, 2), b[1] = a.substring(2, 4), b[2] = a.substring(4));
-			for (var f = 0; b.length > f; f++) b[f] = e(b[f]);
+			for (var f = 0; f < b.length; f++) b[f] = e(b[f]);
 			return d(b)
 		}
 		function g(a, b) {
@@ -1036,7 +1037,7 @@ Tipped.Skins.CloseButtons = {
 			n
 		}
 		var b = "0123456789abcdef",
-		c = RegExp("[" + b + "]", "g");
+		c = new RegExp("[" + b + "]", "g");
 		return {
 			hex2rgb: f,
 			hex2fill: h,
@@ -1143,7 +1144,7 @@ Tipped.Skins.CloseButtons = {
 				globalAlpha: this._globalAlpha
 			},
 			c.closeButton.shadow)))),
-			e.IE && 7 > e.IE && a(b.container).prepend(this.iframeShim = a("<iframe>").addClass("t_iframeShim").attr({
+			e.IE && e.IE < 7 && a(b.container).prepend(this.iframeShim = a("<iframe>").addClass("t_iframeShim").attr({
 				frameBorder: 0,
 				src: "javascript:'';"
 			})),
@@ -1362,10 +1363,10 @@ Tipped.Skins.CloseButtons = {
 				r.isCenter(i) && (u.x *= .5, u.y *= .5),
 				t.x = Math.min(t.x, u.x),
 				t.y = Math.min(t.y, u.y),
-				r.isCenter(i) && (0 > this._stemCorrection.x && t.x > 0 && (t.x *= -1), 0 > this._stemCorrection.y && t.y > 0 && (t.y *= -1)),
+				r.isCenter(i) && (this._stemCorrection.x < 0 && t.x > 0 && (t.x *= -1), this._stemCorrection.y < 0 && t.y > 0 && (t.y *= -1)),
 				this._adjustment && this._adjustment.sides && a.each(this._adjustment.sides, function (b, c) {
 					a.each("top right bottom left".split(" "), function (a, b) {
-						c == b && RegExp("(" + b + ")$").test(i) && (t[/^(left|right)$/.test(b) ? "x": "y"] = 0)
+						c == b && new RegExp("(" + b + ")$").test(i) && (t[/^(left|right)$/.test(b) ? "x": "y"] = 0)
 					})
 				})
 			}
@@ -1897,7 +1898,7 @@ Tipped.Skins.CloseButtons = {
 					height: z
 				};
 				if (q.left = o.left - z / 2 + ("left" == y ? x: h.width - x), q.top = o.top - z / 2 + x, "left" == y) {
-					if (0 > q.left) {
+					if (q.left < 0) {
 						var A = Math.abs(q.left);
 						v.width += A,
 						m.left += A,
@@ -1907,7 +1908,7 @@ Tipped.Skins.CloseButtons = {
 					var B = q.left + z - v.width;
 					B > 0 && (v.width += B)
 				}
-				if (0 > q.top) {
+				if (q.top < 0) {
 					var C = Math.abs(q.top);
 					v.height += C,
 					m.top += C,
@@ -1926,7 +1927,7 @@ Tipped.Skins.CloseButtons = {
 						left: q.left - E + F.x
 					},
 					"left" == y) {
-						if (0 > u.left) {
+						if (u.left < 0) {
 							var A = Math.abs(u.left);
 							v.width += A,
 							m.left += A,
@@ -1937,7 +1938,7 @@ Tipped.Skins.CloseButtons = {
 						var B = u.left + t.width - v.width;
 						B > 0 && (v.width += B)
 					}
-					if (0 > u.top) {
+					if (u.top < 0) {
 						var C = Math.abs(u.top);
 						v.height += C,
 						m.top += C,
@@ -2330,13 +2331,13 @@ Tipped.Skins.CloseButtons = {
 				top: 0,
 				left: 0
 			};
-			if (0 > u.top) {
+			if (u.top < 0) {
 				var z = Math.abs(u.top);
 				y.top += z,
 				u.top = 0,
 				v.top += z
 			}
-			if (0 > u.left) {
+			if (u.left < 0) {
 				var A = Math.abs(u.left);
 				y.left += A,
 				u.left = 0,
@@ -2490,12 +2491,23 @@ Tipped.Skins.CloseButtons = {
 			defaultSkin: "dark",
 			startingZIndex: 999999
 		},
+		stopDelegating: function () {
+			var b = ["click"];
+			Tipped.support.touch && (b.push("touchstart"), this._void && a(document.body).unbind("click", this._void), this._void = null),
+			a.each(b, function (b, c) {
+				a(document.documentElement).undelegate(".t_Tooltip .t_Close, .t_Tooltip .close-tooltip", c)
+			}),
+			this._onWindowResizeHandler && (a(window).unbind("resize", this._onWindowResizeHandler), this._onWindowResizeHandler = null),
+			a(document).unbind("mousemove", B.Position._mouseBufferHandler)
+		},
 		startDelegating: function () {
 			function b() {
+				this.stopDelegating();
 				var b = ["click"];
-				Tipped.support.touch && (b.push("touchstart"), a(document.body).bind("click", function () {
+				Tipped.support.touch && (b.push("touchstart"), this._void = function () {
 					return void 0
-				})),
+				},
+				a(document.body).bind("click", this._void)),
 				a.each(b, function (b, c) {
 					a(document.documentElement).delegate(".t_Tooltip .t_Close, .t_Tooltip .close-tooltip", c, function (b) {
 						b.preventDefault(),
@@ -2503,7 +2515,9 @@ Tipped.Skins.CloseButtons = {
 						B.getByTooltipElement(a(b.target).closest(".t_Tooltip")[0]).hide()
 					})
 				}),
-				a(window).bind("resize", a.proxy(this.onWindowResize, this))
+				this._onWindowResizeHandler = a.proxy(this.onWindowResize, this),
+				a(window).bind("resize", this._onWindowResizeHandler),
+				a(document).bind("mousemove", B.Position._mouseBufferHandler)
 			}
 			return b
 		} (),
@@ -2625,7 +2639,7 @@ Tipped.Skins.CloseButtons = {
 			c
 		},
 		resetZ: function () {
-			1 >= this.getVisible().length && a.each(this.tooltips, function (b, c) {
+			this.getVisible().length <= 1 && a.each(this.tooltips, function (b, c) {
 				c.getState("build") && !c.options.zIndex && a(c.container).css({
 					zIndex: c.zIndex = +B.options.startingZIndex
 				})
@@ -2654,6 +2668,13 @@ Tipped.Skins.CloseButtons = {
 				b.element && !d.element.isAttached(b.element) && this._remove(b.element)
 			},
 			this))
+		},
+		removeAll: function () {
+			a.each(this.tooltips, a.proxy(function (a, b) {
+				b.element && this._remove(b.element)
+			},
+			this)),
+			this.tooltips = {}
 		},
 		setDefaultSkin: function (a) {
 			this.options.defaultSkin = a || "dark"
@@ -3070,7 +3091,7 @@ Tipped.Skins.CloseButtons = {
 					position: U
 				},
 				X),
-				1 > V.overlap && ((U.left < X.position.left || U.left + Z.width > X.position.left + X.dimensions.width) && (V.horizontal = !1, W.x = U.left < X.position.left ? U.left - X.position.left: U.left + Z.width - (X.position.left + X.dimensions.width)), (U.top < X.position.top || U.top + Z.height > X.position.top + X.dimensions.height) && (V.vertical = !1, W.y = U.top < X.position.top ? U.top - X.position.top: U.top + Z.height - (X.position.top + X.dimensions.height)))
+				V.overlap < 1 && ((U.left < X.position.left || U.left + Z.width > X.position.left + X.dimensions.width) && (V.horizontal = !1, W.x = U.left < X.position.left ? U.left - X.position.left: U.left + Z.width - (X.position.left + X.dimensions.width)), (U.top < X.position.top || U.top + Z.height > X.position.top + X.dimensions.height) && (V.vertical = !1, W.y = U.top < X.position.top ? U.top - X.position.top: U.top + Z.height - (X.position.top + X.dimensions.height)))
 			} else V.overlap = 1;
 			V.correction = W;
 			var $ = Q[e].bubble,
@@ -3130,7 +3151,7 @@ Tipped.Skins.CloseButtons = {
 			middle: "middle",
 			center: "center"
 		};
-		e.IE && 9 > e.IE || e.Gecko && 2 > e.Gecko || e.WebKit && 530 > e.WebKit;
+		e.IE && e.IE < 9 || e.Gecko && e.Gecko < 2 || e.WebKit && e.WebKit < 530;
 		var x = function () {
 			var a = [[ - 1, -1], [0, -1], [1, -1], [ - 1, 0], [0, 0], [1, 0], [ - 1, 1], [0, 1], [1, 1]],
 			b = {
@@ -3176,15 +3197,12 @@ Tipped.Skins.CloseButtons = {
 		x: 0,
 		y: 0
 	},
-	a(document).ready(function () {
-		var b = B.Position;
-		a(document).bind("mousemove", function (a) {
-			b.mouseBuffer = {
-				x: a.pageX,
-				y: a.pageY
-			}
-		})
-	}),
+	B.Position._mouseBufferHandler = function (a) {
+		B.Position.mouseBuffer = {
+			x: a.pageX,
+			y: a.pageY
+		}
+	},
 	B.UpdateQueue = function () {
 		function b() {
 			a(document.body).append(a(document.createElement("div")).addClass("t_UpdateQueue").append(a(document.createElement("div")).addClass("t_Tooltip").append(a(this.container = document.createElement("div")).addClass("t_Content"))))
@@ -3206,8 +3224,7 @@ Tipped.Skins.CloseButtons = {
 			}),
 			d
 		}
-		function f(b, c, e) {
-			this.container || this.build();
+		function f(b, c, e) { (!this.container || this.container && !d.element.isAttached(this.container)) && this.build();
 			var f = b.options,
 			g = a.extend({
 				spinner: !1
@@ -3674,4 +3691,4 @@ Tipped.Skins.CloseButtons = {
 		}
 	} ()),
 	Tipped.init()
-})(jQuery);
+} (jQuery);
