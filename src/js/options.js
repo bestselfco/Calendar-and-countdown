@@ -62,6 +62,10 @@ function init()
 		{
 			document.getElementById("show31203").checked = true;
 		}
+		else if(popup == "L")
+		{
+			document.getElementById("show312L").checked = true;
+		}
 		else
 		{
 			document.getElementById("show31212").checked = true;
@@ -160,14 +164,20 @@ function init()
 		
 		$("#show31203").off().on("click", function() { changeSetting("popup", 3, true); });
 		$("#show31212").off().on("click", function() { changeSetting("popup", 12, true); });
+		$("#show312L").off().on("click", function() { changeSetting("popup", "L", true); });
+		
 		$("#firstday0").off().on("click", function() { changeSetting("firstDay", 0, true); });
 		$("#firstday1").off().on("click", function() { changeSetting("firstDay", 1, true); });
+		
 		$("#showweek0").off().on("click", function() { changeSetting("showWeek", '0', true); });
 		$("#showweek1").off().on("click", function() { changeSetting("showWeek", '1', true); });
+		
 		$("#showBadge0").off().on("click", function() { changeSetting("showBadge", 0, true); });
 		$("#showBadge1").off().on("click", function() { changeSetting("showBadge", 1, true); });
+		
 		$("#showWorkDays0").off().on("click", function() { changeSetting("showWorkDays", false, true); });
 		$("#showWorkDays1").off().on("click", function() { changeSetting("showWorkDays", true, true); });
+		
 		$("#showBubbleOnStart0").off().on("click", function() { changeSetting("showBubbleOnStart", false, true); });
 		$("#showBubbleOnStart1").off().on("click", function() { changeSetting("showBubbleOnStart", true, true); });
 		
@@ -178,7 +188,6 @@ function init()
 		$("#setIconText0").off().on("click", function() { changeSetting("iconShowText", 0, true); });
 		$("#setIconText1").off().on("click", function() { changeSetting("iconShowText", 1, true); });	
 		$("#setIconText2").off().on("click", function() { changeSetting("iconShowText", 2, true); });
-		
 		
 		$("#firstMonth1").off().on("click", function() { changeSetting("showFrom", 1, true); });
 		$("#firstMonth2").off().on("click", function() { changeSetting("showFrom", 2, true); });

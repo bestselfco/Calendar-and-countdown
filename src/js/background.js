@@ -130,10 +130,10 @@ function updatePopupFromStored()
 {
 	try {
 		var popup = settings.popup;
-		
-		var page = "popup_12.html";
-		
+				
 		if(popup == "3") page = "popup_3.html";
+		else if(popup == "L") page = "popup_list.html";
+		else page = "popup_12.html";
 		
 		chrome.browserAction.setPopup({popup:page});
 	}
