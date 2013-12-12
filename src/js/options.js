@@ -17,58 +17,66 @@ function init()
 		var firstDay = settings.firstDay;
 		if(firstDay == "0")
 		{
-			document.getElementById("firstday0").checked = true;
+			$("#firstday0").prop('checked', true);
 		}
 		else
 		{
-			document.getElementById("firstday1").checked = true;
+			$("#firstday1").prop('checked', true);
 		}
 	
 		var showFrom = settings.showFrom;
 		if(showFrom == 3)
 		{
-			document.getElementById("firstMonth3").checked = true;
+			$("#firstMonth3").prop('checked', true);
+			//document.getElementById("firstMonth3").checked = true;
 		}
 		else if(showFrom == 2)
 		{
-			document.getElementById("firstMonth2").checked = true;
+			$("#firstMonth2").prop('checked', true);
+			//document.getElementById("firstMonth2").checked = true;
 		}
 		else if(showFrom == 1){
-			document.getElementById("firstMonth1").checked = true;
+			$("#firstMonth1").prop('checked', true);
+			//document.getElementById("firstMonth1").checked = true;
 		}
 	
 		var showBadge = settings.showBadge;
 		if(showBadge == "0")
 		{
-			document.getElementById("showBadge0").checked = true;
+			$("#showBadge0").prop('checked', true);
+			//document.getElementById("showBadge0").checked = true;
 		}
 		else
 		{
-			document.getElementById("showBadge1").checked = true;
+			$("#showBadge1").prop('checked', true);
+			
+			//document.getElementById("showBadge1").checked = true;
 		}
 		
 		var showWorkDays = settings.showWorkDays;
 		if(showWorkDays == true)
 		{
-			document.getElementById("showWorkDays1").checked = true;
+			$("#showWorkDays1").prop('checked', true);
+			//document.getElementById("showWorkDays1").checked = true;
 		}
 		else 
 		{
-			document.getElementById("showWorkDays0").checked = true;
+			$("#showWorkDays0").prop('checked', true);
+			//document.getElementById("showWorkDays0").checked = true;
 		}
 		
 		var popup = settings.popup;
 		if(popup == "3")
-		{
-			document.getElementById("show31203").checked = true;
+		{	
+			$("#show31203").prop('checked', true);
 		}
 		else if(popup == "L")
 		{
-			document.getElementById("show312L").checked = true;
+			$("#show312L").prop('checked', true);
 		}
 		else
 		{
-			document.getElementById("show31212").checked = true;
+			$("#show31212").prop('checked', true);
 		}
 		
 		
@@ -76,54 +84,65 @@ function init()
 		var showweek = settings.showWeek;
 		if(showweek == "0")
 		{
-			document.getElementById("showweek0").checked = true;
+			$("#showweek0").prop('checked', true);
+			//document.getElementById("showweek0").checked = true;
 		}
 		else
 		{
-			document.getElementById("showweek1").checked = true;
+			$("#showweek1").prop('checked', true);
+			//document.getElementById("showweek1").checked = true;
 		}
 		
 		var showStartBubble = settings.showBubbleOnStart;
 		if(showStartBubble === true)
 		{	
-			document.getElementById("showBubbleOnStart1").checked = true;
+			$("#showBubbleOnStart1").prop('checked', true);
+			//document.getElementById("showBubbleOnStart1").checked = true;
 		}
 		else
 		{
-			document.getElementById("showBubbleOnStart0").checked = true;
+			$("#showBubbleOnStart0").prop('checked', true);
+			//document.getElementById("showBubbleOnStart0").checked = true;
 		}
 		
 		var dateFormatShort = settings.dateFormatShort;
 		if(dateFormatShort == "yy-mm-dd")
 		{
-			document.getElementById("dateShort2").checked = true;
+			$("#dateShort2").prop('checked', true);
+			//document.getElementById("dateShort2").checked = true;
 		}
 		else if(dateFormatShort == "mm-dd-yy")
 		{
-			document.getElementById("dateShort1").checked = true;
+			$("#dateShort1").prop('checked', true);
+			//document.getElementById("dateShort1").checked = true;
 		}
 		else if(dateFormatShort == "dd.mm.yy")
 		{
-			document.getElementById("dateShort0").checked = true;
+			$("#dateShort0").prop('checked', true);
+			//document.getElementById("dateShort0").checked = true;
 		}
 		else {
 			//Set to default in case of corruption
 			changeSetting("dateFormatShort", "dd.mm.yy", true);
-			document.getElementById("dateShort0").checked = true;
+			$("#dateShort0").prop('checked', true);
+			//document.getElementById("dateShort0").checked = true;
 		}
 		
 		var iconTextStyle = settings.iconShowText;
 		if(iconTextStyle == 2)
 		{
-			document.getElementById("setIconText2").checked = true;
+			$("#setIconText2").prop('checked', true);
+			//document.getElementById("setIconText2").checked = true;
 		}
 		else if (iconTextStyle == 1)
 		{
-			document.getElementById("setIconText1").checked = true;
+			$("#setIconText1").prop('checked', true);
+			//document.getElementById("setIconText1").checked = true;
 		}
 		else if (iconTextStyle == 0) 
 		{
-			document.getElementById("setIconText0").checked = true;
+			$("#setIconText0").prop('checked', true);
+			//document.getElementById("setIconText0").checked = true;
 		}
 		
 		//if(dataStoreLoc == "local") document.getElementById("sync0").checked = true;
