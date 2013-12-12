@@ -1,3 +1,5 @@
+var listItemTemplate = "<div class='listDateElement'>{{title}} {{date}}</div>";
+
 var monthTemplate = "<table>" +
 		"<tr class='cal_tr_header'><td class='cal_td_header' colspan='8'><span class='cal_tr_monthname'>${monthName}</span>&nbsp;<span class='cal_tr_year'>${year}</span></td></tr>"+
 		"<tr class='cal_tr_titles'>" +

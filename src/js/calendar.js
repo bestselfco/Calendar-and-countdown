@@ -118,6 +118,9 @@ function initPopupPage(year, month)
 	
 		//Display the calendar
 		showCal(year, month);
+		
+		//Show list if applicable
+		populateListStyle();
 	
 		//Bind all events
 		bindEvents();
@@ -828,6 +831,32 @@ function highLightSelectedDates(){
 		if(d.isPrimary) {highLightDay(d.timestamp, selectedClass);}
 	}
 		
+}
+
+/**
+Populate the list style view
+*/
+function populateListStyle()
+{
+	if($("#dateList").length > 0)
+	{
+		
+		for (dt in ccDates)
+		{
+			var d = ccDates[dt];
+			var data = {};
+			
+			console.log(d);
+			
+			var dagen = new Date(dt);
+			
+			data.title = "title";
+			data.date = dagen.toUTCString();
+			
+			var out = Mustache.render(listItemTemplate, data);
+			$("#dateList").append(out);
+		}
+	}
 }
 
 /**
