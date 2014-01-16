@@ -11,16 +11,8 @@
   "background":
   {
     "scripts": [
-    	"js/libraries/jquery.js",
-    	"js/libraries/jworkflow-min-0.7.0.js",
-    	"js/functions.js",
-    	"js/date.extend.js",
-    	"js/external_common.js",
-    	"js/icons.js",
-    	"js/migrations.js",
-    	"js/googletrack.js",
-		"js/background.js",
-		"js/debug.js"
+    	"js/jquery.js",
+    	"js/background_packed.js"
     	],
 		"persistent": true
   },

@@ -1,13 +1,13 @@
 @font-face
 {
 	font-family: "calendarfont";
-	src: url("../fonts/red-hat-inc_liberation-sans/LiberationSans-Regular.ttf");
+	src: url("../fonts/LiberationSans-Regular.ttf");
 }
 
 @font-face
 {
 	font-family: "calendarfont";
-	src: url("../fonts/red-hat-inc_liberation-sans/LiberationSans-Bold.ttf");
+	src: url("../fonts/LiberationSans-Bold.ttf");
 	font-weight: bold;
 }
 
