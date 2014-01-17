@@ -8,27 +8,27 @@ var d = {};
 d.showData = function(){
 	console.log("Settings", settings);
 	console.log("Dates", dates);
-}
+};
 
 d.checkUpdate = function() {
-	chrome.runtime.requestUpdateCheck(function(res){console.log(res)});
-}
+	chrome.runtime.requestUpdateCheck(function(res){console.log(res);});
+};
 
 d.reload = function() {
 	chrome.runtime.reload();
-}
+};
 
 d.setSyncStorage = function() {
 	var tmpsettingsstorage = {"dataStore": "sync"};
 	dataStore = chrome.storage.sync;
 	chrome.storage.local.set(tmpsettingsstorage);
-}	
+};
 
 d.setLocalStorage = function() {
 	var tmpsettingsstorage = {"dataStore": "local"};
 	dataStore = chrome.storage.local;
 	chrome.storage.local.set(tmpsettingsstorage);	
-}	
+};	
 
 d.checkStorage = function() {
 	
@@ -53,7 +53,7 @@ d.checkStorage = function() {
 	chrome.storage.sync.get("dates", function(data){
 		console.log("Synced dates",data);
 	});
-}
+};
 
 /* END DEBUG OBJECT DEFINITION */
 logger("debug", "Debug object created");

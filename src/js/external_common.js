@@ -1,18 +1,19 @@
 //Load JS or CSS file and add to document
 function loadjscssfile(filename, filetype){
+ var fileref;
  if (filetype=="js"){ //if filename is a external JavaScript file
-  var fileref=document.createElement('script')
-  fileref.setAttribute("type","text/javascript")
-  fileref.setAttribute("src", filename)
+  fileref=document.createElement('script');
+  fileref.setAttribute("type","text/javascript");
+  fileref.setAttribute("src", filename);
  }
  else if (filetype=="css"){ //if filename is an external CSS file
-  var fileref=document.createElement("link")
-  fileref.setAttribute("rel", "stylesheet")
-  fileref.setAttribute("type", "text/css")
-  fileref.setAttribute("href", filename)
+  fileref=document.createElement("link");
+  fileref.setAttribute("rel", "stylesheet");
+  fileref.setAttribute("type", "text/css");
+  fileref.setAttribute("href", filename);
  }
- if (typeof fileref!="undefined")
-  document.getElementsByTagName("head")[0].appendChild(fileref)
+ if (typeof fileref!=="undefined")
+  document.getElementsByTagName("head")[0].appendChild(fileref);
 }
 
 
@@ -43,10 +44,10 @@ function HexToRGB(hex)
 	return ret;
 }
 
-function HexToR(h) {return parseInt((cutHex(h)).substring(0,2),16);};
-function HexToG(h) {return parseInt((cutHex(h)).substring(2,4),16);};
-function HexToB(h) {return parseInt((cutHex(h)).substring(4,6),16);};
-function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h;};
+function HexToR(h) {return parseInt((cutHex(h)).substring(0,2),16);}
+function HexToG(h) {return parseInt((cutHex(h)).substring(2,4),16);}
+function HexToB(h) {return parseInt((cutHex(h)).substring(4,6),16);}
+function cutHex(h) {return (h.charAt(0)=="#") ? h.substring(1,7):h;}
 
 function colorToHex(c) {
 var m = /rgba?\(\s*(\d+)\s*,\s*(\d+)\s*,\s*(\d+)/.exec(c);

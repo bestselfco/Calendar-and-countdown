@@ -22,7 +22,7 @@ Read and set storage location for data. NOT ACTIVE!
 */
 function getStorageLocation(previous, baton)
 {
-	baton.take;
+	baton.take();
 	
 	dataStore = chrome.storage.local;
 	
@@ -42,7 +42,7 @@ function getStorageLocation(previous, baton)
 			//dataStore = chrome.storage.sync;
 		}
 		
-		baton.pass;
+		baton.pass();
 		
 	});
 }
@@ -74,7 +74,7 @@ function logger(type, cat, text)
         break;
         
         case "old": 
-        	if(debug) console.log(time.toLocaleTimeString(),"(old)  ", cat, ":", text);
+			if(debug) console.log(time.toLocaleTimeString(),"(old)  ", cat, ":", text);
         break;
         
         default: 
@@ -120,7 +120,7 @@ Return the default set of settings
 */
 function getDefaultSettings()
 {
-	tmpSettings = new Object();
+	tmpSettings = {};
 	
 	tmpSettings.iconTopColor = "#1B8CA0";
 	tmpSettings.iconTextColor = "#323232";
@@ -197,8 +197,8 @@ function readSettingsFromStorage(previous, baton)
 	
 		if(typeof(settings) === "undefined")
 		{
-			throw new Error("Settings object does not exist");
 			settings = getDefaultSettings();
+			throw new Error("Settings object does not exist");
 		}
 	
 		var tmpSettings = getDefaultSettings();
@@ -218,7 +218,7 @@ function readSettingsFromStorage(previous, baton)
 				logger("info", "Settings", "Settings has been read");
 				
 				baton.pass(); //OK, pass the baton along
-			   				
+
 			});
 	}
 	catch(err)
@@ -253,7 +253,7 @@ function readDatesFromStorage(previous, baton)
 			logger("info", "Dates", "Dates has been read");
 			
 			baton.pass(); //OK, pass the baton along
-		   				
+				
 		});
 }
 
@@ -270,7 +270,7 @@ function persistSettingsToStorage(tmpSettings) {
 			popupSet = true;
 		}
 		else {
-			throw new Error("Settings persisted without being set.")
+			throw new Error("Settings persisted without being set.");
 		}
 	
 		if(popupSet === true)
@@ -317,16 +317,19 @@ Toggle dates. "nocount" means secondary dates if true.
 function toggleDate(timestamp, noCount)
 {
 	try {
+		
+		
+	
 		if(noCount)
 		{
 			var noCountDateArray = getSubDates();
 		
 			//Secondary dates. Store many hooray
-			var idx = noCountDateArray.indexOf(timestamp);
+			var sidx = noCountDateArray.indexOf(timestamp);
 		
-			if(idx != -1)
+			if(sidx != -1)
 			{
-				noCountDateArray.splice(idx, 1); //Remove if found
+				noCountDateArray.splice(sidx, 1); //Remove if found
 			}
 			else
 			{
@@ -360,8 +363,6 @@ function toggleDate(timestamp, noCount)
 			{
 				dateArray = [timestamp]; //Set
 			}
-		    
-            //trackEvent("Interaction", "Main date changed", timestamp);
 			
 			//This is the new solution!
 			dates.mainDateArray = dateArray;
@@ -415,13 +416,13 @@ window.onerror = function(message, url, linenumber) {
 	try {
 		var whereA = url.split("/");
 		var where = whereA[whereA.length-1];
- 		trackError("window.onerror", where + ":" + linenumber, message);
- 	}
- 	catch(e)
- 	{
- 		handleError("Functions window.onerror", e);
- 	}
-}
+		trackError("window.onerror", where + ":" + linenumber, message);
+	}
+	catch(e)
+	{
+		handleError("Functions window.onerror", e);
+	}
+};
 
 //Object to hold date. Shall be extended wildly.
 function ccDate(timestamp)
@@ -445,7 +446,7 @@ function convertToDateObjects()
 	var c = dates.dateColorArray;
 	
 	var datesTmp = {};
-	var out = {}
+	var out = {};
 	
 	//Add primary date to array		
 	for(i=0;i<m.length;i++)
@@ -480,7 +481,7 @@ function convertToDateObjects()
 		out[d] = tm;
 	}
 		
-	for (var d in out)
+	for (d in out)
 	{
 		var tmpCC = new ccDate(out[d].timestamp);
 		tmpCC.color = out[d].color;
@@ -583,7 +584,7 @@ function ccDateConv(timestamp)
 			handleError("Functions ccDate init maindate", e);
 		}
 		
-	}
+	};
 	
 	return this;
 }
