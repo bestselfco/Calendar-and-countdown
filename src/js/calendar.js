@@ -91,7 +91,7 @@ function initCalendarPage() {
 	
 	//Find first month to show. Defaults to January
 	var startMonth = 1;	
-	if(settings.showFrom == 3 && settings.popup == 12) { startMonth = currentMonth }
+	if(settings.showFrom == 3 && settings.popup == 12) { startMonth = currentMonth; }
 	else if(settings.showFrom == 2 && settings.popup == 12) { startMonth = getStartMonthForQuarter(currentMonth);}
 	
 	initPopupPage(currentYear, startMonth);
@@ -164,10 +164,10 @@ function bindEvents()
 		}
 		
 		chrome.storage.onChanged.addListener(function(changes, namespace) {
-		  
-		  updateCalendarPageStart(); //Run maintenance whenever storage has changed for some reason
-		  logger("info", "Cal maintenance", "Run because of storage change");
-		  
+		
+		updateCalendarPageStart(); //Run maintenance whenever storage has changed for some reason
+		logger("info", "Cal maintenance", "Run because of storage change");
+		
 		});
 		
 	}
@@ -244,7 +244,7 @@ function showBubbleForToday()
 	try {
 		var selectorString = '[dateTimestamp="'+todayStamp+'"]';
 		
-		var options = new Object();
+		var options = {};
 		options.showDelay = 500;
 		options.fadeIn = 300;
 		options.fadeOut = 1000;
@@ -333,7 +333,7 @@ function setMainDate(timestamp)
 	}
 	catch(err)
 	{
-	    handleError("Calendar.js setMainDate", err);
+		handleError("Calendar.js setMainDate", err);
 	}	
 }	
 
@@ -398,7 +398,7 @@ function dayRightClickedDialog(event)
 	try {
 		event.preventDefault();
 			
-		var timestamp = event.originalEvent.target.attributes["datetimestamp"].value;
+		var timestamp = $(event.originalEvent.target).attr("datetimestamp");
 		var target = event.originalEvent.target.id;
 			
 		lastEventDate = timestamp;
@@ -497,7 +497,7 @@ function startDynamic(event)
 		$(daysSelectString).on("mouseenter", updateDynamic); //Add mouseenter event for days
 		$("*").on("mouseup", endDynamic); //Add mouseup event for all (to end on end of click, also outside specific days)
 		
-		dynamicStartStamp = event.target.attributes["datetimestamp"].value * 1;
+		dynamicStartStamp = $(event.target).attr("datetimestamp") * 1;
 	}
 	catch(e)
 	{
@@ -515,7 +515,7 @@ function updateDynamic(event){
 		//Only run if start point is set. Should not be available, but you never know!
 		if(dynamicStartStamp !== false)
 		{
-			var currentStamp = event.target.attributes["datetimestamp"].value * 1;
+			var currentStamp = $(event.target).attr("datetimestamp") * 1;
 		
 			dynamicStopStamp = currentStamp;
 		
@@ -682,7 +682,7 @@ function getNoteForDate(timestampNote)
 		var tmpNotes = getNoteArray();
 		var output = "";
 		
-		if(tmpNotes[timestampNote] != undefined)
+		if(tmpNotes[timestampNote] !== undefined)
 		{
 			output = tmpNotes[timestampNote];
 		}
@@ -755,7 +755,8 @@ New version when somebody has clicked a date. Uses attribute instead of passing 
 */
 function dayClicked(event)
 {
-	var timestamp = event.target.attributes["datetimestamp"].value;
+	
+	var timestamp = $(event.target).attr('datetimestamp');
     
 	setMainDate(timestamp);
 	
@@ -817,13 +818,13 @@ function highLightSelectedDates(){
 	//Remove all highlighted days
 	removeHighLights();
 
-	for (dt in ccDates)
+	for (var dt in ccDates)
 	{
 		var d = ccDates[dt];
 		var selectorString = '[dateTimestamp="'+d.timestamp+'"]';
 
 		//Secondary dates
-		if(d.isSecondary) { highLightDay(d.timestamp, selectedSubClass) };	
+		if(d.isSecondary) { highLightDay(d.timestamp, selectedSubClass); }
 		
 		//Custom colors
 		if(d.color !== null) {$(selectorString).css("background-color", d.color);}
@@ -841,7 +842,7 @@ function populateListStyle()
 	if($("#dateList").length > 0)
 	{
 		
-		for (dt in ccDates)
+		for (var dt in ccDates)
 		{
 			var d = ccDates[dt];
 			var data = {};
@@ -890,7 +891,7 @@ function Calendar(year, month)
 		
 		this.offSet = this.workDate.getTimezoneOffset();
 		
-		this.outVars = new Object();
+		this.outVars = {};
 	
 	}
 	catch(e)
@@ -915,7 +916,7 @@ function calGetCal(template)
 		this.outVars.weekShortName = chrome.i18n.getMessage("weekHeader");
 	
 		//Set day names
-		if(firstDayOfWeek == 0) {
+		if(firstDayOfWeek === 0) {
 			this.outVars.day0_ShortName = chrome.i18n.getMessage("sday0");
 			this.outVars.day1_ShortName = chrome.i18n.getMessage("sday1");
 			this.outVars.day2_ShortName = chrome.i18n.getMessage("sday2");
@@ -951,7 +952,7 @@ function calGetCal(template)
 			{
 			case 0:
 				tmpWeek = tmpWeek - 1;
-				if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
+				if(tmpWeek === 0) tmpWeek = 52; //Will fail in some years
 				days = 6;
 				break;
 	
@@ -987,7 +988,7 @@ function calGetCal(template)
 			{
 			case 0:
 				tmpWeek = tmpWeek - 1;
-				if(tmpWeek == 0) tmpWeek = 52; //Will fail in some years
+				if(tmpWeek === 0) tmpWeek = 52; //Will fail in some years
 				days = 0;
 				break;
 	

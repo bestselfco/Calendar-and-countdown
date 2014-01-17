@@ -16,12 +16,12 @@ function addListeners()
 {	
 	try {
 		//Do install stuff if installed, migration stuff if updated
-		
+
 		chrome.storage.onChanged.addListener(function(changes, namespace) {
-		  
-		  maintain(); //Run maintenance whenever storage has changed for some reason
-		  logger("debug", "Maintenance", "Run because of storage change");
-		  
+ 
+		maintain(); //Run maintenance whenever storage has changed for some reason
+		logger("debug", "Maintenance", "Run because of storage change");
+
 		});
 		
 		chrome.alarms.onAlarm.addListener(function(alarm){
@@ -66,7 +66,7 @@ function maintain()
 		maintainChain.start();
 		
 		//Reset the backup timer
-		window.clearTimeout(backupTimer)
+		window.clearTimeout(backupTimer);
 		backupTimer = window.setTimeout(emergencyMaintain, 3600000);
 		
 		logger("info", "Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
@@ -104,13 +104,12 @@ function updateIconFromStored()
 		
 		if(iconSetup.showNumbers == "1") iconSetup.fillText = new Date().getDate(); //Today
 		else if (iconSetup.showNumbers == "2") iconSetup.fillText = getDistanceInDays(); //Countdown
-	    else  iconSetup.fillText = 0; //Nothing, so why bother
+		else iconSetup.fillText = 0; //Nothing, so why bother
 		
-	    var tmpIconCanvas = document.createElement("canvas");
-	    
-	    tmpIconCanvas.getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);
-	    
-	    var ctx = tmpIconCanvas.getContext("2d");
+		var tmpIconCanvas = document.createElement("canvas");
+
+		tmpIconCanvas.getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);  
+		var ctx = tmpIconCanvas.getContext("2d");
 		var iconPixelData = ctx.getImageData(0, 0, 19, 19);
 		chrome.browserAction.setIcon({imageData:iconPixelData});
 
@@ -341,7 +340,7 @@ function trackStartup()
 			if(typeof(settings.popup) !== "undefined")
 			{
 				pushSettingsToGoogleTracker();
-	            trackEvent("Start", version.currVersion, "");
+				trackEvent("Start", version.currVersion, "");
 			}
 			else {
 				logger("info", "Startup", "Retrying startup logging"); 

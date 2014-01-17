@@ -13,11 +13,6 @@
 function Icon(iconDefinition){
 
 	try {
-
-		//Get values from passed object
-		this.def = iconDefinition;
-	
-		//Fill inn the rest of the values
 	
 		//Setup element
 		this.canvas = document.createElement('canvas');
@@ -57,6 +52,13 @@ function Icon(iconDefinition){
 			{
 				this.ctx.fillStyle = this.def.textColor;
 				this.ctx.fillText(this.def.fillText, 10, 16);
+			}
+			
+			if(typeof(debug) !== "undefined" && debug === true)
+			{
+				console.log("Debug icon!");
+				this.ctx.fillStyle = "rgba(200,0,0,1)";
+				this.ctx.fillText("B", 10, 16);
 			}
 	
 			//Add gradients
@@ -102,21 +104,25 @@ function Icon(iconDefinition){
 		//Define all the default values. If force is true, do it if it is already set as well.
 		this.getDefaultValues = function(force) {
 			
-			if(force || this.def.showNumbers === undefined) this.def.showNumbers = "0";
-			if(force || this.def.fillText === null) this.def.fillText = "?";
-			if(force || this.def.topColor === null) this.def.topColor = "rgba(27,140,160,1)";
-			if(force || this.def.textColor === null) this.def.textColor = "#323232";
-			if(force || this.def.outlineColor === null) this.def.outlineColor = "rgba(240,240,240,1)";
-			if(force || this.def.fillColor === null) this.def.backColor = "rgba(255,255,255,1)";
-			if(force || this.def.lineColor === null) this.def.lineColor = "rgba(200,200,200,1)";
-			if(force || this.def.gradColorStart === null) this.def.gradColorStart = "rgba(0, 0, 0, 0.3)";
-			if(force || this.def.gradColorStop === null) this.def.gradColorStop = "rgba(255, 255, 255, 0.1)";
-			if(force || this.def.font === null) this.def.font = '10px sans-serif';
-			if(force || this.def.textAlign === null) this.def.textAlign = 'center';
-			if(force || this.def.textBaseline === null) this.def.textBaseline = "alphabetic";
+			if(force || typeof(this.def.showNumber) == 'undefined') this.def.showNumbers = "0";
+			if(force || typeof(this.def.fillText) == 'undefined') this.def.fillText = "?";
+			if(force || typeof(this.def.topColor) == 'undefined') this.def.topColor = "rgba(27,140,160,1)";
+			if(force || typeof(this.def.textColor) == 'undefined') this.def.textColor = "#323232";
+			if(force || typeof(this.def.outlineColor) == 'undefined') this.def.outlineColor = "rgba(240,240,240,1)";
+			if(force || typeof(this.def.fillColor) == 'undefined') this.def.backColor = "rgba(255,255,255,1)";
+			if(force || typeof(this.def.lineColor) == 'undefined') this.def.lineColor = "rgba(200,200,200,1)";
+			if(force || typeof(this.def.gradColorStart) == 'undefined') this.def.gradColorStart = "rgba(0, 0, 0, 0.3)";
+			if(force || typeof(this.def.gradColorStop) == 'undefined') this.def.gradColorStop = "rgba(255, 255, 255, 0.1)";
+			if(force || typeof(this.def.font) == 'undefined') this.def.font = '10px sans-serif';
+			if(force || typeof(this.def.textAlign) == 'undefined') this.def.textAlign = 'center';
+			if(force || typeof(this.def.textBaseline) == 'undefined') this.def.textBaseline = "alphabetic";
 	
 		};
 		
+		//Get values from passed object
+		this.def = iconDefinition;
+		
+		//Fill inn the rest of the values
 		this.getDefaultValues(false);
 		
 	}

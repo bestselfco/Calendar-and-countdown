@@ -4,6 +4,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     manifest: grunt.file.readJSON('src/manifest.json'),
     pkg: grunt.file.readJSON('package.json'),
+    filesbackground: ['src/js/libraries/jworkflow-min-0.7.0.js', "src/js/functions.js", "src/js/date.extend.js", "src/js/external_common.js","src/js/icons.js","src/js/migrations.js","src/js/googletrack.js","src/js/background.js", "src/js/debug.js"],
     dirs: {
         src: 'src/',
         dest: '../Builds/<%= manifest.version %>',
@@ -35,10 +36,6 @@ module.exports = function(grunt) {
       options: {
          banner: '<%= dirs.banner %>',
       },
-      background_javascript: {
-     	 src: ['src/js/libraries/jworkflow-min-0.7.0.js', "src/js/functions.js", "src/js/date.extend.js", "src/js/external_common.js","src/js/icons.js","src/js/migrations.js","src/js/googletrack.js","src/js/background.js", "src/js/debug.js"],
-      	dest: '<%= dirs.dest %>/js/background_packed.js'
-      },
       options_javascript: {
       	src: ['src/js/date.extend.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/external_common.js', 'src/js/functions.js', 'src/js/options.js', 'src/js/icons.js',  'src/js/migrations.js', 'src/js/debug.js', 'src/js/googletrack.js', 'src/js/libraries/plusone.js'],
       	dest: '<%= dirs.dest %>/js/options_packed.js'
@@ -46,6 +43,10 @@ module.exports = function(grunt) {
       cal_common_javascript: {
       	src: ['src/js/libraries/mustache.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/libraries/tipped/js/tipped/tipped.unpacked.js', 'src/js/date.extend.js', 'src/js/templates.js', 'src/js/external_common.js', 'src/js/functions.js','src/js/calendar.js','src/js/tooltips_tipped.js','src/js/debug.js', 'src/js/googletrack.js'],
       	dest: '<%= dirs.dest %>/js/calendar_common.js'
+      },
+      background_javascript: {
+      	src: '<%= filesbackground %>',
+      	dest: '<%= dirs.dest %>/js/background_packed.js'
       }
     },
     copy: {

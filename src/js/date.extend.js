@@ -8,7 +8,7 @@
 Date.prototype.getWeek = function (dowOffset) {
 	/*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
 
-	dowOffset = typeof(dowOffset) == 'int' ? dowOffset : 0; //default dowOffset to zero
+	dowOffset = typeof(dowOffset) == 'number' ? dowOffset : 0; //default dowOffset to zero
 	var newYearStamp = Date.UTC(this.getUTCFullYear(),0,1);
 	var newYear = new Date(newYearStamp);
 	var day = newYear.getUTCDay() - dowOffset; //the day of week the year begins on
@@ -23,8 +23,7 @@ Date.prototype.getWeek = function (dowOffset) {
 			nYear = new Date(this.getUTCFullYear() + 1,0,1);
 			nday = nYear.getDay() - dowOffset;
 			nday = nday >= 0 ? nday : nday + 7;
-			/*if the next year starts before the middle of
- 			  the week, it is week #1 of that year*/
+			/*if the next year starts before the middle of the week, it is week #1 of that year*/
 			weeknum = nday < 4 ? 1 : 53;
 		}
 	}
@@ -32,7 +31,7 @@ Date.prototype.getWeek = function (dowOffset) {
 		weeknum = Math.floor((daynum+day-1)/7);
 	}
 
-	if(weeknum == 0) weeknum = 52;
+	if(weeknum === 0) weeknum = 52;
 
 	return weeknum;
 };
@@ -41,7 +40,7 @@ Date.prototype.getWeek = function (dowOffset) {
 Date.prototype.getDaysInYear = function (){
 	var year = this.getUTCFullYear();
 
-	if((year % 100 != 0 && year % 4 == 0)  || year%400 == 0)
+	if((year % 100 !== 0 && year % 4 === 0)  || year%400 === 0)
 	{
 		return 366;
 	}
@@ -69,7 +68,7 @@ Date.prototype.getDaysInMonth = function()
 	else if(month == 1){
 		return 28;
 	}
-	else if(month == 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11)
+	else if(month === 0 || month == 2 || month == 4 || month == 6 || month == 7 || month == 9 || month == 11)
 	{
 		return 31;
 	}
@@ -101,7 +100,7 @@ Date.prototype.getDistanceInDays = function (timestamp) {
 	var diff = (this.getTime() - timestamp) / 86400000;
 	
 	return diff;
-}
+};
 
 //Get day distance from today.  Does not clean up non-round numbers. 
 Date.prototype.getDaysFromToday = function () {
@@ -159,10 +158,10 @@ Date.prototype.getDistanceInWeekDays = function(timestamp)
 		
 		//logger("Debug", "w/today", days);
 		
-		if(endDay == 0) days = days - 2;
+		if(endDay === 0) days = days - 2;
 		if(endDay == 6) days = days - 1;
 		if(startDay == 6) days = days - 2; 
-		if(startDay == 0) days = days - 1;
+		if(startDay === 0) days = days - 1;
 		
 		//logger("Debug", "Fixed", days);
 		
@@ -183,4 +182,4 @@ Date.prototype.getDistanceInWeekDays = function(timestamp)
 		handleError("date.extend.js Date.prototype.getDistanceInWeekDays", e);
 		return 0;
 	}
-}
+};
