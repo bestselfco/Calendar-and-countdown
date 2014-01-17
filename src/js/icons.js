@@ -1,7 +1,7 @@
-//showNumbers 	: Should we show lines (0), or number (1)
-//fillText    	: The text to show
-//topColor		: Color of the top bar
-//outLineColor	: The outer line of the icon
+//showNumbers	:	Should we show lines (0), or number (1)
+//fillText		:	The text to show
+//topColor		:	Color of the top bar
+//outLineColor	:	The outer line of the icon
 //fillColor	: Background of main part
 //lineColor	: Color of the lines in the calendar
 //GradColorStart: Upper left corner of gradient
@@ -38,7 +38,7 @@ function Icon(iconDefinition){
 			this.ctx.fillRect (0, 0, 19, 19);
 	
 			//Main fill
-			this.ctx.fillStyle = this.def.fillColor;;
+			this.ctx.fillStyle = this.def.fillColor;
 			this.ctx.fillRect (1, 1, 17, 17);
 	
 			//Top fill
@@ -86,7 +86,7 @@ function Icon(iconDefinition){
 		
 		this.load = function (){
 			var iconDataJSON = getItem("iconDataJSON"); // Load from storage
-			if(iconDataJSON == null)
+			if(iconDataJSON === null)
 			{
 				this.storeDefaultIcon(); //If not set, create default values
 			}
@@ -102,18 +102,18 @@ function Icon(iconDefinition){
 		//Define all the default values. If force is true, do it if it is already set as well.
 		this.getDefaultValues = function(force) {
 			
-			if(force || this.def.showNumbers == undefined) this.def.showNumbers = "0";
-			if(force || this.def.fillText == null) this.def.fillText = "?";
-			if(force || this.def.topColor == null) this.def.topColor = "rgba(27,140,160,1)";
-			if(force || this.def.textColor == null) this.def.textColor = "#323232";
-			if(force || this.def.outlineColor == null) this.def.outlineColor = "rgba(240,240,240,1)";
-			if(force || this.def.fillColor == null) this.def.backColor = "rgba(255,255,255,1)";
-			if(force || this.def.lineColor == null) this.def.lineColor = "rgba(200,200,200,1)";
-			if(force || this.def.gradColorStart == null) this.def.gradColorStart = "rgba(0, 0, 0, 0.3)";
-			if(force || this.def.gradColorStop == null) this.def.gradColorStop = "rgba(255, 255, 255, 0.1)";
-			if(force || this.def.font == null) this.def.font = '10px sans-serif';
-			if(force || this.def.textAlign == null) this.def.textAlign = 'center';
-			if(force || this.def.textBaseline == null) this.def.textBaseline = "alphabetic";
+			if(force || this.def.showNumbers === undefined) this.def.showNumbers = "0";
+			if(force || this.def.fillText === null) this.def.fillText = "?";
+			if(force || this.def.topColor === null) this.def.topColor = "rgba(27,140,160,1)";
+			if(force || this.def.textColor === null) this.def.textColor = "#323232";
+			if(force || this.def.outlineColor === null) this.def.outlineColor = "rgba(240,240,240,1)";
+			if(force || this.def.fillColor === null) this.def.backColor = "rgba(255,255,255,1)";
+			if(force || this.def.lineColor === null) this.def.lineColor = "rgba(200,200,200,1)";
+			if(force || this.def.gradColorStart === null) this.def.gradColorStart = "rgba(0, 0, 0, 0.3)";
+			if(force || this.def.gradColorStop === null) this.def.gradColorStop = "rgba(255, 255, 255, 0.1)";
+			if(force || this.def.font === null) this.def.font = '10px sans-serif';
+			if(force || this.def.textAlign === null) this.def.textAlign = 'center';
+			if(force || this.def.textBaseline === null) this.def.textBaseline = "alphabetic";
 	
 		};
 		

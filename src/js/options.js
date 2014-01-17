@@ -54,7 +54,7 @@ function init()
 		}
 		
 		var showWorkDays = settings.showWorkDays;
-		if(showWorkDays == true)
+		if(showWorkDays === true)
 		{
 			$("#showWorkDays1").prop('checked', true);
 			//document.getElementById("showWorkDays1").checked = true;
@@ -139,7 +139,7 @@ function init()
 			$("#setIconText1").prop('checked', true);
 			//document.getElementById("setIconText1").checked = true;
 		}
-		else if (iconTextStyle == 0) 
+		else if (iconTextStyle === 0) 
 		{
 			$("#setIconText0").prop('checked', true);
 			//document.getElementById("setIconText0").checked = true;
@@ -232,14 +232,14 @@ Set badge color
 */
 function changeBadgeColor(item)
 {
- 	try {
- 		var colorValue = $(item).attr("colorval");
- 		changeSetting("badgeColor", colorValue, true);
- 	}
- 	catch(e)
- 	{
- 		handleError("Options, changeBadgeColor", e);
- 	}	
+	try {
+		var colorValue = $(item).attr("colorval");
+		changeSetting("badgeColor", colorValue, true);
+	}
+	catch(e)
+	{
+		handleError("Options, changeBadgeColor", e);
+	}	
 }
 
 //Create an icon preview and bind it to the icon setup function
@@ -248,7 +248,7 @@ function createIconPreview(topColor, targetCanvas)
 
 	try {
 	//Setup object
-	var iconSetup = new Object();
+	var iconSetup = {};
 	iconSetup.showNumbers = "0";
 	iconSetup.fillText = "0";
 	iconSetup.topColor = topColor;

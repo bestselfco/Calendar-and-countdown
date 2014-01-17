@@ -74,6 +74,9 @@ module.exports = function(grunt) {
 	   		dest: '../Builds/Latest'
 	   	}
     },
+    jshint: {
+       check: ['src/js/*.js']
+     },
    compress: {
      main: {
        options: {
@@ -94,9 +97,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-compress');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // Default task(s).
-  grunt.registerTask('default', ['clean', 'concat', 'uglify', 'compress', 'copy']);
+  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify', 'compress', 'copy']);
   
   // grunt.registerTask('default', ['clean', 'copy', 'concat', 'uglify']);
 

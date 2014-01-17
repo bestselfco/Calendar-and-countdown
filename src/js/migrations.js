@@ -14,7 +14,7 @@ function doMigrationOrInstall(details)
 		}
 	
 		if(reason === "update" && details.previousVersion !== version.currVersion)
-	 	{	
+		{	
 			trackEvent("Update", version.currVersion, details.previousVersion);
 			//trackPageView('/update/'+details.previousVersion);			
 						
@@ -88,7 +88,7 @@ function doMigrationOrInstall(details)
 				if(false && compareVersions(details.previousVersion, "2013.9") == -1)
 				{
 					trackEvent("Migration", "Date format" , details.previousVersion);
-					convertToDateObjects()
+					convertToDateObjects();
 				}
 			}
 			catch (err) 

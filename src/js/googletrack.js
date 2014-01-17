@@ -59,7 +59,7 @@ function trackError(where, category, text)
     }
     catch (err)
     {
-        console.error("Error tracking error. Goddamnit.")   
+        console.error("Error tracking error. Goddamnit.");
     }
 }
 

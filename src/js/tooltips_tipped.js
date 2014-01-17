@@ -5,12 +5,12 @@ function getToolTip(timestamp)
 {
 	try {
 		if(dynamicStartStamp === false && dynamicDiff === false){
-			return getToolTipNormal(timestamp);
 			trackEvent("Interaction", "Calendar", "Popup shown");
+			return getToolTipNormal(timestamp);
 		}
 		else {
-			return getToolTipDynamic(dynamicStartStamp, dynamicStopStamp);
 			trackEvent("Interaction", "Calendar", "Dynamic date count");
+			return getToolTipDynamic(dynamicStartStamp, dynamicStopStamp);
 		}
 	}
 	catch (e)
@@ -127,14 +127,14 @@ function getToolTipDynamic(fromStamp, toStamp)
 		var output = "";
 
 		var from = new Date(fromStamp);
-		var to = new Date(toStamp)
+		var to = new Date(toStamp);
 
 		var days = Math.abs(to.getDistanceInDays(from)) + 1;
 		var wDays = Math.abs(from.getDistanceInWeekDays(to)); 
 	
 		//(Day/day_s_)
 		var suffix = "";
-		if(days == 0 || days > 1) suffix = chrome.i18n.getMessage("several_suffix");
+		if(days === 0 || days > 1) suffix = chrome.i18n.getMessage("several_suffix");
 		var daysword = chrome.i18n.getMessage("day");
 	
 		output += days;
@@ -180,6 +180,8 @@ function getToolTipNormal(timestamp){
 		var showFromToday = true;
 		var showFromMarkedDate = true;
 		var showSubDates = true;
+		
+		
 			
 		if(showDate)
 		{
@@ -207,17 +209,18 @@ function getToolTipNormal(timestamp){
 			
 			if(Math.abs(fromToday) != 1)
 			{
-			 suffix = chrome.i18n.getMessage("several_suffix"); //"s" if one
+				suffix = chrome.i18n.getMessage("several_suffix"); //"s" if one
 			}
 	
+			var countDown;
 			if(fromToday < 0)
 				{
-					var countDown = Math.abs(fromToday)+" "+chrome.i18n.getMessage("day", "test")+suffix+" "+chrome.i18n.getMessage("ago");	
+					countDown = Math.abs(fromToday)+" "+chrome.i18n.getMessage("day", "test")+suffix+" "+chrome.i18n.getMessage("ago");	
 					outArray.push("<div class='popup'>"+countDown+"</div>");
 				}
 				else if(fromToday > 0)
 				{
-					var countDown = fromToday+" "+chrome.i18n.getMessage("day")+suffix+" "+chrome.i18n.getMessage("leftuntil")+".";
+					countDown = fromToday+" "+chrome.i18n.getMessage("day")+suffix+" "+chrome.i18n.getMessage("leftuntil")+".";
 					outArray.push("<div class='popup'>"+countDown+"</div>");
 				}
 								
@@ -278,7 +281,9 @@ function getCountDownDiffString(ndate, countToDate)
 		
 		var customNote = null;
 		
-		var notes = getNoteArray()
+		var notes = getNoteArray();
+		
+		var dayDiffCountDate;
 		
 		if(notes[countToDate] !== undefined)
 		{
@@ -286,18 +291,18 @@ function getCountDownDiffString(ndate, countToDate)
 		}
 		
 		//Should we count up/down to date in popup?
-		if(countDownDate != false){
+		if(countDownDate !== false){
 	
-			var countDate = new Date(countDownDate*1); 	//Stupid casting again
+			var countDate = new Date(countDownDate*1);	//Stupid casting again
 	
-			var dayDiffCountDate = days_between(ndate, countDate); 	//Finding diff between oldid and now
+			dayDiffCountDate = days_between(ndate, countDate);	//Finding diff between oldid and now
 		}
 				
 		var agountil = chrome.i18n.getMessage("until");
 		
 		if(ndate > countDownDate) agountil = chrome.i18n.getMessage("since");
 		
-		if(customNote != null)
+		if(customNote !== null)
 		{ 
 			localNote = agountil + " "  + customNote; 
 		}
@@ -306,7 +311,7 @@ function getCountDownDiffString(ndate, countToDate)
 		}
 		
 		//"Days from countdown date"
-		if( isNaN(dayDiffCountDate) == false && dayDiffCountDate != 0 && dayDiffCountDate < 5000) {
+		if( isNaN(dayDiffCountDate) === false && dayDiffCountDate !== 0 && dayDiffCountDate < 5000) {
 	
 			var suffix  = "";
 	
