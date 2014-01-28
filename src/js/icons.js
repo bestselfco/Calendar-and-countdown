@@ -56,7 +56,7 @@ function Icon(iconDefinition){
 			
 			if(typeof(debug) !== "undefined" && debug === true)
 			{
-				console.log("Debug icon!");
+				//console.log("Debug icon!");
 				this.ctx.fillStyle = "rgba(200,0,0,1)";
 				this.ctx.fillText("B", 10, 16);
 			}

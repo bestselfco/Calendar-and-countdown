@@ -23,10 +23,6 @@ module.exports = function(grunt) {
         banner: '<%= dirs.banner %>',
         separator: ';'
       },
-      jquery: {
-        src: ['src/js/libraries/jquery.js'],
-        dest: '<%= dirs.dest %>/js/jquery.js'
-      },
       jqueryui: {
         src: ['src/js/libraries/jquery-ui/**/*.js'],
         dest: '<%= dirs.dest %>/js/jquery-ui.js'
@@ -36,12 +32,16 @@ module.exports = function(grunt) {
       options: {
          banner: '<%= dirs.banner %>',
       },
+      jquery: {
+        src: ['src/js/libraries/jquery.js'],
+        dest: '<%= dirs.dest %>/js/jquery.js'
+      },
       options_javascript: {
       	src: ['src/js/date.extend.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/external_common.js', 'src/js/functions.js', 'src/js/options.js', 'src/js/icons.js',  'src/js/migrations.js', 'src/js/debug.js', 'src/js/googletrack.js', 'src/js/libraries/plusone.js'],
       	dest: '<%= dirs.dest %>/js/options_packed.js'
       },
       cal_common_javascript: {
-      	src: ['src/js/libraries/mustache.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/libraries/tipped/js/tipped/tipped.unpacked.js', 'src/js/date.extend.js', 'src/js/templates.js', 'src/js/external_common.js', 'src/js/functions.js','src/js/calendar.js','src/js/tooltips_tipped.js','src/js/debug.js', 'src/js/googletrack.js'],
+      	src: ['src/js/libraries/jquery.js', 'src/js/libraries/mustache.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/libraries/tipped/js/tipped/tipped.unpacked.js', 'src/js/date.extend.js', 'src/js/templates.js', 'src/js/external_common.js', 'src/js/functions.js','src/js/calendar.js','src/js/tooltips_tipped.js','src/js/debug.js', 'src/js/googletrack.js'],
       	dest: '<%= dirs.dest %>/js/calendar_common.js'
       },
       background_javascript: {
