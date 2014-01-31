@@ -103,8 +103,6 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify', 'compress', 'copy']);
   
-  // grunt.registerTask('default', ['clean', 'copy', 'concat', 'uglify']);
+  grunt.registerTask('css', ['copy']);
 
 };
-
-//      kvasbo_libfiles: ['src/js/libraries/jquery.js', 'src/js/libraries/jquery-ui/**/*.js',  'src/js/libraries/tipped/**/*.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/libraries/mustache.js.js', 'src/js/libraries/plusone.js'],
