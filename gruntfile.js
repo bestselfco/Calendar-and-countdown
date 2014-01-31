@@ -76,7 +76,7 @@ module.exports = function(grunt) {
 	   	}
     },
     jshint: {
-       check: ['src/js/*.js']
+       check: ['src/js/*.js', 'js/manifest.json']
      },
    compress: {
      main: {

@@ -10,25 +10,25 @@
   "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "background":
   {
-    "scripts": [
-    	"js/jquery.js",
-    	"js/background_packed.js"
-    	],
+	"scripts": [
+		"js/jquery.js",
+		"js/background_packed.js"
+		],
 		"persistent": true
   },
   "browser_action": 
   {
-    "default_icon": "pics/icon_19_grey.png",
-    "default_popup": "popup_12.html"
+	"default_icon": "pics/icon_19_grey.png",
+	"default_popup": "popup_12.html"
   },
   "icons": 
-  { 	
-    "16": "pics/icon_16.png",
-    "48": "pics/new-icon-128.png",
-    "128": "pics/new-icon-128.png" 
+  {		
+	"16": "pics/icon_16.png",
+	"48": "pics/new-icon-128.png",
+	"128": "pics/new-icon-128.png" 
   },
   "permissions":
   [
-  	"storage", "alarms"
+	"storage", "alarms"
   ]
 }
