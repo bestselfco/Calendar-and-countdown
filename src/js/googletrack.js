@@ -73,6 +73,7 @@ function trackEvent(type, category, text)
 		_gaq.push(['_trackEvent', type + " (" + version.currVersion + ")" , category, text]);
 	}
 	else {
+		_gaq.push(['_trackEvent', type + " (debug)" , category, text]);
 		logger("info", "TrackEvent",  type + " / " + category + " / " + text);
 	}
 }

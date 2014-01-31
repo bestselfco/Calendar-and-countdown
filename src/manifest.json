@@ -1,13 +1,13 @@
 {
   "name": "Calendar and Countdown",
   "default_locale": "en",
-  "version": "2013.12.12.1",
+  "version": "2014.1.31.2",
   "minimum_chrome_version": "28",
   "short_name": "C&C",
   "description": "Show a full year calendar and count down to any number of dates. Add notes and colors to days, and check the distance between them.",
   "options_page": "options.html",
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com https://apis.google.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://ssl.google-analytics.com; object-src 'self'",
   "background":
   {
     "scripts": [

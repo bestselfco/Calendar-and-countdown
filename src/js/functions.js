@@ -2,7 +2,6 @@
 COMMON FUNCTIONS AND VARIABLES FOR ALL PARTS OF THE APPLICATION. 
 */
 
-
 //Data store
 var dataStore = chrome.storage.local;
 var dataStoreLoc = "local";
