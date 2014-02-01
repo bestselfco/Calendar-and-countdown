@@ -31,14 +31,18 @@ function getStorageLocation(previous, baton)
 	
 		if(typeof(data.dataStore) !== "undefined" && data.dataStore == "sync")
 		{
-			//logger("info", "Storage", "Using synced storage");
+			logger("info", "Storage", "Using synced storage");
 			//dataStore = chrome.storage.sync;
 			//dataStoreLoc = data.dataStore;
 		}
 		else if (typeof(data.dataStore) === "undefined")
 		{
+			logger("info", "Storage", "Using synced storage - init");
 			//chrome.storage.local.set({"dataStore": "sync"});
 			//dataStore = chrome.storage.sync;
+		}
+		else {
+			logger("Info", "Storage", "Using local storage");
 		}
 		
 		baton.pass();
