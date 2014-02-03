@@ -110,8 +110,6 @@ Initialize popup
 function initPopupPage(year, month)
 {	
 	try {
-		//Load CSS
-		loadjscssfile("css/colors.css", "css");
 	
 		//Set page title for tracking
 		document.title = version.currVersion;
