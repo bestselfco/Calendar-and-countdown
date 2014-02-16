@@ -101,7 +101,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify', 'compress', 'copy']);
+  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify', 'copy','compress']);
   
   grunt.registerTask('css', ['copy']);
 
