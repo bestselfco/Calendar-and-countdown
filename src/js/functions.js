@@ -138,6 +138,7 @@ function getDefaultSettings()
 	tmpSettings.showBubbleOnStart = true;
 	tmpSettings.showWorkDays = true;
 	tmpSettings.showPastDays = true;
+	tmpSettings.easyRead = 0;
 	
 	tmpSettings.maxNumberOfSecondaryDaysInPopup = 15;
 	

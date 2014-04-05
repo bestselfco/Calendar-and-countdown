@@ -101,11 +101,12 @@ function updateIconFromStored()
 		iconSetup.textColor = settings.iconTextColor;
 		iconSetup.topColor = settings.iconTopColor;
 		iconSetup.showNumbers = settings.iconShowText;
+		iconSetup.easyRead = settings.easyRead;
 		
 		if(iconSetup.showNumbers == "1") iconSetup.fillText = new Date().getDate(); //Today
 		else if (iconSetup.showNumbers == "2") iconSetup.fillText = getDistanceInDays(); //Countdown
 		else iconSetup.fillText = 0; //Nothing, so why bother
-		
+				
 		var tmpIconCanvas = document.createElement("canvas");
 
 		tmpIconCanvas.getContext("2d").putImageData(new Icon(iconSetup).getImage(),0,0);  

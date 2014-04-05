@@ -104,6 +104,20 @@ function init()
 			$("#showBubbleOnStart0").prop('checked', true);
 			//document.getElementById("showBubbleOnStart0").checked = true;
 		}
+
+		var easyRead = settings.easyRead;
+		if(easyRead === 1)
+		{
+			$("#easyRead1").prop('checked', true);
+		}
+		else if(easyRead === 2)
+		{
+			$("#easyRead2").prop('checked', true);
+		}
+		else
+		{
+			$("#easyRead0").prop('checked', true);
+		}
 		
 		var dateFormatShort = settings.dateFormatShort;
 		if(dateFormatShort == "yy-mm-dd")
@@ -199,6 +213,10 @@ function init()
 		
 		$("#showBubbleOnStart0").off().on("click", function() { changeSetting("showBubbleOnStart", false, true); });
 		$("#showBubbleOnStart1").off().on("click", function() { changeSetting("showBubbleOnStart", true, true); });
+
+		$("#easyRead0").off().on("click", function() { changeSetting("easyRead", 0, true); });
+		$("#easyRead1").off().on("click", function() { changeSetting("easyRead", 1, true); });
+		$("#easyRead2").off().on("click", function() { changeSetting("easyRead", 2, true); });
 		
 		$("#dateShort0").off().on("click", function() { changeSetting("dateFormatShort", "dd.mm.yy", true); });
 		$("#dateShort1").off().on("click", function() { changeSetting("dateFormatShort", "mm-dd-yy", true); });
