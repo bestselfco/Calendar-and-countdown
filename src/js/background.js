@@ -129,13 +129,10 @@ Set the popup page
 function updatePopupFromStored()
 {
 	try {
-		var popup = settings.popup;
-				
-		if(popup == "3") page = "popup_3.html";
-		else if(popup == "L") page = "popup_list.html";
-		else page = "popup_12.html";
 		
+		page = "popup_12.html";
 		chrome.browserAction.setPopup({popup:page});
+		
 	}
 	catch(e)
 	{
@@ -158,7 +155,6 @@ function setToolTip(text)
 		handleError("Background setToolTip", e);
 	}
 }
-
 
 /**
 *Update the badge from the stored countdown date

@@ -53,7 +53,7 @@ module.exports = function(grunt) {
 	   	copy: {
 	   		expand: true,
 	   		cwd: 'src/',
-	   		src: ['*.html', 'js/calendar_3.js', 'css/*.css','fonts/*', '_locales/en/*.json', 'pics/*', 'manifest.json'],
+	   		src: ['*.html', 'css/*.css','fonts/*', '_locales/en/*.json', 'pics/*', 'manifest.json'],
 	   		dest: '<%= dirs.dest %>/'
 	   	},
 	   	jqueryui_css: {

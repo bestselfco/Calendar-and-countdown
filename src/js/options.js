@@ -66,11 +66,7 @@ function init()
 		}
 		
 		var popup = settings.popup;
-		if(popup == "3")
-		{	
-			$("#show31203").prop('checked', true);
-		}
-		else if(popup == "L")
+		if(popup == "L")
 		{
 			$("#show312L").prop('checked', true);
 		}
@@ -79,8 +75,6 @@ function init()
 			$("#show31212").prop('checked', true);
 		}
 		
-		
-	
 		var showweek = settings.showWeek;
 		if(showweek == "0")
 		{
@@ -195,7 +189,6 @@ function init()
 		$("#copyLocalCloud").off().on("click", function() { doOverwriteCloudWithLocal(); });
 		$("#copyCloudLocal").off().on("click", function() { doOverwriteLocalWithCloud(); });
 		
-		$("#show31203").off().on("click", function() { changeSetting("popup", 3, true); });
 		$("#show31212").off().on("click", function() { changeSetting("popup", 12, true); });
 		$("#show312L").off().on("click", function() { changeSetting("popup", "L", true); });
 		
