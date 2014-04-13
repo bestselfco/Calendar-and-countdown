@@ -376,10 +376,12 @@ function updateDatesStuff()
 function normalPopupShow(event)
 {
 	try {
+		
 		Tipped.create(event.originalEvent.target, function(element) {
 			var timestamp = $(element).attr("datetimestamp");
 			return getToolTip(timestamp);
 		}, { skin: 'kvasbo', showDelay: '450'});
+
 	}
 	catch(e)
 	{
