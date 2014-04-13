@@ -42,9 +42,10 @@ function trackPageView(pagetitle)
 {
 	if(!debug)
 	{
-		//_gaq.push(['_trackPageview', pagetitle]);
+		_gaq.push(['_trackPageview',  version.currVersion + "/" + pagetitle]);
 	}
 	else {
+		_gaq.push(['_trackPageview',  "debug/" + pagetitle]);
 		logger("debug", "TrackPageView", pagetitle);
 	}
 }

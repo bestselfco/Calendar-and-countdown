@@ -132,7 +132,7 @@ function updatePopupFromStored()
 		
 		page = "popup_12.html";
 		chrome.browserAction.setPopup({popup:page});
-		
+
 	}
 	catch(e)
 	{
@@ -338,6 +338,7 @@ function trackStartup()
 			{
 				pushSettingsToGoogleTracker();
 				trackEvent("Start", version.currVersion, "");
+				trackPageView("Start");
 			}
 			else {
 				logger("info", "Startup", "Retrying startup logging"); 

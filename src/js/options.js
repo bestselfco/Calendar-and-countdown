@@ -229,6 +229,7 @@ function init()
 			
 		$("#ccversion").html(version.currVersion);
 		
+		trackPageView("Options");
 		
 	}
 	catch(e)
