@@ -877,6 +877,7 @@ function Calendar(year, month)
 {
 
 	try {	
+		
 		//Functions
 		this.getCal = calGetCal;
 	
@@ -884,12 +885,10 @@ function Calendar(year, month)
 		this.year = year;
 		this.month = month;
 		this.workMonth = month-1;
-		
+
 		this.workDate = new Date(Date.UTC(year,this.workMonth,1));
 		
 		this.startStamp = Date.UTC(year,this.workMonth,1);
-		
-		this.offSet = this.workDate.getTimezoneOffset();
 		
 		this.outVars = {};
 	
@@ -910,7 +909,7 @@ function calGetCal(template)
 		//Set month name
 		this.outVars.monthName = ucFirst(chrome.i18n.getMessage("mon"+this.month));
 		
-		this.outVars.year = this.year; //.toString().substring(2,4);
+		this.outVars.year = this.year; 
 	
 		//Set week header value
 		this.outVars.weekShortName = chrome.i18n.getMessage("weekHeader");
@@ -936,6 +935,7 @@ function calGetCal(template)
 		}
 	
 		var startWeek = this.workDate.getWeek(1);
+
 		var startWeekDay = this.workDate.getUTCDay();
 		
 		var tabWidth = 8;
@@ -948,75 +948,21 @@ function calGetCal(template)
 		//	Screw rules, hard code instead. This is Monday first.
 		if(firstDayOfWeek == 1)
 		{
-			switch(startWeekDay)
+			if(tmpWeek === 0 && startWeekDay === 0) tmpWeek = 52; //Will fail in some years
+
+			if(startWeekDay === 0)
 			{
-			case 0:
-				tmpWeek = tmpWeek - 1;
-				if(tmpWeek === 0) tmpWeek = 52; //Will fail in some years
 				days = 6;
-				break;
-	
-			case 1:
-				days = 0;
-				break;
-	
-			case 2:
-				days = 1;
-				break;
-	
-			case 3:
-				days = 2;
-				break;
-	
-			case 4:
-				days = 3;
-				break;
-	
-			case 5:
-				days = 4;
-				break;
-	
-			case 6:
-				days = 5;
-				break;
-	
+			}
+			else
+			{
+				days = startWeekDay - 1;
 			}
 		}
 		else //Start on sunday.
 		{
-			switch(startWeekDay)
-			{
-			case 0:
-				tmpWeek = tmpWeek - 1;
-				if(tmpWeek === 0) tmpWeek = 52; //Will fail in some years
-				days = 0;
-				break;
-	
-			case 1:
-				days = 1;
-				break;
-	
-			case 2:
-				days = 2;
-				break;
-	
-			case 3:
-				days = 3;
-				break;
-	
-			case 4:
-				days = 4;
-				break;
-	
-			case 5:
-				days = 5;
-				break;
-	
-			case 6:
-				days = 6;
-				break;
-	
-			}
+			if(tmpWeek === 0 && startWeekDay === 0) tmpWeek = 52; //Will fail in some years
+			days = startWeekDay;
 		}
 	
 		//First week shown for month
@@ -1026,11 +972,11 @@ function calGetCal(template)
 		for(var i = 0; i < this.workDate.getDaysInMonth(); i++)
 		{
 			var dayStamp = this.startStamp + (i * 86400000);
-			var tmpDate = new Date(dayStamp);
-	
+		
 			if(days==7)
 			{	
 				currentWeek++;
+				var tmpDate = new Date(dayStamp);
 				this.outVars["w_"+currentWeek] = tmpDate.getWeek(1);
 				days = 0;
 			}

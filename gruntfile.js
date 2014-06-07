@@ -32,10 +32,6 @@ module.exports = function(grunt) {
       options: {
          banner: '<%= dirs.banner %>',
       },
-      jquery: {
-        src: ['src/js/libraries/jquery.js'],
-        dest: '<%= dirs.dest %>/js/jquery.js'
-      },
       options_javascript: {
       	src: ['src/js/date.extend.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/external_common.js', 'src/js/functions.js', 'src/js/options.js', 'src/js/icons.js',  'src/js/migrations.js', 'src/js/debug.js', 'src/js/googletrack.js', 'src/js/libraries/plusone.js'],
       	dest: '<%= dirs.dest %>/js/options_packed.js'
@@ -56,6 +52,10 @@ module.exports = function(grunt) {
 	   		src: ['*.html', 'css/*.css','fonts/*', '_locales/en/*.json', 'pics/*', 'manifest.json'],
 	   		dest: '<%= dirs.dest %>/'
 	   	},
+      jquery: {
+        src: ['src/js/libraries/jquery.js'],
+        dest: '<%= dirs.dest %>/js/jquery.js'
+      },
 	   	jqueryui_css: {
 	   		expand: true,
 	   		cwd: 'src/js/libraries/jquery-ui/css',
