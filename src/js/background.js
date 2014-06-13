@@ -104,7 +104,17 @@ function updateIconFromStored()
 		iconSetup.easyRead = settings.easyRead;
 		
 		if(iconSetup.showNumbers == "1") iconSetup.fillText = new Date().getDate(); //Today
-		else if (iconSetup.showNumbers == "2") iconSetup.fillText = getDistanceInDays(); //Countdown
+		else if (iconSetup.showNumbers == "2"){ //Count down (or blank!)
+			if(getDistanceInDays() !== null)
+			{
+				iconSetup.fillText = getDistanceInDays(); 
+			}
+			else
+			{
+				iconSetup.fillText = "";
+			}
+			
+		} //Countdown
 		else iconSetup.fillText = 0; //Nothing, so why bother
 				
 		var tmpIconCanvas = document.createElement("canvas");

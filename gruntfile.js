@@ -26,23 +26,18 @@ module.exports = function(grunt) {
       jqueryui: {
         src: ['src/js/libraries/jquery-ui/**/*.js'],
         dest: '<%= dirs.dest %>/js/jquery-ui.js'
-      }
-    },
-    uglify: {
-      options: {
-         banner: '<%= dirs.banner %>',
-      },
-      options_javascript: {
-      	src: ['src/js/date.extend.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/external_common.js', 'src/js/functions.js', 'src/js/options.js', 'src/js/icons.js',  'src/js/migrations.js', 'src/js/debug.js', 'src/js/googletrack.js', 'src/js/libraries/plusone.js'],
-      	dest: '<%= dirs.dest %>/js/options_packed.js'
       },
       cal_common_javascript: {
-      	src: ['src/js/libraries/jquery.js', 'src/js/libraries/mustache.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/libraries/tipped/js/tipped/tipped.unpacked.js', 'src/js/date.extend.js', 'src/js/templates.js', 'src/js/external_common.js', 'src/js/functions.js','src/js/calendar.js','src/js/tooltips_tipped.js','src/js/debug.js', 'src/js/googletrack.js'],
-      	dest: '<%= dirs.dest %>/js/calendar_common.js'
+        src: ['src/js/libraries/jquery.js', 'src/js/libraries/mustache.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/libraries/tipped/js/tipped/tipped.unpacked.js', 'src/js/date.extend.js', 'src/js/templates.js', 'src/js/external_common.js', 'src/js/functions.js','src/js/calendar.js','src/js/tooltips_tipped.js','src/js/debug.js', 'src/js/googletrack.js'],
+        dest: '<%= dirs.dest %>/js/calendar_common.js'
+      },
+      options_javascript: {
+        src: ['src/js/date.extend.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/external_common.js', 'src/js/functions.js', 'src/js/options.js', 'src/js/icons.js',  'src/js/migrations.js', 'src/js/debug.js', 'src/js/googletrack.js', 'src/js/libraries/plusone.js'],
+        dest: '<%= dirs.dest %>/js/options_packed.js'
       },
       background_javascript: {
-      	src: '<%= filesbackground %>',
-      	dest: '<%= dirs.dest %>/js/background_packed.js'
+        src: '<%= filesbackground %>',
+        dest: '<%= dirs.dest %>/js/background_packed.js'
       }
     },
     copy: {
@@ -92,7 +87,6 @@ module.exports = function(grunt) {
    }
   });
 
-  // Load the plugin that provides the "uglify" task.
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
@@ -101,7 +95,7 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify', 'copy','compress']);
+  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'copy','compress']);
   
   grunt.registerTask('css', ['copy']);
 
