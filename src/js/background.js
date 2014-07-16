@@ -172,25 +172,32 @@ function setToolTip(text)
 function updateBadgeFromStored()
 {
 	try{
+
 		var tmpDateArray = getDates();
+
 		if(tmpDateArray.length > 0)
 		{
-			var count = getDistanceInDays();
-		
-			if(count !== null)
-			{
-				setBadge(count);
+			var tStamp = tmpDateArray[0] * 1; //Cast to int
+
+			var countDate = new Date(tStamp * 1);
+
+			if(settings.showWorkDays === true)
+			{	
+				count  = countDate.getDistanceInWeekDaysFromToday();
 			}
 			else
 			{
-				chrome.browserAction.setBadgeText({text:""});
+				count = countDate.getDaysFromToday();
 			}
-			
+
+			setBadge(count);
+
 		}
 		else //We are not counting to anything, so we delete this.
 		{
 			chrome.browserAction.setBadgeText({text:""});
 		}
+
 	}
 	catch(e)
 	{
@@ -346,9 +353,9 @@ function trackStartup()
 	try {
 			if(typeof(settings.popup) !== "undefined")
 			{
-				pushSettingsToGoogleTracker();
-				trackEvent("Start", version.currVersion, "");
 				trackPageView("Start");
+				trackEvent("Start", version.currVersion, "");
+				pushSettingsToGoogleTracker();
 			}
 			else {
 				logger("info", "Startup", "Retrying startup logging"); 

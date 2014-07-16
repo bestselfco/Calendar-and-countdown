@@ -94,14 +94,6 @@ Date.prototype.getDayOfYear = function() {
 
 };
 
-//Get diff from this date to another given date. Does not clean up non-round numbers. 
-Date.prototype.getDistanceInDays = function (timestamp) {
-	
-	var diff = (this.getTime() - timestamp) / 86400000;
-	
-	return diff;
-};
-
 //Get day distance from today.  Does not clean up non-round numbers. 
 Date.prototype.getDaysFromToday = function () {
 
@@ -112,72 +104,57 @@ Date.prototype.getDaysFromToday = function () {
 	return diff;
 };
 
-//Get workdays distance.
+//Get diff from this date to another given date. Does not clean up non-round numbers. 
+Date.prototype.getDistanceInDays = function (timestamp) {
+	
+	var diff = (this.getTime() - timestamp) / 86400000;
+	
+	return diff;
+};
+
+//Get diff from this date to another given date, counting work days. Does not clean up non-round numbers. 
+Date.prototype.getDistanceInWeekDaysFromToday = function() {
+	var now = new Date();
+	
+	nowUtc = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
+	var diff = this.getDistanceInWeekDays(nowUtc);	
+
+	return diff;
+};
+
+//Get workdays distance. Looping, due to lack of will to think out a proper algorithm
 Date.prototype.getDistanceInWeekDays = function(timestamp)
 {
 
 	try {
 		var stop = new Date(timestamp);
 		var start = this;
-		var swapped = false;
-		
-		//console.log(start, stop);
 		
 		if(start > stop)
 		{
 			var tmp = stop; 
 			stop = start;
 			start = tmp;
-			swapped = true;
 		}
 		
-		//console.log(start, stop);
+		var days = 0;
 		
-		//Get total distance in days.
-		var diff = Math.abs(start.getDistanceInDays(stop));
-		
-		//logger("Debug", "Original days", diff);
-		
-		var numberOfWeeks = Math.floor(diff / 7);
-		
-		//logger("Debug", "Number of weeks", numberOfWeeks);
-		
-		days = diff - (numberOfWeeks * 2); //Taken out weekends for all full weeks.
-		
-		//logger("Debug", "Days before fix", days);
-		
-		var startDay = start.getDay();
-		var endDay = stop.getDay();
-		
-		//logger("Debug", "Start day", startDay);
-		
-		//logger("Debug", "End day", endDay);
-		
-		//add current day
-		days = days + 1;
-		
-		//logger("Debug", "w/today", days);
-		
-		if(endDay === 0) days = days - 2;
-		if(endDay == 6) days = days - 1;
-		if(startDay == 6) days = days - 2; 
-		if(startDay === 0) days = days - 1;
-		
-		//logger("Debug", "Fixed", days);
-		
-		//Just a weekend selected means 0
-		if(days < 3 && startDay == 6)
+		var startLoop = start.getTime();
+		var stopLoop = stop.getTime();
+
+		var step = 86400 * 1000;
+		for(i=startLoop; i <= stopLoop; i = i + step)
 		{
-			days = 0;
-		} 
-		
-		//invert if inverted
-		if(swapped)
-		days = days * -1;
+			var tmpDayForCount = new Date(i).getUTCDay();
+			if(tmpDayForCount !== 0 && tmpDayForCount !== 6)
+			{
+				days++;
+			}
+		}
 		
 		return days;
 	}
-	catch(ex)
+	catch(e)
 	{
 		handleError("date.extend.js Date.prototype.getDistanceInWeekDays", e);
 		return 0;

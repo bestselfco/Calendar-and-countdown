@@ -72,30 +72,17 @@ module.exports = function(grunt) {
     },
     jshint: {
        check: ['src/js/*.js', 'js/manifest.json']
-     },
-   compress: {
-     main: {
-       options: {
-         archive: '../Builds/<%= manifest.version %>.zip'
-       },
-       files: [
-         {
-        expand: true, cwd: '../Builds/<%= manifest.version %>/', src: ['**'], dest: '/'
-         } // includes files in path
-         ]
      }
-   }
   });
 
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
-  grunt.loadNpmTasks('grunt-contrib-compress');
   grunt.loadNpmTasks('grunt-contrib-jshint');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'copy','compress']);
+  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'copy']);
   
   grunt.registerTask('css', ['copy']);
 
