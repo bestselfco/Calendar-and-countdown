@@ -175,6 +175,8 @@ function updateBadgeFromStored()
 
 		var tmpDateArray = getDates();
 
+		var count = 0;
+
 		if(tmpDateArray.length > 0)
 		{
 			var tStamp = tmpDateArray[0] * 1; //Cast to int
