@@ -119,7 +119,7 @@ Date.prototype.getDistanceInWeekDaysFromToday = function() {
 	nowUtc = Date.UTC(now.getFullYear(),now.getMonth(), now.getDate());
 	var diff = this.getDistanceInWeekDays(nowUtc);	
 
-	return diff;
+	return Math.max(diff-1,0);
 };
 
 //Get workdays distance. Looping, due to lack of will to think out a proper algorithm
