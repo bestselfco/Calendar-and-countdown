@@ -98,5 +98,5 @@ function trackEvent(type, category, text)
 ga('create', 'UA-21196533-2', 'auto');
 ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
 ga('require', 'displayfeatures');
-trackPageView(version.currVersion + document.location.pathname)
+trackPageView(document.location.pathname)
 
