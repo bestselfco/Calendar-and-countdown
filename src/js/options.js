@@ -229,7 +229,8 @@ function init()
 			
 		$("#ccversion").html(version.currVersion);
 		
-		trackPageView("Options");
+		trackEvent("Interaction", "Open Options", "");
+
 		
 	}
 	catch(e)

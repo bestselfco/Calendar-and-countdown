@@ -24,9 +24,13 @@ function getStorageLocation(previous, baton)
 	baton.take();
 	
 	dataStore = chrome.storage.local;
-	
-	logger("info", "Storage", "Finding storage location");
-	
+		
+	baton.pass();
+
+	/*
+
+	//Not yet implemented well enough for use. Todo.
+
 	chrome.storage.local.get("dataStore", function(data) {
 	
 		if(typeof(data.dataStore) !== "undefined" && data.dataStore == "sync")
@@ -48,6 +52,8 @@ function getStorageLocation(previous, baton)
 		baton.pass();
 		
 	});
+
+	*/
 }
 
 

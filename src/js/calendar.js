@@ -101,7 +101,7 @@ function initCalendarPage() {
 function trackCalendarStart() {
 	//Track a page view
 	trackPageView("Calendar/"+settings.popup);
-	trackEvent("Interaction", "Open", settings.popup);
+	trackEvent("Interaction", "Open Calendar", settings.popup);
 }
 
 /**
