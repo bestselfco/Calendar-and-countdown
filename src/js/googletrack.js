@@ -31,7 +31,6 @@ function trackPageView(pagetitle)
 	if(!debug)
 	{
 		ga('send', 'pageview', version.currVersion + "/" + pagetitle);
-		//_gaq.push(['_trackPageview',  version.currVersion + "/" + pagetitle]);
 	}
 	else {
 		ga('send', 'pageview', "debug/" + pagetitle);
@@ -59,16 +58,12 @@ Track an event view to Google Analytics
 function trackEvent(type, category, text)
 {
 
-	//ga('send', 'event', 'category', 'action', 'opt_label', opt_value, {'nonInteraction': 1});
-
 	if(!debug)
 	{
 		ga('send', 'event', type + " (" + version.currVersion + ")", category, text);
-		//_gaq.push(['_trackEvent', type + " (" + version.currVersion + ")" , category, text]);
 	}
 	else {
 		ga('send', 'event', type + " (debug)", category, text);
-		//_gaq.push(['_trackEvent', type + " (debug)" , category, text]);
 		logger("info", "TrackEvent",  type + " / " + category + " / " + text);
 	}
 }
@@ -76,5 +71,4 @@ function trackEvent(type, category, text)
 ga('create', 'UA-21196533-2', 'auto');
 ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
 ga('require', 'displayfeatures');
-trackPageView(document.location.pathname)
-
+trackPageView("Background");
