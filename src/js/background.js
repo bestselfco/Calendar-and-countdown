@@ -36,7 +36,6 @@ function addListeners()
 		{	
 			chrome.runtime.onUpdateAvailable.addListener(function(details) {
 			
-				//trackEvent("Event upgrade", version.currVersion, "");
 				chrome.runtime.reload();
 			
 			});
@@ -89,7 +88,7 @@ function maintain()
 		
 		if(maintainCycles % 10 === 0)
 		{
-			trackEvent("Maintenance", "Normal run", maintainCycles);
+			trackEvent("Background", "Maintenance - Normal run", maintainCycles);
 		}
 		
 		logger("info", "Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
@@ -111,7 +110,7 @@ function emergencyMaintain()
 {
 	if(maintainCycles % 10 === 0)
 	{
-		trackEvent("Maintenance", "Emergency maintenance", "");	
+		trackEvent("Background", "Emergency maintenance", "");	
 	}
 	
 	maintain();
@@ -364,13 +363,6 @@ chrome.runtime.onInstalled.addListener(function(details) {
 	
 });
 
-//Log normal startup
-chrome.runtime.onStartup.addListener(function() {
-	
-	window.setTimeout(trackStartup, 1000);
-		
-});
-
 var backupTimer;
 
 //Do the actual bootup routine
@@ -379,25 +371,7 @@ $(document).ready(function() {
 	backupTimer = window.setTimeout(emergencyMaintain, 7200000); //Emergency maintenance
 });
 
-function trackStartup()
-{
-	try {
-			if(typeof(settings.popup) !== "undefined")
-			{
-				trackEvent("Start", version.currVersion, "");
-			}
-			else {
-				logger("info", "Startup", "Retrying startup logging"); 
-				window.setTimeout(trackStartup, 1000);
-			}
-	}
-	catch (err)
-	{
-		handleError("trackStartup", err);
-	}
-}
-
-//Perform the last restort boot.
+//Perform the last resort boot.
 function bgBoot()
 {
 	if(!iHaveStarted)

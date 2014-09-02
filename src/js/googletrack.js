@@ -68,7 +68,14 @@ function trackEvent(type, category, text)
 	}
 }
 
-ga('create', 'UA-21196533-2', 'auto');
-ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
-ga('require', 'displayfeatures');
-trackPageView("Background");
+try{
+	ga('create', 'UA-21196533-2', 'auto');
+	ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
+	ga('require', 'displayfeatures');
+	trackPageView("Background");
+	trackEvent("Background", "Start", version.currVersion);
+}
+catch(e)
+{
+
+}
