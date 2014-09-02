@@ -74,7 +74,7 @@ Maintain data
 function maintain()
 {
 	try {
-		maintainCycles++;
+		
 		
 		var nowNew = new Date();
 		todayStamp = Date.UTC(nowNew.getFullYear(),nowNew.getMonth(), nowNew.getDate());
@@ -87,7 +87,14 @@ function maintain()
 		window.clearTimeout(backupTimer);
 		backupTimer = window.setTimeout(emergencyMaintain, 3600000);
 		
+		if(maintainCycles % 10 === 0)
+		{
+			trackEvent("Maintenance", "Normal run", maintainCycles);
+		}
+		
 		logger("info", "Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
+		
+		maintainCycles++;
 		
 		return true;
 	}
