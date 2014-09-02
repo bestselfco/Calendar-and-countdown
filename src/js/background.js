@@ -109,7 +109,11 @@ function maintain()
 //If alarm does not work, perform emergency maintainance
 function emergencyMaintain()
 {
-	trackEvent("Background", "Emergency maintenance", version.currVersion);
+	if(maintainCycles % 10 === 0)
+	{
+		trackEvent("Maintenance", "Emergency maintenance", "");	
+	}
+	
 	maintain();
 }
 
