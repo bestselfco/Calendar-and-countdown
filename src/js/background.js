@@ -373,9 +373,7 @@ function trackStartup()
 	try {
 			if(typeof(settings.popup) !== "undefined")
 			{
-				//trackPageView("Start");
 				trackEvent("Start", version.currVersion, "");
-				//pushSettingsToGoogleTracker();
 			}
 			else {
 				logger("info", "Startup", "Retrying startup logging"); 
