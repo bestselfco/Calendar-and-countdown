@@ -42,7 +42,25 @@ function addListeners()
 			});
 		}
 		
+		/*
 		
+		chrome.runtime.sendMessage({action: "trackPage"}, function(response) {
+		  console.log(response.state);
+		});
+		
+		*/
+		
+		//Add listener for messages - to centralize tracking code in one place.
+		chrome.runtime.onMessage.addListener(
+		  function(request, sender, sendResponse) {
+			if (request.action == "trackPage")
+				sendResponse({state: "ok"});
+				//Do the stuff here
+			});
+			if (request.action == "trackEvent")
+				sendResponse({state: "ok"});
+				//Do the stuff here
+			});
 	}
 	catch(e)
 	{
