@@ -318,12 +318,13 @@ function setupMaintainLoop()
 {
 	try{
 		
+		var maintenanceMinutes = 6;
 		var d = new Date();
-		var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+5, 0);
+		var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+maintenanceMinutes, 0);
 		
 		var aInfo = {}; //new Object();
 		aInfo.when = ad.getTime();
-		aInfo.periodInMinutes = 5;
+		aInfo.periodInMinutes = maintenanceMinutes;
 				
 		chrome.alarms.create("MaintainAlarm", aInfo);
 		
