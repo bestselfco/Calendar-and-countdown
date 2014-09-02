@@ -82,10 +82,6 @@ function maintain()
 		
 		maintainChain.start();
 		
-		//Reset the backup timer
-		window.clearTimeout(backupTimer);
-		backupTimer = window.setTimeout(emergencyMaintain, 3600000);
-		
 		if(maintainCycles % 10 === 0)
 		{
 			trackEvent("Background", "Maintenance - Normal run", maintainCycles);
@@ -113,7 +109,11 @@ function emergencyMaintain()
 		trackEvent("Background", "Emergency maintenance", "");	
 	}
 	
+	window.clearTimeout(backupTimer);
+	backupTimer = window.setTimeout(emergencyMaintain, 7200000);
+	
 	maintain();
+	
 }
 
 /**
