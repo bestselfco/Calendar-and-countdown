@@ -283,14 +283,8 @@ function getDistanceInDays()
 			
 				var diff = Math.abs(badgeDate.getDistanceInDays(todayStamp));
 	
-				if(badgeDate.getFullYear() > 1980 && badgeDate.getFullYear() < 2050)
-				{
-					return diff; //All is well;
-				}
-				else
-				{
-					return null; //Too large
-				}
+				return diff; //All is well;
+				
 			}
 			catch(err)
 			{
