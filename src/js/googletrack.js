@@ -10,12 +10,12 @@ Push settings to Google Analytics
 function pushSettingsToGoogleTracker()
 {
 	try {
-		logger("info", "Startup", "Pushing settings to Google tracker. Not active.");
-        //_gaq.push(['_setCustomVar', 1, "popup", settings.popup, 2]);
-        //_gaq.push(['_setCustomVar', 2, "showWeek", settings.showWeek, 2]);
-        //_gaq.push(['_setCustomVar', 3, "firstDay", settings.firstDay, 2]);
-        //_gaq.push(['_setCustomVar', 4, "showBubble", settings.showBubbleOnStart, 2]);
-        //_gaq.push(['_setCustomVar', 5, "dataOnline", settings.storeDataOnline, 2]);
+		logger("info", "Startup", "Pushing settings to Google tracker.");
+        ga('set', 'dimension1', version.currVersion);
+		ga('set', 'dimension2', settings.popup);
+		ga('set', 'dimension3', settings.showWeek);
+		ga('set', 'dimension4', settings.firstDay);
+		ga('set', 'dimension5', settings.showBubbleOnStart);
 	}
 	catch(e)
 	{
