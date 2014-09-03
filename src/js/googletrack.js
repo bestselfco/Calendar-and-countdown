@@ -28,12 +28,11 @@ Track a page view to Google
 */
 function trackPageView(pagetitle)
 {
-	if(!debug)
+
+	ga('send', 'pageview', pagetitle);
+	
+	if(debug)
 	{
-		ga('send', 'pageview', version.currVersion + "/" + pagetitle);
-	}
-	else {
-		ga('send', 'pageview', "debug/" + pagetitle);
 		logger("debug", "TrackPageView", pagetitle);
 	}
 }
@@ -58,12 +57,10 @@ Track an event view to Google Analytics
 function trackEvent(type, category, text)
 {
 
-	if(!debug)
+	ga('send', 'event', type , category, text);
+
+	if(debug)
 	{
-		ga('send', 'event', type + " (" + version.currVersion + ")", category, text);
-	}
-	else {
-		ga('send', 'event', type + " (debug)", category, text);
 		logger("info", "TrackEvent",  type + " / " + category + " / " + text);
 	}
 }
@@ -77,5 +74,5 @@ try{
 }
 catch(e)
 {
-
+	console.log(e);
 }
