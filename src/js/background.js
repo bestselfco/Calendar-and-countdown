@@ -222,7 +222,7 @@ function updateBadgeFromStored()
 
 			if(count > 9999)
 			{
-				count = "+++";
+				count = "+";
 			}
 			
 			setBadge(count);

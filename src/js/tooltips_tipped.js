@@ -311,7 +311,7 @@ function getCountDownDiffString(ndate, countToDate)
 		}
 		
 		//"Days from countdown date"
-		if( isNaN(dayDiffCountDate) === false && dayDiffCountDate !== 0 && dayDiffCountDate < 5000) {
+		if( isNaN(dayDiffCountDate) === false && dayDiffCountDate !== 0) {
 	
 			var suffix  = "";
 	
