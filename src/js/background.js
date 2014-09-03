@@ -220,6 +220,11 @@ function updateBadgeFromStored()
 				count = countDate.getDaysFromToday();
 			}
 
+			if(count > 9999)
+			{
+				count = "+++";
+			}
+			
 			setBadge(count);
 
 		}
