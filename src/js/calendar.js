@@ -358,7 +358,7 @@ function updateDatesStuff()
 	try {
 			
 		//Bind clicks and mouseovers for dates - dialog on right click!
-		$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClicked).on("contextmenu", dayRightClickedDialog).on("mousedown", startDynamic);	
+		$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClickedDialog).on("mousedown", startDynamic).on("contextmenu", dayRightClicked); //.	
 	
 		//Highlight today
 		highLightToday();
@@ -393,21 +393,21 @@ function normalPopupShow(event)
 /**
 Open dialog on right click
 */
-function dayRightClickedDialog(event)
+function dayClickedDialog(event)
 {	
 	try {
-		event.preventDefault();
+		//event.preventDefault();
 			
 		var timestamp = $(event.originalEvent.target).attr("datetimestamp");
 		var target = event.originalEvent.target.id;
 			
 		lastEventDate = timestamp;
 		
-		var tip = Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: 'click-outside', closeButton: true, showOn: false, onShow: updateRightClickToolTipMenu, onHide: resetRightClickToolTipMenu});
+		var tip = Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: false, closeButton: true, showOn: false, onShow: updateRightClickToolTipMenu, onHide: resetRightClickToolTipMenu});
 		
 		tip.show();
 		
-		trackEvent("Interaction", "Calendar", "Right click menu");
+		trackEvent("Interaction", "Calendar", "Interactive popup");
 		
 	}
 	catch(e)
@@ -753,16 +753,12 @@ function setColorForDate(timestamp, color, remove)
 /**
 New version when somebody has clicked a date. Uses attribute instead of passing value by function.
 */
-function dayClicked(event)
+function dayRightClicked(event)
 {
 	
-	var timestamp = $(event.target).attr('datetimestamp');
-    
-	setMainDate(timestamp);
+	event.preventDefault();
+	return false;
 	
-	trackEvent("Interaction", "Calendar", "Main date set");
-		
-	return false; //Kill propagation	
 }
 
 
