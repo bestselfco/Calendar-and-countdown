@@ -141,27 +141,28 @@ function bindEvents()
 {
 	
 	try {
-		$("body").off().on("keydown", function() { keyPressed(window.event.keyCode);});	
+		
+			$("body").off().on("keydown", function() { keyPressed(window.event.keyCode);}).on("contextmenu", dayRightClicked);	
 
-		//Make year links work
-		$(".yearlink").off().on("click", function() { yearClicked(event); });
+			//Make year links work
+			$(".yearlink").off().on("click", function() { yearClicked(event); });
 
-		//Test scroll wheel
-		if (settings.popup == 12) {
-			document.addEventListener("mousewheel", MouseWheelHandler, false);
+			//Test scroll wheel
+			if (settings.popup == 12) {
+				document.addEventListener("mousewheel", MouseWheelHandler, false);
+			}
+			
+			chrome.storage.onChanged.addListener(function(changes, namespace) {
+			
+			updateCalendarPageStart(); //Run maintenance whenever storage has changed for some reason
+			logger("info", "Cal maintenance", "Run because of storage change");
+			
+			});
+			
 		}
-		
-		chrome.storage.onChanged.addListener(function(changes, namespace) {
-		
-		updateCalendarPageStart(); //Run maintenance whenever storage has changed for some reason
-		logger("info", "Cal maintenance", "Run because of storage change");
-		
-		});
-		
-	}
-	catch(e)
-	{
-		handleError("Calendar.js bindEvents" ,e);
+		catch(e)
+		{
+			handleError("Calendar.js bindEvents" ,e);
 	}
 	
 }
