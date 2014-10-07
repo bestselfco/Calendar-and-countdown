@@ -142,20 +142,10 @@ function bindEvents()
 	
 	try {
 		$("body").off().on("keydown", function() { keyPressed(window.event.keyCode);});	
-		$("#ym6").off().on("click", function() { yearClicked(event); });
-		$("#ym5").off().on("click", function() { yearClicked(event); });
-		$("#ym4").off().on("click", function() { yearClicked(event); });
-		$("#ym3").off().on("click", function() { yearClicked(event); });
-		$("#ym2").off().on("click", function() { yearClicked(event); });
-		$("#ym1").off().on("click", function() { yearClicked(event); });
-		$("#yearLabel").off().on("click", function() { yearClicked(event); });
-		$("#yp6").off().on("click", function() { yearClicked(event); });
-		$("#yp5").off().on("click", function() { yearClicked(event); });
-		$("#yp4").off().on("click", function() { yearClicked(event); });
-		$("#yp3").off().on("click", function() { yearClicked(event); });
-		$("#yp2").off().on("click", function() { yearClicked(event); });
-		$("#yp1").off().on("click", function() { yearClicked(event); });
-		
+
+		//Make year links work
+		$(".yearlink").off().on("click", function() { yearClicked(event); });
+
 		//Test scroll wheel
 		if (settings.popup == 12) {
 			document.addEventListener("mousewheel", MouseWheelHandler, false);
