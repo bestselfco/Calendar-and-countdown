@@ -273,11 +273,16 @@ typeOfString:
 */
 function parseDayCountToString(numberOfDays, typeOfString)
 {
-	if(typeOfString === 1)
+	if(typeOfString == 1)
 	{
-		return numberOfDays + " days";
+		var suffix = "";
+		if(numberOfDays == 1)
+		{
+			suffix = "s";
+		}
+		return numberOfDays + " day" + suffix; 
 	}
-	else if(typeOfString === 2)
+	else if(typeOfString == 2)
 	{
 		var theRest = numberOfDays;
 		var outString = "";
@@ -350,10 +355,10 @@ function getCountDownDiffString(ndate, countToDate)
 		if( isNaN(dayDiffCountDate) === false && dayDiffCountDate !== 0) {
 	
 			var suffix  = "";
+			var daysString = parseDayCountToString(dayDiffCountDate, settings.countStringType);
 	
-			if(Math.abs(dayDiffCountDate) != 1) suffix = chrome.i18n.getMessage("several_suffix"); //"s" if > one
-	
-			outputString = dayDiffCountDate+" "+chrome.i18n.getMessage("day")+suffix+" "+localNote;
+			outputString = daysString + " " + localNote;
+			
 			return "<div class='popup'>"+outputString+"</div>";
 		}
 		else

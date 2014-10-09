@@ -7,7 +7,7 @@
   "description": "Show a full year calendar and count down to any number of dates. Add notes and colors to days, and check the distance between them.",
   "options_page": "options.html",
   "manifest_version": 2,
-  "content_security_policy": "script-src 'self' https://www.google-analytics.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' https://apis.google.com https://www.google-analytics.com; object-src 'self'",
   "background":
   {
 	"scripts": [

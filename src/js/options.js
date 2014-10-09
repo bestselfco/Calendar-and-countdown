@@ -152,6 +152,16 @@ function init()
 			$("#setIconText0").prop('checked', true);
 			//document.getElementById("setIconText0").checked = true;
 		}
+
+		var countStringType = settings.countStringType;
+		if(countStringType == 2)
+		{
+			$("#countDownFormat1").prop('checked', true);
+		}
+		else
+		{
+			$("#countDownFormat0").prop('checked', true);
+		}
 		
 		//if(dataStoreLoc == "local") document.getElementById("sync0").checked = true;
 		//if(dataStoreLoc == "sync") document.getElementById("sync1").checked = true;
@@ -222,6 +232,9 @@ function init()
 		$("#firstMonth1").off().on("click", function() { changeSetting("showFrom", 1, true); });
 		$("#firstMonth2").off().on("click", function() { changeSetting("showFrom", 2, true); });
 		$("#firstMonth3").off().on("click", function() { changeSetting("showFrom", 3, true); });
+
+		$("#countDownFormat0").off().on("click", function() { changeSetting("countStringType", 1, true); });
+		$("#countDownFormat1").off().on("click", function() { changeSetting("countStringType", 2, true); });
 		
 		$(".badgeColorSelector").off().on("click", function () { changeBadgeColor(this); });
 		

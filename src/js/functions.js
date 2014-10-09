@@ -145,6 +145,7 @@ function getDefaultSettings()
 	tmpSettings.showWorkDays = false;
 	tmpSettings.showPastDays = true;
 	tmpSettings.easyRead = 0;
+	tmpSettings.countStringType = 1;
 	
 	tmpSettings.maxNumberOfSecondaryDaysInPopup = 15;
 	

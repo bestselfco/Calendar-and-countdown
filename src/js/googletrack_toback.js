@@ -8,10 +8,10 @@ function trackPageView(pagetitle)
 	tmp.action = "trackPageView";
 	tmp.pagetitle = pagetitle;
 	
-	console.log(tmp);
+	
 	
 	chrome.runtime.sendMessage(tmp, function(response) {
-		console.log(response);
+		
 	});
 	
 }
@@ -24,10 +24,10 @@ function trackEvent(type, category, text)
 	tmp.category = category;
 	tmp.text = text;
 	
-	console.log(tmp);
+	
 	
 	chrome.runtime.sendMessage(tmp, function(response) {
-		console.log(response);
+		
 	});
 	
 }
@@ -40,10 +40,10 @@ function trackError(where, category, text)
 	tmp.category = category;
 	tmp.text = text;
 	
-	console.log(tmp);
+	
 	
 	chrome.runtime.sendMessage(tmp, function(response) {
-		console.log(response);
+		
 	});
 	
 }

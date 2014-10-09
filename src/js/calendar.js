@@ -834,7 +834,7 @@ function populateListStyle()
 			var d = ccDates[dt];
 			var data = {};
 			
-			console.log(d);
+			
 			
 			var dagen = new Date(dt);
 			
