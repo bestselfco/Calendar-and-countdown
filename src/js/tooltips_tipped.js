@@ -179,7 +179,6 @@ function getToolTipNormal(timestamp){
 		var showFromMarkedDate = true;
 		var showSubDates = true;
 		
-		
 			
 		if(showDate)
 		{
@@ -201,43 +200,50 @@ function getToolTipNormal(timestamp){
 		
 		if(showFromToday)
 		{
-			var fromToday = date.getDistanceInDays(todayStamp);
-			
-			var suffix  = "";
-			
-			if(Math.abs(fromToday) != 1)
+
+			if(dates.mainDateArray.length !== 0)
 			{
-				suffix = chrome.i18n.getMessage("several_suffix"); //"s" if one
+
+				var fromToday = date.getDistanceInDays(todayStamp);
+				
+				var suffix  = "";
+				
+				if(Math.abs(fromToday) != 1)
+				{
+					suffix = chrome.i18n.getMessage("several_suffix"); //"s" if one
+				}
+		
+				var countDown;
+				if(fromToday < 0)
+					{
+						countDown = Math.abs(fromToday)+" "+chrome.i18n.getMessage("day", "test")+suffix+" "+chrome.i18n.getMessage("ago");	
+						outArray.push("<div class='popup'>"+countDown+"</div>");
+					}
+					else if(fromToday > 0)
+					{
+						countDown = fromToday+" "+chrome.i18n.getMessage("day")+suffix+" "+chrome.i18n.getMessage("leftuntil")+".";
+						outArray.push("<div class='popup'>"+countDown+"</div>");
+					}
+
 			}
-	
-			var countDown;
-			if(fromToday < 0)
-				{
-					countDown = Math.abs(fromToday)+" "+chrome.i18n.getMessage("day", "test")+suffix+" "+chrome.i18n.getMessage("ago");	
-					outArray.push("<div class='popup'>"+countDown+"</div>");
-				}
-				else if(fromToday > 0)
-				{
-					countDown = fromToday+" "+chrome.i18n.getMessage("day")+suffix+" "+chrome.i18n.getMessage("leftuntil")+".";
-					outArray.push("<div class='popup'>"+countDown+"</div>");
-				}
 								
 		}
 			
 		
-				
-		if(showFromMarkedDate && timestamp != getMainDate())
+		//Show distance between this date and main date, if main date is set and not selected date.				
+		if(showFromMarkedDate && timestamp != getMainDate() && dates.mainDateArray.length !== 0)
 		{
 			outArray.push(getCountDownDiffString(date, getMainDate()));
 		}
 		
 		var subDates = getSubDates();
-		var numberOfSubdates = subDates.length;
-				
-		if(showSubDates)
+		var numberOfSubdates = subDates.length;		
+		
+		if(showSubDates && dates.subDateArray.length !== 0)
 		{	
 			for(k = 0; k < Math.min(numberOfSubdates, settings.maxNumberOfSecondaryDaysInPopup); k++)
 			{	
+
 				if(timestamp.toString() !== subDates[k].toString())
 				{
 					var outString = "";
@@ -276,7 +282,7 @@ function parseDayCountToString(numberOfDays, typeOfString)
 	if(typeOfString == 1)
 	{
 		var suffix = "";
-		if(numberOfDays == 1)
+		if(numberOfDays != 1)
 		{
 			suffix = "s";
 		}
