@@ -264,7 +264,45 @@ function getToolTipNormal(timestamp){
 		
 }
 
+/*
+* Parse remaining time to a more readable string.
+typeOfString: 
+0: no change
+1: add " days"
+2: parse to _y_w_d format.
+*/
+function parseDayCountToString(numberOfDays, typeOfString)
+{
+	if(typeOfString === 1)
+	{
+		return numberOfDays + " days";
+	}
+	else if(typeOfString === 2)
+	{
+		var theRest = numberOfDays;
+		var outString = "";
+		if(theRest > 365)
+		{
+			var years = Math.floor(theRest/365);
+			outString = outString + years + "y";
+			theRest = theRest % 365;
+		}
+		if(theRest > 7)
+		{
+			var weeks = Math.floor(theRest/7);
+			outString = outString + weeks + "w";
+			theRest = theRest % 7;
+		}
 
+		outString = outString + theRest + "d";
+
+		return outString;
+	}
+	else
+	{
+		return numberOfDays;
+	}
+}
 
 /**
 Show countdown for date
