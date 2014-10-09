@@ -133,29 +133,13 @@ body {
 	display: block;
 }
 
-/**
-.last, .next{
-	position: absolute;
-	top: 6px;
-	cursor: pointer;
-	z-index: 1;
-}
-
-.last {
-	left: 25px;
-}
-
-.next{
-	right: 25px;
-}
-**/
-
 .yearlink {
 	cursor: pointer;
 	color: rgb(200,200,200);
 	margin-left: 7px;
 	margin-right: 8px;
 	font-weight: normal;
+	font-size: 12pt;
 }
 
 .yearlink:hover {

@@ -279,29 +279,37 @@ typeOfString:
 */
 function parseDayCountToString(numberOfDays, typeOfString)
 {
-	if(typeOfString == 1)
+	var theRest = numberOfDays;
+	var outString = "";
+	var years;
+	var weeks;
+
+	if(typeOfString == 3)
 	{
-		var suffix = "";
-		if(numberOfDays != 1)
-		{
-			suffix = "s";
-		}
-		return numberOfDays + " day" + suffix; 
-	}
-	else if(typeOfString == 2)
-	{
-		var theRest = numberOfDays;
-		var outString = "";
+		
 		if(theRest > 365)
 		{
-			var years = Math.floor(theRest/365);
-			outString = outString + years + "y";
+			years = Math.floor(theRest/365);
+			outString = outString + years + "y ";
+			theRest = theRest % 365;
+		}
+		outString = outString + theRest + "d";
+
+		return outString;
+	}
+	if(typeOfString == 2)
+	{
+	
+		if(theRest > 365)
+		{
+			years = Math.floor(theRest/365);
+			outString = outString + years + "y ";
 			theRest = theRest % 365;
 		}
 		if(theRest > 7)
 		{
-			var weeks = Math.floor(theRest/7);
-			outString = outString + weeks + "w";
+			weeks = Math.floor(theRest/7);
+			outString = outString + weeks + "w ";
 			theRest = theRest % 7;
 		}
 
@@ -309,9 +317,14 @@ function parseDayCountToString(numberOfDays, typeOfString)
 
 		return outString;
 	}
-	else
+	else //Default to " x days"
 	{
-		return numberOfDays;
+		var suffix = "";
+		if(numberOfDays != 1)
+		{
+			suffix = "s";
+		}
+		return numberOfDays + " day" + suffix; 
 	}
 }
 

@@ -147,10 +147,10 @@ function init()
 			$("#setIconText1").prop('checked', true);
 			//document.getElementById("setIconText1").checked = true;
 		}
-		else if (iconTextStyle === 0) 
+		else
 		{
 			$("#setIconText0").prop('checked', true);
-			//document.getElementById("setIconText0").checked = true;
+			
 		}
 
 		var countStringType = settings.countStringType;
@@ -158,9 +158,14 @@ function init()
 		{
 			$("#countDownFormat1").prop('checked', true);
 		}
+		else if(countStringType == 3)
+		{
+			$("#countDownFormat2").prop('checked', true);
+		}
 		else
 		{
 			$("#countDownFormat0").prop('checked', true);
+			changeSetting("countStringType", 1, true);
 		}
 		
 		//if(dataStoreLoc == "local") document.getElementById("sync0").checked = true;
@@ -235,6 +240,7 @@ function init()
 
 		$("#countDownFormat0").off().on("click", function() { changeSetting("countStringType", 1, true); });
 		$("#countDownFormat1").off().on("click", function() { changeSetting("countStringType", 2, true); });
+		$("#countDownFormat2").off().on("click", function() { changeSetting("countStringType", 3, true); });
 		
 		$(".badgeColorSelector").off().on("click", function () { changeBadgeColor(this); });
 		
