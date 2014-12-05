@@ -72,29 +72,20 @@ function doMigrationOrInstall(details)
 			
 			try {
 				//Default to online storage if not set
-				if(false && compareVersions(details.previousVersion, "2013.3.15.2") == -1)
+				if(compareVersions(details.previousVersion, "2014.12.5.1") == -1)
 				{
 					trackEvent("Migration", "Storage location" , details.previousVersion);
-					doMigrateStorageLocation();
+					var settingsTimeout = setTimeout(doMigrateSettingsToCloud, 3000);
+					var storageTimeout = setTimeout(doMigrateStorageToCloud, 3000);
+
 				}
 			}
 			catch (err) 
 			{
-				handleError("doMigrationOrInstall date storage", err);
+				handleError("doMigrationOrInstall storage location", err);
 			}
 			
-			try {
-				//Default to online storage if not set
-				if(false && compareVersions(details.previousVersion, "2013.9") == -1)
-				{
-					trackEvent("Migration", "Date format" , details.previousVersion);
-					convertToDateObjects();
-				}
-			}
-			catch (err) 
-			{
-				handleError("doMigrationOrInstall date format", err);
-			}
+
 		}
 		else if(reason === "install")
 		{
@@ -280,99 +271,122 @@ function doMigrateDatesToNewStorageAPI()
 	
 }
 
-/**
-Init data storage to be local, and save it to localstorage
-*/
-function doMigrateStorageLocationToCloud()
-{	
-	var dataStoreTmp = {"dataStore": "sync"};
-	chrome.storage.local.set(dataStoreTmp);
-	
-	chrome.storage.sync.get("settings", function(data) {
-		if(typeof(data.settings) === "undefined")
-		{
-			doOverwriteCloudWithLocal();
-			
-		}
-	});
-	
 
-}
-
-function doMigrateStorageLocationToLocal()
+function doMigrateSettingsToCloud()
 {
-	var dataStoreTmp = {"dataStore": "local"};
-	chrome.storage.local.set(dataStoreTmp);
-	
-	chrome.storage.local.get("settings", function(data) {
-		if(typeof(data.settings) === "undefined")
-		{
-			doOverwriteLocalWithCloud();
-		}
-	});
-	
-	
-}
-
-function doOverwriteCloudWithLocal()
-{	
-	logger("debug", "Overwriting storage", "Local to cloud");
-	
-	chrome.storage.local.get("dates", function(data){
-		if(typeof(data.dates) !== "undefined")
-		{
-			chrome.storage.sync.set({"dates": data.dates}, function(){
-				logger("debug", "Copied dates", "Local to cloud");
-			});
-		}
-		else
-		{
-			logger("debug", "Failed date copy", "Local to cloud");
-		}
-	});
-	
 	chrome.storage.local.get("settings", function(data){
 		if(typeof(data.settings) !== "undefined")
 		{
 			chrome.storage.sync.set({"settings": data.settings}, function(){
 				logger("debug", "Copied settings", "Local to cloud");
+				chrome.storage.local.remove("settings");
 			});
 		}
 		else
 		{
-			logger("debug", "Failed settings copy", "Local to cloud");
+				logger("debug", "Failed settings copy", "Local to cloud");
 		}
 	});
-	
 }
 
-function doOverwriteLocalWithCloud()
-{
-	logger("debug", "Overwriting storage", "Cloud to local");
+function doMigrateStorageToCloud()
+{	
+	logger("debug", "Overwriting storage", "Local to cloud");
 	
-		chrome.storage.sync.get("dates", function(data){
+	var newObject = {};
+	newObject.dates = {};
+	var colTransfer = {};
+	var noteTransfer = {};
+
+	chrome.storage.local.get("dates", function(data){
+		
+		//console.log("Local", data.dates);
+		//console.log("Cloud", dates);
+
 		if(typeof(data.dates) !== "undefined")
 		{
-			chrome.storage.local.set({"dates": data.dates}, function(){
-				logger("debug", "Copied dates", "Cloud to local");
+			$.each(data.dates, function( index, value ) {
+			  
+			  if(index === "mainDateArray")
+			  {
+
+			  	if(dates.mainDateArray.length === 0) //It's empty, let's write
+			  	{
+			  		dates.mainDateArray[0] = data.dates.mainDateArray[0];
+			  	}
+			  	else
+			  	{
+			  		//Something there, lets's add the later ones as sub.
+			  		dates.subDateArray.push(data.dates.mainDateArray[0]);
+			  	}
+			  	
+			  }
+			  if(index === "subDateArray")
+			  {
+			  		dates.subDateArray = dates.subDateArray.concat(data.dates.subDateArray); 
+			  }
+			  if(index === "dateNoteArray")
+			  {
+			  		$.each(dates.dateNoteArray, function(colIn, colVal)
+					{
+						noteTransfer[colVal.timestamp] = colVal.note; // = colVal.color;
+					});	
+
+					$.each(value, function(colIn, colVal)
+					{
+
+						if(typeof(noteTransfer[colVal.timestamp]) !== "undefined") {
+
+							noteTransfer[colVal.timestamp] += " / " + colVal.note;
+						}
+						else
+						{
+							noteTransfer[colVal.timestamp] = colVal.note;
+						}
+					});
+
+					dates.dateNoteArray = [];
+					$.each(noteTransfer, function(colTK, colTV)
+					{
+						dates.dateNoteArray.push({"timestamp":colTK,"note":colTV});
+					});
+
+			  }
+			  if(index === "dateColorArray") //Colors
+			  {
+					$.each(dates.dateColorArray, function(colIn, colVal)
+					{
+						colTransfer[colVal.timestamp] = colVal.color; // = colVal.color;
+					});		
+
+					$.each(value, function(colIn, colVal)
+					{
+						colTransfer[colVal.timestamp] = colVal.color;
+					});
+
+					dates.dateColorArray = [];
+
+					$.each(colTransfer, function(colTK, colTV)
+					{
+						dates.dateColorArray.push({"timestamp":colTK,"color":colTV});
+					}
+					);	  	
+			  }
+
 			});
+
+			dates.subDateArray = ArrNoDupe(dates.subDateArray);
+
+			persistDatesToStorage(dates);
+
+			chrome.storage.local.remove("dates");
+
+			console.log("Ferdig konvertert", dates);
+
 		}
 		else
 		{
-			logger("debug", "Failed date copy", "Cloud to local");
-		}
-	});
-	
-	chrome.storage.sync.get("settings", function(data){
-		if(typeof(data.settings) !== "undefined")
-		{
-			chrome.storage.local.set({"settings": data.settings}, function(){
-				logger("debug", "Copied settings", "Cloud to local");
-			});
-		}
-		else
-		{
-			logger("debug", "Failed settings copy", "Cloud to local");
+			logger("debug", "Failed date copy", "Local to cloud");
 		}
 	});
 	

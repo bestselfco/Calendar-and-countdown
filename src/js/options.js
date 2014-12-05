@@ -1,9 +1,6 @@
-//var settings = {};
-//var dates = {};
-
 function initOptionsDo()
 {
-	var initOptionsChain = jWorkflow.order(getStorageLocation).andThen(readSettingsFromStorage).andThen(init);
+	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(init);
 	initOptionsChain.start();
 }
 

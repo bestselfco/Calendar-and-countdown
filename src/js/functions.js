@@ -3,8 +3,7 @@ COMMON FUNCTIONS AND VARIABLES FOR ALL PARTS OF THE APPLICATION.
 */
 
 //Data store
-var dataStore = chrome.storage.local;
-var dataStoreLoc = "local";
+var dataStore = chrome.storage.sync;
 
 //Debug object. If true, we are in debug mode. Checks if ID is the official Google ID or not.
 var debug = (chrome.runtime.id == "caplfhpahpkhhckglldpmdmjclabckhc") ? false : true;
@@ -15,47 +14,6 @@ var settings = {}; //new Object();
 var dates = {}; //new Object();
 
 var ccDates = [];
-
-/**
-Read and set storage location for data. NOT ACTIVE!
-*/
-function getStorageLocation(previous, baton)
-{
-	baton.take();
-	
-	dataStore = chrome.storage.local;
-		
-	baton.pass();
-
-	/*
-
-	//Not yet implemented well enough for use. Todo.
-
-	chrome.storage.local.get("dataStore", function(data) {
-	
-		if(typeof(data.dataStore) !== "undefined" && data.dataStore == "sync")
-		{
-			logger("info", "Storage", "Using synced storage");
-			//dataStore = chrome.storage.sync;
-			//dataStoreLoc = data.dataStore;
-		}
-		else if (typeof(data.dataStore) === "undefined")
-		{
-			logger("info", "Storage", "Using synced storage - init");
-			//chrome.storage.local.set({"dataStore": "sync"});
-			//dataStore = chrome.storage.sync;
-		}
-		else {
-			logger("Info", "Storage", "Using local storage");
-		}
-		
-		baton.pass();
-		
-	});
-
-	*/
-}
-
 
 /**
  * Output to log if "debug" is true
@@ -328,9 +286,7 @@ Toggle dates. "nocount" means secondary dates if true.
 function toggleDate(timestamp, noCount)
 {
 	try {
-		
-		
-	
+
 		if(noCount)
 		{
 			var noCountDateArray = getSubDates();
