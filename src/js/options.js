@@ -7,6 +7,16 @@ function initOptionsDo()
 function init()
 {
 	try {
+
+		//Attach storage change listener to remove from list
+
+		chrome.storage.onChanged.addListener(function(changes, namespace) {
+			initOptionsDo();
+		 	//Run maintenance whenever storage has changed for some reason
+			logger("debug", "Options list reset", "Run because of storage change");
+
+		});
+
 		//Copyright year
 		var dd = new Date();
 		$(".copyyear").html(dd.getUTCFullYear());
@@ -244,6 +254,9 @@ function init()
 		$("#reseteverything").off().on("click", function() { resetEverything(); });
 			
 		$("#ccversion").html(version.currVersion);
+
+		//Show date list
+		optionsDisplayDates();
 		
 		trackEvent("Interaction", "Open Options", "");
 		trackPageView("Options");
@@ -326,6 +339,68 @@ function changeSetting(key, value, persist)
 		
 }
 
+function optionsDisplayDates()
+{
+
+	$("#dateList").html("");
+
+	for (var date in ccDates) {
+		var tmpD = ccDates[date];
+
+		var tmpDate = new Date(tmpD.timestamp * 1);
+		
+		var cssId = "dateListDate_" + tmpD.timestamp;
+		var selector  = "#"+cssId;
+
+		var outString = "<span class='optionDateListDate' timestamp ='"+tmpD.timestamp+"' id='"+cssId+"'>";
+
+		//outString += tmpD.timestamp;
+		outString += getDateString(tmpD.timestamp*1, false);
+
+
+		if(tmpD.note !== null)
+		{
+
+			outString += ": "+tmpD.note;
+
+		}
+
+		outString += "</span>";
+
+		$("#dateList").append(outString);
+
+		if(tmpD.color !== null)
+		{
+			$(selector).css("background-color", tmpD.color);
+		}
+
+		$(selector).on("click", deleteStoredDataFromList);
+
+	}
+}
+
+function deleteStoredDataFromList(e)
+{
+	var stamp = e.target.attributes.timestamp.value;
+	var date = new Date(stamp*1);
+
+	var	dateS = getDateString(stamp*1, false);
+
+	var r = confirm("Delete all data for " + dateS + "?");
+
+	if (r === true) {
+
+		//Do it!
+		deleteDateInfoAll(stamp);
+
+		trackEvent("Interaction", "Options", "Deleted date - OK");
+	}
+	else if (r === false)
+	{
+		trackEvent("Interaction", "Options", "Deleted date - Cancelled");
+	}
+}
+
 /*
 Reset extension
 */
@@ -344,6 +419,8 @@ function resetEverything()
 		handleError("Options, resetEverything", e);
 	}
 }
+
+
 
 
 $(document).ready(function() {

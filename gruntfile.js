@@ -32,7 +32,7 @@ module.exports = function(grunt) {
         dest: '<%= dirs.dest %>/js/calendar_common.js'
       },
       options_javascript: {
-        src: ['src/js/date.extend.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/external_common.js', 'src/js/functions.js', 'src/js/options.js', 'src/js/icons.js',  'src/js/migrations.js', 'src/js/debug.js', 'src/js/libraries/plusone.js', 'src/js/googletrack_toback.js'],
+        src: ['src/js/date.extend.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/external_common.js', 'src/js/functions.js', 'src/js/options.js', 'src/js/icons.js',  'src/js/migrations.js', 'src/js/debug.js', 'src/js/googletrack_toback.js'],
         dest: '<%= dirs.dest %>/js/options_packed.js'
       },
       background_javascript: {

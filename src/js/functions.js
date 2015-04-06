@@ -455,6 +455,7 @@ function convertToDateObjects()
 		tmpCC.note = out[d].note;
 		tmpCC.isPrimary =  out[d].isPrimary;
 		tmpCC.isSecondary = out[d].isSecondary;
+		//tmpCC.date = new Date(tmpCC.timestamp).toUTCString();
 		out[d] = tmpCC;
 	}
 	
@@ -555,3 +556,129 @@ function ccDateConv(timestamp)
 	
 	return this;
 }
+
+/** New function for deleting any info from a date. So simple it's embarrasing the way it was done before. **/
+
+function deleteDateInfoAll(timestamp)
+{
+	deleteDateInfo(timestamp, true, true, true, true);
+}
+
+function deleteDateInfo(timestamp, pri, sec, note, color)
+{
+
+	var tmpDates = dates;
+
+	//Clunky. Some day the main date storage format must be refactored to something sane. 
+	if(pri === true)
+	{
+		for(i=0;i<tmpDates.mainDateArray.length;i++)
+		{
+			if(tmpDates.mainDateArray[i]*1 == timestamp*1)
+			{
+				tmpDates.mainDateArray.splice(i,1);
+			}
+		}
+	}
+	if(sec === true)
+	{
+		for(i=0;i<tmpDates.subDateArray.length;i++)
+		{
+			if(tmpDates.subDateArray[i]*1 == timestamp*1)
+			{
+				tmpDates.subDateArray.splice(i,1);
+			}
+		}
+	}
+	if(note === true)
+	{
+		for(i=0;i<tmpDates.dateNoteArray.length;i++)
+		{
+			if(tmpDates.dateNoteArray[i].timestamp*1 == timestamp*1)
+			{
+				tmpDates.dateNoteArray.splice(i,1);
+			}
+		}
+	}
+	if(color === true)
+	{
+		for(i=0;i<tmpDates.dateColorArray.length;i++)
+		{
+			if(tmpDates.dateColorArray[i].timestamp*1 == timestamp*1)
+			{
+				tmpDates.dateColorArray.splice(i,1);
+			}
+		}
+	}
+
+	persistDatesToStorage(dates);
+
+}
+
+/**
+Return date as a localised string
+*/
+function getDateString(timestamp, long)
+{
+	try {
+
+		date = new Date(timestamp*1);
+		
+		var day = date.getUTCDay();
+		var month = date.getUTCMonth();
+		var mDay = date.getUTCDate();
+		var year = date.getUTCFullYear();
+	
+		//Get correct suffix
+		lDay = (mDay%10);
+		switch(lDay)
+		{
+		case 1:
+			if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberSt");
+			else sFix = chrome.i18n.getMessage("numberTh");
+			break;
+		case 2:
+			if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberNd");
+			else sFix = chrome.i18n.getMessage("numberTh");
+			break;
+		case 3:
+			if(mDay > 20 || mDay < 10) sFix = chrome.i18n.getMessage("numberRd");
+			else sFix = chrome.i18n.getMessage("numberTh");
+			break;
+		default:
+			sFix = chrome.i18n.getMessage("numberTh");
+		}
+	
+		var monthName = chrome.i18n.getMessage("mon"+(month+1)); 
+	
+		var dateString = "";
+	
+		if(long)
+		{
+			dateString = chrome.i18n.getMessage("fullDate", [ucFirst(chrome.i18n.getMessage("lday"+day)), monthName, mDay, sFix]);
+		}
+		else {
+			
+			var dateTemplate = settings.dateFormatShort;
+			
+			var padding = true;
+			
+			month++;
+			if(month < 10 && padding) month = "0" + month;
+			if(mDay < 10 && padding) mDay = "0" + mDay;
+			
+			dateString = dateTemplate.replace("mm", month);
+			
+			dateString = dateString.replace("yy", year);
+			dateString = dateString.replace("dd", mDay);
+		}
+	
+		return dateString;
+		
+	}
+	catch(e)
+	{
+		handleError("functions.js getDateString", e);
+	}
+}
+

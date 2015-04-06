@@ -101,3 +101,18 @@ input {
 	height:  19px;
 	display: block;
 }
+
+.optionDateListDate {
+
+	display: block;
+	width: 250px;
+	margin: 3px;
+	padding: 5px;
+	color: black;
+	background-color: rgb(220,220,220);
+
+}
+
+.optionDateListDate :hover {
+	border: 1px solid black;
+}
