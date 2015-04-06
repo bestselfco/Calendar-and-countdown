@@ -22,14 +22,11 @@ body {
 }
 
 #header {
-	background-color: rgba(253,253,253,1);
+	background-color: rgba(200,200,200,1);
 	display: block;
-	position: absolute;
-	top:  20;
-	left: 20;
-	right: 20;
 	padding: 20px;
 	font-size: 50px;
+	color: black;
 }
 
 p {
@@ -52,12 +49,8 @@ p {
 }
 
 #main {
-	padding: 10px;
+	padding: 20px;
 	background-color: white;
-	position:  absolute;
-	top:  140;
-	left:  20;
-	right:  20;
 	min-height: 500px;
 }
 

@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    manifest: grunt.file.readJSON('src/manifest.json'),
+    manifest: grunt.file.readJSON('../Manifest/manifest.json'),
     pkg: grunt.file.readJSON('package.json'),
     filesbackground: ['src/js/libraries/jworkflow-min-0.7.0.js', "src/js/functions.js", "src/js/date.extend.js", "src/js/external_common.js","src/js/icons.js","src/js/migrations.js","src/js/googletrack.js","src/js/background.js", "src/js/debug.js"],
     dirs: {
@@ -44,9 +44,15 @@ module.exports = function(grunt) {
 	   	copy: {
 	   		expand: true,
 	   		cwd: 'src/',
-	   		src: ['*.html', 'css/*.css','fonts/*', '_locales/en/*.json', 'pics/*', 'manifest.json'],
+	   		src: ['*.html', 'css/*.css','fonts/*', '_locales/en/*.json', 'pics/*'],
 	   		dest: '<%= dirs.dest %>/'
 	   	},
+      manifest_from_external : {
+        flatten: true,
+        expand: true,
+        src: ['../Manifest/manifest.json'],
+        dest: '<%= dirs.dest %>/'
+      },
       jquery: {
         src: ['src/js/libraries/jquery.js'],
         dest: '<%= dirs.dest %>/js/jquery.js'
