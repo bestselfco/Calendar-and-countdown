@@ -2,7 +2,7 @@ module.exports = function(grunt) {
 
   // Project configuration.
   grunt.initConfig({
-    manifest: grunt.file.readJSON('../Manifest/manifest.json'),
+    manifest: grunt.file.readJSON('src/manifest.json'),
     pkg: grunt.file.readJSON('package.json'),
     filesbackground: ['src/js/libraries/jworkflow-min-0.7.0.js', "src/js/functions.js", "src/js/date.extend.js", "src/js/external_common.js","src/js/icons.js","src/js/migrations.js","src/js/googletrack.js","src/js/background.js", "src/js/debug.js"],
     dirs: {
@@ -44,15 +44,9 @@ module.exports = function(grunt) {
 	   	copy: {
 	   		expand: true,
 	   		cwd: 'src/',
-	   		src: ['*.html', 'css/*.css','fonts/*', '_locales/en/*.json', 'pics/*'],
+	   		src: ['*.html', 'css/*.css','fonts/*', '_locales/en/*.json', 'pics/*', 'manifest.json'],
 	   		dest: '<%= dirs.dest %>/'
 	   	},
-      manifest_from_external : {
-        flatten: true,
-        expand: true,
-        src: ['../Manifest/manifest.json'],
-        dest: '<%= dirs.dest %>/'
-      },
       jquery: {
         src: ['src/js/libraries/jquery.js'],
         dest: '<%= dirs.dest %>/js/jquery.js'
@@ -81,7 +75,6 @@ module.exports = function(grunt) {
      }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
