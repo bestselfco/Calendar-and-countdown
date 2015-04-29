@@ -829,7 +829,7 @@ function calGetCal(template)
 		//Set month name
 		this.outVars.monthName = ucFirst(chrome.i18n.getMessage("mon"+this.month));
 		
-		this.outVars.year = this.year; 
+		this.outVars.year = this.year.toString().substring(0,4);
 	
 		//Set week header value
 		this.outVars.weekShortName = chrome.i18n.getMessage("weekHeader");

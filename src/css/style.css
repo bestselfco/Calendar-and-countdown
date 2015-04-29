@@ -75,7 +75,7 @@ body {
 	border: 1px solid;
 	font-weight: 400;
 	overflow: hidden;
-	position: inherit;
+	position: relative;
 }
 
 .cal_td_dayname, .cal_td_weeknames, .cal_td_day, .cal_td_weeknumber, .cal_day_chosen, .cal_subday_chosen {
@@ -95,9 +95,12 @@ body {
 
 }
 
+
 .cal_tr_year
 {
-	color:  #666666;
+	position: absolute;
+	top: 3px;
+	right: 5px;
 }
 
 .cal_td_dayname, .cal_td_weeknames {

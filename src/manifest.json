@@ -12,7 +12,6 @@
   "background":
   {
 	"scripts": [
-		"js/jquery.js",
 		"js/background_packed.js"
 		],
 		"persistent": true
