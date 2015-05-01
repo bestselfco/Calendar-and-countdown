@@ -37,6 +37,17 @@ function trackPageView(pagetitle)
 	}
 }
 
+function trackTiming(title, time)
+{
+	try{
+		ga('send', 'timing', title, 'Load Library', time, 'Google CDN');
+	}
+	catch(e)
+	{
+		trackError("background", "tracking", "trackTiming");
+	}
+}
+
 /**
 Track an error to Google Analytics, both immediately and in detail
 */

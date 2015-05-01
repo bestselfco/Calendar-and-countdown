@@ -6,6 +6,8 @@ Front end variables
 //var settings = {};
 //var dates = {};
 
+var startupTimer;
+
 var now = new Date(); //Today
 var currentYear = now.getUTCFullYear(); //This year, now with more UTC
 var currentMonth = now.getUTCMonth() + 1;
@@ -49,6 +51,7 @@ Bootstrap page on load
 $(document).ready(function() {
 	
 	try {
+		startupTimer = new timer("Calender startup");
 		initCalendarPageStart();	
 	}
 	catch(e)
@@ -72,6 +75,7 @@ function initCalendarPageStart()
 		handleError("Calendar, initCalendarPageStart", err);
 	}
 }
+
 
 /*
 * Update colors and stuff
@@ -100,8 +104,15 @@ function initCalendarPage() {
 
 function trackCalendarStart() {
 	//Track a page view
-	trackPageView("Calendar/"+settings.popup);
-	trackEvent("Interaction", "Open Calendar", settings.popup);
+	try {
+		trackPageView("Calendar/"+settings.popup);
+		trackEvent("Interaction", "Open Calendar", settings.popup);
+		startupTimer.stop();
+	}
+	catch(e)
+	{
+		handleError("Calendar, trackCalendarStart", err);
+	}
 }
 
 /**

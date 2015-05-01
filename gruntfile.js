@@ -39,6 +39,25 @@ module.exports = function(grunt) {
       dest: '<%= dirs.dest %>/js/background_packed.js'
     }
   },
+  concat: {
+    options: {
+      banner: '<%= dirs.banner %>'
+    },
+    ugly_cal: {
+      files: {
+          '<%= dirs.dest %>/js/calendar_packed.js' : '<%= filesCalendar %>'
+      }
+    },
+    ugly_opt: {
+      files: {
+          '<%= dirs.dest %>/js/options_packed.js' : '<%= filesOptions %>'
+      }
+    },
+    ugly_back: {
+      src: '<%= filesBackground %>',
+      dest: '<%= dirs.dest %>/js/background_packed.js'
+    }
+  },
   copy: {
    	copy: {
    		expand: true,
@@ -81,6 +100,9 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', ['jshint', 'clean', 'uglify', 'copy']);
   
+  grunt.registerTask('debug', ['clean', 'concat', 'copy']);
+
+
   grunt.registerTask('css', ['copy']);
 
 };

@@ -2,14 +2,27 @@
 //function trackError(where, category, text)
 //function trackPageView(pagetitle)
 
+
+
 function trackPageView(pagetitle)
 {
 	var tmp = {};
 	tmp.action = "trackPageView";
 	tmp.pagetitle = pagetitle;
 	
+	chrome.runtime.sendMessage(tmp, function(response) {
+		
+	});
 	
-	
+}
+
+function trackTiming(text, time)
+{
+	var tmp = {};
+	tmp.action = "trackTiming";
+	tmp.text = text;
+	tmp.time = time;
+
 	chrome.runtime.sendMessage(tmp, function(response) {
 		
 	});
@@ -23,8 +36,6 @@ function trackEvent(type, category, text)
 	tmp.type = type;
 	tmp.category = category;
 	tmp.text = text;
-	
-	
 	
 	chrome.runtime.sendMessage(tmp, function(response) {
 		

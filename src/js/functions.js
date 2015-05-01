@@ -26,6 +26,35 @@ function log(cat, text)
     logger("old", cat, text);
 }
 
+//Custom timer function to track various timers to google.
+function timer(name)
+{
+
+	try
+	{
+		this.name = "Not set";
+		if(typeof(this.name)!== undefined) this.name = name;
+
+		this.start = function(){
+			this.beginTime = new Date();
+			this.spent = null;
+		};
+
+		this.stop = function() {
+			this.stopTime = new Date();
+			this.spent = this.stopTime - this.beginTime;
+			trackTiming(this.name, this.spent);
+		};
+
+		this.start();
+	}
+	catch(e)
+	{
+
+	}
+
+}
+
 function logger(type, cat, text)
 {
     var time = new Date();

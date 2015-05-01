@@ -1,6 +1,7 @@
 var maintainCycles = 0;
 var iHaveStarted = false;
 var bgBootTimeOut = 500;
+var startupTimer;
 
 //Set title
 document.title = version.currVersion;
@@ -58,6 +59,11 @@ function addListeners()
 				{
 					trackError(request.where, request.category, request.text);
 					sendResponse({state: "error ok", data: request});
+				}
+				if (request.action == "trackTiming")
+				{
+					trackTiming(request.text, request.time);
+					sendResponse({state: "timing ok", data: request});
 				}
 			});	
 	}
@@ -343,7 +349,7 @@ Everything from here down is the initiation code
 function bgInit()
 {
 	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(pushSettingsToGoogleTracker).andThen(maintain); 
+	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(pushSettingsToGoogleTracker).andThen(maintain).andThen(doneTimer); 
 	
 	//Up, Up and Away!
 	startupSequence.start();
@@ -354,6 +360,7 @@ function bgInit()
 		setToolTip("Debug "+version.currVersion);
 	}
 	
+
 }
 
 //reload, update or install
@@ -371,11 +378,31 @@ $(document).ready(function() {
 	backupTimer = window.setTimeout(emergencyMaintain, 7200000); //Emergency maintenance
 });
 
+function doneTimer(baton)
+{
+	try {
+		startupTimer.stop();
+		console.log(startupTimer.spent);
+	}
+	catch(e)
+	{
+
+	}
+}
+
 //Perform the last resort boot.
 function bgBoot()
 {
 	if(!iHaveStarted)
 	{	
+		try {
+			startupTimer = new timer("Background start");
+		}
+		catch(e)
+		{
+
+		}
+
 		iHaveStarted = true;
 		bgInit();
 	}
