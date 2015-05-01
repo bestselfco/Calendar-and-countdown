@@ -1,6 +1,4 @@
 var maintainCycles = 0;
-var iHaveStarted = false;
-var bgBootTimeOut = 500;
 var startupTimer;
 
 //Set title
@@ -80,7 +78,6 @@ function maintain()
 {
 	try {
 		
-		
 		var nowNew = new Date();
 		todayStamp = Date.UTC(nowNew.getFullYear(),nowNew.getMonth(), nowNew.getDate());
 	
@@ -104,21 +101,6 @@ function maintain()
 		handleError("Background maintain", e);
 		return false;
 	}
-	
-}
-
-//If alarm does not work, perform emergency maintainance
-function emergencyMaintain()
-{
-	if(maintainCycles % 10 === 0)
-	{
-		trackEvent("Background", "Emergency maintenance", "");	
-	}
-	
-	window.clearTimeout(backupTimer);
-	backupTimer = window.setTimeout(emergencyMaintain, 7200000);
-	
-	maintain();
 	
 }
 
@@ -370,40 +352,28 @@ chrome.runtime.onInstalled.addListener(function(details) {
 	
 });
 
-var backupTimer;
-
 //Do the actual bootup routine
 $(document).ready(function() {
-	window.setTimeout(bgBoot, bgBootTimeOut);
-	backupTimer = window.setTimeout(emergencyMaintain, 7200000); //Emergency maintenance
-});
 
-function doneTimer(baton)
-{
 	try {
-		startupTimer.stop();
-		console.log(startupTimer.spent);
+		startupTimer = new timer("Background start");
+		bgInit();
 	}
 	catch(e)
 	{
 
 	}
-}
 
-//Perform the last resort boot.
-function bgBoot()
+});
+
+function doneTimer(baton)
 {
-	if(!iHaveStarted)
-	{	
-		try {
-			startupTimer = new timer("Background start");
-		}
-		catch(e)
-		{
+	try 
+	{
+		startupTimer.stop();
+	}
+	catch(e)
+	{
 
-		}
-
-		iHaveStarted = true;
-		bgInit();
 	}
 }

@@ -37,10 +37,17 @@ function trackPageView(pagetitle)
 	}
 }
 
+/**
+Track  timing
+*/
 function trackTiming(title, time)
 {
 	try{
-		ga('send', 'timing', title, 'Load Library', time, 'Google CDN');
+		ga('send', 'timing', title, 'Load', time);
+		if(debug)
+		{
+			logger("debug", "TrackTiming", title + " " + time);
+		}
 	}
 	catch(e)
 	{
