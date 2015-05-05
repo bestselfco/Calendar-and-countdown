@@ -18,8 +18,8 @@ function addListeners()
 
 		chrome.storage.onChanged.addListener(function(changes, namespace) {
  
-		maintain(); //Run maintenance whenever storage has changed for some reason
-		logger("debug", "Maintenance", "Run because of storage change");
+			maintain(); //Run maintenance whenever storage has changed for some reason
+			logger("info", "Maintenance", "Run because of storage change");
 
 		});
 		
