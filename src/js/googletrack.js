@@ -5,25 +5,6 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); // Note: https protocol here
 
 /**
-Push settings to Google Analytics
-*/
-function pushSettingsToGoogleTracker()
-{
-	try {
-		logger("info", "Startup", "Pushing settings to Google tracker.");
-        ga('set', 'dimension1', version.currVersion);
-		ga('set', 'dimension2', settings.popup);
-		ga('set', 'dimension3', settings.showWeek);
-		ga('set', 'dimension4', settings.firstDay);
-		ga('set', 'dimension5', settings.showBubbleOnStart);
-	}
-	catch(e)
-	{
-		handleError("pushSettingsToGoogleTracker", e);
-	}
-}
-
-/**
 Track a page view to Google
 */
 function trackPageView(pagetitle)
@@ -62,6 +43,14 @@ function trackError(where, category, text)
 {
     try {
 		trackEvent("Error", where + " " + category, text);
+
+		ga('send', 'exception', {
+	      'exDescription': text,
+	      'exFatal': false,
+	      'appName': category,
+	      'appVersion': version.currVersion
+	    });
+
     }
     catch (err)
     {
@@ -83,14 +72,18 @@ function trackEvent(type, category, text)
 	}
 }
 
-try{
-	ga('create', 'UA-21196533-2', 'auto');
-	ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
-	ga('require', 'displayfeatures');
-	trackPageView("Background");
-	trackEvent("Background", "Start", version.currVersion);
-}
-catch(e)
+function startTracking()
 {
-	console.log(e);
+	try{
+		ga('create', 'UA-21196533-2', 'auto');
+		ga('set', 'checkProtocolTask', function(){}); // Removes failing protocol check. @see: http://stackoverflow.com/a/22152353/1958200
+		ga('require', 'displayfeatures');
+		//console.log("datoer", ccDays.keys(a).length)
+		trackPageView("Background", {dimension1: version.currVersion, dimension2: settings.popup, dimension3: settings.showWeek, dimension4: settings.firstDay, dimension5: settings.showBubbleOnStart });
+		trackEvent("Background", "Start", version.currVersion);
+	}
+	catch(e)
+	{
+		console.log(e);
+	}
 }

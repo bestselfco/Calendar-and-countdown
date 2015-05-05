@@ -227,7 +227,7 @@ function readSettingsFromStorage(previous, baton)
 }
 
 /**
-Get dates from storage. Assumes a "dates" object and jWorkorder already exists on page. 
+Get dates from storage. Assumes a "dates" object and jWorkorder already exists. Initialize storage if it does nt exist.
 */
 function readDatesFromStorage(previous, baton)
 {
@@ -237,21 +237,33 @@ function readDatesFromStorage(previous, baton)
 		
 		dataStore.get("dates", function(items){
 		
-			for (var i in items.dates)
+			if(typeof(items.dates) !== "undefined") //There are dates in the datastore!
 			{
-				//console.log(i);
-				tmpDates[i] = items.dates[i];
+
+				for (var i in items.dates)
+				{
+					//console.log(i);
+					tmpDates[i] = items.dates[i];
+					
+				}
 				
+				dates = tmpDates;
+				
+				ccDates = convertToDateObjects();
+				
+				logger("info", "Dates", "Dates has been read");
+
+				baton.pass(); //OK, pass the baton along
+
+			}
+			else //No dates stored, create new
+			{
+				var dateObject= {mainDateArray: [], subDateArray: [], dateNoteArray: [], dateColorArray: []};
+				persistDatesToStorage(dateObject);
+				logger("info", "Dates", "Dates has been initialized");
+				baton.pass(); //OK, pass the baton along
 			}
 			
-			dates = tmpDates;
-			
-			ccDates = convertToDateObjects();
-			
-			logger("info", "Dates", "Dates has been read");
-			
-			baton.pass(); //OK, pass the baton along
-				
 		});
 }
 

@@ -330,8 +330,8 @@ Everything from here down is the initiation code
 
 function bgInit()
 {
-	//Use jWorkflow to ensure that we bootstrap correctly. God I love this library.
-	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(pushSettingsToGoogleTracker).andThen(maintain).andThen(doneTimer); 
+	//Use jWorkflow to ensure that we bootstrap correctly.
+	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(startTracking).andThen(maintain).andThen(doneTimer); 
 	
 	//Up, Up and Away!
 	startupSequence.start();

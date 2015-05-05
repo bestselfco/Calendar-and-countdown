@@ -91,7 +91,7 @@ function doMigrationOrInstall(details)
 		{
 			//trackPageView('/new');
 			trackEvent("Install", version.currVersion, "");	
-			initialiseSettingsOnInstall();
+			//initialiseSettingsOnInstall();
 		}
 		else if(details.previousVersion === version.currVersion)
 		{
@@ -107,34 +107,6 @@ function doMigrationOrInstall(details)
 	{
 		handleError("doMigrationOrInstall", e);
 	}
-}
-
-/**
-Initialise default settings and store them
-*/
-function initialiseSettingsOnInstall()
-{
-	try{
-		log("Install/Migrate", "initialiseSettings");
-	
-		//Set storage location
-		//doMigrateStorageLocation();
-	
-		//Read default settings
-		settings = getDefaultSettings();
-		
-		//Store them
-		persistSettingsToStorage(settings);
-		
-		//Setup dates object
-		var dateObject= {mainDateArray: [], subDateArray: [],dateNoteArray: [], dateColorArray: []};
-		persistDatesToStorage(dateObject);
-	}
-	catch(e)
-	{
-		handleError("initialiseSettingsOnInstall", e);
-	}
-	
 }
 
 /**
