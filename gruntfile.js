@@ -8,6 +8,8 @@ module.exports = function(grunt) {
     filesCalendar: ['src/js/libraries/jquery.js', 'src/js/libraries/mustache.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/libraries/tipped/js/tipped/tipped.unpacked.js', 'src/js/date.extend.js', 'src/js/templates.js', 'src/js/external_common.js', 'src/js/functions.js','src/js/tooltips_tipped.js','src/js/debug.js','src/js/googletrack_toback.js', 'src/js/calendar.js'],
     filesOptions: ['src/js/libraries/jquery.js','src/js/libraries/jquery-ui/**/*.js','src/js/date.extend.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/external_common.js', 'src/js/functions.js', 'src/js/icons.js',  'src/js/migrations.js', 'src/js/debug.js', 'src/js/googletrack_toback.js', 'src/js/options.js'],
     filesGuide: ['src/userguide/cc_guide.pdf'],
+    cssOptions: ['src/css/cssreset.css', 'src/css/options.css'],
+    cssCalendar: ['src/css/cssreset.css','src/css/style.css','src/css/style_12.css', 'src/css/colors.css'],
     dirs: {
         src: 'src/',
         dest: '../Builds/<%= manifest.version %>',

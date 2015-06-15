@@ -12,7 +12,6 @@
 }
 
 html {
-	overflow: hidden;
 	-webkit-touch-callout: none;
 	-webkit-user-select: none;
 	-khtml-user-select: none;
@@ -22,10 +21,16 @@ html {
 
 body {
 	display: block;
-	overflow: hidden;
-	font-family: calendarfont;/*, “helvetica neue”, helvetica, arial, sans-serif; */
+	font-family: calendarfont;
 	margin: 0px 8px 0px 8px;
 	cursor: default;
+	font-size: 100%;
+	overflow: scroll;
+}
+
+table { 
+    border-spacing: 2px;
+    border-collapse: separate;
 }
 
 #calendar {
@@ -34,8 +39,7 @@ body {
 	left: 10px;
 	padding: 3px;
 	border-radius: 0px;
-	font-size: 15px;
-	overflow: hidden;
+	font-size: 10px;
 	border: 1px solid;
 }
 
@@ -62,8 +66,7 @@ body {
 .cal_month {
 	display: block;
 	vertical-align: top;
-	/*height: 80px;*/
-	overflow: hidden;
+
 }
 
 .cal_td_header {
@@ -74,14 +77,14 @@ body {
 	text-align: center;
 	border: 1px solid;
 	font-weight: 400;
-	overflow: hidden;
+
 	position: relative;
 }
 
 .cal_td_dayname, .cal_td_weeknames, .cal_td_day, .cal_td_weeknumber, .cal_day_chosen, .cal_subday_chosen {
 	width: 22px;
 	height: 16px;
-	font-size: 8pt;
+	font-size: 10px;
 	text-align: right;
 	margin: 10px;
 	padding: 2px;
