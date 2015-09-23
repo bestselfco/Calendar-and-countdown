@@ -4,6 +4,13 @@
 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga'); // Note: https protocol here
 
+var intervalTracking = setInterval(trackPing, 4*60*1000);
+
+function trackPing()
+{
+	trackEvent("system", "ping", "");
+}
+
 /**
 Track a page view to Google
 */
