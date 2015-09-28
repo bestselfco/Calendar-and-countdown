@@ -23,12 +23,7 @@ function addListeners()
 
 		});
 		
-		chrome.alarms.onAlarm.addListener(function(alarm){
-			if(alarm.name == "MaintainAlarm")
-			{
-				maintain(); //Add maintain function to loop'
-			}
-		});
+	
 		
 		//Force update at once it is released. Because!
 		if(typeof(chrome.runtime.onUpdateAvailable) !== "undefined") 
@@ -85,10 +80,6 @@ function maintain()
 		
 		maintainChain.start();
 		
-		if(maintainCycles % 10 === 0)
-		{
-			trackEvent("Background", "Maintenance - Normal run", maintainCycles);
-		}
 		
 		logger("info", "Maintenance", "Cycle #"+maintainCycles+", " + nowNew.toLocaleString());
 		
@@ -295,8 +286,7 @@ function getDistanceInDays()
 	}
 }
 
-
-
+var alarmInterval;
 
 /**
 Setup alarm for maintenance
@@ -304,18 +294,8 @@ Setup alarm for maintenance
 function setupMaintainLoop()
 {
 	try{
-		
-		var maintenanceMinutes = 6;
-		var d = new Date();
-		var ad = new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours(), d.getMinutes()+maintenanceMinutes, 0);
-		
-		var aInfo = {}; //new Object();
-		aInfo.when = ad.getTime();
-		aInfo.periodInMinutes = maintenanceMinutes;
-				
-		chrome.alarms.create("MaintainAlarm", aInfo);
-		
-		logger("info", "Startup", "Maintenance alarm added");
+
+		alarmInterval = setInterval(maintain, 6*60*1000);
 	
 	}
 	catch(e)
