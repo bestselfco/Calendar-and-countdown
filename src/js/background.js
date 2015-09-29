@@ -22,18 +22,7 @@ function addListeners()
 			logger("info", "Maintenance", "Run because of storage change");
 
 		});
-		
-	
-		
-		//Force update at once it is released. Because!
-		if(typeof(chrome.runtime.onUpdateAvailable) !== "undefined") 
-		{	
-			chrome.runtime.onUpdateAvailable.addListener(function(details) {
-			
-				chrome.runtime.reload();
-			
-			});
-		}
+
 		
 		//Add listener for messages - to centralize tracking code in one place.
 		chrome.runtime.onMessage.addListener(

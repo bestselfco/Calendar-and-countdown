@@ -208,7 +208,7 @@ table {
 	cursor:  pointer;
 }
 
-#dateRightInputDialog {
+.dateRightInputDialog {
 	color:  white;
 	height:  100px;
 	width:  250px;
@@ -236,22 +236,22 @@ table {
 	font-weight:  bold;
 }
 
-#dayColorLabel {
+.dayColorLabel {
 	margin-top: 1px;
 	display: block;
 }
 
-#dayNoteLabel {
+.dayNoteLabel {
 	margin-top: 3px;
 	display: block;
 }
 
-#resetColorButton {
+.resetColorButton {
 	margin-top: 2px;
 	cursor: pointer;
 }
 
-#resetNoteButton {
+.resetNoteButton {
 	margin-top: 4px;
 	cursor: pointer;
 }

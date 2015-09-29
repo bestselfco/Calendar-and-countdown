@@ -329,7 +329,7 @@ function setMainDate(timestamp)
 	try 
 	{
 		//Set date in background page	
-		toggleDate(timestamp, false);
+		toggleDate(timestamp*1, false);
 	}
 	catch(err)
 	{
@@ -344,7 +344,7 @@ function setSubDate(timestamp)
 {
 	//Set date in background page	
 	try {
-		toggleDate(timestamp, true);
+		toggleDate(timestamp*1, true);
 	}
 	catch(e)
 	{
@@ -403,10 +403,15 @@ function dayClickedDialog(event)
 		var timestamp = $(event.originalEvent.target).attr("datetimestamp");
 		var target = event.originalEvent.target.id;
 			
-		lastEventDate = timestamp;
+		//lastEventDate = timestamp;
 		
-		var tip = Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: false, closeButton: true, showOn: false, onShow: updateRightClickToolTipMenu, onHide: resetRightClickToolTipMenu});
-		
+		var tipData = {};
+		tipData.timeStamp = timestamp;
+
+		//var tip = Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: false, closeButton: true, showOn: false, afterUpdate: updateRightClickToolTipMenu, onHide: resetRightClickToolTipMenu});
+		var tip = Tipped.create("#popupProxy", getInteractiveTooltip(tipData), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: false, closeButton: true, showOn: false});
+
+
 		tip.show();
 		
 		trackEvent("Interaction", "Calendar", "Interactive popup");

@@ -665,6 +665,8 @@ function getDateString(timestamp, long)
 
 		date = new Date(timestamp*1);
 		
+		//console.log(timestamp, date);
+
 		var day = date.getUTCDay();
 		var month = date.getUTCMonth();
 		var mDay = date.getUTCDate();

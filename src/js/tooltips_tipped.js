@@ -19,18 +19,21 @@ function getToolTip(timestamp)
 	}
 }
 
+
 /**
 Bindings and stuff for right click menu once it is available
 */
+/**
 function updateRightClickToolTipMenu(content, event)
 {
 
 	try {
 
+		
 		var timestamp = lastEventDate; //$("#dateRightInputDialog").attr("dialogdatetimestamp");
 		var currNote = getNoteForDate(timestamp);
 	
-		$("#popupTableHeaderCell").html(getDateString(timestamp,true));
+		//$("#popupTableHeaderCell").html(getDateString(timestamp,true));
 	
 		$("#dayNoteInput").val(currNote);
 	
@@ -93,11 +96,12 @@ function updateRightClickToolTipMenu(content, event)
 	{
 		handleError("tooltips_tipped.js updateRightClickToolTipMenu", e);
 	}
-}
+}*/
 
 /** 
 Reset tooltip menu
 */
+/**
 function resetRightClickToolTipMenu(content, event)
 {
 
@@ -114,6 +118,7 @@ function resetRightClickToolTipMenu(content, event)
 	Tipped.remove(daysSelectString);
 	
 }
+*/
 
 
 /**
@@ -261,6 +266,7 @@ function getToolTipNormal(timestamp){
 		
 		//Clean out "null" and return result
 		outArray = outArray.clean("null");	
+		
 		return outArray.join("");
 	}
 	catch(e)
@@ -391,3 +397,102 @@ function getCountDownDiffString(ndate, countToDate)
 	}
 	
 }
+
+/**
+Returns an interavtive tooltip. This used to be done in a very embarrasing way. Still some mess, but mostly because of legacy stuff. 
+*/
+function getInteractiveTooltip(t)
+{
+
+	//console.log(t);
+
+	//Shell
+	var out = document.createElement("div");
+	$(out).addClass("dateRightInputDialog");
+
+	//Header
+	var hDiv = document.createElement("div");
+	$(hDiv).attr("class", "popupDiv popupDiv10 popupDivHeader");
+	var hDivSpan = document.createElement("span");
+	$(hDivSpan).html(getDateString(t.timeStamp,true));
+	$(hDiv).append(hDivSpan);
+	$(out).append(hDiv);
+
+	//Label "Countdown as"
+	$(out).append("<div class='popupDiv popupDiv4'>Countdown as:</div>");
+
+	//Countdown selector buttons
+	var countButtons = document.createElement("div");
+	$(countButtons).addClass("popupDiv popupDiv6");
+	
+	var mainButton = document.createElement("span");
+	$(mainButton).addClass("popupButtonDate").html("Primary").on("click", {timeStamp: t.timeStamp}, function(event){
+		setMainDate(event.data.timeStamp);
+	});
+	var secondButton = document.createElement("span");
+	$(secondButton).addClass("popupButtonDate").html("Secondary").on("click", {timeStamp: t.timeStamp}, function(event){
+		setSubDate(event.data.timeStamp);
+		trackEvent("Interaction", "Popup - right", "Secondary date set");
+	});
+
+	$(countButtons).append(mainButton).append("&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;").append(secondButton);
+	$(out).append(countButtons);
+
+	//Note label
+	$(out).append("<div class='popupDiv popupDiv2'><span class='dayNoteLabel'>Note:</span></div>");
+
+	//Note field
+	var noteDiv = document.createElement("div");
+	$(noteDiv).addClass("popupDiv popupDiv7");
+	var noteField = document.createElement("input");
+	$(noteField).attr("type", "text").val(getNoteForDate(t.timeStamp)).on("change", {timeStamp: t.timeStamp}, function(event){
+		addNoteToDate(event.data.timeStamp, event.target.value);
+		trackEvent("Interaction", "Popup - right", "Note created");
+	});
+
+	var noteReset = document.createElement("img");
+	$(noteReset).attr("src", "pics/reset.png").addClass("resetButton resetNoteButton").on("click", {timeStamp: t.timeStamp}, function(event){
+		$(noteField).val("");
+		clearNoteFromDate(event.data.timeStamp);	
+		trackEvent("Interaction", "Popup - right", "Clear note");
+	});
+
+	$(noteDiv).append(noteField).append(noteReset);
+
+	$(out).append(noteDiv);
+
+	$(out).append("<div class='popupDiv popupDiv2'><span class='dayColorLabel'>Color:</span></div>");
+
+	//Colors!
+	function createColorDiv(color)
+	{
+		var tmpD = document.createElement("div");
+		$(tmpD).addClass("popupDiv PopupDiv1 popupDivColor");
+		var tmpS = document.createElement("span");
+		$(tmpS).addClass("colorButton").attr("style", "background-color: "+color).on("click",{timeStamp: t.timeStamp, color: color}, function(event){
+			setColorForDate(event.data.timeStamp, event.data.color, false);
+			trackEvent("Interaction", "Popup - right", "Color set");
+		});
+		$(tmpD).append(tmpS);
+
+		return tmpD;
+	}
+
+	$(out).append(createColorDiv("#FFF700")).append(createColorDiv("#FFA500")).append(createColorDiv("#FF8373")).append(createColorDiv("#60B9CE")).append(createColorDiv("#58E000")).append(createColorDiv("#B764D4")).append(createColorDiv("#D4B764"));
+
+	var colorReset = document.createElement("img");
+	$(colorReset).attr("src", "pics/reset.png").addClass("resetButton colorResetButton").on("click", {timeStamp: t.timeStamp}, function(event){
+			setColorForDate(event.data.timeStamp, "", true);
+			trackEvent("Interaction", "Popup - right", "Color reset");
+	});
+
+	$(out).append(colorReset);
+
+	return out;
+
+}
+
+
+
+
+
