@@ -445,21 +445,25 @@ function getInteractiveTooltip(t)
 	var noteDiv = document.createElement("div");
 	$(noteDiv).addClass("popupDiv popupDiv7");
 	var noteField = document.createElement("input");
-	$(noteField).attr("type", "text").val(getNoteForDate(t.timeStamp)).on("change", {timeStamp: t.timeStamp}, function(event){
+	$(noteField).attr("type", "text").addClass("dayNoteInput").val(getNoteForDate(t.timeStamp)).on("change", {timeStamp: t.timeStamp}, function(event){
 		addNoteToDate(event.data.timeStamp, event.target.value);
 		trackEvent("Interaction", "Popup - right", "Note created");
 	});
 
+	var noteResetDiv = document.createElement("div");
+	$(noteResetDiv).addClass("popupDiv popupDiv1");
 	var noteReset = document.createElement("img");
-	$(noteReset).attr("src", "pics/reset.png").addClass("resetButton resetNoteButton").on("click", {timeStamp: t.timeStamp}, function(event){
+	$(noteReset).attr("src", "pics/reset.png").addClass("resetNoteButton").on("click", {timeStamp: t.timeStamp}, function(event){
 		$(noteField).val("");
 		clearNoteFromDate(event.data.timeStamp);	
 		trackEvent("Interaction", "Popup - right", "Clear note");
 	});
 
-	$(noteDiv).append(noteField).append(noteReset);
+	$(noteResetDiv).append(noteReset)
 
-	$(out).append(noteDiv);
+	$(noteDiv).append(noteField);
+
+	$(out).append(noteDiv).append(noteResetDiv);
 
 	$(out).append("<div class='popupDiv popupDiv2'><span class='dayColorLabel'>Color:</span></div>");
 
@@ -480,13 +484,17 @@ function getInteractiveTooltip(t)
 
 	$(out).append(createColorDiv("#FFF700")).append(createColorDiv("#FFA500")).append(createColorDiv("#FF8373")).append(createColorDiv("#60B9CE")).append(createColorDiv("#58E000")).append(createColorDiv("#B764D4")).append(createColorDiv("#D4B764"));
 
+	var colorResetDiv = document.createElement("div");
+	$(colorResetDiv).addClass("popupDiv PopupDiv1");
 	var colorReset = document.createElement("img");
-	$(colorReset).attr("src", "pics/reset.png").addClass("resetButton colorResetButton").on("click", {timeStamp: t.timeStamp}, function(event){
+	$(colorReset).attr("src", "pics/reset.png").addClass("resetColorButton").on("click", {timeStamp: t.timeStamp}, function(event){
 			setColorForDate(event.data.timeStamp, "", true);
 			trackEvent("Interaction", "Popup - right", "Color reset");
 	});
 
-	$(out).append(colorReset);
+	$(colorResetDiv).append(colorReset);
+
+	$(out).append(colorResetDiv);
 
 	return out;
 

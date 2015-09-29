@@ -174,7 +174,7 @@ table {
 	display:  none;
 }
 
-#dayNoteInput {
+.dayNoteInput {
 	background-color:  rgb(100,100,100);
 	border: none;
 	color: white;
@@ -188,9 +188,9 @@ table {
 	margin-left:  0px 3px 0px 3px;
 }
 
-#popupButtonSetMain:hover, #popupButtonSetSecondary:hover {
+.popupButtonDate:hover {
 	cursor: pointer; 
-	color:  rgb(255,255,255);
+	color:  rgba(255,255,255,1);
 }
 
 .popupButtonSelected {
