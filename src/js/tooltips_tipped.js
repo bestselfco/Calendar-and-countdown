@@ -21,107 +21,6 @@ function getToolTip(timestamp)
 
 
 /**
-Bindings and stuff for right click menu once it is available
-*/
-/**
-function updateRightClickToolTipMenu(content, event)
-{
-
-	try {
-
-		
-		var timestamp = lastEventDate; //$("#dateRightInputDialog").attr("dialogdatetimestamp");
-		var currNote = getNoteForDate(timestamp);
-	
-		//$("#popupTableHeaderCell").html(getDateString(timestamp,true));
-	
-		$("#dayNoteInput").val(currNote);
-	
-		$("#dayNoteInput").on("change", function(event){
-			addNoteToDate(timestamp, event.target.value);
-			trackEvent("Interaction", "Popup - right", "Note created");
-		});
-		
-		$("#resetNoteButton").on("click", function(event){
-			$("#dayNoteInput").val("");
-			clearNoteFromDate(timestamp);	
-			trackEvent("Interaction", "Popup - right", "Clear note");
-		});
-		
-		$(".colorButton").on("click", function(event){
-			var col = $(event.target).css("background-color");
-			setColorForDate(timestamp, col, false);
-			trackEvent("Interaction", "Popup - right", "Color set");
-			//highLightSelectedDates();
-		});
-		
-		$("#resetColorButton").on("click", function(event){
-			setColorForDate(timestamp, "", true);
-			trackEvent("Interaction", "Popup - right", "Color reset");
-			//highLightSelectedDates();
-		});
-		
-		$("#popupButtonSetMain").on("click", function(event){
-			setMainDate(timestamp);
-			$("#popupButtonSetMain").toggleClass("popupButtonSelected");
-			trackEvent("Interaction", "Popup - right", "Main date set");
-		});
-		
-		$("#popupButtonSetSecondary").on("click", function(event){
-			setSubDate(timestamp);
-			$("#popupButtonSetSecondary").toggleClass("popupButtonSelected");
-			trackEvent("Interaction", "Popup - right", "Secondary date set");
-		});
-	
-		//Is selected day main date?	
-		var isMainDate = false; 
-		if(getMainDate() == timestamp) isMainDate = true;
-			
-		//Is selected day sub date?
-		var isSubDate = false;
-		var subDates = getSubDates();
-		
-		for(i=0; i<subDates.length; i++)
-		{
-			if(timestamp == subDates[i])
-			{
-				isSubDate = true;
-			}
-		} 
-		
-		if(isMainDate) $("#popupButtonSetMain").addClass("popupButtonSelected");
-		if(isSubDate) $("#popupButtonSetSecondary").addClass("popupButtonSelected");
-	}
-	catch (e)
-	{
-		handleError("tooltips_tipped.js updateRightClickToolTipMenu", e);
-	}
-}*/
-
-/** 
-Reset tooltip menu
-*/
-/**
-function resetRightClickToolTipMenu(content, event)
-{
-
-	$("#dateRightInputDialog").attr("datetimestamp", "");
-	$("#dayNoteInput").off("change");
-	$(".colorButton").off("click");
-	$("#resetNoteButton").off("click");
-	$("#resetColorButton").off("click");
-	$("#popupButtonSetMain").off("click");
-	$("#popupButtonSetSecondary").off("click");
-	$("#popupButtonSetMain").removeClass("popupButtonSelected");
-	$("#popupButtonSetSecondary").removeClass("popupButtonSelected");
-	
-	Tipped.remove(daysSelectString);
-	
-}
-*/
-
-
-/**
 Get the dynamic tool tip
 */
 function getToolTipDynamic(fromStamp, toStamp)
@@ -400,6 +299,9 @@ function getCountDownDiffString(ndate, countToDate)
 
 /**
 Returns an interavtive tooltip. This used to be done in a very embarrasing way. Still some mess, but mostly because of legacy stuff. 
+
+TODO: Mark dates if we are on a count date.
+
 */
 function getInteractiveTooltip(t)
 {
@@ -497,6 +399,27 @@ function getInteractiveTooltip(t)
 	$(out).append(colorResetDiv);
 
 	return out;
+
+	/**		//Is selected day main date?	
+		var isMainDate = false; 
+		if(getMainDate() == timestamp) isMainDate = true;
+			
+		//Is selected day sub date?
+		var isSubDate = false;
+		var subDates = getSubDates();
+		
+		for(i=0; i<subDates.length; i++)
+		{
+			if(timestamp == subDates[i])
+			{
+				isSubDate = true;
+			}
+		} 
+		
+		if(isMainDate) $("#popupButtonSetMain").addClass("popupButtonSelected");
+		if(isSubDate) $("#popupButtonSetSecondary").addClass("popupButtonSelected");
+
+		*/
 
 }
 
