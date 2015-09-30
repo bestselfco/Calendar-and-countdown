@@ -29,7 +29,6 @@ function log(cat, text)
 //Custom timer function to track various timers to google.
 function timer(name)
 {
-
 	try
 	{
 		this.name = "Not set";

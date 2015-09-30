@@ -403,14 +403,10 @@ function dayClickedDialog(event)
 		var timestamp = $(event.originalEvent.target).attr("datetimestamp");
 		var target = event.originalEvent.target.id;
 			
-		//lastEventDate = timestamp;
-		
 		var tipData = {};
 		tipData.timeStamp = timestamp;
 
-		//var tip = Tipped.create("#popupProxy", document.getElementById("dateRightInputDialog"), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: false, closeButton: true, showOn: false, afterUpdate: updateRightClickToolTipMenu, onHide: resetRightClickToolTipMenu});
 		var tip = Tipped.create("#popupProxy", getInteractiveTooltip(tipData), { skin: 'kvasboRight', target: target, showDelay: '0', hideOthers: true, hideOn: false, closeButton: true, showOn: false});
-
 
 		tip.show();
 		

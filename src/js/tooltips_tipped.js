@@ -330,10 +330,14 @@ function getInteractiveTooltip(t)
 	var mainButton = document.createElement("span");
 	$(mainButton).addClass("popupButtonDate").html("Primary").on("click", {timeStamp: t.timeStamp}, function(event){
 		setMainDate(event.data.timeStamp);
+		$(mainButton).toggleClass("popupButtonSelected");
+		trackEvent("Interaction", "Popup - right", "Main date set");
+
 	});
 	var secondButton = document.createElement("span");
 	$(secondButton).addClass("popupButtonDate").html("Secondary").on("click", {timeStamp: t.timeStamp}, function(event){
 		setSubDate(event.data.timeStamp);
+		$(secondButton).toggleClass("popupButtonSelected");
 		trackEvent("Interaction", "Popup - right", "Secondary date set");
 	});
 
@@ -398,11 +402,10 @@ function getInteractiveTooltip(t)
 
 	$(out).append(colorResetDiv);
 
-	return out;
-
-	/**		//Is selected day main date?	
+	
+		//Is selected day main date?	
 		var isMainDate = false; 
-		if(getMainDate() == timestamp) isMainDate = true;
+		if(getMainDate() == t.timeStamp) isMainDate = true;
 			
 		//Is selected day sub date?
 		var isSubDate = false;
@@ -410,17 +413,17 @@ function getInteractiveTooltip(t)
 		
 		for(i=0; i<subDates.length; i++)
 		{
-			if(timestamp == subDates[i])
+			if(t.timeStamp == subDates[i])
 			{
 				isSubDate = true;
 			}
 		} 
 		
-		if(isMainDate) $("#popupButtonSetMain").addClass("popupButtonSelected");
-		if(isSubDate) $("#popupButtonSetSecondary").addClass("popupButtonSelected");
+		if(isMainDate) $(mainButton).addClass("popupButtonSelected");
+		if(isSubDate) $(secondButton).addClass("popupButtonSelected");
+		
 
-		*/
-
+		return out;
 }
 
 
