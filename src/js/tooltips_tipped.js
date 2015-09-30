@@ -365,7 +365,7 @@ function getInteractiveTooltip(t)
 		trackEvent("Interaction", "Popup - right", "Clear note");
 	});
 
-	$(noteResetDiv).append(noteReset)
+	$(noteResetDiv).append(noteReset);
 
 	$(noteDiv).append(noteField);
 
