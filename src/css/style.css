@@ -64,7 +64,7 @@ table {
 }
 
 .cal_month {
-	display: block;
+	display: table-cell;
 	vertical-align: top;
 
 }
@@ -82,15 +82,15 @@ table {
 }
 
 .cal_td_dayname, .cal_td_weeknames, .cal_td_day, .cal_td_weeknumber, .cal_day_chosen, .cal_subday_chosen {
-	width: 22px;
-	height: 16px;
+	width: 16px;
+	height: 9px;
 	font-size: 10px;
 	text-align: right;
-	margin: 10px;
+	border: 1px solid rgba(255,255,255,0);
+	margin: 2px;
 	padding: 2px;
 	padding-top: 1px;
 	padding-bottom: 1px;
-	/*font-family: 'Droid Sans Mono', arial, serif;*/
 }
 
 .cal_tr_monthname
@@ -116,9 +116,9 @@ table {
 
 .cal_td_day, .cal_subday_chosen, .cal_day_chosen {
 	border-width: 1px;
-	width: 18px;
+	/*width: 16px;*/
 	overflow-x: hidden;
-	border-radius: 0px;
+	/*border-radius: 0px;*/
 }
 
 .cal_day_chosen {
