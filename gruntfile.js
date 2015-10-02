@@ -4,8 +4,8 @@ module.exports = function(grunt) {
   grunt.initConfig({
     manifest: grunt.file.readJSON('src/manifest.json'),
     pkg: grunt.file.readJSON('package.json'),
-    filesBackground: ['src/js/libraries/jquery.js', 'src/js/libraries/buy.js' , 'src/js/libraries/jworkflow-min-0.7.0.js', "src/js/functions.js", "src/js/date.extend.js", "src/js/external_common.js","src/js/icons.js","src/js/migrations.js","src/js/googletrack.js","src/js/background.js", "src/js/debug.js"],
-    filesCalendar: ['src/js/libraries/jquery.js', 'src/js/libraries/buy.js' ,'src/js/libraries/mustache.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/libraries/tipped/js/tipped/tipped.unpacked.js', 'src/js/date.extend.js', 'src/js/templates.js', 'src/js/external_common.js', 'src/js/functions.js','src/js/tooltips_tipped.js','src/js/debug.js','src/js/googletrack_toback.js', 'src/js/calendar.js'],
+    filesBackground: ['src/js/libraries/jquery.js',  'src/js/libraries/jworkflow-min-0.7.0.js', "src/js/functions.js", "src/js/date.extend.js", "src/js/external_common.js","src/js/icons.js","src/js/migrations.js","src/js/googletrack.js","src/js/background.js", "src/js/debug.js"],
+    filesCalendar: ['src/js/libraries/jquery.js', 'src/js/libraries/mustache.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/libraries/tipped/js/tipped/tipped.unpacked.js', 'src/js/date.extend.js', 'src/js/templates.js', 'src/js/external_common.js', 'src/js/functions.js','src/js/tooltips_tipped.js','src/js/debug.js','src/js/googletrack_toback.js', 'src/js/calendar.js'],
     filesOptions: ['src/js/libraries/jquery.js','src/js/libraries/jquery-ui/**/*.js','src/js/date.extend.js', 'src/js/libraries/jworkflow-min-0.7.0.js', 'src/js/external_common.js', 'src/js/functions.js', 'src/js/icons.js',  'src/js/migrations.js', 'src/js/debug.js', 'src/js/googletrack_toback.js', 'src/js/options.js'],
     filesGuide: ['src/userguide/cc_guide.pdf'],
     cssOptions: ['src/css/cssreset.css', 'src/css/options.css'],
@@ -23,40 +23,21 @@ module.exports = function(grunt) {
 		    src: ['<%= dirs.dest %>', '../Builds/Latest']
 		  }
 		},
-  uglify: {
-    options: {
-      banner: '<%= dirs.banner %>'
-    },
-    ugly_cal: {
-      files: {
-          '<%= dirs.dest %>/js/calendar_packed.js' : '<%= filesCalendar %>'
-      }
-    },
-    ugly_opt: {
-      files: {
-          '<%= dirs.dest %>/js/options_packed.js' : '<%= filesOptions %>'
-      }
-    },
-    ugly_back: {
-      src: '<%= filesBackground %>',
-      dest: '<%= dirs.dest %>/js/background_packed.js'
-    }
-  },
   concat: {
     options: {
       banner: '<%= dirs.banner %>'
     },
-    ugly_cal: {
+    cal: {
       files: {
           '<%= dirs.dest %>/js/calendar_packed.js' : '<%= filesCalendar %>'
       }
     },
-    ugly_opt: {
+    opt: {
       files: {
           '<%= dirs.dest %>/js/options_packed.js' : '<%= filesOptions %>'
       }
     },
-    ugly_back: {
+    back: {
       src: '<%= filesBackground %>',
       dest: '<%= dirs.dest %>/js/background_packed.js'
     }
@@ -102,16 +83,10 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-  grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+//  grunt.loadNpmTasks('grunt-contrib-cssmin');
 
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'clean', 'uglify', 'copy']);
-  
-  grunt.registerTask('debug', ['clean', 'concat', 'copy']);
-
-
-  grunt.registerTask('css', ['copy']);
+  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'copy']);
 
 };
