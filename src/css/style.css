@@ -246,15 +246,17 @@ table {
 	display: block;
 }
 
-.resetColorButton {
+.resetButton {
 	margin-top: 2px;
+	margin-left: 4px;
 	cursor: pointer;
 }
 
-.resetNoteButton {
-	margin-top: 4px;
-	cursor: pointer;
+.popupDivColor {
+	margin-right: 4px;
 }
+
+
 
 .popupDiv1 {
 	width: 25px;

@@ -9,7 +9,7 @@ var intervalTracking = setInterval(trackPing, 4*60*1000);
 function trackPing()
 {
 	try{
-		ga('send', 'event', 'System', "ping", "", {'nonInteraction': 1})
+		ga('send', 'event', 'System', "Ping", "");
 	}
 	catch(e)
 	{
