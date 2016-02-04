@@ -13,7 +13,7 @@
 
 body {
 	font-family: calendarfont, helvetica, arial, sans-serif;
-	color:  rgb(120,120,120);
+	color:  rgb(100,100,100);
 	background-color: rgb(255,255,255);
 	margin:  0px;
 	padding:  0px;
@@ -25,8 +25,9 @@ body {
 	background-color: #1c94c4;
 	display: block;
 	padding: 20px;
-	font-size: 50px;
+	font-size: 40px;
 	color: white;
+	box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 p {
@@ -37,20 +38,9 @@ p {
 	clear: both;
 }
 
-#banner {
-	padding: 10px;
-	display: inline-block;
-	height: 90px;
-	margin: 0px;
-	position:  absolute;
-	top: 0;
-	right: 0;
-	max-width: 500px;
-}
-
 #main {
 	padding: 20px;
-	background-color: white;
+	/*background-color: white;*/
 	min-height: 500px;
 }
 
