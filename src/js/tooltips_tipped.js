@@ -359,7 +359,7 @@ function getInteractiveTooltip(t)
 	var noteResetDiv = document.createElement("div");
 	$(noteResetDiv).addClass("popupDiv popupDiv1");
 	var noteReset = document.createElement("img");
-	$(noteReset).attr("src", "pics/reset.png").addClass("resetNoteButton").on("click", {timeStamp: t.timeStamp}, function(event){
+	$(noteReset).attr("src", "pics/reset.png").addClass("resetButton").on("click", {timeStamp: t.timeStamp}, function(event){
 		$(noteField).val("");
 		clearNoteFromDate(event.data.timeStamp);	
 		trackEvent("Interaction", "Popup - right", "Clear note");
@@ -393,7 +393,7 @@ function getInteractiveTooltip(t)
 	var colorResetDiv = document.createElement("div");
 	$(colorResetDiv).addClass("popupDiv PopupDiv1");
 	var colorReset = document.createElement("img");
-	$(colorReset).attr("src", "pics/reset.png").addClass("resetColorButton").on("click", {timeStamp: t.timeStamp}, function(event){
+	$(colorReset).attr("src", "pics/reset.png").addClass("resetButton").on("click", {timeStamp: t.timeStamp}, function(event){
 			setColorForDate(event.data.timeStamp, "", true);
 			trackEvent("Interaction", "Popup - right", "Color reset");
 	});
