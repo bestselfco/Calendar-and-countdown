@@ -17,7 +17,7 @@ module.exports = function(grunt) {
       },
 	clean: {
 		options: {
-			force: true
+			force: true      
 		},
 		 build: {
 		    src: ['<%= dirs.dest %>', '../Builds/Latest']
@@ -83,8 +83,6 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
-//  grunt.loadNpmTasks('grunt-contrib-cssmin');
-
 
   // Default task(s).
   grunt.registerTask('default', ['jshint', 'clean', 'concat', 'copy']);
