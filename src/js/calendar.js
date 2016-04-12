@@ -153,7 +153,7 @@ function bindEvents()
 	
 	try {
 		
-			$("body").off().on("keydown", function() { keyPressed(window.event.keyCode);}).on("contextmenu", dayRightClicked);	
+			$("body").off().on("keydown", function() { keyPressed(window.event.keyCode);}); // .on("contextmenu", dayRightClicked);	
 
 			//Make year links work
 			$(".yearlink").off().on("click", function() { yearClicked(event); });
@@ -360,7 +360,7 @@ function updateDatesStuff()
 	try {
 			
 		//Bind clicks and mouseovers for dates - dialog on right click!
-		$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClickedDialog).on("mousedown", startDynamic).on("contextmenu", dayRightClicked); //.	
+		$(daysSelectString).off().on("mouseenter", normalPopupShow).on("click", dayClickedDialog).on("mousedown", startDynamic); //.on("contextmenu", dayRightClicked); //.	
 	
 		//Highlight today
 		highLightToday();
