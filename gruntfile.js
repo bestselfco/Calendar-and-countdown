@@ -19,14 +19,35 @@ module.exports = function(grunt) {
 		options: {
 			force: true      
 		},
-		 build: {
+		build: {
 		    src: ['<%= dirs.dest %>', '../Builds/Latest']
 		  }
 		},
-  concat: {
+  uglify: {
     options: {
-      banner: '<%= dirs.banner %>'
+      mangle: true,
+      banner: '<%= dirs.banner %>',
+      compress: {
+        drop_console: true
+      }
     },
+    cal: {
+      files: {
+          '<%= dirs.dest %>/js/calendar_packed.js' : '<%= dirs.dest %>/js/calendar_packed.js'
+      }
+    },
+    opt: {
+      files: {
+          '<%= dirs.dest %>/js/options_packed.js' : '<%= dirs.dest %>/js/options_packed.js'
+      }
+   },
+   background: {
+      files: {
+          '<%= dirs.dest %>/js/background_packed.js' : '<%= dirs.dest %>/js/background_packed.js'
+      }
+   }    
+  },
+  concat: {
     cal: {
       files: {
           '<%= dirs.dest %>/js/calendar_packed.js' : '<%= filesCalendar %>'
@@ -79,12 +100,14 @@ module.exports = function(grunt) {
   }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks('grunt-contrib-uglify');
 
   // Default task(s).
-  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'copy']);
+  grunt.registerTask('default', ['jshint', 'clean', 'concat', 'uglify','copy']);
+  grunt.registerTask('debug', ['jshint', 'clean', 'concat', 'copy']);
 
 };
