@@ -253,9 +253,9 @@ function showBubbleForToday()
 			return getToolTip(todayStamp);
 		}, options);
 		
-		currentTodayTip.show();
+		setTimeout(doShowBubbleForToday, 200);
 		
-		setTimeout(hideBubbleForToday, 3200);
+		setTimeout(hideBubbleForToday, 3700);
 	}
 	catch(err)
 	{
@@ -263,6 +263,12 @@ function showBubbleForToday()
 	}
 	
 }
+
+function doShowBubbleForToday()
+{
+	currentTodayTip.show();
+}
+
 
 function getStartMonthForQuarter(month)
 {

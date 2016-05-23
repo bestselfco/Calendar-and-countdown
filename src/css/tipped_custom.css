@@ -2,13 +2,14 @@
   font-size: 12px;
   line-height: 16px;
   padding: 7px 8px;
+  margin: 2px;
   color: white;
   font-family: "Helvetica", "Arial", sans-serif;
 }
 
 .t_Content_kvasbo div {
 	padding: 2px;
-	margin: none;
+	margin: 2px;
 }
 
 .popup_date {
