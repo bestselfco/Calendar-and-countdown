@@ -1,40 +1,34 @@
-/**
- * Returns the week number for this date.  dowOffset is the day of week the week
- * "starts" on for your locale - it can be from 0 to 6. If dowOffset is 1 (Monday),
- * the week returned is the ISO 8601 week number.
- * @param int dowOffset
- * @return int
- */
-Date.prototype.getWeek = function (dowOffset) {
-	/*getWeek() was developed by Nick Baicoianu at MeanFreePath: http://www.meanfreepath.com */
-
-	dowOffset = typeof(dowOffset) == 'number' ? dowOffset : 0; //default dowOffset to zero
-	var newYearStamp = Date.UTC(this.getUTCFullYear(),0,1);
-	var newYear = new Date(newYearStamp);
-	var day = newYear.getUTCDay() - dowOffset; //the day of week the year begins on
-	day = (day >= 0 ? day : day + 7);
-	var daynum = Math.floor((this.getTime() - newYear.getTime() - 
-			(this.getTimezoneOffset()-newYear.getTimezoneOffset())*60000)/86400000) + 1;
-	var weeknum;
-	//if the year starts before the middle of a week
-	if(day < 4) {
-		weeknum = Math.floor((daynum+day-1)/7) + 1;
-		if(weeknum > 52) {
-			nYear = new Date(this.getUTCFullYear() + 1,0,1);
-			nday = nYear.getUTCDay() - dowOffset;
-			nday = nday >= 0 ? nday : nday + 7;
-			/*if the next year starts before the middle of the week, it is week #1 of that year*/
-			weeknum = nday < 4 ? 1 : 53;
-		}
-	}
-	else {
-		weeknum = Math.floor((daynum+day-1)/7);
-	}
-
-	if(weeknum === 0) weeknum = 52;
-
-	return weeknum;
-};
+/** 
+ * Get the ISO week date week number 
+ */  
+Date.prototype.getWeek = function () {  
+    // Create a copy of this date object  
+    var target  = new Date(this.valueOf());  
+  
+    // ISO week date weeks start on monday  
+    // so correct the day number  
+    var dayNr   = (this.getDay() + 6) % 7;  
+  
+    // ISO 8601 states that week 1 is the week  
+    // with the first thursday of that year.  
+    // Set the target date to the thursday in the target week  
+    target.setDate(target.getDate() - dayNr + 3);  
+  
+    // Store the millisecond value of the target date  
+    var firstThursday = target.valueOf();  
+  
+    // Set the target to the first thursday of the year  
+    // First set the target to january first  
+    target.setMonth(0, 1);  
+    // Not a thursday? Correct the date to the next thursday  
+    if (target.getDay() != 4) {  
+        target.setMonth(0, 1 + ((4 - target.getDay()) + 7) % 7);  
+    }  
+  
+    // The weeknumber is the number of weeks between the   
+    // first thursday of the year and the thursday in the target week  
+    return 1 + Math.ceil((firstThursday - target) / 604800000); // 604800000 = 7 * 24 * 3600 * 1000  
+};  
 
 //Return number of days in year
 Date.prototype.getDaysInYear = function (){

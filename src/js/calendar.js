@@ -872,7 +872,7 @@ function calGetCal(template)
 			this.outVars.day6_ShortName = chrome.i18n.getMessage("sday0");
 		}
 	
-		var startWeek = this.workDate.getWeek(1);
+		var startWeek = this.workDate.getWeek();
 
 		var startWeekDay = this.workDate.getUTCDay();
 		
@@ -915,7 +915,7 @@ function calGetCal(template)
 			{	
 				currentWeek++;
 				var tmpDate = new Date(dayStamp);
-				this.outVars["w_"+currentWeek] = tmpDate.getWeek(1);
+				this.outVars["w_"+currentWeek] = tmpDate.getWeek();
 				days = 0;
 			}
 	
