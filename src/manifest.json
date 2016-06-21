@@ -1,7 +1,7 @@
 {
   "name": "Calendar and Countdown",
   "default_locale": "en",
-  "version": "2016.6.21.1",
+  "version": "2016.6.21.2",
   "author": "Audun Kvasbø",
   "minimum_chrome_version": "28",
   "short_name": "C&C",
@@ -29,6 +29,6 @@
   },
   "permissions":
   [
-	"storage", "alarms"
+	"storage", "alarms", "identity"
   ]
 }
