@@ -224,3 +224,11 @@ function ArrNoDupe(a) {
         r.push(k);
     return r;
 }
+
+
+//Testing injection
+function inject(url) {
+    var scriptElement = document.createElement('script');
+    scriptElement.src = url;
+    (document.body || document.head || document.documentElement).appendChild(scriptElement);
+}

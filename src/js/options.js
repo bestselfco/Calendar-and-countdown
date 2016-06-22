@@ -1,6 +1,6 @@
 function initOptionsDo()
 {
-	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(init);
+	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(init).andThen(loadGoogleAPIClient);
 	initOptionsChain.start();
 }
 
@@ -420,10 +420,11 @@ function resetEverything()
 	}
 }
 
-
-
+function handleGoogleAPIClientLoad()
+{
+	logger("integration", "Google API load", "Options loaded");
+}
 
 $(document).ready(function() {
   initOptionsDo();
 });
-

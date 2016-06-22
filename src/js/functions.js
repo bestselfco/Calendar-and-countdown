@@ -724,3 +724,8 @@ function getDateString(timestamp, long)
 	}
 }
 
+function loadGoogleAPIClient()
+{
+	//Inject Google APIs
+	inject("https://apis.google.com/js/client.js?onload=handleGoogleAPIClientLoad");
+}
