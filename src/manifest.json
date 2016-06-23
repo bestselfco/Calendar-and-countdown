@@ -31,5 +31,11 @@
   "permissions":
   [
 	"storage", "alarms", "identity"
-  ]
+  ],
+  "oauth2": {
+    "client_id": "120896634916-cs3slk9eeqkmu7p6chbobsi91e6b3bsq.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/calendar.readonly"
+    ]
+  }
 }
