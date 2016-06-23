@@ -58,6 +58,8 @@ function logger(type, cat, text)
 {
     var time = new Date();
     
+    debug = true;
+
     switch(type)
     {
         case "debug":

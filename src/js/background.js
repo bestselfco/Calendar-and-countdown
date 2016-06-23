@@ -300,6 +300,11 @@ function handleGoogleAPIClientLoad()
 	//console.log("Handle client load background");
 }
 
+function doGetGoogleAPIToken()
+{
+	var details = {"interactive": true};
+	chrome.identity.getAuthToken(details, function(token) {console.log(token);});
+}
 
 /**
 Everything from here down is the initiation code

@@ -1,3 +1,5 @@
+var googleAPIIsLoaded = false;
+
 function initOptionsDo()
 {
 	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(init).andThen(loadGoogleAPIClient);
@@ -423,7 +425,12 @@ function resetEverything()
 function handleGoogleAPIClientLoad()
 {
 	logger("integration", "Google API load", "Options loaded");
+	googleAPIIsLoaded = true;
+
 }
+
+
+
 
 $(document).ready(function() {
   initOptionsDo();
