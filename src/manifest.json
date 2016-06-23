@@ -1,9 +1,10 @@
 {
   "name": "Calendar and Countdown",
+  "key": "MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDJa2KULAlLB0Y5Rz7ApfPMmjn78jBt1DxBmowNWuB1TIefW/g+k657zM7CMbu3wexjYwWJChALpqlF4yJw1ZzJyzU/qNV3J8sJQoSAcFS+jRWEWWvsBPgvwh42YgWzalyUkHLPfjcBw+lhX9QA0H57FfX0rdIqtY5y2uEMQ+r9QIDAQAB",
   "default_locale": "en",
   "version": "2016.6.21.3",
   "author": "Audun Kvasbø",
-  "minimum_chrome_version": "28",
+  "minimum_chrome_version": "40",
   "short_name": "C&C",
   "description": "Show a full year calendar and count down to any number of dates. Add notes and colors to days, and check the distance between them.",
   "options_page": "options.html",
