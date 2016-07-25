@@ -1,6 +1,8 @@
+var googleAPIIsLoaded = false;
+
 function initOptionsDo()
 {
-	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(init);
+	var initOptionsChain = jWorkflow.order(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(init).andThen(loadGoogleAPIClient);
 	initOptionsChain.start();
 }
 
@@ -168,6 +170,10 @@ function init()
 		else if(countStringType == 3)
 		{
 			$("#countDownFormat2").prop('checked', true);
+		}
+		else if(countStringType == 1)
+		{
+			$("#countDownFormat0").prop('checked', true);
 		}
 		else
 		{
@@ -420,10 +426,16 @@ function resetEverything()
 	}
 }
 
+function handleGoogleAPIClientLoad()
+{
+	logger("integration", "Google API load", "Options loaded");
+	googleAPIIsLoaded = true;
+
+}
+
 
 
 
 $(document).ready(function() {
   initOptionsDo();
 });
-

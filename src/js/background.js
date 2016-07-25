@@ -224,7 +224,7 @@ function setBadge(text)
 		
 		if(showBadge == 1)
 		{
-			chrome.browserAction.setBadgeBackgroundColor({color:color});
+			//chrome.browserAction.setBadgeBackgroundColor({color:color});
 			chrome.browserAction.setBadgeText({text:text});
 		}
 		else
@@ -293,6 +293,19 @@ function setupMaintainLoop()
 	}	
 }
 
+
+function handleGoogleAPIClientLoad()
+{
+	logger("integration", "Google API load", "Background loaded");
+	//console.log("Handle client load background");
+}
+
+function doGetGoogleAPIToken()
+{
+	var details = {"interactive": true};
+	chrome.identity.getAuthToken(details, function(token) {console.log(token);});
+}
+
 /**
 Everything from here down is the initiation code
 */
@@ -300,7 +313,7 @@ Everything from here down is the initiation code
 function bgInit()
 {
 	//Use jWorkflow to ensure that we bootstrap correctly.
-	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(startTracking).andThen(maintain).andThen(doneTimer); 
+	var startupSequence = jWorkflow.order(addListeners).andThen(readSettingsFromStorage).andThen(readDatesFromStorage).andThen(setupMaintainLoop).andThen(loadGoogleAPIClient).andThen(startTracking).andThen(maintain).andThen(doneTimer); 
 	
 	//Up, Up and Away!
 	startupSequence.start();
@@ -334,6 +347,7 @@ $(document).ready(function() {
 	}
 
 });
+
 
 function doneTimer(baton)
 {

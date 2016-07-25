@@ -58,6 +58,8 @@ function logger(type, cat, text)
 {
     var time = new Date();
     
+    debug = true;
+
     switch(type)
     {
         case "debug":
@@ -724,3 +726,8 @@ function getDateString(timestamp, long)
 	}
 }
 
+function loadGoogleAPIClient()
+{
+	//Inject Google APIs
+	//inject("https://apis.google.com/js/client.js?onload=handleGoogleAPIClientLoad");
+}
