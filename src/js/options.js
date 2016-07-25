@@ -171,6 +171,10 @@ function init()
 		{
 			$("#countDownFormat2").prop('checked', true);
 		}
+		else if(countStringType == 1)
+		{
+			$("#countDownFormat0").prop('checked', true);
+		}
 		else
 		{
 			$("#countDownFormat0").prop('checked', true);

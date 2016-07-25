@@ -224,7 +224,7 @@ function setBadge(text)
 		
 		if(showBadge == 1)
 		{
-			chrome.browserAction.setBadgeBackgroundColor({color:color});
+			//chrome.browserAction.setBadgeBackgroundColor({color:color});
 			chrome.browserAction.setBadgeText({text:text});
 		}
 		else
