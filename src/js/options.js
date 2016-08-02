@@ -326,16 +326,25 @@ function changeSetting(key, value, persist)
 {
 	
 	try {
-		log("Setting changed", key+": "+value+ " - persist: " + persist);
-		
-		settings[key] = value;
-		
-        trackEvent("Interaction", "Setting " + key, value);
-		
-		if(persist)
+
+		if(settings[key] !== value)
 		{
-			persistSettingsToStorage(settings);
-            
+
+			log("Setting changed", key+": "+value+ " - persist: " + persist);
+			
+			settings[key] = value;
+			
+	        trackEvent("Interaction", "Setting " + key, value);
+			
+			if(persist)
+			{
+				persistSettingsToStorage(settings);
+	            
+			}
+
+		}
+		else {
+			log("Setting not changed, same as before", key+": "+value+ " - persist: " + persist);
 		}
 	}
 	catch(e)
