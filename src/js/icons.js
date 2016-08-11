@@ -89,8 +89,8 @@ function Icon(iconDefinition){
 			if(typeof(debug) !== "undefined" && debug === true)
 			{
 				
-				this.ctx.fillStyle = "rgba(200,0,0,1)";
-				this.ctx.fillRect (0,0,5,5);
+				//this.ctx.fillStyle = "rgba(200,0,0,1)";
+				//this.ctx.fillRect (0,0,5,5);
 			}
 
 		};
