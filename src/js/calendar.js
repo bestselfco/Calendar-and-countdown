@@ -872,59 +872,60 @@ function calGetCal(template)
 			this.outVars.day6_ShortName = chrome.i18n.getMessage("sday0");
 		}
 	
-		var startWeek = this.workDate.getWeek();
-
 		var startWeekDay = this.workDate.getUTCDay();
 		
 		var tabWidth = 8;
-	
-		if(!this.showWeekNumber) tabWidth = 7;
-	
-		var tmpWeek = startWeek;
-		var currentWeek = 0;
-	
-		//	Screw rules, hard code instead. This is Monday first.
-		if(firstDayOfWeek == 1)
-		{
-			if(tmpWeek === 0 && startWeekDay === 0) tmpWeek = 52; //Will fail in some years
+		if(this.showWeekNumber === 0) tabWidth = 7;
 
+		var templateOffsetDays = 0;
+	
+		//	Screw rules, hard code instead. This is Sunday first.
+		if(firstDayOfWeek === 0)
+		{
+			templateOffsetDays = startWeekDay;
+		}
+		else //Monday
+		{
 			if(startWeekDay === 0)
 			{
-				days = 6;
+				templateOffsetDays = 6;
 			}
 			else
 			{
-				days = startWeekDay - 1;
+				templateOffsetDays = startWeekDay - 1;
 			}
 		}
-		else //Start on sunday.
-		{
-			if(tmpWeek === 0 && startWeekDay === 0) tmpWeek = 52; //Will fail in some years
-			days = startWeekDay;
-		}
-	
-		//First week shown for month
-		this.outVars.w_0 = tmpWeek;
-	
+
+		var tmpDate;
+		var currentTemplateDay = templateOffsetDays;
+		var currentWeek = 0;
+
 		//	The actual day adder code
 		for(var i = 0; i < this.workDate.getDaysInMonth(); i++)
 		{
 			var dayStamp = this.startStamp + (i * 86400000);
-		
-			if(days==7)
-			{	
-				currentWeek++;
-				var tmpDate = new Date(dayStamp);
+			tmpDate = new Date(dayStamp);
+
+			currentWeek = Math.floor((i+templateOffsetDays)/7);
+			
+			if(i === 0)
+			{
 				this.outVars["w_"+currentWeek] = tmpDate.getWeek();
-				days = 0;
+			}
+			else if(tmpDate.getUTCDay() === 4)
+			{
+				this.outVars["w_"+currentWeek] = tmpDate.getWeek();
+			}
+			else if(tmpDate.getDate() > (this.workDate.getDaysInMonth()-4))
+			{
+				this.outVars["w_"+currentWeek] = tmpDate.getWeek();
 			}
 	
-			this.outVars["d_stamp_"+currentWeek+"_"+days] = dayStamp;
-			this.outVars["d_content_"+currentWeek+"_"+days] = i+1;
-			this.outVars["d_class_"+currentWeek+"_"+days] = "cal_td_day";
-			this.outVars["d_id_"+currentWeek+"_"+days] = dayStamp;
-	
-			days++;
+			this.outVars["d_stamp_"+(i+templateOffsetDays)] = dayStamp;
+			this.outVars["d_content_"+(i+templateOffsetDays)] = tmpDate.getDate();
+			this.outVars["d_class_"+(i+templateOffsetDays)] = "cal_td_day";
+			this.outVars["d_id_"+(i+templateOffsetDays)] = dayStamp;
+
 		}
 	
 		var thisCalOutHtml = template;
