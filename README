@@ -3,3 +3,15 @@ Chrome extension for showing full year calendar, as well as for counting down to
 To build: Just use Grunt. 
 
 If updating the popup library, remember to check the code for any eval() functions, as these need to be removed in order to make it work as a chrome extension.
+
+First install npm, then run (in the root directory of the checked out git repository)
+
+npm install
+
+Then simply run 
+
+grunt
+
+to build the extension.
+
+Note that this is necessary for it to run - there is no way for it to run directly from source, as the files are not in the correct positions before everything is built with Grunt. 
