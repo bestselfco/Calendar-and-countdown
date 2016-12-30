@@ -1,1 +1,5 @@
 Chrome extension for showing full year calendar, as well as for counting down to events.
+
+To build: Just use Grunt. 
+
+If updating the popup library, remember to check the code for any eval() functions, as these need to be removed in order to make it work as a chrome extension.
