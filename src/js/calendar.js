@@ -922,7 +922,7 @@ function calGetCal(template)
 			}
 	
 			this.outVars["d_stamp_"+(i+templateOffsetDays)] = dayStamp;
-			this.outVars["d_content_"+(i+templateOffsetDays)] = tmpDate.getDate();
+			this.outVars["d_content_"+(i+templateOffsetDays)] = tmpDate.getUTCDate();
 			this.outVars["d_class_"+(i+templateOffsetDays)] = "cal_td_day";
 			this.outVars["d_id_"+(i+templateOffsetDays)] = dayStamp;
 
